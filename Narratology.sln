@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Narratology", "Narratology\Narratology.csproj", "{73AA848D-861A-4C7F-B27B-EC38C7377AF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {244F2DD1-CFF1-46AB-B141-ECDF190B3227}
+	EndGlobalSection
+EndGlobal
