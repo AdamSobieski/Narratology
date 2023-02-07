@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Trees;
 using System.Linq.Expressions;
 
-// 0.0.0.12
+// 0.0.0.14
 
 namespace System
 {
@@ -25,6 +25,8 @@ namespace System
     {
         public IDictionary<string, object> Metadata { get; }
     }
+
+    public interface IThing : IHasProperties, IHasMetadata { }
 }
 
 namespace System.Collections.Generic
@@ -52,12 +54,12 @@ namespace System.Collections.Generic
 
 namespace System.Collections.Graphs
 {
-    public interface IConnectionFrom<out TSource> : IHasProperties, IHasMetadata
+    public interface IConnectionFrom<out TSource> : IThing
     {
         public TSource Source { get; }
     }
 
-    public interface IConnectionTo<out TDestination> : IHasProperties, IHasMetadata
+    public interface IConnectionTo<out TDestination> : IThing
     {
         public TDestination Destination { get; }
     }
@@ -89,7 +91,7 @@ namespace System.Collections.Trees
 
 namespace AI.Agents
 {
-    public interface IAgent : IHasProperties, IHasMetadata
+    public interface IAgent : IThing
     {
         public IKnowledgebase Beliefs { get; }
         public IEnumerable Desires { get; }
@@ -99,7 +101,7 @@ namespace AI.Agents
 
 namespace AI.Events
 {
-    public interface IEvent : IHasProperties, IHasMetadata
+    public interface IEvent : IThing
     {
         public int? CompareStartToStart(IEvent other);
         public int? CompareStartToEnd(IEvent other);
@@ -134,19 +136,19 @@ namespace AI.Knowledge
 
 namespace AI.Narratology
 {
-    public interface IFabula : IHasProperties, IHasMetadata
+    public interface IFabula : IThing
     {
         public IEventSet Events { get; }
     }
 
-    public interface ISyuzhet : IHasProperties, IHasMetadata
+    public interface ISyuzhet : IThing
     {
         public IEventSequence Events { get; }
 
         public IEnumerable<INarration> Narrations { get; }
     }
 
-    public interface INarration : IHasProperties, IHasMetadata
+    public interface INarration : IThing
     {
         public IEvent Event { get; }
 
@@ -157,27 +159,27 @@ namespace AI.Narratology
         public IEnumerable<IText> Realizations { get; }
     }
 
-    public interface IText : IHasProperties, IHasMetadata
+    public interface IText : IThing
     {
         public IEnumerable<IInterpretation> Responses { get; }
     }
 
-    public interface IInterpretation : IHasProperties, IHasMetadata
+    public interface IInterpretation : IThing
     {
         public IEvent Event { get; }
 
         public ISemantics Semantics { get; }
     }
 
-    public interface ISemantics : IReadOnlyDictionary<IEventSequence, IHasProperties>
+    public interface ISemantics : IReadOnlyDictionary<IEventSequence, IThing>
     {
-        public IHasProperties this[params IEvent[] events]
+        public IThing this[params IEvent[] events]
         {
             get;
         }
     }
 
-    public interface INarrative : IHasProperties, IHasMetadata
+    public interface INarrative : IThing
     {
         public IFabula Fabula { get; }
         public IEnumerable<ISyuzhet> Syuzhets { get; }
@@ -302,7 +304,7 @@ namespace AI.Planning
 
     public interface IAction : ITreeNode<IAction>, IHasPreconditions<IState>, IHasEffects<IState> { }
 
-    public interface IPlan : IHasProperties, IHasMetadata
+    public interface IPlan : IThing
     {
 
     }
