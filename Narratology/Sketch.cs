@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Trees;
 using System.Linq.Expressions;
 
-// 0.0.0.11
+// 0.0.0.12
 
 namespace System
 {
@@ -29,6 +29,11 @@ namespace System
 
 namespace System.Collections.Generic
 {
+    public interface IContainer<in T>
+    {
+        public bool Contains(T element);
+    }
+
     public interface ICountable<out T> : IEnumerable<T>
     {
         public int Count { get; }
@@ -98,19 +103,14 @@ namespace AI.Events
     {
         public int? CompareStartToStart(IEvent other);
         public int? CompareStartToEnd(IEvent other);
-        public int? CompareEndToEnd(IEvent other);
         public int? CompareEndToStart(IEvent other);
+        public int? CompareEndToEnd(IEvent other);
     }
 
-    public interface IEventSequence : IReadOnlyList<IEvent>, IEquatable<IEventSequence>
-    {
-        public bool Contains(IEvent element);
-    }
+    public interface IEventSequence : IReadOnlyList<IEvent>, IContainer<IEvent>, IEquatable<IEventSequence> { }
 
-    public interface IEventSet : ICountable<IEvent>, IEquatable<IEventSet>
+    public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
     {
-        public bool Contains(IEvent element);
-
         public bool SubsetOf(IEventSet other);
         public bool SupersetOf(IEventSet other);
     }
@@ -148,7 +148,7 @@ namespace AI.Narratology
 
     public interface INarration : IHasProperties, IHasMetadata
     {
-        public IEvent Narration { get; }
+        public IEvent Event { get; }
 
         public IPlan Plan { get; }
 
@@ -164,6 +164,8 @@ namespace AI.Narratology
 
     public interface IInterpretation : IHasProperties, IHasMetadata
     {
+        public IEvent Event { get; }
+
         public ISemantics Semantics { get; }
     }
 
