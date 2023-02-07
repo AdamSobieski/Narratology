@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Trees;
 using System.Linq.Expressions;
 
-// 0.0.0.14
+// 0.0.0.15
 
 namespace System
 {
@@ -198,6 +198,11 @@ namespace AI.Narratology
     {
         public IAsyncEnumerable<IInterpretation> Interpret(IText text, IDictionary<string, object> args);
     }
+}
+
+namespace AI.Narratology.Drama
+{
+    public interface ICharacter : IAgent { }
 }
 
 namespace AI.Planning
