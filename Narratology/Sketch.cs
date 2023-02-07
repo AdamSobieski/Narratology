@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Trees;
 using System.Linq.Expressions;
 
-// 0.0.0.15
+// 0.0.0.19
 
 namespace System
 {
@@ -197,6 +197,19 @@ namespace AI.Narratology
     public interface INarratee : IAgent
     {
         public IAsyncEnumerable<IInterpretation> Interpret(IText text, IDictionary<string, object> args);
+    }
+}
+
+namespace AI.Narratology.Causality
+{
+    public interface ICausalReasoner : IThing
+    {
+        public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y, IDictionary<string, object> args);
+    }
+
+    public interface IPlot : IThing
+    {
+        public IEventSequence Events { get; }
     }
 }
 
