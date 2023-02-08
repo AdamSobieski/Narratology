@@ -1,6 +1,6 @@
 ﻿using AI.Agents;
+using AI.Epistemology;
 using AI.Events;
-using AI.Knowledge;
 using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
@@ -8,7 +8,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.1.0
+// 0.0.1.2
 
 namespace System
 {
@@ -41,6 +41,12 @@ namespace System.Collections.Generic
     public interface ICountable<out T> : IEnumerable<T>
     {
         public int Count { get; }
+    }
+
+    public interface IDelta<out T>
+    {
+        IEnumerable<T> Add { get; }
+        IEnumerable<T> Remove { get; }
     }
 
     public interface ISimilarity<in T>
@@ -108,26 +114,7 @@ namespace AI.Agents
     }
 }
 
-namespace AI.Events
-{
-    public interface IEvent : IThing
-    {
-        public int? CompareStartToStart(IEvent other);
-        public int? CompareStartToEnd(IEvent other);
-        public int? CompareEndToStart(IEvent other);
-        public int? CompareEndToEnd(IEvent other);
-    }
-
-    public interface IEventSequence : IReadOnlyList<IEvent>, IContainer<IEvent>, IEquatable<IEventSequence> { }
-
-    public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
-    {
-        public bool SubsetOf(IEventSet other);
-        public bool SupersetOf(IEventSet other);
-    }
-}
-
-namespace AI.Knowledge
+namespace AI.Epistemology
 {
     public sealed class Predicate : IHasConstraints
     {
@@ -258,17 +245,30 @@ namespace AI.Knowledge
         public IReadOnlyList<object> Arguments { get; }
     }
 
-    public interface IDelta<out T>
-    {
-        IEnumerable<T> Add { get; }
-        IEnumerable<T> Remove { get; }
-    }
-
     public interface IKnowledgebase : ICloneable<IKnowledgebase>
     {
         public bool Holds(Expression expr);
         public void Update(IDelta<Expression> delta);
         public void Update(IEnumerable<Expression> add, IEnumerable<Expression> remove);
+    }
+}
+
+namespace AI.Events
+{
+    public interface IEvent : IThing
+    {
+        public int? CompareStartToStart(IEvent other);
+        public int? CompareStartToEnd(IEvent other);
+        public int? CompareEndToStart(IEvent other);
+        public int? CompareEndToEnd(IEvent other);
+    }
+
+    public interface IEventSequence : IReadOnlyList<IEvent>, IContainer<IEvent>, IEquatable<IEventSequence> { }
+
+    public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
+    {
+        public bool SubsetOf(IEventSet other);
+        public bool SupersetOf(IEventSet other);
     }
 }
 
@@ -344,7 +344,23 @@ namespace AI.Narratology.Causality
 {
     public interface ICausalReasoner : IThing
     {
-        public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y, IDictionary<string, object> args);
+        public bool? Caused(IEnumerable<IEvent> x, IEvent y, IDictionary<string, object> args);
+        public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y, IDictionary<string, object> args)
+        {
+            foreach (var e in y)
+            {
+                bool? iterand = Caused(x, e, args);
+                if (!iterand.HasValue)
+                {
+                    return null;
+                }
+                else if (!iterand.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public interface IPlot : IThing
