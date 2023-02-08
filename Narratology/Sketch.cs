@@ -1,12 +1,14 @@
 ﻿using AI.Agents;
 using AI.Events;
 using AI.Knowledge;
+using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
 using System.Collections.Trees;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.0.19
+// 0.0.0.20
 
 namespace System
 {
@@ -18,12 +20,12 @@ namespace System
 
     public interface IHasProperties
     {
-        public IDictionary<string, object> Properties { get; }
+        public ITypedStringDictionary Properties { get; }
     }
 
     public interface IHasMetadata
     {
-        public IDictionary<string, object> Metadata { get; }
+        public ITypedStringDictionary Metadata { get; }
     }
 
     public interface IThing : IHasProperties, IHasMetadata { }
@@ -49,6 +51,13 @@ namespace System.Collections.Generic
     public interface ISimilarityComparer<in T>
     {
         public double Dissimilarity(T x, T y);
+    }
+
+    public interface ITypedStringDictionary : IDictionary<string, object>
+    {
+        void Add(string key, object value, Type type);
+        bool Contains(string key, Type type);
+        bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
     }
 }
 
@@ -120,22 +129,145 @@ namespace AI.Events
 
 namespace AI.Knowledge
 {
-    public interface IDelta
+    public sealed class Predicate : IHasConstraints
     {
-        IEnumerable Add { get; }
-        IEnumerable Remove { get; }
+        public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
+        {
+            int length = types.Length;
+            List<ParameterExpression> parameters = new List<System.Linq.Expressions.ParameterExpression>();
+            List<System.Linq.Expressions.Expression> typeisexprs = new List<System.Linq.Expressions.Expression>();
+            for(int index = 0; index < length; ++index)
+            {
+                var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
+                parameters.Add(p);
+                typeisexprs.Add(System.Linq.Expressions.Expression.TypeIs(p, types[index]));
+            }
+            for(int index = 0; index < length; ++index)
+            {
+                yield return new SimpleConstraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
+            }
+        }
+
+        private class SimpleConstraint : IConstraint
+        {
+            public SimpleConstraint(LambdaExpression lambda, string text)
+            {
+                Expression = lambda;
+                function = null;
+                this.text = text;
+            }
+
+            public LambdaExpression Expression { get; }
+            private Delegate? function;
+            private string text;
+
+            public bool Satisfied(object[] args)
+            {
+                if (function == null)
+                {
+                    function = Expression.Compile();
+                }
+                return (bool)(function.Method.Invoke(null, args) ?? false);
+            }
+
+            public override string ToString()
+            {
+                return text;
+            }
+        }
+
+        public Predicate(string @namespace, string name, int arity, Type[] types)
+        {
+            if (arity != types.Length) throw new ArgumentException();
+
+            Namespace = @namespace;
+            Name = name;
+            Arity = arity;
+            Constraints = GenerateTypeConstraints(types);
+        }
+        public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
+        {
+            Namespace = @namespace;
+            Name = name;
+            Arity = arity;
+            Constraints = constraints;
+        }
+
+        public string Namespace { get; }
+        public string Name { get; }
+        public int Arity { get; }
+
+        public IEnumerable<IConstraint> Constraints { get; }
+
+        public bool CanCreate(object[] args, [NotNullWhen(false)] out AggregateException? reason)
+        {
+            List<Exception> reasons = new List<Exception>();
+            foreach(var constraint in Constraints)
+            {
+                if(!constraint.Satisfied(args))
+                {
+                    reasons.Add(new ConstraintNotSatisfiedException(constraint));
+                }
+            }
+            if (reasons.Count > 0)
+            {
+                reason = new AggregateException(reasons);
+                return false;
+            }
+            else
+            {
+                reason = null;
+                return true;
+            }
+        }
+
+        public Expression Create(params object[] args)
+        {
+            if (CanCreate(args, out AggregateException? reason))
+            {
+                return new Expression(this, args);
+            }
+            else
+            {
+                throw reason;
+            }
+        }
+    }
+
+    public sealed class Expression
+    {
+        internal Expression(Predicate predicate, object[] args)
+        {
+            Predicate = predicate;
+            Arguments = args;
+        }
+
+        public Predicate Predicate { get; }
+        public IReadOnlyList<object> Arguments { get; }
+    }
+
+    public interface IDelta<out T>
+    {
+        IEnumerable<T> Add { get; }
+        IEnumerable<T> Remove { get; }
     }
 
     public interface IKnowledgebase : ICloneable<IKnowledgebase>
     {
-        public bool Holds(object expr);
-        public void Update(IDelta delta);
-        public void Update(IEnumerable add, IEnumerable remove);
+        public bool Holds(Expression expr);
+        public void Update(IDelta<Expression> delta);
+        public void Update(IEnumerable<Expression> add, IEnumerable<Expression> remove);
     }
 }
 
 namespace AI.Narratology
 {
+    public interface INarrative : IThing
+    {
+        public IFabula Fabula { get; }
+        public IEnumerable<ISyuzhet> Syuzhets { get; }
+    }
+
     public interface IFabula : IThing
     {
         public IEventSet Events { get; }
@@ -179,19 +311,13 @@ namespace AI.Narratology
         }
     }
 
-    public interface INarrative : IThing
-    {
-        public IFabula Fabula { get; }
-        public IEnumerable<ISyuzhet> Syuzhets { get; }
-    }
-
     public interface INarrator : IAgent
     {
-        public IAsyncEnumerable<ISyuzhet> Create(IFabula fabula, IDictionary<string, object> args);
-        public IAsyncEnumerable<INarration> Create(ISyuzhet syuzhet, IDictionary<string, object> args);
-        public IAsyncEnumerable<IText> Create(INarration narration, IDictionary<string, object> args);
+        public IAsyncEnumerable<ISyuzhet> Create(IFabula fabula, IStyle style, IDictionary<string, object> args);
+        public IAsyncEnumerable<INarration> Create(ISyuzhet syuzhet, IStyle style, IDictionary<string, object> args);
+        public IAsyncEnumerable<IText> Create(INarration narration, IStyle style, IDictionary<string, object> args);
 
-        //public IAsyncEnumerable<INarrative> Summarize(INarrative story, IDictionary<string, object> args);
+        //public IAsyncEnumerable<INarrative> Summarize(INarrative story, IStyle style, IDictionary<string, object> args);
     }
 
     public interface INarratee : IAgent
@@ -216,6 +342,19 @@ namespace AI.Narratology.Causality
 namespace AI.Narratology.Drama
 {
     public interface ICharacter : IAgent { }
+}
+
+namespace AI.Narratology.Stylistics
+{
+    public interface IStyle : IThing
+    {
+        public IKnowledgebase Content { get; }
+    }
+}
+
+namespace AI.Narratology.Thematics
+{
+
 }
 
 namespace AI.Planning
@@ -257,8 +396,8 @@ namespace AI.Planning
 
     public sealed class ConstraintNotSatisfiedException : Exception
     {
-        public ConstraintNotSatisfiedException(IConstraint constraint, string message)
-            : base(message)
+        public ConstraintNotSatisfiedException(IConstraint constraint)
+            : base(constraint.ToString())
         {
             Constraint = constraint;
         }
