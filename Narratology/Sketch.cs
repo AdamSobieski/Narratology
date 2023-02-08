@@ -8,7 +8,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.1.2
+// 0.0.1.4
 
 namespace System
 {
@@ -384,6 +384,8 @@ namespace AI.Narratology.Stylistics
     public interface IStyle : IThing
     {
         public IKnowledgebase Content { get; }
+
+        public object? GetTechnique(Type techniqueType);
     }
 }
 
