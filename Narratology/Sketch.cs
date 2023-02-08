@@ -134,15 +134,15 @@ namespace AI.Knowledge
         public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
         {
             int length = types.Length;
-            List<ParameterExpression> parameters = new List<System.Linq.Expressions.ParameterExpression>();
+            List<ParameterExpression> parameters = new List<ParameterExpression>();
             List<System.Linq.Expressions.Expression> typeisexprs = new List<System.Linq.Expressions.Expression>();
-            for(int index = 0; index < length; ++index)
+            for (int index = 0; index < length; ++index)
             {
                 var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
                 parameters.Add(p);
                 typeisexprs.Add(System.Linq.Expressions.Expression.TypeIs(p, types[index]));
             }
-            for(int index = 0; index < length; ++index)
+            for (int index = 0; index < length; ++index)
             {
                 yield return new SimpleConstraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
             }
@@ -176,8 +176,18 @@ namespace AI.Knowledge
             }
         }
 
+        public Predicate(string @namespace, string name, int arity)
+        {
+            if (arity < 1) throw new ArgumentException();
+
+            Namespace = @namespace;
+            Name = name;
+            Arity = arity;
+            Constraints = Enumerable.Empty<IConstraint>();
+        }
         public Predicate(string @namespace, string name, int arity, Type[] types)
         {
+            if (arity < 1) throw new ArgumentException();
             if (arity != types.Length) throw new ArgumentException();
 
             Namespace = @namespace;
@@ -187,6 +197,8 @@ namespace AI.Knowledge
         }
         public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
         {
+            if (arity < 1) throw new ArgumentException();
+
             Namespace = @namespace;
             Name = name;
             Arity = arity;
@@ -202,9 +214,9 @@ namespace AI.Knowledge
         public bool CanCreate(object[] args, [NotNullWhen(false)] out AggregateException? reason)
         {
             List<Exception> reasons = new List<Exception>();
-            foreach(var constraint in Constraints)
+            foreach (var constraint in Constraints)
             {
-                if(!constraint.Satisfied(args))
+                if (!constraint.Satisfied(args))
                 {
                     reasons.Add(new ConstraintNotSatisfiedException(constraint));
                 }
@@ -342,6 +354,11 @@ namespace AI.Narratology.Causality
 namespace AI.Narratology.Drama
 {
     public interface ICharacter : IAgent { }
+}
+
+namespace AI.Narratology.Hermeneutics
+{
+
 }
 
 namespace AI.Narratology.Stylistics
