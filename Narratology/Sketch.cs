@@ -8,7 +8,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.0.20
+// 0.0.1.0
 
 namespace System
 {
@@ -305,7 +305,7 @@ namespace AI.Narratology
 
     public interface IText : IThing
     {
-        public IEnumerable<IInterpretation> Responses { get; }
+
     }
 
     public interface IInterpretation : IThing
@@ -313,6 +313,8 @@ namespace AI.Narratology
         public IEvent Event { get; }
 
         public ISemantics Semantics { get; }
+
+        public IText Text { get; }
     }
 
     public interface ISemantics : IReadOnlyDictionary<IEventSequence, IThing>
