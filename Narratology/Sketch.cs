@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.2
+// 0.0.2.3
 
 namespace System
 {
@@ -242,14 +242,17 @@ namespace AI.Epistemology
             }
             for (int index = 0; index < length; ++index)
             {
-                yield return new SimpleConstraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
+                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
             }
         }
-        public static IEnumerable<IConstraint> GenerateTypeOrVariableOfTypeConstraints(Type[] types)
+        public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
         {
             int length = types.Length;
             List<ParameterExpression> parameters = new List<ParameterExpression>();
             List<Expression> typeisexprs = new List<Expression>();
+            var isassignableto = typeof(Type).GetMethod("IsAssignableTo");
+            if (isassignableto == null) throw new Exception();
+
             for (int index = 0; index < length; ++index)
             {
                 var p = Expression.Parameter(typeof(object));
@@ -259,20 +262,20 @@ namespace AI.Epistemology
                         Expression.TypeIs(p, types[index]),
                         Expression.AndAlso(
                             Expression.TypeIs(p, typeof(ParameterExpression)),
-                            Expression.TypeEqual(Expression.PropertyOrField(Expression.Convert(p, typeof(ParameterExpression)), "Type"), types[index])
+                            Expression.Call(Expression.PropertyOrField(Expression.Convert(p, typeof(ParameterExpression)), "Type"), isassignableto, Expression.Constant(types[index]))
                             )
                         )
                     );
             }
             for (int index = 0; index < length; ++index)
             {
-                yield return new SimpleConstraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
+                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
             }
         }
 
-        private class SimpleConstraint : IConstraint
+        private class Constraint : IConstraint
         {
-            public SimpleConstraint(LambdaExpression lambda, string text)
+            public Constraint(LambdaExpression lambda, string text)
             {
                 Expression = lambda;
                 function = null;
@@ -320,7 +323,7 @@ namespace AI.Epistemology
             Namespace = @namespace;
             Name = name;
             Arity = arity;
-            Constraints = GenerateTypeConstraints(types);
+            Constraints = GenerateTypeOrVariableConstraints(types);
         }
         public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
         {
