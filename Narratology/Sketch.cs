@@ -270,7 +270,7 @@ namespace AI.Epistemology.Reasoning
 {
     public interface IReasoner
     {
-        public ICollection<IConstraint<IKnowledgebase>> Constraints { get; }
+        public ICollection<IConstraint<IQueryable<Expression>>> Constraints { get; }
         public ICollection<IProduction<IQueryable<Expression>, IQueryable<Expression>>> Rules { get; }
 
         public IKnowledgebase Bind(IKnowledgebase source);
