@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.1
+// 0.0.2.2
 
 namespace System
 {
@@ -62,9 +62,9 @@ namespace System.Collections.Generic
         public double Dissimilarity(T x, T y);
     }
 
-    public interface ITypedStringDictionary : IDictionary<string, object>
+    public interface ITypedStringDictionary : IDictionary<string, object?>
     {
-        void Add(string key, object value, Type type);
+        void Add(string key, object? value, Type type);
         bool Contains(string key, Type type);
         bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
     }
@@ -118,12 +118,26 @@ namespace System.Linq.Advanced
     {
         public LambdaExpression Expression { get; }
 
-        public object Invoke(object[] args);
+        public object Invoke(object?[] args);
+    }
+
+    public interface IInspectableFunc<T, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T, TResult>> Expression { get; }
+
+        public TResult Invoke(T arg);
+    }
+
+    public interface IInspectableAction<T> : IInspectableMethod
+    {
+        public new Expression<Action<T>> Expression { get; }
+
+        public void Invoke(T arg);
     }
 
     public interface IConstraint : IInspectableMethod
     {
-        public new bool Invoke(object[] args);
+        public new bool Invoke(object?[] args);
     }
 
     public interface IConstraint<T1> : IConstraint
@@ -151,7 +165,7 @@ namespace System.Linq.Advanced
 
     public interface IEffect : IInspectableMethod
     {
-        public new void Invoke(object[] args);
+        public new void Invoke(object?[] args);
     }
 
     public interface IEffect<T1> : IEffect
@@ -231,6 +245,30 @@ namespace AI.Epistemology
                 yield return new SimpleConstraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
             }
         }
+        public static IEnumerable<IConstraint> GenerateTypeOrVariableOfTypeConstraints(Type[] types)
+        {
+            int length = types.Length;
+            List<ParameterExpression> parameters = new List<ParameterExpression>();
+            List<Expression> typeisexprs = new List<Expression>();
+            for (int index = 0; index < length; ++index)
+            {
+                var p = Expression.Parameter(typeof(object));
+                parameters.Add(p);
+                typeisexprs.Add(
+                    Expression.OrElse(
+                        Expression.TypeIs(p, types[index]),
+                        Expression.AndAlso(
+                            Expression.TypeIs(p, typeof(ParameterExpression)),
+                            Expression.TypeEqual(Expression.PropertyOrField(Expression.Convert(p, typeof(ParameterExpression)), "Type"), types[index])
+                            )
+                        )
+                    );
+            }
+            for (int index = 0; index < length; ++index)
+            {
+                yield return new SimpleConstraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
+            }
+        }
 
         private class SimpleConstraint : IConstraint
         {
@@ -245,7 +283,7 @@ namespace AI.Epistemology
             private Delegate? function;
             private string text;
 
-            public bool Invoke(object[] args)
+            public bool Invoke(object?[] args)
             {
                 if (function == null)
                 {
@@ -254,7 +292,7 @@ namespace AI.Epistemology
                 return (bool)(function.Method.Invoke(null, args) ?? false);
             }
 
-            object IInspectableMethod.Invoke(object[] args)
+            object IInspectableMethod.Invoke(object?[] args)
             {
                 return Invoke(args);
             }
@@ -300,7 +338,7 @@ namespace AI.Epistemology
 
         public IEnumerable<IConstraint> Constraints { get; }
 
-        public bool CanCreate(object[] args, [NotNullWhen(false)] out AggregateException? reason)
+        public bool CanCreate(object?[] args, [NotNullWhen(false)] out AggregateException? reason)
         {
             List<Exception> reasons = new List<Exception>();
             foreach (var constraint in Constraints)
@@ -322,7 +360,7 @@ namespace AI.Epistemology
             }
         }
 
-        public Statement Create(params object[] args)
+        public Statement Create(params object?[] args)
         {
             if (CanCreate(args, out AggregateException? reason))
             {
@@ -337,14 +375,14 @@ namespace AI.Epistemology
 
     public sealed class Statement
     {
-        internal Statement(Predicate predicate, object[] args)
+        internal Statement(Predicate predicate, object?[] args)
         {
             Predicate = predicate;
             Arguments = args;
         }
 
         public Predicate Predicate { get; }
-        public IReadOnlyList<object> Arguments { get; }
+        public IReadOnlyList<object?> Arguments { get; }
     }
 
     public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Statement>
