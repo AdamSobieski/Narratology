@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.3
+// 0.0.2.4
 
 namespace System
 {
@@ -23,12 +23,12 @@ namespace System
 
     public interface IHasProperties
     {
-        public ITypedStringDictionary Properties { get; }
+        public IDataDictionary Properties { get; }
     }
 
     public interface IHasMetadata
     {
-        public ITypedStringDictionary Metadata { get; }
+        public IDataDictionary Metadata { get; }
     }
 
     public interface IThing : IHasProperties, IHasMetadata { }
@@ -62,11 +62,14 @@ namespace System.Collections.Generic
         public double Dissimilarity(T x, T y);
     }
 
-    public interface ITypedStringDictionary : IDictionary<string, object?>
+    public interface IDataDictionary : IDictionary<string, object?>
     {
         void Add(string key, object? value, Type type);
         bool Contains(string key, Type type);
         bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
+
+        bool TryGetValue(string key, [NotNullWhen(true)] out object? value, [NotNullWhen(true)] out IEnumerable justifications);
+        bool TrySetValue(string key, object? value, IEnumerable justifications);
     }
 }
 
@@ -497,6 +500,19 @@ namespace AI.Narratology
     public interface INarratee : IAgent
     {
         public IAsyncEnumerable<IInterpretation> Interpret(IText text, IDictionary<string, object> args);
+    }
+}
+
+namespace AI.Narratology.Annotation
+{
+    public interface ISegment : IThing
+    {
+        public IText Text { get; }
+
+        public int? CompareStartToStart(ISegment other);
+        public int? CompareStartToEnd(ISegment other);
+        public int? CompareEndToStart(ISegment other);
+        public int? CompareEndToEnd(ISegment other);
     }
 }
 
