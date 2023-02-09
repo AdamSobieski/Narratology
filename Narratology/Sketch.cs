@@ -10,7 +10,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.1.11
+// 0.0.1.12
 
 namespace System
 {
@@ -83,9 +83,9 @@ namespace System.Collections.Graphs
 
     public interface IConnection<out TSource, out TDestination> : IConnectionFrom<TSource>, IConnectionTo<TDestination> { }
 
-    public interface IConnection<out TSource, out TDestination, out TValue> : IConnection<TSource, TDestination>
+    public interface IConnection<out TSource, out TDestination, out TConnection> : IConnection<TSource, TDestination>
     {
-        public TValue? Value { get; }
+        public TConnection Connection { get; }
     }
 }
 
@@ -485,9 +485,15 @@ namespace AI.Planning
         public void Process(T1 value);
     }
 
-    public interface IProduction<TInput, TOutput>
+    public interface IProduction
     {
-        public Expression<Func<TInput, TOutput>> Expression { get; }
+        public LambdaExpression Expression { get; }
+        public object Process(object input);
+    }
+
+    public interface IProduction<TInput, TOutput> : IProduction
+    {
+        public new Expression<Func<TInput, TOutput>> Expression { get; }
 
         public TOutput Process(TInput input);
     }
