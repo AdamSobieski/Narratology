@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.0
+// 0.0.2.1
 
 namespace System
 {
@@ -219,16 +219,16 @@ namespace AI.Epistemology
         {
             int length = types.Length;
             List<ParameterExpression> parameters = new List<ParameterExpression>();
-            List<System.Linq.Expressions.Expression> typeisexprs = new List<System.Linq.Expressions.Expression>();
+            List<Expression> typeisexprs = new List<Expression>();
             for (int index = 0; index < length; ++index)
             {
-                var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
+                var p = Expression.Parameter(typeof(object));
                 parameters.Add(p);
-                typeisexprs.Add(System.Linq.Expressions.Expression.TypeIs(p, types[index]));
+                typeisexprs.Add(Expression.TypeIs(p, types[index]));
             }
             for (int index = 0; index < length; ++index)
             {
-                yield return new SimpleConstraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
+                yield return new SimpleConstraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
             }
         }
 
@@ -322,11 +322,11 @@ namespace AI.Epistemology
             }
         }
 
-        public Expression Create(params object[] args)
+        public Statement Create(params object[] args)
         {
             if (CanCreate(args, out AggregateException? reason))
             {
-                return new Expression(this, args);
+                return new Statement(this, args);
             }
             else
             {
@@ -335,9 +335,9 @@ namespace AI.Epistemology
         }
     }
 
-    public sealed class Expression
+    public sealed class Statement
     {
-        internal Expression(Predicate predicate, object[] args)
+        internal Statement(Predicate predicate, object[] args)
         {
             Predicate = predicate;
             Arguments = args;
@@ -347,17 +347,17 @@ namespace AI.Epistemology
         public IReadOnlyList<object> Arguments { get; }
     }
 
-    public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Expression>
+    public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Statement>
     {
         public IConnection<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
 
-        public bool Contains(Expression expression);
-        public bool Contains(Expression expression, out IEnumerable derivations);
+        public bool Contains(Statement expression);
+        public bool Contains(Statement expression, out IEnumerable derivations);
 
         public bool IsReadOnly { get; }
 
-        public void Update(IDelta<Expression> delta);
-        public void Update(IEnumerable<Expression> add, IEnumerable<Expression> remove);
+        public void Update(IDelta<Statement> delta);
+        public void Update(IEnumerable<Statement> add, IEnumerable<Statement> remove);
     }
 }
 
@@ -365,8 +365,8 @@ namespace AI.Epistemology.Reasoning
 {
     public interface IReasoner
     {
-        public ICollection<IConstraint<IQueryable<Expression>>> Constraints { get; }
-        public ICollection<IProduction<IQueryable<Expression>, IQueryable<Expression>>> Rules { get; }
+        public ICollection<IConstraint<IQueryable<Statement>>> Constraints { get; }
+        public ICollection<IProduction<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
 
         public IKnowledgebase Bind(IKnowledgebase source);
     }
