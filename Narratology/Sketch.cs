@@ -8,9 +8,10 @@ using System.Collections;
 using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.1.12
+// 0.0.2.0
 
 namespace System
 {
@@ -111,6 +112,95 @@ namespace System.Collections.Trees
     }
 }
 
+namespace System.Linq.Advanced
+{
+    public interface IInspectableMethod
+    {
+        public LambdaExpression Expression { get; }
+
+        public object Invoke(object[] args);
+    }
+
+    public interface IConstraint : IInspectableMethod
+    {
+        public new bool Invoke(object[] args);
+    }
+
+    public interface IConstraint<T1> : IConstraint
+    {
+        public new Expression<Func<T1, bool>> Expression { get; }
+
+        public bool Invoke(T1 arg);
+    }
+
+    public sealed class ConstraintNotSatisfiedException : Exception
+    {
+        public ConstraintNotSatisfiedException(IConstraint constraint)
+            : base(constraint.ToString())
+        {
+            Constraint = constraint;
+        }
+
+        public IConstraint Constraint { get; }
+    }
+
+    public interface IInvariant
+    {
+        public bool IsValid { get; }
+    }
+
+    public interface IEffect : IInspectableMethod
+    {
+        public new void Invoke(object[] args);
+    }
+
+    public interface IEffect<T1> : IEffect
+    {
+        public new Expression<Action<T1>> Expression { get; }
+
+        public void Invoke(T1 value);
+    }
+
+    public interface IProduction : IInspectableMethod { }
+
+    public interface IProduction<TInput, TOutput> : IProduction
+    {
+        public new Expression<Func<TInput, TOutput>> Expression { get; }
+
+        public TOutput Invoke(TInput input);
+    }
+
+    public interface IHasConstraints
+    {
+        public IEnumerable<IConstraint> Constraints { get; }
+    }
+
+    public interface IHasPreconditions
+    {
+        public IEnumerable<IConstraint> Preconditions { get; }
+    }
+
+    public interface IHasEffects
+    {
+        public IEnumerable<IEffect> Effects { get; }
+    }
+
+    public interface IHasConstraints<T> : IHasConstraints
+    {
+        public new IEnumerable<IConstraint<T>> Constraints { get; }
+    }
+
+    public interface IHasPreconditions<T> : IHasPreconditions
+    {
+        public new IEnumerable<IConstraint<T>> Preconditions { get; }
+    }
+
+    public interface IHasEffects<T> : IHasEffects
+    {
+        public new IEnumerable<IEffect<T>> Effects { get; }
+    }
+}
+
 namespace AI.Agents
 {
     public interface IAgent : IThing
@@ -155,13 +245,18 @@ namespace AI.Epistemology
             private Delegate? function;
             private string text;
 
-            public bool Satisfied(object[] args)
+            public bool Invoke(object[] args)
             {
                 if (function == null)
                 {
                     function = Expression.Compile();
                 }
                 return (bool)(function.Method.Invoke(null, args) ?? false);
+            }
+
+            object IInspectableMethod.Invoke(object[] args)
+            {
+                return Invoke(args);
             }
 
             public override string ToString()
@@ -210,7 +305,7 @@ namespace AI.Epistemology
             List<Exception> reasons = new List<Exception>();
             foreach (var constraint in Constraints)
             {
-                if (!constraint.Satisfied(args))
+                if (!constraint.Invoke(args))
                 {
                     reasons.Add(new ConstraintNotSatisfiedException(constraint));
                 }
@@ -254,7 +349,7 @@ namespace AI.Epistemology
 
     public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Expression>
     {
-        IConnection<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
+        public IConnection<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
 
         public bool Contains(Expression expression);
         public bool Contains(Expression expression, out IEnumerable derivations);
@@ -420,114 +515,6 @@ namespace AI.Narratology.Thematics
 
 namespace AI.Planning
 {
-    public interface IConstraint
-    {
-        public LambdaExpression Expression { get; }
-
-        public bool Satisfied(object[] args);
-    }
-
-    public interface IConstraint<T1> : IConstraint
-    {
-        public new Expression<Func<T1, bool>> Expression { get; }
-
-        public bool Satisfied(T1 arg);
-    }
-
-    public interface IConstraint<T1, T2> : IConstraint
-    {
-        public new Expression<Func<T1, T2, bool>> Expression { get; }
-
-        public bool Satisfied(T1 arg1, T2 arg2);
-    }
-
-    public interface IConstraint<T1, T2, T3> : IConstraint
-    {
-        public new Expression<Func<T1, T2, T3, bool>> Expression { get; }
-
-        public bool Satisfied(T1 arg1, T2 arg2, T3 arg3);
-    }
-
-    public interface IConstraint<T1, T2, T3, T4> : IConstraint
-    {
-        public new Expression<Func<T1, T2, T3, T4, bool>> Expression { get; }
-
-        public bool Satisfied(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
-    }
-
-    public sealed class ConstraintNotSatisfiedException : Exception
-    {
-        public ConstraintNotSatisfiedException(IConstraint constraint)
-            : base(constraint.ToString())
-        {
-            Constraint = constraint;
-        }
-
-        public IConstraint Constraint { get; }
-    }
-
-    public interface IInvariant
-    {
-        public bool IsValid { get; }
-    }
-
-    public interface IEffect
-    {
-        public LambdaExpression Expression { get; }
-
-        public void Process(object[] args);
-    }
-
-    public interface IEffect<T1> : IEffect
-    {
-        public new Expression<Action<T1>> Expression { get; }
-
-        public void Process(T1 value);
-    }
-
-    public interface IProduction
-    {
-        public LambdaExpression Expression { get; }
-        public object Process(object input);
-    }
-
-    public interface IProduction<TInput, TOutput> : IProduction
-    {
-        public new Expression<Func<TInput, TOutput>> Expression { get; }
-
-        public TOutput Process(TInput input);
-    }
-
-    public interface IHasConstraints
-    {
-        public IEnumerable<IConstraint> Constraints { get; }
-    }
-
-    public interface IHasPreconditions
-    {
-        public IEnumerable<IConstraint> Preconditions { get; }
-    }
-
-    public interface IHasEffects
-    {
-        public IEnumerable<IEffect> Effects { get; }
-    }
-
-    public interface IHasConstraints<T> : IHasConstraints
-    {
-        public new IEnumerable<IConstraint<T>> Constraints { get; }
-    }
-
-    public interface IHasPreconditions<T> : IHasPreconditions
-    {
-        public new IEnumerable<IConstraint<T>> Preconditions { get; }
-    }
-
-    public interface IHasEffects<T> : IHasEffects
-    {
-        public new IEnumerable<IEffect<T>> Effects { get; }
-    }
-
     public interface IState : ICloneable<IState>, IInvariant
     {
         public IKnowledgebase Content { get; }
