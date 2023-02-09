@@ -1,14 +1,16 @@
 ﻿using AI.Agents;
 using AI.Epistemology;
+using AI.Epistemology.Reasoning;
 using AI.Events;
 using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
+using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.1.4
+// 0.0.1.11
 
 namespace System
 {
@@ -80,6 +82,11 @@ namespace System.Collections.Graphs
     }
 
     public interface IConnection<out TSource, out TDestination> : IConnectionFrom<TSource>, IConnectionTo<TDestination> { }
+
+    public interface IConnection<out TSource, out TDestination, out TValue> : IConnection<TSource, TDestination>
+    {
+        public TValue? Value { get; }
+    }
 }
 
 namespace System.Collections.Trees
@@ -245,11 +252,28 @@ namespace AI.Epistemology
         public IReadOnlyList<object> Arguments { get; }
     }
 
-    public interface IKnowledgebase : ICloneable<IKnowledgebase>
+    public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Expression>
     {
-        public bool Holds(Expression expr);
+        IConnection<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
+
+        public bool Contains(Expression expression);
+        public bool Contains(Expression expression, out IEnumerable derivations);
+
+        public bool IsReadOnly { get; }
+
         public void Update(IDelta<Expression> delta);
         public void Update(IEnumerable<Expression> add, IEnumerable<Expression> remove);
+    }
+}
+
+namespace AI.Epistemology.Reasoning
+{
+    public interface IReasoner
+    {
+        public ICollection<IConstraint<IKnowledgebase>> Constraints { get; }
+        public ICollection<IProduction<IQueryable<Expression>, IQueryable<Expression>>> Rules { get; }
+
+        public IKnowledgebase Bind(IKnowledgebase source);
     }
 }
 
@@ -459,6 +483,13 @@ namespace AI.Planning
         public new Expression<Action<T1>> Expression { get; }
 
         public void Process(T1 value);
+    }
+
+    public interface IProduction<TInput, TOutput>
+    {
+        public Expression<Func<TInput, TOutput>> Expression { get; }
+
+        public TOutput Process(TInput input);
     }
 
     public interface IHasConstraints
