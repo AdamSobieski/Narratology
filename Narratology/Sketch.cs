@@ -2,6 +2,7 @@
 using AI.Epistemology;
 using AI.Epistemology.Reasoning;
 using AI.Events;
+using AI.Narratology.Annotation;
 using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
@@ -468,7 +469,7 @@ namespace AI.Narratology
 
     public interface IText : IThing
     {
-
+        public ISegment CreateSegment(ISelection selection);
     }
 
     public interface IInterpretation : IThing
@@ -509,10 +510,17 @@ namespace AI.Narratology.Annotation
     {
         public IText Text { get; }
 
-        public int? CompareStartToStart(ISegment other);
-        public int? CompareStartToEnd(ISegment other);
-        public int? CompareEndToStart(ISegment other);
-        public int? CompareEndToEnd(ISegment other);
+        public ISelection Selection { get; }
+    }
+
+    public interface ISelection : ITreeNodeParented<ISelection>
+    {
+        public IText Text { get; }
+
+        public int CompareStartToStart(ISelection other);
+        public int CompareStartToEnd(ISelection other);
+        public int CompareEndToStart(ISelection other);
+        public int CompareEndToEnd(ISelection other);
     }
 }
 
