@@ -11,8 +11,9 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
+using System.Reflection;
 
-// 0.0.2.4
+// 0.0.2.5
 
 namespace System
 {
@@ -66,6 +67,8 @@ namespace System.Collections.Generic
     public interface IDataDictionary : IDictionary<string, object?>
     {
         void Add(string key, object? value, Type type);
+        void Add(string key, IEnumerable<IConstraint> constraints);
+        
         bool Contains(string key, Type type);
         bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
 
@@ -219,6 +222,16 @@ namespace System.Linq.Advanced
     }
 }
 
+namespace System.Reflection
+{
+    public interface INamed
+    {
+        public string Name { get; }
+        public string Namespace { get; }
+        public string FullName { get; }
+    }
+}
+
 namespace AI.Agents
 {
     public interface IAgent : IThing
@@ -231,7 +244,7 @@ namespace AI.Agents
 
 namespace AI.Epistemology
 {
-    public sealed class Predicate : IHasConstraints
+    public sealed class Predicate : INamed, IHasConstraints
     {
         public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
         {
@@ -341,6 +354,8 @@ namespace AI.Epistemology
 
         public string Namespace { get; }
         public string Name { get; }
+        public string FullName { get { return Namespace + "." + Name; } }
+
         public int Arity { get; }
 
         public IEnumerable<IConstraint> Constraints { get; }
@@ -380,7 +395,7 @@ namespace AI.Epistemology
         }
     }
 
-    public sealed class Statement
+    public sealed class Statement : IInvariant
     {
         internal Statement(Predicate predicate, object?[] args)
         {
@@ -390,6 +405,14 @@ namespace AI.Epistemology
 
         public Predicate Predicate { get; }
         public IReadOnlyList<object?> Arguments { get; }
+
+        public bool IsValid
+        {
+            get
+            {
+                return Predicate.CanCreate(Arguments.ToArray(), out AggregateException? reason);
+            }
+        }
     }
 
     public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Statement>
@@ -403,6 +426,15 @@ namespace AI.Epistemology
 
         public void Update(IDelta<Statement> delta);
         public void Update(IEnumerable<Statement> add, IEnumerable<Statement> remove);
+    }
+}
+
+namespace AI.Epistemology.Argumentation
+{
+    public interface IJustified<out T>
+    {
+        public T Value { get; }
+        IEnumerable Justifications { get; }
     }
 }
 
@@ -551,6 +583,11 @@ namespace AI.Narratology.Causality
     {
         public IEventSequence Events { get; }
     }
+}
+
+namespace AI.Narratology.Coherence
+{
+
 }
 
 namespace AI.Narratology.Drama
