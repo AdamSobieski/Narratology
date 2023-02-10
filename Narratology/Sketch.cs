@@ -11,9 +11,8 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
-using System.Reflection;
 
-// 0.0.2.5
+// 0.0.2.6
 
 namespace System
 {
@@ -34,6 +33,17 @@ namespace System
     }
 
     public interface IThing : IHasProperties, IHasMetadata { }
+
+    public interface INamed
+    {
+        public string Name { get; }
+    }
+
+    public interface INamespaceNamed : INamed
+    {
+        public string Namespace { get; }
+        public string FullName { get; }
+    }
 }
 
 namespace System.Collections.Generic
@@ -68,7 +78,7 @@ namespace System.Collections.Generic
     {
         void Add(string key, object? value, Type type);
         void Add(string key, IEnumerable<IConstraint> constraints);
-        
+
         bool Contains(string key, Type type);
         bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
 
@@ -142,34 +152,6 @@ namespace System.Linq.Advanced
         public void Invoke(T arg);
     }
 
-    public interface IConstraint : IInspectableMethod
-    {
-        public new bool Invoke(object?[] args);
-    }
-
-    public interface IConstraint<T1> : IConstraint
-    {
-        public new Expression<Func<T1, bool>> Expression { get; }
-
-        public bool Invoke(T1 arg);
-    }
-
-    public sealed class ConstraintNotSatisfiedException : Exception
-    {
-        public ConstraintNotSatisfiedException(IConstraint constraint)
-            : base(constraint.ToString())
-        {
-            Constraint = constraint;
-        }
-
-        public IConstraint Constraint { get; }
-    }
-
-    public interface IInvariant
-    {
-        public bool IsValid { get; }
-    }
-
     public interface IEffect : IInspectableMethod
     {
         public new void Invoke(object?[] args);
@@ -222,16 +204,6 @@ namespace System.Linq.Advanced
     }
 }
 
-namespace System.Reflection
-{
-    public interface INamed
-    {
-        public string Name { get; }
-        public string Namespace { get; }
-        public string FullName { get; }
-    }
-}
-
 namespace AI.Agents
 {
     public interface IAgent : IThing
@@ -244,7 +216,7 @@ namespace AI.Agents
 
 namespace AI.Epistemology
 {
-    public sealed class Predicate : INamed, IHasConstraints
+    public sealed class Predicate : INamespaceNamed, IHasConstraints
     {
         public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
         {
@@ -300,8 +272,11 @@ namespace AI.Epistemology
             }
 
             public LambdaExpression Expression { get; }
+
+            public string Name => Expression.Name ?? string.Empty;
+
             private Delegate? function;
-            private string text;
+            private readonly string text;
 
             public bool Invoke(object?[] args)
             {
@@ -309,7 +284,7 @@ namespace AI.Epistemology
                 {
                     function = Expression.Compile();
                 }
-                return (bool)(function.Method.Invoke(null, args) ?? false);
+                return (bool)(function?.Method.Invoke(null, args) ?? false);
             }
 
             object IInspectableMethod.Invoke(object?[] args)
@@ -440,10 +415,46 @@ namespace AI.Epistemology.Argumentation
 
 namespace AI.Epistemology.Reasoning
 {
+    public interface IConstraint : INamed, IInspectableMethod
+    {
+        public new bool Invoke(object?[] args);
+    }
+
+    public interface IConstraint<T1> : IConstraint
+    {
+        public new Expression<Func<T1, bool>> Expression { get; }
+
+        public bool Invoke(T1 arg);
+    }
+
+    public sealed class ConstraintNotSatisfiedException : Exception
+    {
+        public ConstraintNotSatisfiedException(IConstraint constraint)
+            : base($"Constraint {constraint.Name} not satisfied.")
+        {
+            Constraint = constraint;
+        }
+
+        public ConstraintNotSatisfiedException(IConstraint constraint, string message)
+            : base(message)
+        {
+            Constraint = constraint;
+        }
+
+        public IConstraint Constraint { get; }
+    }
+
+    public interface IInvariant
+    {
+        public bool IsValid { get; }
+    }
+
+    public interface IRule<TInput, TOutput> : INamed, IProduction<TInput, TOutput> { }
+
     public interface IReasoner
     {
         public ICollection<IConstraint<IQueryable<Statement>>> Constraints { get; }
-        public ICollection<IProduction<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
+        public ICollection<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
 
         public IKnowledgebase Bind(IKnowledgebase source);
     }
