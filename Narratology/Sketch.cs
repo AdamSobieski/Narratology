@@ -12,7 +12,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.0
+// 0.0.3.1
 
 namespace System
 {
@@ -168,6 +168,24 @@ namespace System.Collections.Graphs
     public interface IEdge<out TSource, out TDestination> : ISource<TSource>, IDestination<TDestination> { }
 
     public interface IEdge<out TSource, out TDestination, out TConnection> : IEdge<TSource, TDestination>, IConnection<TConnection> { }
+
+    public interface INodeIncoming<out TEdge>
+    {
+        public IEnumerable<TEdge> IncomingEdges { get; }
+    }
+
+    public interface INodeOutgoing<out TEdge>
+    {
+        public IEnumerable<TEdge> OutgoingEdges { get; }
+    }
+
+    public interface IGraph<out TNode, out TEdge>
+        where TNode : INodeOutgoing<TEdge>
+        where TEdge : IEdge<TNode, TNode>
+    {
+        public IEnumerable<TNode> Nodes { get; }
+        public IEnumerable<TEdge> Edges { get; }
+    }
 }
 
 namespace System.Collections.Trees
@@ -374,7 +392,7 @@ namespace AI.Epistemology
         public bool IsReadOnly { get; }
 
         public void Update(IDelta<Statement> delta);
-        public void Update(IEnumerable<Statement> add, IEnumerable<Statement> remove);
+        public void Update(IEnumerable<Statement> remove, IEnumerable<Statement> add);
     }
 }
 
