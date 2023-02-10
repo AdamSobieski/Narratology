@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.4
+// 0.0.3.5
 
 namespace System
 {
@@ -629,12 +629,20 @@ namespace AI.Narratology.Hermeneutics.Semiotics
 {
     public interface ILookup<in TSymbol, TReferent, TState>
     {
-        IAlternatives<TReferent> Lookup(TSymbol symbol, (TState State, double Weight) context);
+        public IAlternatives<TReferent> Lookup(TSymbol symbol, (TState State, double Weight) context);
     }
 
     public interface IAlternatives<TReferent> : IEnumerable<(TReferent Referent, double Weight)>
     {
-        public void Select(TReferent referent);
+        public bool IsReadOnly { get; }
+
+        public void Add((TReferent referent, double Weight) candidate);
+        public void Remove((TReferent referent, double Weight) candidate);
+
+        public void Increase(TReferent referent);
+        public void Decrease(TReferent referent);
+
+        public void Select(TReferent selection);
     }
 }
 
