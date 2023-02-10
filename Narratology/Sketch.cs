@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.6
+// 0.0.2.7
 
 namespace System
 {
@@ -171,36 +171,6 @@ namespace System.Linq.Advanced
         public new Expression<Func<TInput, TOutput>> Expression { get; }
 
         public TOutput Invoke(TInput input);
-    }
-
-    public interface IHasConstraints
-    {
-        public IEnumerable<IConstraint> Constraints { get; }
-    }
-
-    public interface IHasPreconditions
-    {
-        public IEnumerable<IConstraint> Preconditions { get; }
-    }
-
-    public interface IHasEffects
-    {
-        public IEnumerable<IEffect> Effects { get; }
-    }
-
-    public interface IHasConstraints<T> : IHasConstraints
-    {
-        public new IEnumerable<IConstraint<T>> Constraints { get; }
-    }
-
-    public interface IHasPreconditions<T> : IHasPreconditions
-    {
-        public new IEnumerable<IConstraint<T>> Preconditions { get; }
-    }
-
-    public interface IHasEffects<T> : IHasEffects
-    {
-        public new IEnumerable<IEffect<T>> Effects { get; }
     }
 }
 
@@ -420,11 +390,16 @@ namespace AI.Epistemology.Reasoning
         public new bool Invoke(object?[] args);
     }
 
-    public interface IConstraint<T1> : IConstraint
+    public interface IConstraint<T> : IConstraint
     {
-        public new Expression<Func<T1, bool>> Expression { get; }
+        public new Expression<Func<T, bool>> Expression { get; }
 
-        public bool Invoke(T1 arg);
+        public bool Invoke(T arg);
+    }
+
+    public interface IHasConstraints
+    {
+        public IEnumerable<IConstraint> Constraints { get; }
     }
 
     public sealed class ConstraintNotSatisfiedException : Exception
@@ -633,7 +608,12 @@ namespace AI.Planning
         public IKnowledgebase Content { get; }
     }
 
-    public interface IAction : ITreeNode<IAction>, IHasPreconditions<IState>, IHasEffects<IState> { }
+    public interface IAction : ITreeNode<IAction>
+    {
+        public IEnumerable<IConstraint<IState>> Preconditions { get; }
+
+        public IEnumerable<IEffect<IState>> Effects { get; }
+    }
 
     public interface IPlan : IThing
     {
