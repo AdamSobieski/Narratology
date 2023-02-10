@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.5
+// 0.0.3.6
 
 namespace System
 {
@@ -636,13 +636,13 @@ namespace AI.Narratology.Hermeneutics.Semiotics
     {
         public bool IsReadOnly { get; }
 
-        public void Add((TReferent referent, double Weight) candidate);
-        public void Remove((TReferent referent, double Weight) candidate);
+        public void Add((TReferent referent, double Weight) alternative);
+        public void Remove((TReferent referent, double Weight) alternative);
 
         public void Increase(TReferent referent);
         public void Decrease(TReferent referent);
 
-        public void Select(TReferent selection);
+        public void Select(TReferent referent);
     }
 }
 
