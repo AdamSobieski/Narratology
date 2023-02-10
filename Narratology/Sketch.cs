@@ -11,7 +11,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.2.9
+// 0.0.2.10
 
 namespace System
 {
@@ -391,7 +391,7 @@ namespace AI.Epistemology.Argumentation
     public interface IJustified<out T>
     {
         public T Value { get; }
-        IEnumerable Justifications { get; }
+        public IEnumerable Justifications { get; }
     }
 }
 
@@ -402,12 +402,7 @@ namespace AI.Epistemology.Reasoning
         public new bool Invoke(object?[] args);
     }
 
-    public interface IConstraint<T> : IConstraint
-    {
-        public new Expression<Func<T, bool>> Expression { get; }
-
-        public bool Invoke(T arg);
-    }
+    public interface IConstraint<T> : IConstraint, IInspectableFunc<T, bool> { }
 
     public sealed class ConstraintNotSatisfiedException : Exception
     {
@@ -435,8 +430,8 @@ namespace AI.Epistemology.Reasoning
 
     public interface IReasoner
     {
-        public ICollection<IConstraint<IQueryable<Statement>>> Constraints { get; }
-        public ICollection<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
+        public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
+        public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
 
         public IKnowledgebase Bind(IKnowledgebase source);
     }
