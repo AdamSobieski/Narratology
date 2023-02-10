@@ -628,9 +628,13 @@ namespace AI.Narratology.Hermeneutics
 namespace AI.Narratology.Hermeneutics.Semiotics
 {
     public interface ILookup<in TSymbol, TReferent, TState>
-        where TState : IState
     {
-        IEnumerable<(TReferent Referent, double Weight)> Lookup(TSymbol symbol, (TState State, double Weight) context);
+        IAlternatives<TReferent> Lookup(TSymbol symbol, (TState State, double Weight) context);
+    }
+
+    public interface IAlternatives<TReferent> : IEnumerable<(TReferent Referent, double Weight)>
+    {
+        public void Select(TReferent referent);
     }
 }
 
