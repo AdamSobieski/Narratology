@@ -9,10 +9,9 @@ using System.Collections;
 using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.8
+// 0.0.2.9
 
 namespace System
 {
@@ -43,6 +42,69 @@ namespace System
     {
         public string Namespace { get; }
         public string FullName { get; }
+    }
+
+    public interface IInspectableMethod
+    {
+        public LambdaExpression Expression { get; }
+
+        public object Invoke(object?[] args);
+    }
+
+    public interface IInspectableFunc<T, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T, TResult>> Expression { get; }
+
+        public TResult Invoke(T arg);
+    }
+
+    public interface IInspectableFunc<T1, T2, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T1, T2, TResult>> Expression { get; }
+
+        public TResult Invoke(T1 arg1, T2 arg2);
+    }
+
+    public interface IInspectableFunc<T1, T2, T3, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T1, T2, T3, TResult>> Expression { get; }
+
+        public TResult Invoke(T1 arg1, T2 arg2, T3 arg3);
+    }
+
+    public interface IInspectableFunc<T1, T2, T3, T4, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T1, T2, T3, T4, TResult>> Expression { get; }
+
+        public TResult Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
+    }
+
+    public interface IInspectableAction<T> : IInspectableMethod
+    {
+        public new Expression<Action<T>> Expression { get; }
+
+        public void Invoke(T arg);
+    }
+
+    public interface IInspectableAction<T1, T2> : IInspectableMethod
+    {
+        public new Expression<Action<T1, T2>> Expression { get; }
+
+        public void Invoke(T1 arg1, T2 arg2);
+    }
+
+    public interface IInspectableAction<T1, T2, T3> : IInspectableMethod
+    {
+        public new Expression<Action<T1, T2, T3>> Expression { get; }
+
+        public void Invoke(T1 arg1, T2 arg2, T3 arg3);
+    }
+
+    public interface IInspectableAction<T1, T2, T3, T4> : IInspectableMethod
+    {
+        public new Expression<Action<T1, T2, T3, T4>> Expression { get; }
+
+        public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
     }
 }
 
@@ -127,44 +189,6 @@ namespace System.Collections.Trees
     }
 }
 
-namespace System.Linq.Advanced
-{
-    public interface IInspectableMethod
-    {
-        public LambdaExpression Expression { get; }
-
-        public object Invoke(object?[] args);
-    }
-
-    public interface IInspectableFunc<T, TResult> : IInspectableMethod
-    {
-        public new Expression<Func<T, TResult>> Expression { get; }
-
-        public TResult Invoke(T arg);
-    }
-
-    public interface IInspectableFunc<T1, T2, TResult> : IInspectableMethod
-    {
-        public new Expression<Func<T1, T2, TResult>> Expression { get; }
-
-        public TResult Invoke(T1 arg1, T2 arg2);
-    }
-
-    public interface IInspectableAction<T> : IInspectableMethod
-    {
-        public new Expression<Action<T>> Expression { get; }
-
-        public void Invoke(T arg);
-    }
-
-    public interface IInspectableAction<T1, T2> : IInspectableMethod
-    {
-        public new Expression<Action<T1, T2>> Expression { get; }
-
-        public void Invoke(T1 arg1, T2 arg2);
-    }
-}
-
 namespace AI.Agents
 {
     public interface IAgent : IThing
@@ -177,13 +201,13 @@ namespace AI.Agents
 
 namespace AI.Epistemology
 {
-    public sealed class Predicate : INamespaceNamed, IHasConstraints
+    public sealed class Predicate : INamespaceNamed
     {
         public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
         {
             int length = types.Length;
-            List<ParameterExpression> parameters = new List<ParameterExpression>();
-            List<Expression> typeisexprs = new List<Expression>();
+            List<ParameterExpression> parameters = new();
+            List<Expression> typeisexprs = new();
             for (int index = 0; index < length; ++index)
             {
                 var p = Expression.Parameter(typeof(object));
@@ -198,8 +222,8 @@ namespace AI.Epistemology
         public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
         {
             int length = types.Length;
-            List<ParameterExpression> parameters = new List<ParameterExpression>();
-            List<Expression> typeisexprs = new List<Expression>();
+            List<ParameterExpression> parameters = new();
+            List<Expression> typeisexprs = new();
             var isassignableto = typeof(Type).GetMethod("IsAssignableTo");
             if (isassignableto == null) throw new Exception();
 
@@ -240,17 +264,14 @@ namespace AI.Epistemology
 
             public LambdaExpression Expression { get; }
             private Delegate? function;
-            private string? m_name;
+            private readonly string? m_name;
 
             public string Name => m_name ?? Expression.Name ?? string.Empty;
 
             public bool Invoke(object?[] args)
             {
-                if (function == null)
-                {
-                    function = Expression.Compile();
-                }
-                return (bool)(function?.Method.Invoke(null, args) ?? false);
+                function ??= Expression.Compile();
+                return (bool)(function.Method.Invoke(null, args) ?? false);
             }
 
             object IInspectableMethod.Invoke(object?[] args)
@@ -261,7 +282,7 @@ namespace AI.Epistemology
 
         public Predicate(string @namespace, string name, int arity)
         {
-            if (arity < 1) throw new ArgumentException();
+            if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
 
             Namespace = @namespace;
             Name = name;
@@ -270,8 +291,8 @@ namespace AI.Epistemology
         }
         public Predicate(string @namespace, string name, int arity, Type[] types)
         {
-            if (arity < 1) throw new ArgumentException();
-            if (arity != types.Length) throw new ArgumentException();
+            if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
+            if (arity != types.Length) throw new ArgumentException("Number of types provided should equal arity.", nameof(types));
 
             Namespace = @namespace;
             Name = name;
@@ -280,7 +301,7 @@ namespace AI.Epistemology
         }
         public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
         {
-            if (arity < 1) throw new ArgumentException();
+            if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
 
             Namespace = @namespace;
             Name = name;
@@ -296,9 +317,9 @@ namespace AI.Epistemology
 
         public IEnumerable<IConstraint> Constraints { get; }
 
-        public bool CanInvoke(object?[] args, [NotNullWhen(false)] out AggregateException? reason)
+        public bool CanInvoke(object?[] args, [NotNullWhen(false)] out Exception? reason)
         {
-            List<Exception> reasons = new List<Exception>();
+            List<Exception> reasons = new();
             foreach (var constraint in Constraints)
             {
                 if (!constraint.Invoke(args))
@@ -320,7 +341,7 @@ namespace AI.Epistemology
 
         public Statement Invoke(params object?[] args)
         {
-            if (CanInvoke(args, out AggregateException? reason))
+            if (CanInvoke(args, out Exception? reason))
             {
                 return new Statement(this, args);
             }
@@ -346,7 +367,7 @@ namespace AI.Epistemology
         {
             get
             {
-                return Predicate.CanInvoke(Arguments.ToArray(), out AggregateException? reason);
+                return Predicate.CanInvoke(Arguments.ToArray(), out Exception? reason);
             }
         }
     }
@@ -386,11 +407,6 @@ namespace AI.Epistemology.Reasoning
         public new Expression<Func<T, bool>> Expression { get; }
 
         public bool Invoke(T arg);
-    }
-
-    public interface IHasConstraints
-    {
-        public IEnumerable<IConstraint> Constraints { get; }
     }
 
     public sealed class ConstraintNotSatisfiedException : Exception
