@@ -629,7 +629,7 @@ namespace AI.Narratology.Hermeneutics.Semiotics
 {
     public interface ISymbol<TReferent> { }
 
-    public interface ILexicon<TSymbol, TReferent>
+    public interface ILookup<TSymbol, TReferent>
         where TSymbol : ISymbol<TReferent>
     {
         IEnumerable<(TReferent Referent, double Weight)> Lookup(TSymbol symbol, (IState State, double Weight) context);
