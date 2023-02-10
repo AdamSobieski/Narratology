@@ -11,7 +11,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.2.10
+// 0.0.2.11
 
 namespace System
 {
@@ -216,7 +216,7 @@ namespace AI.Epistemology
             }
             for (int index = 0; index < length; ++index)
             {
-                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName}.");
+                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty, $"Argument {index} was not of type {types[index].FullName}.");
             }
         }
         public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
@@ -243,30 +243,27 @@ namespace AI.Epistemology
             }
             for (int index = 0; index < length; ++index)
             {
-                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
+                yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty, $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
             }
         }
 
         private class Constraint : IConstraint
         {
-            public Constraint(LambdaExpression lambda)
-            {
-                Expression = lambda;
-                function = null;
-                m_name = null;
-            }
-            public Constraint(LambdaExpression lambda, string name)
+            public Constraint(LambdaExpression lambda, string name, string message)
             {
                 Expression = lambda;
                 function = null;
                 m_name = name;
+                m_message = message;
             }
 
             public LambdaExpression Expression { get; }
             private Delegate? function;
             private readonly string? m_name;
+            private readonly string? m_message;
 
             public string Name => m_name ?? Expression.Name ?? string.Empty;
+            public string? Message => m_message;
 
             public bool Invoke(object?[] args)
             {
@@ -319,24 +316,16 @@ namespace AI.Epistemology
 
         public bool CanInvoke(object?[] args, [NotNullWhen(false)] out Exception? reason)
         {
-            List<Exception> reasons = new();
             foreach (var constraint in Constraints)
             {
                 if (!constraint.Invoke(args))
                 {
-                    reasons.Add(new ConstraintNotSatisfiedException(constraint));
+                    reason = new ConstraintNotSatisfiedException(constraint);
+                    return false;
                 }
             }
-            if (reasons.Count > 0)
-            {
-                reason = new AggregateException(reasons);
-                return false;
-            }
-            else
-            {
-                reason = null;
-                return true;
-            }
+            reason = null;
+            return true;
         }
 
         public Statement Invoke(params object?[] args)
@@ -367,7 +356,7 @@ namespace AI.Epistemology
         {
             get
             {
-                return Predicate.CanInvoke(Arguments.ToArray(), out Exception? reason);
+                return Predicate.CanInvoke(Arguments.ToArray(), out _);
             }
         }
     }
@@ -399,6 +388,8 @@ namespace AI.Epistemology.Reasoning
 {
     public interface IConstraint : INamed, IInspectableMethod
     {
+        public string? Message { get; }
+
         public new bool Invoke(object?[] args);
     }
 
@@ -407,7 +398,7 @@ namespace AI.Epistemology.Reasoning
     public sealed class ConstraintNotSatisfiedException : Exception
     {
         public ConstraintNotSatisfiedException(IConstraint constraint)
-            : base($"Constraint {constraint.Name} not satisfied.")
+            : base(constraint.Message ?? $"Constraint {constraint.Name} not satisfied.")
         {
             Constraint = constraint;
         }
