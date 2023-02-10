@@ -12,7 +12,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.2.21
+// 0.0.3.0
 
 namespace System
 {
@@ -505,6 +505,16 @@ namespace AI.Narratology
     {
         public IAsyncEnumerable<IInterpretation> Interpret(IText text, IDictionary<string, object> args);
     }
+}
+
+namespace AI.Narratology.Aesthetics
+{
+
+}
+
+namespace AI.Narratology.Aesthetics.Morality
+{
+
 }
 
 namespace AI.Narratology.Annotation
