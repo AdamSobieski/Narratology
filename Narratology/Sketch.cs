@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.7
+// 0.0.3.8
 
 namespace System
 {
@@ -108,6 +108,12 @@ namespace System
 
         public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
     }
+
+    public interface IResumeable<T>
+    {
+        public T Suspend();
+        public void Resume(T state);
+    }
 }
 
 namespace System.Collections.Generic
@@ -174,29 +180,6 @@ namespace System.Collections.Graphs
     public interface IEdge<out TSource, out TDestination> : ISource<TSource>, IDestination<TDestination> { }
 
     public interface IEdge<out TSource, out TDestination, out TConnection> : IEdge<TSource, TDestination>, IConnection<TConnection> { }
-
-    public interface INodeIncoming<out TEdge>
-    {
-        public IEnumerable<TEdge> IncomingEdges { get; }
-    }
-
-    public interface INodeOutgoing<out TEdge>
-    {
-        public IEnumerable<TEdge> OutgoingEdges { get; }
-    }
-
-    public interface IGraph1<out TNode, out TEdge>
-        where TNode : INodeOutgoing<TEdge>
-        where TEdge : IEdge<TNode, TNode>
-    {
-        public IEnumerable<TNode> Nodes { get; }
-        public IEnumerable<TEdge> Edges { get; }
-    }
-
-    public interface IGraph2<out TNode, out TEdge> : IQueryable<TEdge>
-    where TNode : INodeOutgoing<TEdge>
-    where TEdge : IEdge<TNode, TNode>
-    { }
 }
 
 namespace System.Collections.Trees
@@ -627,9 +610,11 @@ namespace AI.Narratology.Hermeneutics
 
 namespace AI.Narratology.Hermeneutics.Semiotics
 {
-    public interface ILookup<in TSymbol, TReferent, TState>
+    public interface ILookup<TSymbol, TReferent, TState>
     {
-        public IAlternatives<TReferent> Lookup(TSymbol symbol, (TState State, double Weight) context);
+        public IAlternatives<TReferent> Lookup((TSymbol Symbol, double Weight) input, (TState State, double Weight) context);
+
+        public IAlternatives<TReferent> Combine(IEnumerable<IAlternatives<TReferent>> alternatives);
     }
 
     public interface IAlternatives<TReferent> : IEnumerable<(TReferent Referent, double Weight)>
@@ -638,6 +623,8 @@ namespace AI.Narratology.Hermeneutics.Semiotics
 
         public void Add((TReferent Referent, double Weight) alternative);
         public void Remove((TReferent Referent, double Weight) alternative);
+
+        public bool SupportsFeedback { get; }
 
         public void Increase(TReferent referent, double intensity = 0.5d);
         public void Decrease(TReferent referent, double intensity = 0.5d);
