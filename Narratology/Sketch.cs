@@ -11,7 +11,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.2.11
+// 0.0.2.12
 
 namespace System
 {
@@ -149,22 +149,24 @@ namespace System.Collections.Generic
 
 namespace System.Collections.Graphs
 {
-    public interface IConnectionFrom<out TSource> : IThing
+    public interface ISource<out TSource>
     {
         public TSource Source { get; }
     }
 
-    public interface IConnectionTo<out TDestination> : IThing
+    public interface IDestination<out TDestination>
     {
         public TDestination Destination { get; }
     }
 
-    public interface IConnection<out TSource, out TDestination> : IConnectionFrom<TSource>, IConnectionTo<TDestination> { }
-
-    public interface IConnection<out TSource, out TDestination, out TConnection> : IConnection<TSource, TDestination>
+    public interface IConnection<out TConnection>
     {
         public TConnection Connection { get; }
     }
+
+    public interface IEdge<out TSource, out TDestination> : ISource<TSource>, IDestination<TDestination> { }
+
+    public interface IEdge<out TSource, out TDestination, out TConnection> : IEdge<TSource, TDestination>, IConnection<TConnection> { }
 }
 
 namespace System.Collections.Trees
@@ -259,11 +261,11 @@ namespace AI.Epistemology
 
             public LambdaExpression Expression { get; }
             private Delegate? function;
-            private readonly string? m_name;
-            private readonly string? m_message;
+            private readonly string m_name;
+            private readonly string m_message;
 
-            public string Name => m_name ?? Expression.Name ?? string.Empty;
-            public string? Message => m_message;
+            public string Name => m_name;
+            public string Message => m_message;
 
             public bool Invoke(object?[] args)
             {
@@ -363,7 +365,7 @@ namespace AI.Epistemology
 
     public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Statement>
     {
-        public IConnection<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
+        public IEdge<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
 
         public bool Contains(Statement expression);
         public bool Contains(Statement expression, out IEnumerable derivations);
