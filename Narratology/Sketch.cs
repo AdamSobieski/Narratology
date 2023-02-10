@@ -3,6 +3,7 @@ using AI.Epistemology;
 using AI.Epistemology.Reasoning;
 using AI.Events;
 using AI.Narratology.Annotation;
+using AI.Narratology.Hermeneutics;
 using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
@@ -11,7 +12,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.2.12
+// 0.0.2.21
 
 namespace System
 {
@@ -390,7 +391,7 @@ namespace AI.Epistemology.Reasoning
 {
     public interface IConstraint : INamed, IInspectableMethod
     {
-        public string? Message { get; }
+        public string Message { get; }
 
         public new bool Invoke(object?[] args);
     }
@@ -400,7 +401,7 @@ namespace AI.Epistemology.Reasoning
     public sealed class ConstraintNotSatisfiedException : Exception
     {
         public ConstraintNotSatisfiedException(IConstraint constraint)
-            : base(constraint.Message ?? $"Constraint {constraint.Name} not satisfied.")
+            : base(constraint.Message)
         {
             Constraint = constraint;
         }
@@ -444,8 +445,16 @@ namespace AI.Events
 
     public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
     {
-        public bool SubsetOf(IEventSet other);
-        public bool SupersetOf(IEventSet other);
+        IEventSet ExceptWith(IEventSet other);
+        IEventSet IntersectWith(IEventSet other);
+        bool IsProperSubsetOf(IEventSet other);
+        bool IsProperSupersetOf(IEventSet other);
+        bool IsSubsetOf(IEventSet other);
+        bool IsSupersetOf(IEventSet other);
+        bool Overlaps(IEventSet other);
+        bool SetEquals(IEventSet other);
+        IEventSet SymmetricExceptWith(IEventSet other);
+        IEventSet UnionWith(IEventSet other);
     }
 }
 
@@ -485,30 +494,11 @@ namespace AI.Narratology
         public ISegment CreateSegment(ISelection selection);
     }
 
-    public interface IInterpretation : IThing
-    {
-        public IEvent Event { get; }
-
-        public ISemantics Semantics { get; }
-
-        public IText Text { get; }
-    }
-
-    public interface ISemantics : IReadOnlyDictionary<IEventSequence, IThing>
-    {
-        public IThing this[params IEvent[] events]
-        {
-            get;
-        }
-    }
-
     public interface INarrator : IAgent
     {
         public IAsyncEnumerable<ISyuzhet> Create(IFabula fabula, IStyle style, IDictionary<string, object> args);
         public IAsyncEnumerable<INarration> Create(ISyuzhet syuzhet, IStyle style, IDictionary<string, object> args);
         public IAsyncEnumerable<IText> Create(INarration narration, IStyle style, IDictionary<string, object> args);
-
-        //public IAsyncEnumerable<INarrative> Summarize(INarrative story, IStyle style, IDictionary<string, object> args);
     }
 
     public interface INarratee : IAgent
@@ -578,6 +568,31 @@ namespace AI.Narratology.Drama
 
 namespace AI.Narratology.Hermeneutics
 {
+    public interface IInterpretation : IThing
+    {
+        public IEvent Event { get; }
+
+        public ISemantics Semantics { get; }
+
+        public IText Text { get; }
+    }
+
+    public interface ISemantics : IReadOnlyDictionary<IEventSequence, IThing>
+    {
+        public IThing this[params IEvent[] events]
+        {
+            get;
+        }
+    }
+}
+
+namespace AI.Narratology.Hermeneutics.Semiotics
+{
+
+}
+
+namespace AI.Narratology.Hermeneutics.Thematics
+{
 
 }
 
@@ -591,11 +606,6 @@ namespace AI.Narratology.Stylistics
     }
 }
 
-namespace AI.Narratology.Thematics
-{
-
-}
-
 namespace AI.Planning
 {
     public interface IState : ICloneable<IState>, IInvariant
@@ -603,8 +613,24 @@ namespace AI.Planning
         public IKnowledgebase Content { get; }
     }
 
-    public interface IAction : ITreeNode<IAction>
+    public interface IDomain
     {
+        public IEnumerable<IOperator> Operators { get; }
+    }
+
+    public interface IOperator : INamed
+    {
+        public IEnumerable Parameters { get; }
+
+        public IAction Invoke(object?[] args);
+    }
+
+    public interface IAction : ITreeNode<IAction>, INamed
+    {
+        public IOperator Operator { get; }
+
+        public IReadOnlyList<object?> Arguments { get; }
+
         public IEnumerable<IConstraint<IState>> Preconditions { get; }
 
         public IEnumerable<IInspectableAction<IState>> Effects { get; }
