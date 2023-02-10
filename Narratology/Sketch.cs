@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Advanced;
 using System.Linq.Expressions;
 
-// 0.0.2.7
+// 0.0.2.8
 
 namespace System
 {
@@ -76,13 +76,11 @@ namespace System.Collections.Generic
 
     public interface IDataDictionary : IDictionary<string, object?>
     {
-        void Add(string key, object? value, Type type);
-        void Add(string key, IEnumerable<IConstraint> constraints);
+        void Define(string key, Type type);
+        void Define(string key, IEnumerable<IConstraint> constraints);
+        bool TryGetDefinition(string key, out IEnumerable<IConstraint> constraints);
 
-        bool Contains(string key, Type type);
-        bool TryGetType(string key, [MaybeNullWhen(false)] out Type type);
-
-        bool TryGetValue(string key, [NotNullWhen(true)] out object? value, [NotNullWhen(true)] out IEnumerable justifications);
+        bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
         bool TrySetValue(string key, object? value, IEnumerable justifications);
     }
 }
@@ -145,6 +143,13 @@ namespace System.Linq.Advanced
         public TResult Invoke(T arg);
     }
 
+    public interface IInspectableFunc<T1, T2, TResult> : IInspectableMethod
+    {
+        public new Expression<Func<T1, T2, TResult>> Expression { get; }
+
+        public TResult Invoke(T1 arg1, T2 arg2);
+    }
+
     public interface IInspectableAction<T> : IInspectableMethod
     {
         public new Expression<Action<T>> Expression { get; }
@@ -152,25 +157,11 @@ namespace System.Linq.Advanced
         public void Invoke(T arg);
     }
 
-    public interface IEffect : IInspectableMethod
+    public interface IInspectableAction<T1, T2> : IInspectableMethod
     {
-        public new void Invoke(object?[] args);
-    }
+        public new Expression<Action<T1, T2>> Expression { get; }
 
-    public interface IEffect<T1> : IEffect
-    {
-        public new Expression<Action<T1>> Expression { get; }
-
-        public void Invoke(T1 value);
-    }
-
-    public interface IProduction : IInspectableMethod { }
-
-    public interface IProduction<TInput, TOutput> : IProduction
-    {
-        public new Expression<Func<TInput, TOutput>> Expression { get; }
-
-        public TOutput Invoke(TInput input);
+        public void Invoke(T1 arg1, T2 arg2);
     }
 }
 
@@ -234,19 +225,24 @@ namespace AI.Epistemology
 
         private class Constraint : IConstraint
         {
-            public Constraint(LambdaExpression lambda, string text)
+            public Constraint(LambdaExpression lambda)
             {
                 Expression = lambda;
                 function = null;
-                this.text = text;
+                m_name = null;
+            }
+            public Constraint(LambdaExpression lambda, string name)
+            {
+                Expression = lambda;
+                function = null;
+                m_name = name;
             }
 
             public LambdaExpression Expression { get; }
-
-            public string Name => Expression.Name ?? string.Empty;
-
             private Delegate? function;
-            private readonly string text;
+            private string? m_name;
+
+            public string Name => m_name ?? Expression.Name ?? string.Empty;
 
             public bool Invoke(object?[] args)
             {
@@ -260,11 +256,6 @@ namespace AI.Epistemology
             object IInspectableMethod.Invoke(object?[] args)
             {
                 return Invoke(args);
-            }
-
-            public override string ToString()
-            {
-                return text;
             }
         }
 
@@ -305,7 +296,7 @@ namespace AI.Epistemology
 
         public IEnumerable<IConstraint> Constraints { get; }
 
-        public bool CanCreate(object?[] args, [NotNullWhen(false)] out AggregateException? reason)
+        public bool CanInvoke(object?[] args, [NotNullWhen(false)] out AggregateException? reason)
         {
             List<Exception> reasons = new List<Exception>();
             foreach (var constraint in Constraints)
@@ -327,9 +318,9 @@ namespace AI.Epistemology
             }
         }
 
-        public Statement Create(params object?[] args)
+        public Statement Invoke(params object?[] args)
         {
-            if (CanCreate(args, out AggregateException? reason))
+            if (CanInvoke(args, out AggregateException? reason))
             {
                 return new Statement(this, args);
             }
@@ -355,7 +346,7 @@ namespace AI.Epistemology
         {
             get
             {
-                return Predicate.CanCreate(Arguments.ToArray(), out AggregateException? reason);
+                return Predicate.CanInvoke(Arguments.ToArray(), out AggregateException? reason);
             }
         }
     }
@@ -424,7 +415,7 @@ namespace AI.Epistemology.Reasoning
         public bool IsValid { get; }
     }
 
-    public interface IRule<TInput, TOutput> : INamed, IProduction<TInput, TOutput> { }
+    public interface IRule<TInput, TOutput> : INamed, IInspectableFunc<TInput, TOutput> { }
 
     public interface IReasoner
     {
@@ -612,7 +603,7 @@ namespace AI.Planning
     {
         public IEnumerable<IConstraint<IState>> Preconditions { get; }
 
-        public IEnumerable<IEffect<IState>> Effects { get; }
+        public IEnumerable<IInspectableAction<IState>> Effects { get; }
     }
 
     public interface IPlan : IThing
