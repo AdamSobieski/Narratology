@@ -4,6 +4,7 @@ using AI.Epistemology.Reasoning;
 using AI.Events;
 using AI.Narratology.Annotation;
 using AI.Narratology.Hermeneutics;
+using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
 using AI.Planning;
 using System.Collections;
@@ -12,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.1
+// 0.0.3.3
 
 namespace System
 {
@@ -148,6 +149,11 @@ namespace System.Collections.Generic
     }
 }
 
+namespace System.Collections.Automata
+{
+
+}
+
 namespace System.Collections.Graphs
 {
     public interface ISource<out TSource>
@@ -179,13 +185,18 @@ namespace System.Collections.Graphs
         public IEnumerable<TEdge> OutgoingEdges { get; }
     }
 
-    public interface IGraph<out TNode, out TEdge>
+    public interface IGraph1<out TNode, out TEdge>
         where TNode : INodeOutgoing<TEdge>
         where TEdge : IEdge<TNode, TNode>
     {
         public IEnumerable<TNode> Nodes { get; }
         public IEnumerable<TEdge> Edges { get; }
     }
+
+    public interface IGraph2<out TNode, out TEdge> : IQueryable<TEdge>
+    where TNode : INodeOutgoing<TEdge>
+    where TEdge : IEdge<TNode, TNode>
+    { }
 }
 
 namespace System.Collections.Trees
@@ -616,12 +627,26 @@ namespace AI.Narratology.Hermeneutics
 
 namespace AI.Narratology.Hermeneutics.Semiotics
 {
+    public interface ISymbol<TReferent> { }
 
+    public interface ILexicon<TSymbol, TReferent>
+        where TSymbol : ISymbol<TReferent>
+    {
+        IEnumerable<(TReferent Referent, double Weight)> Lookup(TSymbol symbol, (IState State, double Weight) context);
+    }
 }
 
 namespace AI.Narratology.Hermeneutics.Thematics
 {
 
+}
+
+namespace AI.Narratology.Pragmatics
+{
+    public interface IState : ICloneable<IState>, IInvariant
+    {
+        public IKnowledgebase Content { get; }
+    }
 }
 
 namespace AI.Narratology.Stylistics
@@ -636,11 +661,6 @@ namespace AI.Narratology.Stylistics
 
 namespace AI.Planning
 {
-    public interface IState : ICloneable<IState>, IInvariant
-    {
-        public IKnowledgebase Content { get; }
-    }
-
     public interface IDomain
     {
         public IEnumerable<IOperator> Operators { get; }
@@ -648,6 +668,8 @@ namespace AI.Planning
 
     public interface IOperator : INamed
     {
+        public IDomain Domain { get; }
+
         public IEnumerable Parameters { get; }
 
         public IAction Invoke(object?[] args);
