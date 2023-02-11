@@ -4,6 +4,7 @@ using AI.Epistemology.Reasoning;
 using AI.Narratology.Annotation;
 using AI.Narratology.Events;
 using AI.Narratology.Hermeneutics;
+using AI.Narratology.Hermeneutics.Semiotics;
 using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
 using AI.Planning;
@@ -498,19 +499,18 @@ namespace AI.Narratology.Causality
 
 namespace AI.Narratology.Characters
 {
-    public interface ICharacter : IAgent
-    {
+    public interface ICharacter : IAgent { }
 
-    }
+    public interface ITrait { }
 
     public interface IModel
     {
-        public double Probability(IEvent @event, (IState State, double Weight) context);
+        public double Probability(IEvent behavior, (IState State, double Weight) context);
     }
 
     public interface ITraitBasedModel : IModel
     {
-        public IEnumerable<(object Trait, double Weight)> Traits((IState State, double Weight) context);
+        public IAlternatives<ITrait> Traits((IState State, double Weight) context);
     }
 }
 
@@ -575,19 +575,19 @@ namespace AI.Narratology.Hermeneutics.Semiotics
         public IAlternatives<TReferent> Combine(IEnumerable<IAlternatives<TReferent>> alternatives);
     }
 
-    public interface IAlternatives<TReferent> : IEnumerable<(TReferent Referent, double Weight)>
+    public interface IAlternatives<T> : IEnumerable<(T Value, double Weight)>
     {
         public bool IsReadOnly { get; }
 
-        public void Add((TReferent Referent, double Weight) alternative);
-        public void Remove((TReferent Referent, double Weight) alternative);
+        public void Add((T Value, double Weight) alternative);
+        public void Remove((T Value, double Weight) alternative);
 
         public bool SupportsFeedback { get; }
 
-        public void Increase(TReferent referent, double intensity = 0.5d);
-        public void Decrease(TReferent referent, double intensity = 0.5d);
+        public void Increase(T value, double intensity = 0.5d);
+        public void Decrease(T value, double intensity = 0.5d);
 
-        public void Select(TReferent referent, double intensity = 0.5d);
+        public void Select(T value, double intensity = 0.5d);
     }
 }
 
