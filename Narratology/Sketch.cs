@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.6
+// 0.0.4.7
 
 namespace System
 {
@@ -541,6 +541,32 @@ namespace AI.Narratology.Characters
 namespace AI.Narratology.Coherence
 {
 
+}
+
+namespace AI.Narratology.Completion
+{
+    public interface IPrediction
+    {
+        public IAlternatives<IEnumerable<IEvent>> Predict(IEnumerable<IEvent> events);
+    }
+
+    public interface IInfilling
+    {
+        public IAlternatives<IEnumerable<IEvent>> Infill(IEnumerable<IEvent> before, IEnumerable<IEvent> after);
+    }
+
+    public interface IScript : IPrediction, IInfilling
+    {
+        // https://en.wikipedia.org/wiki/Behavioral_script
+        // https://en.wikipedia.org/wiki/Schema_(psychology)
+
+        public IAlternatives<bool> Contains(IEnumerable<IEvent> events);
+    }
+
+    public interface IScriptCollection
+    {
+        public IAlternatives<IScript> Activate(IEnumerable<IEvent> events);
+    }
 }
 
 namespace AI.Narratology.Drama
