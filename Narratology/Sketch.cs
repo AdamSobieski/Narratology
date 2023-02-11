@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.3
+// 0.0.4.4
 
 namespace System
 {
@@ -542,6 +542,9 @@ namespace AI.Narratology.Events
 {
     public interface IEvent : IThing
     {
+        // https://plato.stanford.edu/entries/events/
+        // https://en.wikipedia.org/wiki/Thematic_relation
+
         public int? CompareStartToStart(IEvent other);
         public int? CompareStartToEnd(IEvent other);
         public int? CompareEndToStart(IEvent other);
