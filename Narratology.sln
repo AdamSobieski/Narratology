@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Narratology", "Narratology\Narratology.csproj", "{73AA848D-861A-4C7F-B27B-EC38C7377AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Narratology", "Narratology\Narratology.csproj", "{73AA848D-861A-4C7F-B27B-EC38C7377AF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Collections.Automata", "System.Collections.Automata\System.Collections.Automata.csproj", "{D5A5C530-383F-41CD-B454-BAC5A1564A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73AA848D-861A-4C7F-B27B-EC38C7377AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A5C530-383F-41CD-B454-BAC5A1564A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A5C530-383F-41CD-B454-BAC5A1564A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A5C530-383F-41CD-B454-BAC5A1564A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A5C530-383F-41CD-B454-BAC5A1564A5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

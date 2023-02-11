@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\System.Collections.Automata\System.Collections.Automata.csproj" />
-  </ItemGroup>
-
 </Project>

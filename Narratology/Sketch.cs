@@ -1,8 +1,8 @@
 ﻿using AI.Agents;
 using AI.Epistemology;
 using AI.Epistemology.Reasoning;
-using AI.Events;
 using AI.Narratology.Annotation;
+using AI.Narratology.Events;
 using AI.Narratology.Hermeneutics;
 using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.9
+// 0.0.4.0
 
 namespace System
 {
@@ -108,12 +108,6 @@ namespace System
 
         public void Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4);
     }
-
-    public interface IResumeable<T>
-    {
-        public T Suspend();
-        public void Resume(T state);
-    }
 }
 
 namespace System.Collections.Generic
@@ -152,60 +146,6 @@ namespace System.Collections.Generic
 
         bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
         bool TrySetValue(string key, object? value, IEnumerable justifications);
-    }
-}
-
-namespace System.Collections.Automata
-{
-
-}
-
-namespace System.Collections.Automata.Learning
-{
-
-}
-
-namespace System.Collections.Graphs
-{
-    public interface ISource<out TSource>
-    {
-        public TSource Source { get; }
-    }
-
-    public interface IDestination<out TDestination>
-    {
-        public TDestination Destination { get; }
-    }
-
-    public interface IConnection<out TConnection>
-    {
-        public TConnection Connection { get; }
-    }
-
-    public interface IEdge<out TSource, out TDestination> : ISource<TSource>, IDestination<TDestination> { }
-
-    public interface IEdge<out TSource, out TDestination, out TConnection> : IEdge<TSource, TDestination>, IConnection<TConnection> { }
-}
-
-namespace System.Collections.Trees
-{
-    public interface ITreeNode<out TNode>
-        where TNode : ITreeNode<TNode>
-    {
-        public IReadOnlyList<TNode> Children { get; }
-    }
-
-    public interface ITreeNodeParented<out TNode> : ITreeNode<TNode>
-        where TNode : ITreeNodeParented<TNode>
-    {
-        public TNode? Parent { get; }
-    }
-
-    public interface ITreeNodeSiblinged<out TNode> : ITreeNodeParented<TNode>
-        where TNode : ITreeNodeParented<TNode>
-    {
-        public TNode? PreviousSibling { get; }
-        public TNode? NextSibling { get; }
     }
 }
 
@@ -448,33 +388,6 @@ namespace AI.Epistemology.Reasoning
     }
 }
 
-namespace AI.Events
-{
-    public interface IEvent : IThing
-    {
-        public int? CompareStartToStart(IEvent other);
-        public int? CompareStartToEnd(IEvent other);
-        public int? CompareEndToStart(IEvent other);
-        public int? CompareEndToEnd(IEvent other);
-    }
-
-    public interface IEventSequence : IReadOnlyList<IEvent>, IContainer<IEvent>, IEquatable<IEventSequence> { }
-
-    public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
-    {
-        IEventSet ExceptWith(IEventSet other);
-        IEventSet IntersectWith(IEventSet other);
-        bool IsProperSubsetOf(IEventSet other);
-        bool IsProperSupersetOf(IEventSet other);
-        bool IsSubsetOf(IEventSet other);
-        bool IsSupersetOf(IEventSet other);
-        bool Overlaps(IEventSet other);
-        bool SetEquals(IEventSet other);
-        IEventSet SymmetricExceptWith(IEventSet other);
-        IEventSet UnionWith(IEventSet other);
-    }
-}
-
 namespace AI.Narratology
 {
     public interface INarrative : IThing
@@ -591,6 +504,33 @@ namespace AI.Narratology.Coherence
 namespace AI.Narratology.Drama
 {
     public interface ICharacter : IAgent { }
+}
+
+namespace AI.Narratology.Events
+{
+    public interface IEvent : IThing
+    {
+        public int? CompareStartToStart(IEvent other);
+        public int? CompareStartToEnd(IEvent other);
+        public int? CompareEndToStart(IEvent other);
+        public int? CompareEndToEnd(IEvent other);
+    }
+
+    public interface IEventSequence : IReadOnlyList<IEvent>, IContainer<IEvent>, IEquatable<IEventSequence> { }
+
+    public interface IEventSet : IContainer<IEvent>, ICountable<IEvent>, IEquatable<IEventSet>
+    {
+        IEventSet ExceptWith(IEventSet other);
+        IEventSet IntersectWith(IEventSet other);
+        bool IsProperSubsetOf(IEventSet other);
+        bool IsProperSupersetOf(IEventSet other);
+        bool IsSubsetOf(IEventSet other);
+        bool IsSupersetOf(IEventSet other);
+        bool Overlaps(IEventSet other);
+        bool SetEquals(IEventSet other);
+        IEventSet SymmetricExceptWith(IEventSet other);
+        IEventSet UnionWith(IEventSet other);
+    }
 }
 
 namespace AI.Narratology.Hermeneutics
