@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.4
+// 0.0.4.5
 
 namespace System
 {
@@ -536,6 +536,14 @@ namespace AI.Narratology.Characters
 namespace AI.Narratology.Coherence
 {
 
+}
+
+namespace AI.Narratology.Drama
+{
+    public interface IConflict
+    {
+        // https://en.wikipedia.org/wiki/Conflict_(process)
+    }
 }
 
 namespace AI.Narratology.Events
