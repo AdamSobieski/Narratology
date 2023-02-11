@@ -1,10 +1,10 @@
 ﻿using AI.Agents;
 using AI.Epistemology;
+using AI.Epistemology.Adaptation;
 using AI.Epistemology.Reasoning;
 using AI.Narratology.Annotation;
 using AI.Narratology.Events;
 using AI.Narratology.Hermeneutics;
-using AI.Narratology.Hermeneutics.Semiotics;
 using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
 using AI.Planning;
@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.2
+// 0.0.4.3
 
 namespace System
 {
@@ -336,6 +336,25 @@ namespace AI.Epistemology
     }
 }
 
+namespace AI.Epistemology.Adaptation
+{
+    public interface IAlternatives<T> : IEnumerable<(T Value, double Weight)>
+    {
+        public bool IsReadOnly { get; }
+
+        public void Add((T Value, double Weight) alternative);
+        public void Remove((T Value, double Weight) alternative);
+
+        public bool SupportsFeedback { get; }
+
+        public void Increase(T value, double intensity = 0.5d);
+        public void Decrease(T value, double intensity = 0.5d);
+
+        public void Select(T value, double intensity = 0.5d);
+        public void Select(IEnumerable<T> values, double intensity = 0.5d);
+    }
+}
+
 namespace AI.Epistemology.Argumentation
 {
     public interface IJustified<out T>
@@ -573,21 +592,6 @@ namespace AI.Narratology.Hermeneutics.Semiotics
         public IAlternatives<TReferent> Lookup((TSymbol Symbol, double Weight) input, (TState State, double Weight) context);
 
         public IAlternatives<TReferent> Combine(IEnumerable<IAlternatives<TReferent>> alternatives);
-    }
-
-    public interface IAlternatives<T> : IEnumerable<(T Value, double Weight)>
-    {
-        public bool IsReadOnly { get; }
-
-        public void Add((T Value, double Weight) alternative);
-        public void Remove((T Value, double Weight) alternative);
-
-        public bool SupportsFeedback { get; }
-
-        public void Increase(T value, double intensity = 0.5d);
-        public void Decrease(T value, double intensity = 0.5d);
-
-        public void Select(T value, double intensity = 0.5d);
     }
 }
 
