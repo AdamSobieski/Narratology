@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.5
+// 0.0.4.6
 
 namespace System
 {
@@ -366,6 +366,11 @@ namespace AI.Epistemology.Argumentation
 
 namespace AI.Epistemology.Reasoning
 {
+    public interface ILambdaGenerator : IInspectableMethod
+    {
+        public new LambdaExpression Invoke(object?[] args);
+    }
+
     public interface IConstraint : INamed, IInspectableMethod
     {
         public string Message { get; }
@@ -636,16 +641,22 @@ namespace AI.Planning
         public IEnumerable<IOperator> Operators { get; }
     }
 
-    public interface IOperator : INamed
+    public interface IOperator : INamespaceNamed
     {
         public IDomain Domain { get; }
 
-        public IEnumerable Parameters { get; }
+        public IEnumerable<IConstraint> Constraints { get; }
+
+        public bool CanInvoke(object?[] args, [NotNullWhen(false)] out Exception? reason);
 
         public IAction Invoke(object?[] args);
+
+        public IEnumerable<ILambdaGenerator>? Preconditions { get; }
+
+        public IEnumerable<ILambdaGenerator>? Effects { get; }
     }
 
-    public interface IAction : ITreeNode<IAction>, INamed
+    public interface IAction : ITreeNode<IAction>
     {
         public IOperator Operator { get; }
 
