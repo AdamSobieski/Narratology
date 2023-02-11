@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.0
+// 0.0.4.1
 
 namespace System
 {
@@ -496,14 +496,24 @@ namespace AI.Narratology.Causality
     }
 }
 
+namespace AI.Narratology.Characters
+{
+    public interface ICharacter : IAgent
+    {
+
+    }
+
+    public interface IModel
+    {
+        public IEnumerable<(object Trait, double Weight)> Traits((IState State, double Weight) context);
+
+        public double Probability(IEvent @event, (IState State, double Weight) context);
+    }
+}
+
 namespace AI.Narratology.Coherence
 {
 
-}
-
-namespace AI.Narratology.Drama
-{
-    public interface ICharacter : IAgent { }
 }
 
 namespace AI.Narratology.Events
