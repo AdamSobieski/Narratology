@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.8
+// 0.0.4.9
 
 namespace System
 {
@@ -353,6 +353,13 @@ namespace AI.Epistemology.Adaptation
         public void Select(T value, double intensity = 0.5d);
         public void Select(IEnumerable<T> values, double intensity = 0.5d);
     }
+
+    public interface ILookup<TKey, TValue, TState>
+    {
+        public IAlternatives<TValue> Lookup((TKey Key, double Weight) input, (TState State, double Weight) context);
+
+        public IAlternatives<TValue> Combine(IEnumerable<IAlternatives<TValue>> alternatives);
+    }
 }
 
 namespace AI.Epistemology.Argumentation
@@ -563,10 +570,8 @@ namespace AI.Narratology.Completion
         public IAlternatives<bool> Contains(IEnumerable<IEvent> events);
     }
 
-    public interface IScriptCollection // ILookup<IEnumerable<IEvent>, IScript, IState>
+    public interface IScriptCollection : ILookup<IEnumerable<IEvent>, IScript, IState>
     {
-        public IAlternatives<IScript> Activate(IEnumerable<IEvent> events);
-
         public IAlternatives<IEnumerable<IEvent>> Combine(IEnumerable<IAlternatives<IEnumerable<IEvent>>> alternatives);
     }
 }
@@ -631,12 +636,7 @@ namespace AI.Narratology.Hermeneutics
 
 namespace AI.Narratology.Hermeneutics.Semiotics
 {
-    public interface ILookup<TSymbol, TReferent, TState>
-    {
-        public IAlternatives<TReferent> Lookup((TSymbol Symbol, double Weight) input, (TState State, double Weight) context);
 
-        public IAlternatives<TReferent> Combine(IEnumerable<IAlternatives<TReferent>> alternatives);
-    }
 }
 
 namespace AI.Narratology.Hermeneutics.Thematics
