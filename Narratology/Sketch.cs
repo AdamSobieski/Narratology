@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.7
+// 0.0.4.8
 
 namespace System
 {
@@ -563,9 +563,11 @@ namespace AI.Narratology.Completion
         public IAlternatives<bool> Contains(IEnumerable<IEvent> events);
     }
 
-    public interface IScriptCollection
+    public interface IScriptCollection // ILookup<IEnumerable<IEvent>, IScript, IState>
     {
         public IAlternatives<IScript> Activate(IEnumerable<IEvent> events);
+
+        public IAlternatives<IEnumerable<IEvent>> Combine(IEnumerable<IAlternatives<IEnumerable<IEvent>>> alternatives);
     }
 }
 
