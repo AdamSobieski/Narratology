@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.1
+// 0.0.4.2
 
 namespace System
 {
@@ -505,9 +505,12 @@ namespace AI.Narratology.Characters
 
     public interface IModel
     {
-        public IEnumerable<(object Trait, double Weight)> Traits((IState State, double Weight) context);
-
         public double Probability(IEvent @event, (IState State, double Weight) context);
+    }
+
+    public interface ITraitBasedModel : IModel
+    {
+        public IEnumerable<(object Trait, double Weight)> Traits((IState State, double Weight) context);
     }
 }
 
