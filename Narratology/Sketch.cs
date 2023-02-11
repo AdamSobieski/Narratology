@@ -13,7 +13,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.3.8
+// 0.0.3.9
 
 namespace System
 {
@@ -156,6 +156,11 @@ namespace System.Collections.Generic
 }
 
 namespace System.Collections.Automata
+{
+
+}
+
+namespace System.Collections.Automata.Learning
 {
 
 }
