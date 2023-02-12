@@ -1,6 +1,6 @@
 ﻿namespace System.Linq
 {
-    public static class Inspectability
+    public static class Inspectable
     {
         public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> collection, IInspectableFunc<TSource, bool> predicate)
         {

@@ -9,6 +9,13 @@ namespace System
         public object? Invoke(object?[]? args);
     }
 
+    public interface IInspectableFunc<TResult> : IInspectableMethod
+    {
+        public new Expression<Func<TResult>> Expression { get; }
+
+        public TResult Invoke();
+    }
+
     public interface IInspectableFunc<T, TResult> : IInspectableMethod
     {
         public new Expression<Func<T, TResult>> Expression { get; }
@@ -63,6 +70,13 @@ namespace System
         public new Expression<Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>> Expression { get; }
 
         public TResult Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8);
+    }
+
+    public interface IInspectableAction : IInspectableMethod
+    {
+        public new Expression<Action> Expression { get; }
+
+        public void Invoke();
     }
 
     public interface IInspectableAction<T> : IInspectableMethod
