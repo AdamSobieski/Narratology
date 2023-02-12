@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.9
+// 0.0.4.10
 
 namespace System
 {
@@ -554,12 +554,12 @@ namespace AI.Narratology.Completion
 {
     public interface IPrediction
     {
-        public IAlternatives<IEnumerable<IEvent>> Predict(IEnumerable<IEvent> events);
+        public IAlternatives<IEnumerable<IEvent>> Predict(IEnumerable<IEvent> events /*, (IScope Scope, double Weight) context */);
     }
 
     public interface IInfilling
     {
-        public IAlternatives<IEnumerable<IEvent>> Infill(IEnumerable<IEvent> before, IEnumerable<IEvent> after);
+        public IAlternatives<IEnumerable<IEvent>> Infill(IEnumerable<IEvent> before, IEnumerable<IEvent> after /*, (IScope Scope, double Weight) context */);
     }
 
     public interface IScript : IPrediction, IInfilling
@@ -666,7 +666,19 @@ namespace AI.Planning
 {
     public interface IDomain
     {
+        public IEnumerable<Type> Types { get; }
         public IEnumerable<IOperator> Operators { get; }
+        public IEnumerable<Predicate> Predicates { get; }
+        // ...
+    }
+
+    public interface IProblem
+    {
+        public IDomain Domain { get; }
+        public IState InitialState { get; }
+        public IState GoalState { get; }
+        public IEnumerable Objects { get; }
+        //...
     }
 
     public interface IOperator : INamespaceNamed
