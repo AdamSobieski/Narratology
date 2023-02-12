@@ -9,9 +9,9 @@
 
 namespace System.Collections.Automata
 {
-    public interface IFunctorCollection<TInput>
+    public interface IFunctionCollection<TInput>
     {
-        public IEnumerable<IInspectableFunc<TInput, bool>> Functors { get; }
+        public IEnumerable<IInspectableFunc<TInput, bool>> Functions { get; }
     }
 }
 
