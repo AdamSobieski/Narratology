@@ -636,7 +636,7 @@ namespace AI.Narratology.Hermeneutics
 
 namespace AI.Narratology.Hermeneutics.Semiotics
 {
-
+    // interfaces moved to AI.Epistemology.Adaptation
 }
 
 namespace AI.Narratology.Hermeneutics.Thematics
