@@ -12,9 +12,10 @@ using System.Collections;
 using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.11
+// 0.0.4.12
 
 namespace System
 {
@@ -224,7 +225,10 @@ namespace AI.Epistemology
             private readonly string m_message;
 
             public string Name => m_name;
-            public string Message => m_message;
+            public string GetMessage(IFormatProvider? formatProvider)
+            {
+                return m_message;
+            }
 
             public bool Invoke(object?[] args)
             {
@@ -364,10 +368,15 @@ namespace AI.Epistemology.Adaptation
 
 namespace AI.Epistemology.Argumentation
 {
-    public interface IJustified<out T>
+    public interface IJustifiedValue<out T>
     {
         public T Value { get; }
         public IEnumerable Justifications { get; }
+    }
+
+    public interface IJustifiedComparable<in T> : IComparable<T>
+    {
+        public new IJustifiedValue<int> CompareTo(T? other);
     }
 }
 
@@ -380,7 +389,7 @@ namespace AI.Epistemology.Reasoning
 
     public interface IConstraint : INamed, IInspectableMethod
     {
-        public string Message { get; }
+        public string GetMessage(IFormatProvider? formatProvider);
 
         public new bool Invoke(object?[] args);
     }
@@ -390,7 +399,7 @@ namespace AI.Epistemology.Reasoning
     public sealed class ConstraintNotSatisfiedException : Exception
     {
         public ConstraintNotSatisfiedException(IConstraint constraint)
-            : base(constraint.Message)
+            : base(constraint.GetMessage(CultureInfo.InvariantCulture))
         {
             Constraint = constraint;
         }
@@ -458,14 +467,14 @@ namespace AI.Narratology
 
     public interface INarrator : IAgent
     {
-        public IAsyncEnumerable<ISyuzhet> Create(IFabula fabula, IStyle style, IDictionary<string, object> args);
-        public IAsyncEnumerable<INarration> Create(ISyuzhet syuzhet, IStyle style, IDictionary<string, object> args);
-        public IAsyncEnumerable<IText> Create(INarration narration, IStyle style, IDictionary<string, object> args);
+        public IAsyncEnumerable<ISyuzhet> Create(IFabula fabula, IStyle style);
+        public IAsyncEnumerable<INarration> Create(ISyuzhet syuzhet, IStyle style);
+        public IAsyncEnumerable<IText> Create(INarration narration, IStyle style);
     }
 
     public interface INarratee : IAgent
     {
-        public IAsyncEnumerable<IInterpretation> Interpret(IText text, IDictionary<string, object> args);
+        public IAsyncEnumerable<IInterpretation> Interpret(IText text);
     }
 }
 
@@ -503,12 +512,12 @@ namespace AI.Narratology.Causality
 {
     public interface ICausalReasoner : IThing
     {
-        public bool? Caused(IEnumerable<IEvent> x, IEvent y, IDictionary<string, object> args);
-        public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y, IDictionary<string, object> args)
+        public bool? Caused(IEnumerable<IEvent> x, IEvent y);
+        public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y)
         {
             foreach (var e in y)
             {
-                bool? iterand = Caused(x, e, args);
+                bool? iterand = Caused(x, e);
                 if (!iterand.HasValue)
                 {
                     return null;
@@ -712,7 +721,7 @@ namespace AI.Planning
 
     }
 
-    public interface IPlanner : IAgent
+    public interface ISolver : IAgent
     {
         public IAsyncEnumerable<IPlan> Solve(IProblem problem, CancellationToken cancellationToken = default);
     }
