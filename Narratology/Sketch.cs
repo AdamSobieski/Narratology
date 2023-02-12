@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.10
+// 0.0.4.11
 
 namespace System
 {
@@ -696,7 +696,7 @@ namespace AI.Planning
         public IEnumerable<ILambdaGenerator>? Effects { get; }
     }
 
-    public interface IAction : ITreeNode<IAction>
+    public interface IAction
     {
         public IOperator Operator { get; }
 
@@ -714,6 +714,6 @@ namespace AI.Planning
 
     public interface IPlanner : IAgent
     {
-
+        public IAsyncEnumerable<IPlan> Solve(IProblem problem, CancellationToken cancellationToken = default);
     }
 }
