@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.23
+// 0.0.4.24
 
 namespace System
 {
@@ -47,6 +47,204 @@ namespace System
     }
 
     public interface IThing : IHasProperties, IHasMetadata { }
+
+    public struct OneOf<T1, T2>
+    {
+        public OneOf(T1 value)
+        {
+            m_type = typeof(T1);
+            m_value = value;
+        }
+        public OneOf(T2 value)
+        {
+            m_type = typeof(T2);
+            m_value = value;
+        }
+
+        private Type m_type;
+        private object? m_value;
+
+        public Type GetElementType()
+        {
+            return m_type;
+        }
+        public bool TryGetValue(out T1? value)
+        {
+            if (m_type == typeof(T1))
+            {
+                value = (T1?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T2? value)
+        {
+            if (m_type == typeof(T2))
+            {
+                value = (T2?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+    }
+
+    public struct OneOf<T1, T2, T3>
+    {
+        public OneOf(T1 value)
+        {
+            m_type = typeof(T1);
+            m_value = value;
+        }
+        public OneOf(T2 value)
+        {
+            m_type = typeof(T2);
+            m_value = value;
+        }
+        public OneOf(T3 value)
+        {
+            m_type = typeof(T3);
+            m_value = value;
+        }
+
+        private Type m_type;
+        private object? m_value;
+
+        public Type GetElementType()
+        {
+            return m_type;
+        }
+        public bool TryGetValue(out T1? value)
+        {
+            if (m_type == typeof(T1))
+            {
+                value = (T1?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T2? value)
+        {
+            if (m_type == typeof(T2))
+            {
+                value = (T2?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T3? value)
+        {
+            if (m_type == typeof(T3))
+            {
+                value = (T3?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+    }
+
+    public struct OneOf<T1, T2, T3, T4>
+    {
+        public OneOf(T1 value)
+        {
+            m_type = typeof(T1);
+            m_value = value;
+        }
+        public OneOf(T2 value)
+        {
+            m_type = typeof(T2);
+            m_value = value;
+        }
+        public OneOf(T3 value)
+        {
+            m_type = typeof(T3);
+            m_value = value;
+        }
+        public OneOf(T4 value)
+        {
+            m_type = typeof(T4);
+            m_value = value;
+        }
+
+        private Type m_type;
+        private object? m_value;
+
+        public Type GetElementType()
+        {
+            return m_type;
+        }
+        public bool TryGetValue(out T1? value)
+        {
+            if (m_type == typeof(T1))
+            {
+                value = (T1?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T2? value)
+        {
+            if (m_type == typeof(T2))
+            {
+                value = (T2?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T3? value)
+        {
+            if (m_type == typeof(T3))
+            {
+                value = (T3?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+        public bool TryGetValue(out T4? value)
+        {
+            if (m_type == typeof(T4))
+            {
+                value = (T4?)m_value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+    }
 }
 
 namespace System.Collections.Generic
@@ -86,6 +284,8 @@ namespace System.Collections.Generic
         bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
         bool TrySetValue(string key, object? value, IEnumerable justifications);
     }
+
+    public interface IAnnotationInterspersedEnumerable<T, TAnnotation> : IEnumerable<OneOf<T, TAnnotation>> { }
 }
 
 namespace AI
@@ -655,7 +855,7 @@ namespace AI
 
     namespace Narratology.Hermeneutics.Semiotics
     {
-        // interfaces moved to AI.Epistemology.Adaptation
+
     }
 
     namespace Narratology.Hermeneutics.Thematics
