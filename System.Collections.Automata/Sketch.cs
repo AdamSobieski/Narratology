@@ -13,6 +13,8 @@ namespace System.Collections.Automata
     {
         public IEnumerable<IInspectableFunc<TInput, bool>> Functions { get; }
     }
+
+    // public interface IAnnotationInterspersedEnumerable<T, TAnnotation> : IEnumerable<OneOf<T, TAnnotation>> { }
 }
 
 namespace System.Collections.Automata.Learning
