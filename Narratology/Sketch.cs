@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.24
+// 0.0.4.25
 
 namespace System
 {
@@ -64,7 +64,7 @@ namespace System
         private Type m_type;
         private object? m_value;
 
-        public Type GetElementType()
+        public Type GetValueType()
         {
             return m_type;
         }
@@ -94,6 +94,11 @@ namespace System
                 return false;
             }
         }
+
+        public override int GetHashCode()
+        {
+            return m_value?.GetHashCode() ?? 0;
+        }
     }
 
     public struct OneOf<T1, T2, T3>
@@ -117,7 +122,7 @@ namespace System
         private Type m_type;
         private object? m_value;
 
-        public Type GetElementType()
+        public Type GetValueType()
         {
             return m_type;
         }
@@ -160,6 +165,11 @@ namespace System
                 return false;
             }
         }
+
+        public override int GetHashCode()
+        {
+            return m_value?.GetHashCode() ?? 0;
+        }
     }
 
     public struct OneOf<T1, T2, T3, T4>
@@ -188,7 +198,7 @@ namespace System
         private Type m_type;
         private object? m_value;
 
-        public Type GetElementType()
+        public Type GetValueType()
         {
             return m_type;
         }
@@ -243,6 +253,11 @@ namespace System
                 value = default;
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return m_value?.GetHashCode() ?? 0;
         }
     }
 }
