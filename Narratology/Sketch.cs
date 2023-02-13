@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.26
+// 0.0.4.27
 
 namespace System
 {
