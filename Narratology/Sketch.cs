@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.27
+// 0.0.4.28
 
 namespace System
 {
@@ -125,9 +125,9 @@ namespace AI
 
             public IEnumerable<IConstraint> Constraints { get; }
 
-            public bool CanInvoke(object?[] args, [NotNullWhen(false)] out Exception? reason);
+            public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason);
 
-            public IAction Invoke(object?[] args);
+            public IAction Invoke(object?[]? args);
 
             public IEnumerable<ILambdaGenerator>? Preconditions { get; }
 
