@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.30
+// 0.0.4.31
 
 namespace System
 {
@@ -181,37 +181,11 @@ namespace AI
             }
             public static bool SometimeAfter<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
-                return SometimeAfter_Inner(source, predicate1, predicate2).All(b => b);
-            }
-            private static IEnumerable<bool> SometimeAfter_Inner<T>(IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
-            {
-                int counter = 0;
-                foreach (var element in source)
-                {
-                    ++counter;
-
-                    if (predicate1(element))
-                    {
-                        yield return source.Skip(counter).Sometime(predicate2);
-                    }
-                }
+                return source.SkipWhile(x => !predicate1(x)).Any(predicate2);
             }
             public static bool SometimeBefore<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
-                return SometimeBefore_Inner(source, predicate1, predicate2).All(b => b);
-            }
-            private static IEnumerable<bool> SometimeBefore_Inner<T>(IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
-            {
-                int counter = 0;
-                foreach (var element in source)
-                {
-                    ++counter;
-
-                    if (predicate1(element))
-                    {
-                        yield return source.Take(counter - 1).Sometime(predicate2);
-                    }
-                }
+                return source.SkipWhile(x => !predicate2(x)).Any(predicate1);
             }
             public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
