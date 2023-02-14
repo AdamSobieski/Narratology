@@ -12,10 +12,9 @@ using System.Collections;
 using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.31
+// 0.0.4.32
 
 namespace System
 {
@@ -162,13 +161,13 @@ namespace AI
         {
             public static class Constraints
             {
-                public static IConstraint<IQueryable<T>> Always<T>(Expression<Func<T, bool>> predicate, string name, string message)
+                public static IConstraint<IQueryable<T>> Always<T>(Expression<Func<T, bool>> predicate, string name)
                 {
-                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Always(predicate), name, message);
+                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Always(predicate), name);
                 }
-                public static IConstraint<IQueryable<T>> Sometime<T>(Expression<Func<T, bool>> predicate, string name, string message)
+                public static IConstraint<IQueryable<T>> Sometime<T>(Expression<Func<T, bool>> predicate, string name)
                 {
-                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Sometime(predicate), name, message);
+                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Sometime(predicate), name);
                 }
 
                 //...
@@ -231,21 +230,7 @@ namespace AI
             }
             public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
-                return AlwaysWithin_Inner(source, count, predicate1, predicate2).All(b => b);
-            }
-            private static IEnumerable<bool> AlwaysWithin_Inner<T>(IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
-            {
-                int counter = 0;
-
-                foreach (var element in source)
-                {
-                    ++counter;
-
-                    if (predicate1(element))
-                    {
-                        yield return source.Skip(counter).Within(count, predicate2);
-                    }
-                }
+                throw new NotImplementedException();
             }
             public static bool HoldAfter<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate)
             {
@@ -286,7 +271,7 @@ namespace AI
                 }
                 for (int index = 0; index < length; ++index)
                 {
-                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty, $"Argument {index} was not of type {types[index].FullName}.");
+                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
                 }
             }
             public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
@@ -313,7 +298,7 @@ namespace AI
                 }
                 for (int index = 0; index < length; ++index)
                 {
-                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty, $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
+                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
                 }
             }
 
@@ -464,24 +449,18 @@ namespace AI
 
         internal class Constraint : IConstraint
         {
-            public Constraint(LambdaExpression lambda, string name, string message)
+            public Constraint(LambdaExpression lambda, string name)
             {
                 Expression = lambda;
                 m_delegate = null;
                 m_name = name;
-                m_message = message;
             }
 
             public LambdaExpression Expression { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
-            private readonly string m_message;
 
             public string Name => m_name;
-            public string GetMessage(IFormatProvider? formatProvider)
-            {
-                return m_message;
-            }
 
             public bool Invoke(object?[]? args)
             {
@@ -498,27 +477,20 @@ namespace AI
 
         internal class Constraint<T> : IConstraint<T>
         {
-            public Constraint(Expression<Func<T, bool>> lambda, string name, string message)
+            public Constraint(Expression<Func<T, bool>> lambda, string name)
             {
                 Expression = lambda;
                 m_delegate = null;
                 m_name = name;
-                m_message = message;
             }
 
             public Expression<Func<T, bool>> Expression { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
-            private readonly string m_message;
 
             public string Name => m_name;
 
             LambdaExpression IInspectableMethod.Expression => Expression;
-
-            public string GetMessage(IFormatProvider? formatProvider)
-            {
-                return m_message;
-            }
 
             public bool Invoke(object?[]? args)
             {
@@ -540,8 +512,6 @@ namespace AI
 
         public interface IConstraint : INamed, IInspectableMethod
         {
-            public string GetMessage(IFormatProvider? formatProvider);
-
             public new bool Invoke(object?[]? args);
         }
 
@@ -564,7 +534,7 @@ namespace AI
         public sealed class ConstraintNotSatisfiedException : Exception
         {
             public ConstraintNotSatisfiedException(IConstraint constraint)
-                : base(constraint.GetMessage(CultureInfo.InvariantCulture))
+                : base($"Constraint {constraint.Name} not satisfied.")
             {
                 Constraint = constraint;
             }
