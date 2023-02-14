@@ -1,7 +1,17 @@
 ﻿namespace System
 {
-    public struct OneOf<T1, T2>
+    public sealed class OneOf<T1, T2>
     {
+        public static implicit operator OneOf<T2, T1>(OneOf<T1, T2> oneof)
+        {
+            return new OneOf<T2, T1>(oneof.m_type, oneof.m_value);
+        }
+
+        internal OneOf(Type type, object? value)
+        {
+            m_type = type;
+            m_value = value;
+        }
         public OneOf(T1 value)
         {
             m_type = typeof(T1);
@@ -53,8 +63,34 @@
         }
     }
 
-    public struct OneOf<T1, T2, T3>
+    public sealed class OneOf<T1, T2, T3>
     {
+        public static implicit operator OneOf<T1, T3, T2>(OneOf<T1, T2, T3> oneof)
+        {
+            return new OneOf<T1, T3, T2>(oneof.m_type, oneof.m_value);
+        }
+        public static implicit operator OneOf<T2, T3, T1>(OneOf<T1, T2, T3> oneof)
+        {
+            return new OneOf<T2, T3, T1>(oneof.m_type, oneof.m_value);
+        }
+        public static implicit operator OneOf<T2, T1, T3>(OneOf<T1, T2, T3> oneof)
+        {
+            return new OneOf<T2, T1, T3>(oneof.m_type, oneof.m_value);
+        }
+        public static implicit operator OneOf<T3, T1, T2>(OneOf<T1, T2, T3> oneof)
+        {
+            return new OneOf<T3, T1, T2>(oneof.m_type, oneof.m_value);
+        }
+        public static implicit operator OneOf<T3, T2, T1>(OneOf<T1, T2, T3> oneof)
+        {
+            return new OneOf<T3, T2, T1>(oneof.m_type, oneof.m_value);
+        }
+
+        internal OneOf(Type type, object? value)
+        {
+            m_type = type;
+            m_value = value;
+        }
         public OneOf(T1 value)
         {
             m_type = typeof(T1);
@@ -124,8 +160,15 @@
         }
     }
 
-    public struct OneOf<T1, T2, T3, T4>
+    public sealed class OneOf<T1, T2, T3, T4>
     {
+        //...
+
+        internal OneOf(Type type, object? value)
+        {
+            m_type = type;
+            m_value = value;
+        }
         public OneOf(T1 value)
         {
             m_type = typeof(T1);
