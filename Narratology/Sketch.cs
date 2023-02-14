@@ -14,7 +14,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.33
+// 0.0.4.34
 
 namespace System
 {
@@ -32,6 +32,8 @@ namespace System
     public interface ICloneable<out T> : ICloneable
         where T : ICloneable<T>
     {
+        object ICloneable.Clone() => Clone();
+
         public new T Clone();
     }
 
@@ -101,6 +103,47 @@ namespace AI
 
     namespace Epistemology
     {
+        public sealed class Variable
+        {
+            public Variable(Type type)
+            {
+
+            }
+            public Variable(Type type, string? name)
+            {
+
+            }
+            public Variable(IEnumerable<IConstraint<object?>> constraints)
+            {
+                throw new NotImplementedException();
+            }
+            public Variable(IEnumerable<IConstraint<object?>> constraints, string? name)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<IConstraint<object?>> Constraints { get { throw new NotImplementedException(); } }
+
+            public bool CanUnify(object? arg)
+            {
+                return Constraints.All(constraint => constraint.Invoke(arg));
+            }
+            //...
+        }
+
+        public sealed class Substitution : ICloneable<Substitution>
+        {
+            public Substitution()
+            {
+
+            }
+
+            public Substitution Clone()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public sealed class Predicate : INamespaceNamed
         {
             public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
@@ -124,8 +167,6 @@ namespace AI
                 int length = types.Length;
                 List<ParameterExpression> parameters = new();
                 List<Expression> typeisexprs = new();
-                var isassignableto = typeof(Type).GetMethod("IsAssignableTo");
-                if (isassignableto == null) throw new Exception();
 
                 for (int index = 0; index < length; ++index)
                 {
@@ -134,10 +175,7 @@ namespace AI
                     typeisexprs.Add(
                         Expression.OrElse(
                             Expression.TypeIs(p, types[index]),
-                            Expression.AndAlso(
-                                Expression.TypeIs(p, typeof(ParameterExpression)),
-                                Expression.Call(Expression.PropertyOrField(Expression.Convert(p, typeof(ParameterExpression)), "Type"), isassignableto, Expression.Constant(types[index]))
-                                )
+                            Expression.TypeIs(p, typeof(Variable))
                             )
                         );
                 }
@@ -184,7 +222,7 @@ namespace AI
 
             public IEnumerable<IConstraint> Constraints { get; }
 
-            public bool CanInvoke(object?[] args, [NotNullWhen(false)] out Exception? reason)
+            public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason)
             {
                 foreach (var constraint in Constraints)
                 {
@@ -198,11 +236,11 @@ namespace AI
                 return true;
             }
 
-            public Statement Invoke(params object?[] args)
+            public Statement Invoke(params object?[]? args)
             {
                 if (CanInvoke(args, out Exception? reason))
                 {
-                    return new Statement(this, args);
+                    return new Statement(this, args ?? new object[] { });
                 }
                 else
                 {
@@ -228,6 +266,19 @@ namespace AI
                 {
                     return Predicate.CanInvoke(Arguments.ToArray(), out _);
                 }
+            }
+
+            public bool IsGround
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public bool Matches(Statement other)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -406,6 +457,18 @@ namespace AI
             public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
 
             public IKnowledgebase Bind(IKnowledgebase source);
+        }
+
+        public static class Optimization
+        {
+            public static Delegate Compile(this IEnumerable<IConstraint> constraints)
+            {
+                throw new NotImplementedException();
+            }
+            public static Func<T, bool> Compile<T>(this IEnumerable<IConstraint<T>> constraints)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 
@@ -609,16 +672,29 @@ namespace AI
         {
             public IEvent Event { get; }
 
-            public ISemantics Semantics { get; }
+            public IContent Content { get; }
 
             public IText Text { get; }
         }
 
-        public interface ISemantics : IReadOnlyDictionary<IEventSequence, IThing>
+        public interface IContent : IReadOnlyDictionary<IEventSequence, IThing>
         {
             public IThing this[params IEvent[] events]
             {
                 get;
+            }
+
+            public IEnumerable<IEventSequence> KeysStartingWith(IEvent @event)
+            {
+                return Keys.Where(k => k.Count > 0 && @event.Equals(k[0]));
+            }
+            public IEnumerable<IEventSequence> KeysEndingWith(IEvent @event)
+            {
+                return Keys.Where(k => k.Count > 0 && @event.Equals(k[k.Count - 1]));
+            }
+            public IEnumerable<IEventSequence> KeysContaining(IEvent @event)
+            {
+                return Keys.Where(k => k.Contains(@event));
             }
         }
     }

@@ -84,6 +84,11 @@ namespace System.Collections.Graphs
         {
             return Nodes.GetEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Nodes.GetEnumerator();
+        }
     }
 
     public interface IGraph<TNode, TEdge> : IIndefiniteGraph<TNode, TEdge>, ISimpleGraph<TNode>

@@ -24,7 +24,7 @@ namespace AI.AutomatedPlanning
         public IEnumerable<IConstraint<IQueryable<IState>>> Constraints { get; }
         public IEnumerable<IConstraint<IQueryable<IState>>> Preferences { get; }
 
-        //... public IInspectableFunc<IQueryable<IState>, double> Metric { get; }
+        //... public IInspectableFunc<IQueryable<IState>, IComparable> Metric { get; }
     }
 
     public interface IOperator : INamespaceNamed
@@ -48,6 +48,8 @@ namespace AI.AutomatedPlanning
     public interface IPlan //: IThing
     {
         public IEnumerable<IAction> Actions { get; }
+
+        // public IComparable Metric { get; }
     }
 
     public interface ISolver
