@@ -169,7 +169,15 @@ namespace AI
             }
             public static bool AtMostOnce<T>(this IEnumerable<T> source, Func<T, bool> predicate)
             {
-                return source.Count(predicate) <= 1;
+                int counter = 0;
+                foreach(var element in source)
+                {
+                    if (predicate(element))
+                    {
+                        if (++counter > 1) return false;
+                    }
+                }
+                return true;
             }
             public static bool AtEnd<T>(this IEnumerable<T> source, Func<T, bool> predicate)
             {
@@ -181,11 +189,37 @@ namespace AI
             }
             public static bool SometimeAfter<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
-                return source.SkipWhile(x => !predicate1(x)).Any(predicate2);
+                bool found = false;
+                foreach (var element in source)
+                {
+                    if (!found)
+                    {
+                        if (!predicate1(element)) continue;
+                        else found = true;
+                    }
+                    else
+                    {
+                        if (predicate2(element)) return true;
+                    }
+                }
+                return false;
             }
             public static bool SometimeBefore<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
-                return source.SkipWhile(x => !predicate2(x)).Any(predicate1);
+                bool found = false;
+                foreach (var element in source)
+                {
+                    if (!found)
+                    {
+                        if (predicate1(element)) return false;
+                        if (predicate2(element)) found = true;
+                    }
+                    else
+                    {
+                        if (predicate1(element)) return true;
+                    }
+                }
+                return false;
             }
             public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
