@@ -116,8 +116,8 @@ namespace AI
             public IEnumerable<IConstraint<IState>> Goal { get; } // or public IState Goal { get; } ?
             public IEnumerable Objects { get; }
 
-            public IEnumerable<IConstraint<IEnumerable<IState>>> Constraints { get; }
-            public IEnumerable<IConstraint<IEnumerable<IState>>> Preferences { get; }
+            public IEnumerable<IConstraint<IQueryable<IState>>> Constraints { get; }
+            public IEnumerable<IConstraint<IQueryable<IState>>> Preferences { get; }
 
             //...
         }
@@ -158,8 +158,22 @@ namespace AI
             public IAsyncEnumerable<IPlan> Solve(IProblem problem, CancellationToken cancellationToken = default);
         }
 
-        public static class StateTrajectoryConstraints
+        public static class StateTrajectory
         {
+            public static class Constraints
+            {
+                public static IConstraint<IQueryable<T>> Always<T>(Expression<Func<T, bool>> predicate, string name, string message)
+                {
+                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Always(predicate), name, message);
+                }
+                public static IConstraint<IQueryable<T>> Sometime<T>(Expression<Func<T, bool>> predicate, string name, string message)
+                {
+                    return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Sometime(predicate), name, message);
+                }
+
+                //...
+            }
+
             public static bool Always<T>(this IEnumerable<T> source, Func<T, bool> predicate)
             {
                 return source.All(predicate);
@@ -243,6 +257,15 @@ namespace AI
             }
 
             //...
+
+            public static bool Always<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate)
+            {
+                return source.All(predicate);
+            }
+            public static bool Sometime<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate)
+            {
+                return source.Any(predicate);
+            }
         }
     }
 
@@ -291,40 +314,6 @@ namespace AI
                 for (int index = 0; index < length; ++index)
                 {
                     yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty, $"Argument {index} was not of type {types[index].FullName} or a variable of that type.");
-                }
-            }
-
-            private class Constraint : IConstraint
-            {
-                public Constraint(LambdaExpression lambda, string name, string message)
-                {
-                    Expression = lambda;
-                    m_delegate = null;
-                    m_name = name;
-                    m_message = message;
-                }
-
-                public LambdaExpression Expression { get; }
-                private Delegate? m_delegate;
-                private readonly string m_name;
-                private readonly string m_message;
-
-                public string Name => m_name;
-                public string GetMessage(IFormatProvider? formatProvider)
-                {
-                    return m_message;
-                }
-
-                public bool Invoke(object?[]? args)
-                {
-                    if (args == null) throw new ArgumentNullException(nameof(args));
-                    m_delegate ??= Expression.Compile();
-                    return (bool)(m_delegate.DynamicInvoke(args) ?? false);
-                }
-
-                object? IInspectableMethod.Invoke(object?[]? args)
-                {
-                    return Invoke(args);
                 }
             }
 
@@ -471,6 +460,82 @@ namespace AI
         public interface ILambdaGenerator : IInspectableMethod
         {
             public new LambdaExpression Invoke(object?[]? args);
+        }
+
+        internal class Constraint : IConstraint
+        {
+            public Constraint(LambdaExpression lambda, string name, string message)
+            {
+                Expression = lambda;
+                m_delegate = null;
+                m_name = name;
+                m_message = message;
+            }
+
+            public LambdaExpression Expression { get; }
+            private Delegate? m_delegate;
+            private readonly string m_name;
+            private readonly string m_message;
+
+            public string Name => m_name;
+            public string GetMessage(IFormatProvider? formatProvider)
+            {
+                return m_message;
+            }
+
+            public bool Invoke(object?[]? args)
+            {
+                if (args == null) throw new ArgumentNullException(nameof(args));
+                m_delegate ??= Expression.Compile();
+                return (bool)(m_delegate.DynamicInvoke(args) ?? false);
+            }
+
+            object? IInspectableMethod.Invoke(object?[]? args)
+            {
+                return Invoke(args);
+            }
+        }
+
+        internal class Constraint<T> : IConstraint<T>
+        {
+            public Constraint(Expression<Func<T, bool>> lambda, string name, string message)
+            {
+                Expression = lambda;
+                m_delegate = null;
+                m_name = name;
+                m_message = message;
+            }
+
+            public Expression<Func<T, bool>> Expression { get; }
+            private Delegate? m_delegate;
+            private readonly string m_name;
+            private readonly string m_message;
+
+            public string Name => m_name;
+
+            LambdaExpression IInspectableMethod.Expression => Expression;
+
+            public string GetMessage(IFormatProvider? formatProvider)
+            {
+                return m_message;
+            }
+
+            public bool Invoke(object?[]? args)
+            {
+                if (args == null) throw new ArgumentNullException(nameof(args));
+                m_delegate ??= Expression.Compile();
+                return (bool)(m_delegate.DynamicInvoke(args) ?? false);
+            }
+
+            object? IInspectableMethod.Invoke(object?[]? args)
+            {
+                return Invoke(args);
+            }
+
+            public bool Invoke(T arg)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public interface IConstraint : INamed, IInspectableMethod
