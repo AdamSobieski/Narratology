@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
 
-// 0.0.4.28
+// 0.0.4.30
 
 namespace System
 {
@@ -107,15 +107,17 @@ namespace AI
             public IEnumerable<Type> Types { get; }
             public IEnumerable<IOperator> Operators { get; }
             public IEnumerable<Predicate> Predicates { get; }
-            // ...
         }
 
         public interface IProblem
         {
             public IDomain Domain { get; }
-            public IState InitialState { get; }
-            public IState GoalState { get; }
+            public IState Initial { get; }
+            public IEnumerable<IConstraint<IState>> Goal { get; } // or public IState Goal { get; } ?
             public IEnumerable Objects { get; }
+
+            public IEnumerable<IConstraint<IEnumerable<IState>>> Constraints { get; }
+            public IEnumerable<IConstraint<IEnumerable<IState>>> Preferences { get; }
             //...
         }
 
@@ -153,6 +155,92 @@ namespace AI
         public interface ISolver
         {
             public IAsyncEnumerable<IPlan> Solve(IProblem problem, CancellationToken cancellationToken = default);
+        }
+
+        public static class StateTrajectoryConstraints
+        {
+            public static bool Always<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+            {
+                return source.All(predicate);
+            }
+            public static bool Sometime<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+            {
+                return source.Any(predicate);
+            }
+            public static bool AtMostOnce<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+            {
+                return source.Count(predicate) <= 1;
+            }
+            public static bool AtEnd<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+            {
+                return predicate(source.Last());
+            }
+            public static bool Within<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate)
+            {
+                return source.Take(count).Any(predicate);
+            }
+            public static bool SometimeAfter<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                return SometimeAfter_Inner(source, predicate1, predicate2).All(b => b);
+            }
+            private static IEnumerable<bool> SometimeAfter_Inner<T>(IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                int counter = 0;
+                foreach (var element in source)
+                {
+                    ++counter;
+
+                    if (predicate1(element))
+                    {
+                        yield return source.Skip(counter).Sometime(predicate2);
+                    }
+                }
+            }
+            public static bool SometimeBefore<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                return SometimeBefore_Inner(source, predicate1, predicate2).All(b => b);
+            }
+            private static IEnumerable<bool> SometimeBefore_Inner<T>(IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                int counter = 0;
+                foreach (var element in source)
+                {
+                    ++counter;
+
+                    if (predicate1(element))
+                    {
+                        yield return source.Take(counter - 1).Sometime(predicate2);
+                    }
+                }
+            }
+            public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                return AlwaysWithin_Inner(source, count, predicate1, predicate2).All(b => b);
+            }
+            private static IEnumerable<bool> AlwaysWithin_Inner<T>(IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
+            {
+                int counter = 0;
+
+                foreach (var element in source)
+                {
+                    ++counter;
+
+                    if (predicate1(element))
+                    {
+                        yield return source.Skip(counter).Within(count, predicate2);
+                    }
+                }
+            }
+            public static bool HoldAfter<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate)
+            {
+                return source.Skip(count).Always(predicate);
+            }
+            public static bool HoldDuring<T>(this IEnumerable<T> source, int from, int to, Func<T, bool> predicate)
+            {
+                return source.Skip(from).Take(to - from).Always(predicate);
+            }
+
+            //...
         }
     }
 
