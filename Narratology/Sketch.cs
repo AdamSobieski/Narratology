@@ -2,6 +2,7 @@
 using AI.AutomatedPlanning;
 using AI.Epistemology;
 using AI.Epistemology.Adaptation;
+using AI.Epistemology.Constraints;
 using AI.Epistemology.Reasoning;
 using AI.Narratology.Annotation;
 using AI.Narratology.Events;
@@ -14,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.34
+// 0.0.4.35
 
 namespace System
 {
@@ -146,45 +147,6 @@ namespace AI
 
         public sealed class Predicate : INamespaceNamed
         {
-            public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
-            {
-                int length = types.Length;
-                List<ParameterExpression> parameters = new();
-                List<Expression> typeisexprs = new();
-                for (int index = 0; index < length; ++index)
-                {
-                    var p = Expression.Parameter(typeof(object));
-                    parameters.Add(p);
-                    typeisexprs.Add(Expression.TypeIs(p, types[index]));
-                }
-                for (int index = 0; index < length; ++index)
-                {
-                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
-                }
-            }
-            public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
-            {
-                int length = types.Length;
-                List<ParameterExpression> parameters = new();
-                List<Expression> typeisexprs = new();
-
-                for (int index = 0; index < length; ++index)
-                {
-                    var p = Expression.Parameter(typeof(object));
-                    parameters.Add(p);
-                    typeisexprs.Add(
-                        Expression.OrElse(
-                            Expression.TypeIs(p, types[index]),
-                            Expression.TypeIs(p, typeof(Variable))
-                            )
-                        );
-                }
-                for (int index = 0; index < length; ++index)
-                {
-                    yield return new Constraint(Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
-                }
-            }
-
             public Predicate(string @namespace, string name, int arity)
             {
                 if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
@@ -202,7 +164,7 @@ namespace AI
                 Namespace = @namespace;
                 Name = name;
                 Arity = arity;
-                Constraints = GenerateTypeOrVariableConstraints(types);
+                Constraints = Constraint.GenerateTypeOrVariableConstraints(types);
             }
             public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
             {
@@ -240,7 +202,7 @@ namespace AI
             {
                 if (CanInvoke(args, out Exception? reason))
                 {
-                    return new Statement(this, args ?? new object[] { });
+                    return new Statement(this, args ?? Array.Empty<object>());
                 }
                 else
                 {
@@ -336,15 +298,50 @@ namespace AI
         }
     }
 
-    namespace Epistemology.Reasoning
+    namespace Epistemology.Constraints
     {
-        public interface ILambdaGenerator : IInspectableMethod
-        {
-            public new LambdaExpression Invoke(object?[]? args);
-        }
-
         internal class Constraint : IConstraint
         {
+            public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
+            {
+                int length = types.Length;
+                List<ParameterExpression> parameters = new();
+                List<Expression> typeisexprs = new();
+                for (int index = 0; index < length; ++index)
+                {
+                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
+                    parameters.Add(p);
+                    typeisexprs.Add(System.Linq.Expressions.Expression.TypeIs(p, types[index]));
+                }
+                for (int index = 0; index < length; ++index)
+                {
+                    yield return new Constraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
+                }
+            }
+            public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
+            {
+                int length = types.Length;
+                List<ParameterExpression> parameters = new();
+                List<Expression> typeisexprs = new();
+
+                for (int index = 0; index < length; ++index)
+                {
+                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
+                    parameters.Add(p);
+                    typeisexprs.Add(
+                        System.Linq.Expressions.Expression.OrElse(
+                            System.Linq.Expressions.Expression.TypeIs(p, types[index]),
+                            System.Linq.Expressions.Expression.TypeIs(p, typeof(Variable))
+                            )
+                        );
+                }
+                for (int index = 0; index < length; ++index)
+                {
+                    yield return new Constraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
+                }
+            }
+
+
             public Constraint(LambdaExpression lambda, string name)
             {
                 Expression = lambda;
@@ -402,7 +399,8 @@ namespace AI
 
             public bool Invoke(T arg)
             {
-                throw new NotImplementedException();
+                m_delegate ??= Expression.Compile();
+                return ((Func<T, bool>)m_delegate!)(arg);
             }
         }
 
@@ -449,16 +447,6 @@ namespace AI
             public bool IsValid { get; }
         }
 
-        public interface IRule<TInput, TOutput> : INamed, IInspectableFunc<TInput, TOutput> { }
-
-        public interface IReasoner
-        {
-            public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
-            public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
-
-            public IKnowledgebase Bind(IKnowledgebase source);
-        }
-
         public static class Optimization
         {
             public static Delegate Compile(this IEnumerable<IConstraint> constraints)
@@ -469,6 +457,27 @@ namespace AI
             {
                 throw new NotImplementedException();
             }
+            public static Delegate CompileAssertion(this IEnumerable<IConstraint> constraints)
+            {
+                throw new NotImplementedException();
+            }
+            public static Action<T> CompileAssertion<T>(this IEnumerable<IConstraint<T>> constraints)
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
+
+    namespace Epistemology.Reasoning
+    {
+        public interface IRule<TInput, TOutput> : INamed, IInspectableFunc<TInput, TOutput> { }
+
+        public interface IReasoner
+        {
+            public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
+            public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
+
+            public IKnowledgebase Bind(IKnowledgebase source);
         }
     }
 

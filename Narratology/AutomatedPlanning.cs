@@ -1,5 +1,5 @@
 ﻿using AI.Epistemology;
-using AI.Epistemology.Reasoning;
+using AI.Epistemology.Constraints;
 using AI.Narratology.Pragmatics;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
