@@ -258,99 +258,99 @@
 
     public static class OneOf
     {
-        public static TResult Match<T1, T2, TResult>(this OneOf<T1, T2> oneof, Func<T1?, TResult> selector1, Func<T2?, TResult> selector2)
+        public static TResult Match<T1, T2, TResult>(this OneOf<T1, T2> oneof, Func<T1, TResult> selector1, Func<T2, TResult> selector2)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                return selector1(value1);
+                return selector1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                return selector2(value2);
+                return selector2(value2!);
             }
             else throw new Exception();
         }
-        public static void Switch<T1, T2>(this OneOf<T1, T2> oneof, Action<T1?> action1, Action<T2?> action2)
+        public static void Switch<T1, T2>(this OneOf<T1, T2> oneof, Action<T1> action1, Action<T2> action2)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                action1(value1);
+                action1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                action2(value2);
+                action2(value2!);
             }
             else throw new Exception();
         }
-        public static TResult Match<T1, T2, T3, TResult>(this OneOf<T1, T2, T3> oneof, Func<T1?, TResult> selector1, Func<T2?, TResult> selector2, Func<T3?, TResult> selector3)
+        public static TResult Match<T1, T2, T3, TResult>(this OneOf<T1, T2, T3> oneof, Func<T1, TResult> selector1, Func<T2, TResult> selector2, Func<T3, TResult> selector3)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                return selector1(value1);
+                return selector1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                return selector2(value2);
+                return selector2(value2!);
             }
             else if (oneof.TryGetValue(out T3? value3))
             {
-                return selector3(value3);
+                return selector3(value3!);
             }
             else throw new Exception();
         }
-        public static void Switch<T1, T2, T3>(this OneOf<T1, T2, T3> oneof, Action<T1?> action1, Action<T2?> action2, Action<T3?> action3)
+        public static void Switch<T1, T2, T3>(this OneOf<T1, T2, T3> oneof, Action<T1> action1, Action<T2> action2, Action<T3> action3)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                action1(value1);
+                action1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                action2(value2);
+                action2(value2!);
             }
             else if (oneof.TryGetValue(out T3? value3))
             {
-                action3(value3);
+                action3(value3!);
             }
             else throw new Exception();
         }
-        public static TResult Match<T1, T2, T3, T4, TResult>(this OneOf<T1, T2, T3, T4> oneof, Func<T1?, TResult> action1, Func<T2?, TResult> action2, Func<T3?, TResult> action3, Func<T4?, TResult> action4)
+        public static TResult Match<T1, T2, T3, T4, TResult>(this OneOf<T1, T2, T3, T4> oneof, Func<T1, TResult> action1, Func<T2, TResult> action2, Func<T3, TResult> action3, Func<T4, TResult> action4)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                return action1(value1);
+                return action1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                return action2(value2);
+                return action2(value2!);
             }
             else if (oneof.TryGetValue(out T3? value3))
             {
-                return action3(value3);
+                return action3(value3!);
             }
             else if (oneof.TryGetValue(out T4? value4))
             {
-                return action4(value4);
+                return action4(value4!);
             }
             else throw new Exception();
         }
-        public static void Switch<T1, T2, T3, T4>(this OneOf<T1, T2, T3, T4> oneof, Action<T1?> action1, Action<T2?> action2, Action<T3?> action3, Action<T4?> action4)
+        public static void Switch<T1, T2, T3, T4>(this OneOf<T1, T2, T3, T4> oneof, Action<T1> action1, Action<T2> action2, Action<T3> action3, Action<T4> action4)
         {
             if (oneof.TryGetValue(out T1? value1))
             {
-                action1(value1);
+                action1(value1!);
             }
             else if (oneof.TryGetValue(out T2? value2))
             {
-                action2(value2);
+                action2(value2!);
             }
             else if (oneof.TryGetValue(out T3? value3))
             {
-                action3(value3);
+                action3(value3!);
             }
             else if (oneof.TryGetValue(out T4? value4))
             {
-                action4(value4);
+                action4(value4!);
             }
             else throw new Exception();
         }

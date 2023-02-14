@@ -93,7 +93,17 @@ namespace AI.AutomatedPlanning
         }
         public static bool AtEnd<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            return predicate(source.Last());
+            bool any = false;
+            T? last = default;
+
+            foreach (var element in source)
+            {
+                any = true;
+                last = element;
+            }
+
+            if (!any) return true;
+            return predicate(last!);
         }
         public static bool Within<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate)
         {
@@ -143,7 +153,7 @@ namespace AI.AutomatedPlanning
                         index = -1;
                     }
                 }
-                else if(predicate1(element))
+                else if (predicate1(element))
                 {
                     if (index < 0)
                     {
