@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.35
+// 0.0.4.36
 
 namespace System
 {
@@ -362,7 +362,7 @@ namespace AI
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
-            object? IInspectableMethod.Invoke(object?[]? args)
+            object? IInspectableDelegate.Invoke(object?[]? args)
             {
                 return Invoke(args);
             }
@@ -383,7 +383,7 @@ namespace AI
 
             public string Name => m_name;
 
-            LambdaExpression IInspectableMethod.Expression => Expression;
+            LambdaExpression IInspectableDelegate.Expression => Expression;
 
             public bool Invoke(object?[]? args)
             {
@@ -392,7 +392,7 @@ namespace AI
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
-            object? IInspectableMethod.Invoke(object?[]? args)
+            object? IInspectableDelegate.Invoke(object?[]? args)
             {
                 return Invoke(args);
             }
@@ -404,7 +404,7 @@ namespace AI
             }
         }
 
-        public interface IConstraint : INamed, IInspectableMethod
+        public interface IConstraint : INamed, IInspectableDelegate
         {
             public new bool Invoke(object?[]? args);
         }
