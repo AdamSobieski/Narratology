@@ -24,32 +24,24 @@ namespace AI.AutomatedPlanning
         public IEnumerable<IConstraint<IQueryable<IState>>> Constraints { get; }
         public IEnumerable<IConstraint<IQueryable<IState>>> Preferences { get; }
 
-        //...
+        //... public IInspectableFunc<IQueryable<IState>, double> Metric { get; }
     }
 
     public interface IOperator : INamespaceNamed
     {
         public IDomain Domain { get; }
-
         public IEnumerable<IConstraint> Constraints { get; }
-
         public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason);
-
         public IAction Invoke(object?[]? args);
-
         public IEnumerable<ILambdaGenerator>? Preconditions { get; }
-
         public IEnumerable<ILambdaGenerator>? Effects { get; }
     }
 
     public interface IAction //: IThing
     {
         public IOperator Operator { get; }
-
         public IReadOnlyList<object?> Arguments { get; }
-
         public IEnumerable<IConstraint<IState>> Preconditions { get; }
-
         public IEnumerable<IInspectableAction<IState>> Effects { get; }
     }
 
@@ -136,7 +128,31 @@ namespace AI.AutomatedPlanning
         }
         public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
         {
-            throw new NotImplementedException();
+            int index = -1;
+            int counter = 0;
+            foreach (var element in source)
+            {
+                if (predicate2(element))
+                {
+                    if (index >= 0)
+                    {
+                        if (counter - index > count)
+                        {
+                            return false;
+                        }
+                        index = -1;
+                    }
+                }
+                else if(predicate1(element))
+                {
+                    if (index < 0)
+                    {
+                        index = counter;
+                    }
+                }
+                ++counter;
+            }
+            return index < 0;
         }
         public static bool HoldAfter<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate)
         {
