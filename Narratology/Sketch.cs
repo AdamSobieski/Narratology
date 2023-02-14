@@ -118,6 +118,7 @@ namespace AI
 
             public IEnumerable<IConstraint<IEnumerable<IState>>> Constraints { get; }
             public IEnumerable<IConstraint<IEnumerable<IState>>> Preferences { get; }
+
             //...
         }
 
@@ -136,7 +137,7 @@ namespace AI
             public IEnumerable<ILambdaGenerator>? Effects { get; }
         }
 
-        public interface IAction
+        public interface IAction //: IThing
         {
             public IOperator Operator { get; }
 
@@ -147,9 +148,9 @@ namespace AI
             public IEnumerable<IInspectableAction<IState>> Effects { get; }
         }
 
-        public interface IPlan : IThing
+        public interface IPlan //: IThing
         {
-
+            public IEnumerable<IAction> Actions { get; }
         }
 
         public interface ISolver
@@ -170,7 +171,7 @@ namespace AI
             public static bool AtMostOnce<T>(this IEnumerable<T> source, Func<T, bool> predicate)
             {
                 int counter = 0;
-                foreach(var element in source)
+                foreach (var element in source)
                 {
                     if (predicate(element))
                     {
@@ -194,15 +195,11 @@ namespace AI
                 {
                     if (!found)
                     {
-                        if (!predicate1(element)) continue;
-                        else found = true;
+                        if (predicate1(element)) found = true;
                     }
-                    else
-                    {
-                        if (predicate2(element)) return true;
-                    }
+                    else if (predicate2(element)) return true;
                 }
-                return false;
+                return !found;
             }
             public static bool SometimeBefore<T>(this IEnumerable<T> source, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
@@ -214,12 +211,9 @@ namespace AI
                         if (predicate1(element)) return false;
                         if (predicate2(element)) found = true;
                     }
-                    else
-                    {
-                        if (predicate1(element)) return true;
-                    }
+                    else break;
                 }
-                return false;
+                return true;
             }
             public static bool AlwaysWithin<T>(this IEnumerable<T> source, int count, Func<T, bool> predicate1, Func<T, bool> predicate2)
             {
