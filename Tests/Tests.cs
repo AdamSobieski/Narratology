@@ -115,7 +115,7 @@ namespace Tests
 
             public IQueryProvider Provider => m_queryable.Provider;
 
-            public bool IsValid => throw new NotImplementedException();
+            public bool IsValid => true;
 
             public IStatementCollection Clone()
             {
@@ -145,6 +145,76 @@ namespace Tests
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return m_queryable.GetEnumerator();
+            }
+        }
+
+        public class Prototype2 : IStatementCollection
+        {
+            public Prototype2(IReasoner reasoner, IStatementCollection source)
+            {
+                m_reasoner = reasoner;
+                m_source = source;
+            }
+
+            public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding => throw new NotImplementedException();
+
+            private readonly IReasoner m_reasoner;
+            private readonly IStatementCollection m_source;
+
+            public bool IsReadOnly => m_source.IsReadOnly;
+
+            public Type ElementType => m_source.ElementType;
+
+            // m_reasoner.Bind(m_source) ?
+            public Expression Expression => Expression.Constant(this);
+
+            public IQueryProvider Provider => m_source.Provider;
+
+            public bool IsValid => m_reasoner.Constraints.All(constraint => constraint.Invoke(this));
+
+            public IStatementCollection Clone()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(Statement statement)
+            {
+                return Queryable.Contains(this, statement);
+            }
+
+            public bool Contains(Statement statement, out IEnumerable? derivations)
+            {
+                throw new NotImplementedException();
+            }
+
+            private IEnumerable<Statement> Process()
+            {
+                foreach (var statement in m_source)
+                {
+                    yield return statement;
+                }
+                foreach (var rule in m_reasoner.Rules)
+                {
+                    foreach (var statement in rule.Invoke(m_source))
+                    {
+                        yield return statement;
+                    }
+                }
+            }
+
+            public IEnumerator<Statement> GetEnumerator()
+            {
+                return Process().GetEnumerator();
+            }
+
+            public void Update(IEnumerable<Statement> removals, IEnumerable<Statement> additions)
+            {
+                m_source.Update(removals, additions);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return Process().GetEnumerator();
             }
         }
 
@@ -425,7 +495,7 @@ namespace Tests
 
             var query = new Statement[] { SawUsing.Invoke(X, Y, Binoculars) };
 
-            foreach(var result in KB.Query(query))
+            foreach (var result in KB.Query(query))
             {
                 Console.WriteLine(result[X]);
                 Console.WriteLine(result[Y]);

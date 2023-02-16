@@ -14,8 +14,9 @@ using System.Collections.Graphs;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
-// 0.0.4.51
+// 0.0.4.52
 
 namespace System
 {
@@ -91,7 +92,138 @@ namespace System.Collections.Generic
 
     public interface ITrie<T>
     {
+        public interface Node
+        {
+            public IDictionary<T, Node> Children { get; }
+            public bool IsWord { get; internal set; }
+        }
 
+        protected Node Root { get; }
+
+        protected Node CreateNode();
+
+        public void Add(IEnumerable<T> source)
+        {
+            Node current = Root;
+            foreach (T element in source)
+            {
+                if (!current.Children.ContainsKey(element))
+                {
+                    Node tmp = CreateNode();
+                    current.Children.Add(element, tmp);
+                }
+                current = current.Children[element];
+            }
+            current.IsWord = true;
+        }
+        public bool Contains(IEnumerable<T> source)
+        {
+            Node current = Root;
+            foreach (T element in source)
+            {
+                if (current.Children.ContainsKey(element))
+                {
+                    current = current.Children[element];
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return current.IsWord;
+        }
+        public void Remove(IEnumerable<T> source)
+        {
+            Remove(Root, source, 0);
+        }
+        private bool Remove(Node current, IEnumerable<T> word, int depth)
+        {
+            if (depth == word.Count())
+            {
+                current.IsWord = false;
+            }
+            else
+            {
+                T child = word.ElementAt(depth);
+                if (current.Children.ContainsKey(child))
+                {
+                    if (Remove(current.Children[child], word, depth + 1) == false)
+                    {
+                        current.Children.Remove(child);
+                    }
+                }
+            }
+            if (current.Children.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public IEnumerable<IEnumerable<T>> StartsWith(IEnumerable<T> source)
+        {
+            List<IEnumerable<T>> res = new List<IEnumerable<T>>();
+
+            Node current = Root;
+
+            foreach (T child in source)
+            {
+                if (current.Children.ContainsKey(child))
+                {
+                    current = current.Children[child];
+                }
+                else
+                {
+                    return res;
+                }
+            }
+            StartsWith(current, source, res);
+            return res;
+        }
+        private void StartsWith(Node current, IEnumerable<T> source, List<IEnumerable<T>> words)
+        {
+            if (current.IsWord)
+            {
+                words.Add(source);
+            }
+            foreach (T key in current.Children.Keys)
+            {
+                StartsWith(current.Children[key], source.Append(key), words);
+            }
+        }
+        public IEnumerable<IEnumerable<T>> StartsWith2(IEnumerable<T> source)
+        {
+            Node current = Root;
+
+            foreach (T child in source)
+            {
+                if (current.Children.ContainsKey(child))
+                {
+                    current = current.Children[child];
+                }
+                else
+                {
+                    yield break;
+                }
+            }
+            foreach (var word in StartsWith2(current, source))
+            {
+                yield return word;
+            }
+        }
+        private IEnumerable<IEnumerable<T>> StartsWith2(Node current, IEnumerable<T> source)
+        {
+            if (current.IsWord)
+            {
+                yield return source;
+            }
+            foreach (T key in current.Children.Keys)
+            {
+                foreach (var word in StartsWith2(current.Children[key], source.Append(key)))
+                {
+                    yield return word;
+                }
+            }
+        }
     }
 }
 
@@ -139,6 +271,7 @@ namespace AI
             public IEnumerable<IConstraint<object?>> Constraints { get; }
             private readonly string? m_name;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
                 if (!Constraints.All(constraint => constraint.Invoke(other))) return false;
@@ -186,6 +319,8 @@ namespace AI
                     }
                 }
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
                 if (object.ReferenceEquals(this, variable)) return true;
@@ -293,10 +428,13 @@ namespace AI
                 }
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
                 return false;
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
                 if (other is Variable v)
@@ -366,15 +504,19 @@ namespace AI
                 }
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Matches(Statement other)
             {
                 return ((ITerm)this).Unify(other, new Dictionary<Variable, object?>(0));
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Matches(Statement other, IDictionary<Variable, object?> substitutions)
             {
                 return ((ITerm)this).Unify(other, substitutions);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
                 if (object.ReferenceEquals(Predicate, variable)) return true;
@@ -388,6 +530,8 @@ namespace AI
                 }
                 return false;
             }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
                 if (other == null) return false;
@@ -456,7 +600,7 @@ namespace AI
             {
                 int count = query.Count;
 
-                var structure = new EnumerationStructure();
+                var structure = new EnumerationStructure(count);
 
                 if (count <= 0)
                 {
@@ -466,10 +610,10 @@ namespace AI
                 {
                     foreach (var statement in this)
                     {
-                        structure.Set(0, statement);
-                        if(structure.Matches(query))
+                        structure = structure.Set(0, statement);
+                        if (structure.Matches(query))
                         {
-                            if(clone)
+                            if (clone)
                             {
                                 yield return structure.Clone();
                             }
@@ -487,7 +631,7 @@ namespace AI
 
                     if (count == 2)
                     {
-                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Clear().Set(0, _1).Set(1, _2));
+                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Set(0, _1).Set(1, _2).Clear());
                     }
                     else
                     {
@@ -499,10 +643,10 @@ namespace AI
                             integer = index;
                             queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(integer, _x));
                         }
-                        
+
                         int counter = new();
                         counter = count - 1;
-                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Clear().Set(counter, _x));
+                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(counter, _x).Clear());
                     }
 
                     queryable = queryable.Where(iteration => iteration.Matches(query));
@@ -529,27 +673,32 @@ namespace AI
         }
 
         // to do: optimize
-        internal class EnumerationStructure : IStatementCollection.IQueryResult
+        internal sealed class EnumerationStructure : IStatementCollection.IQueryResult
         {
-            public EnumerationStructure()
+            public EnumerationStructure(int count)
             {
-                m_statements = new List<Statement>();
+                m_statements = new Statement[count];
                 m_substitutions = new Dictionary<Variable, object?>();
+            }
+            public EnumerationStructure(Statement[] statements, IDictionary<Variable, object?> substitutions)
+            {
+                m_statements = statements;
+                m_substitutions = substitutions;
             }
             public EnumerationStructure(Statement _1, IDictionary<Variable, object?> substitutions)
             {
-                m_statements = new List<Statement> { _1 };
+                m_statements = new Statement[] { _1 };
                 m_substitutions = substitutions;
             }
 
-            private List<Statement> m_statements;
+            private Statement[] m_statements;
             private IDictionary<Variable, object?> m_substitutions;
 
             public IEnumerable<Variable> Keys => m_substitutions?.Keys ?? Enumerable.Empty<Variable>();
 
             public IEnumerable<object?> Values => m_substitutions?.Values ?? Enumerable.Empty<object?>();
 
-            public int Count => m_statements.Count;
+            public int Count => m_statements.Length;
 
             public Statement this[int index] => m_statements[index];
 
@@ -567,7 +716,7 @@ namespace AI
 
             public IEnumerator<Statement> GetEnumerator()
             {
-                return m_statements.GetEnumerator();
+                return m_statements.AsEnumerable().GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -575,10 +724,11 @@ namespace AI
                 return m_statements.GetEnumerator();
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool Matches(IReadOnlyList<Statement> query)
             {
                 int count = query.Count;
-                if (count != m_statements.Count) throw new ArgumentException();
+                if (count != m_statements.Length) throw new ArgumentException();
 
                 for (int index = 0; index < count; ++index)
                 {
@@ -588,27 +738,14 @@ namespace AI
                 return true;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public EnumerationStructure Set(int index, Statement _x)
             {
-                if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
-
-                int count = m_statements.Count;
-
-                if (index < count)
-                {
-                    m_statements[index] = _x;
-                }
-                else if (index == count)
-                {
-                    m_statements.Add(_x);
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                }
+                m_statements[index] = _x;
                 return this;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public EnumerationStructure Clear()
             {
                 m_substitutions.Clear();
@@ -617,7 +754,7 @@ namespace AI
 
             public EnumerationStructure Clone()
             {
-                return new EnumerationStructure { m_statements = new(this.m_statements), m_substitutions = new Dictionary<Variable, object?>(this.m_substitutions) };
+                return new EnumerationStructure((Statement[])m_statements.Clone(), new Dictionary<Variable, object?>(m_substitutions));
             }
         }
     }
