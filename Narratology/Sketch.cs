@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.36
+// 0.0.4.40
 
 namespace System
 {
@@ -65,8 +65,8 @@ namespace System.Collections.Generic
 
     public interface IDelta<out T>
     {
-        IEnumerable<T> Add { get; }
-        IEnumerable<T> Remove { get; }
+        IEnumerable<T> Additions { get; }
+        IEnumerable<T> Removals { get; }
     }
 
     public interface ISimilarity<in T>
@@ -96,7 +96,7 @@ namespace AI
     {
         public interface IAgent : IThing
         {
-            public IKnowledgebase Beliefs { get; }
+            public IStatementCollection Beliefs { get; }
             public IEnumerable Desires { get; }
             public IEnumerable Intentions { get; }
         }
@@ -104,48 +104,141 @@ namespace AI
 
     namespace Epistemology
     {
-        public sealed class Variable
+        internal interface ITerm
         {
+            public bool CanUnify(object? other, IDictionary<Variable, object?> substititions);
+            public bool Unify(object? other, IDictionary<Variable, object?> substitutions);
+            public bool Contains(Variable variable, IDictionary<Variable, object?> substitutions);
+            public bool Replace(IDictionary<Variable, object?> substitutions, out object? value);
+        }
+
+        public sealed class Variable : ITerm
+        {
+            public Variable()
+            {
+                Constraints = Array.Empty<IConstraint<object?>>();
+            }
             public Variable(Type type)
             {
-
+                Constraints = Constraint.GenerateTypeOrVariableConstraints<object?>(new Type[] { type });
             }
             public Variable(Type type, string? name)
             {
-
+                Constraints = Constraint.GenerateTypeOrVariableConstraints<object?>(new Type[] { type });
             }
             public Variable(IEnumerable<IConstraint<object?>> constraints)
             {
-                throw new NotImplementedException();
+                Constraints = constraints;
             }
             public Variable(IEnumerable<IConstraint<object?>> constraints, string? name)
             {
-                throw new NotImplementedException();
+                Constraints = constraints;
             }
 
-            public IEnumerable<IConstraint<object?>> Constraints { get { throw new NotImplementedException(); } }
+            public IEnumerable<IConstraint<object?>> Constraints { get; }
 
-            public bool CanUnify(object? arg)
+            public bool CanUnify(object? other)
             {
-                return Constraints.All(constraint => constraint.Invoke(arg));
+                return Constraints.All(constraint => constraint.Invoke(other));
             }
+
+            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
+            {
+                if (substititions.TryGetValue(this, out object? value))
+                {
+                    // if (!CanUnify(other)) return false;
+
+                    if (value is ITerm otherTerm)
+                    {
+                        return otherTerm.CanUnify(other, substititions);
+                    }
+                    else
+                    {
+                        return object.Equals(other, value);
+                    }
+                }
+                else
+                {
+                    return Constraints.All(constraint => constraint.Invoke(other));
+                }
+            }
+            bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
+            {
+                if (!((ITerm)this).CanUnify(other, substitutions)) return false;
+
+                if (other is ITerm term)
+                {
+                    if (object.ReferenceEquals(this, term))
+                    {
+                        return true;
+                    }
+
+                    if (substitutions.TryGetValue(this, out object? value))
+                    {
+                        if (value is ITerm otherTerm)
+                        {
+                            return otherTerm.Unify(term, substitutions);
+                        }
+                    }
+
+                    if (term.Contains(this, substitutions))
+                    {
+                        return false;
+                    }
+
+                    substitutions.Add(this, term);
+                    return true;
+                }
+                else
+                {
+                    if (substitutions.TryGetValue(this, out object? value))
+                    {
+                        if (value is ITerm otherTerm)
+                        {
+                            return otherTerm.Unify(other, substitutions);
+                        }
+                        else
+                        {
+                            substitutions.Add(this, other);
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        substitutions.Add(this, other);
+                        return true;
+                    }
+                }
+            }
+            bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
+            {
+                if (object.ReferenceEquals(this, variable)) return true;
+
+                if (substitutions.TryGetValue(this, out object? value))
+                {
+                    if (value is ITerm otherTerm)
+                    {
+                        return otherTerm.Contains(variable, substitutions);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
+            {
+                return substitutions.TryGetValue(this, out value);
+            }
+
             //...
         }
 
-        public sealed class Substitution : ICloneable<Substitution>
-        {
-            public Substitution()
-            {
-
-            }
-
-            public Substitution Clone()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public sealed class Predicate : INamespaceNamed
+        public sealed class Predicate : INamespaceNamed, ITerm
         {
             public Predicate(string @namespace, string name, int arity)
             {
@@ -186,18 +279,28 @@ namespace AI
 
             public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason)
             {
-                foreach (var constraint in Constraints)
+                try
                 {
-                    if (!constraint.Invoke(args))
-                    {
-                        reason = new ConstraintNotSatisfiedException(constraint);
-                        return false;
-                    }
-                }
-                reason = null;
-                return true;
-            }
+                    if (args == null) throw new ArgumentNullException(nameof(args));
+                    if (args.Length != Arity) throw new ArgumentException($"Expected {Arity} arguments in array.", nameof(args));
 
+                    foreach (var constraint in Constraints)
+                    {
+                        if (!constraint.Invoke(args))
+                        {
+                            reason = new ConstraintNotSatisfiedException(constraint);
+                            return false;
+                        }
+                    }
+                    reason = null;
+                    return true;
+                }
+                catch(Exception error)
+                {
+                    reason = error;
+                    return false;
+                }
+            }
             public Statement Invoke(params object?[]? args)
             {
                 if (CanInvoke(args, out Exception? reason))
@@ -209,52 +312,154 @@ namespace AI
                     throw reason;
                 }
             }
+
+            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
+            {
+                return object.Equals(this, other);
+            }
+            bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
+            {
+                return false;
+            }
+            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
+            {
+                value = null;
+                return false;
+            }
+            bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
+            {
+                return object.Equals(this, other);
+            }
         }
 
-        public sealed class Statement : IInvariant
+        public sealed class Statement : ITerm
         {
+            static Predicate s_and = new Predicate("AI.Epistemology", "And", 2);
+            static Predicate s_or = new Predicate("AI.Epistemology", "Or", 2);
+            static Predicate s_not = new Predicate("AI.Epistemology", "Not", 1);
+
+            public static Statement And(object? x, object? y)
+            {
+                return s_and.Invoke(x, y);
+            }
+            public static Statement Or(object? x, object? y)
+            {
+                return s_or.Invoke(x, y);
+            }
+            public static Statement Not(object? x)
+            {
+                return s_not.Invoke(x);
+            }
+
+            internal Statement(Variable predicate, object?[] args)
+            {
+                Predicate = predicate;
+                Arguments = args;
+            }
             internal Statement(Predicate predicate, object?[] args)
             {
                 Predicate = predicate;
                 Arguments = args;
             }
 
-            public Predicate Predicate { get; }
+            public object Predicate { get; }
             public IReadOnlyList<object?> Arguments { get; }
-
-            public bool IsValid
-            {
-                get
-                {
-                    return Predicate.CanInvoke(Arguments.ToArray(), out _);
-                }
-            }
 
             public bool IsGround
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    if (Predicate is Variable) return false;
+                    int count = Arguments.Count;
+                    for (int index = 0; index < count; ++index)
+                    {
+                        var a = Arguments[index];
+
+                        if (a is Statement s)
+                        {
+                            if (!s.IsGround) return false;
+                        }
+                        else if (a is Variable v)
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
                 }
             }
 
             public bool Matches(Statement other)
             {
+                return ((ITerm)this).CanUnify(other, new Dictionary<Variable, object?>(0));
+            }
+            public bool Matches(Statement other, IDictionary<Variable, object?> substitutions)
+            {
+                return ((ITerm)this).CanUnify(other, substitutions);
+            }
+
+            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
+            {
+                if (other == null) return false;
+
+                if (other is Variable v)
+                {
+                    return ((ITerm)v).CanUnify(this, substititions);
+                }
+                else if (other is Statement s)
+                {
+                    int count = this.Arguments.Count;
+                    if (count != s.Arguments.Count) return false;
+
+                    if (!((ITerm)Predicate).CanUnify(s.Predicate, substititions)) return false;
+                    for (int index = 0; index < count; ++index)
+                    {
+                        var a = this.Arguments[index];
+                        if (a is ITerm term)
+                        {
+                            if (!term.CanUnify(s.Arguments[index], substititions)) return false;
+                        }
+                        else
+                        {
+                            if (object.Equals(a, s.Arguments[index])) return false;
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
+            {
+                throw new NotImplementedException();
+            }
+            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
+            {
+                throw new NotImplementedException();
+            }
+            bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
+            {
                 throw new NotImplementedException();
             }
         }
 
-        public interface IKnowledgebase : ICloneable<IKnowledgebase>, IInvariant, IQueryable<Statement>
+        public interface IStatementCollection : IQueryable<Statement>, IInvariant, ICloneable<IStatementCollection>
         {
-            public IEdge<IKnowledgebase, IKnowledgebase, IReasoner>? Binding { get; }
+            public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding { get; }
 
             public bool Contains(Statement expression);
             public bool Contains(Statement expression, out IEnumerable derivations);
 
+            public IEnumerable<IEnumerable<Statement>> Query(IEnumerable<Statement> query);
+
             public bool IsReadOnly { get; }
 
-            public void Update(IDelta<Statement> delta);
-            public void Update(IEnumerable<Statement> remove, IEnumerable<Statement> add);
+            public void Update(IDelta<Statement> delta)
+            {
+                Update(delta.Removals, delta.Additions);
+            }
+            public void Update(IEnumerable<Statement> removals, IEnumerable<Statement> additions);
         }
     }
 
@@ -338,6 +543,28 @@ namespace AI
                 for (int index = 0; index < length; ++index)
                 {
                     yield return new Constraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
+                }
+            }
+            public static IEnumerable<IConstraint<T>> GenerateTypeOrVariableConstraints<T>(Type[] types)
+            {
+                int length = types.Length;
+                List<ParameterExpression> parameters = new();
+                List<Expression> typeisexprs = new();
+
+                for (int index = 0; index < length; ++index)
+                {
+                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
+                    parameters.Add(p);
+                    typeisexprs.Add(
+                        System.Linq.Expressions.Expression.OrElse(
+                            System.Linq.Expressions.Expression.TypeIs(p, types[index]),
+                            System.Linq.Expressions.Expression.TypeIs(p, typeof(Variable))
+                            )
+                        );
+                }
+                for (int index = 0; index < length; ++index)
+                {
+                    yield return new Constraint<T>(System.Linq.Expressions.Expression.Lambda<Func<T, bool>>(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
                 }
             }
 
@@ -477,7 +704,7 @@ namespace AI
             public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
             public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
 
-            public IKnowledgebase Bind(IKnowledgebase source);
+            public IStatementCollection Bind(IStatementCollection source);
         }
     }
 
@@ -720,9 +947,15 @@ namespace AI
 
     namespace Narratology.Pragmatics
     {
-        public interface IState : ICloneable<IState>, IInvariant
+        public interface IState : /*ICloneable<IState>,*/ IInvariant
         {
-            public IKnowledgebase Content { get; }
+            public IStatementCollection Content { get; }
+
+            public bool TryGetNext(IDelta<Statement> delta, out IState? state)
+            {
+                return TryGetNext(delta.Removals, delta.Additions, out state);
+            }
+            public bool TryGetNext(IEnumerable<Statement> removals, IEnumerable<Statement> additions, out IState? state);
         }
     }
 
@@ -730,7 +963,7 @@ namespace AI
     {
         public interface IStyle : IThing
         {
-            public IKnowledgebase Content { get; }
+            public IStatementCollection Content { get; }
 
             public object? GetTechnique(Type techniqueType);
         }

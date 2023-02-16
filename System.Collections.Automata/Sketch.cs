@@ -9,16 +9,7 @@
 
 namespace System.Collections.Automata
 {
-    public interface IInspectableFunctionCollection<TInput>
-    {
-        public IEnumerable<IInspectableFunc<TInput, bool>> Functions { get; }
-    }
-
-    // public interface IInterleavedEnumerable<T1, T2> : IEnumerable<OneOf<T1, T2>> { }
-
-    // public interface IInterleavedEnumerable<T1, T2, T3> : IEnumerable<OneOf<T1, T2, T3>> { }
-
-    // public interface IInterleavedEnumerable<T1, T2, T3, T4> : IEnumerable<OneOf<T1, T2, T3, T4>> { }
+    // public interface IInspectableFunctionCollection<TInput> : IEnumerable<IInspectableFunc<TInput, bool>> { }
 }
 
 namespace System.Collections.Automata.Learning

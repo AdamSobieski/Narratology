@@ -5,9 +5,11 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Narratology", "Narratology\Narratology.csproj", "{73AA848D-861A-4C7F-B27B-EC38C7377AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Collections.Automata", "System.Collections.Automata\System.Collections.Automata.csproj", "{D5A5C530-383F-41CD-B454-BAC5A1564A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Collections.Automata", "System.Collections.Automata\System.Collections.Automata.csproj", "{D5A5C530-383F-41CD-B454-BAC5A1564A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Inspectability", "System.Inspectability\System.Inspectability.csproj", "{CE4E9A2F-69A8-4D41-8707-D0332D536025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Inspectability", "System.Inspectability\System.Inspectability.csproj", "{CE4E9A2F-69A8-4D41-8707-D0332D536025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{744A3399-32D6-420B-A34B-B057FCCFD88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CE4E9A2F-69A8-4D41-8707-D0332D536025}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE4E9A2F-69A8-4D41-8707-D0332D536025}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE4E9A2F-69A8-4D41-8707-D0332D536025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{744A3399-32D6-420B-A34B-B057FCCFD88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744A3399-32D6-420B-A34B-B057FCCFD88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744A3399-32D6-420B-A34B-B057FCCFD88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744A3399-32D6-420B-A34B-B057FCCFD88E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

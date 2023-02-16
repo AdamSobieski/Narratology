@@ -43,6 +43,7 @@ namespace AI.AutomatedPlanning
         public IReadOnlyList<object?> Arguments { get; }
         public IEnumerable<IConstraint<IState>> Preconditions { get; }
         public IEnumerable<IInspectableAction<IState>> Effects { get; }
+        // public IComparable Cost { get; }
     }
 
     public interface IPlan //: IThing
