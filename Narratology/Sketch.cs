@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.40
+// 0.0.4.41
 
 namespace System
 {
@@ -144,10 +144,10 @@ namespace AI
 
             bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
             {
+                if (!CanUnify(other)) return false;
+
                 if (substititions.TryGetValue(this, out object? value))
                 {
-                    // if (!CanUnify(other)) return false;
-
                     if (value is ITerm otherTerm)
                     {
                         return otherTerm.CanUnify(other, substititions);
@@ -446,12 +446,23 @@ namespace AI
 
         public interface IStatementCollection : IQueryable<Statement>, IInvariant, ICloneable<IStatementCollection>
         {
+            public interface IQueryResult : IEnumerable<Statement>
+            {
+                object? this[Variable key] { get; }
+
+                IEnumerable<Variable> Keys { get; }
+                IEnumerable<object?> Values { get; }
+
+                bool ContainsKey(Variable key);
+                bool TryGetValue(Variable key, [MaybeNullWhen(false)] out object? value);
+            }
+
             public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding { get; }
 
             public bool Contains(Statement expression);
             public bool Contains(Statement expression, out IEnumerable derivations);
 
-            public IEnumerable<IEnumerable<Statement>> Query(IEnumerable<Statement> query);
+            public IEnumerable<IQueryResult> Query(IEnumerable<Statement> query);
 
             public bool IsReadOnly { get; }
 
