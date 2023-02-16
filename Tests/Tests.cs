@@ -54,7 +54,37 @@ namespace Tests
         [Test]
         public void Test2()
         {
+            Predicate P1 = new("Tests", nameof(P1), 3);
+            Predicate P2 = new("Tests", nameof(P2), 2);
+            Predicate P3 = new("Tests", nameof(P3), 2);
 
+            Variable x = new(nameof(x));
+            Variable y = new(nameof(y));
+            Variable z = new(nameof(z));
+
+            var s1 = P1.Invoke(123, P2.Invoke(234, 345), P2.Invoke(345, 456));
+            var s2 = P1.Invoke(123, P2.Invoke(234, x), P2.Invoke(x, 456));
+            var s3 = P1.Invoke(123, P2.Invoke(234, x), P2.Invoke(345, x));
+            var s4 = P1.Invoke(123, x, P2.Invoke(345, 456));
+
+            Assert.IsTrue(s1.IsGround);
+            Assert.IsFalse(s2.IsGround);
+            Assert.IsFalse(s3.IsGround);
+
+            Assert.IsTrue(s1.Matches(s2));
+            Assert.IsTrue(s2.Matches(s1));
+
+            Assert.IsFalse(s1.Matches(s3));
+            Assert.IsFalse(s3.Matches(s1));
+
+            Assert.IsFalse(s2.Matches(s3));
+            Assert.IsFalse(s3.Matches(s2));
+
+            Assert.IsTrue(s1.Matches(s4));
+            Assert.IsTrue(s4.Matches(s1));
+
+            Assert.IsFalse(s3.Matches(s4));
+            Assert.IsFalse(s4.Matches(s3));
         }
     }
 

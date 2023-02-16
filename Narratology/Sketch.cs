@@ -375,10 +375,23 @@ namespace AI
             {
                 return ((ITerm)this).Unify(other, new Dictionary<Variable, object?>(0));
             }
+            public bool Matches(Statement other, IDictionary<Variable, object?> substitutions)
+            {
+                return ((ITerm)this).Unify(other, substitutions);
+            }
 
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
-                throw new NotImplementedException();
+                if (object.ReferenceEquals(Predicate, variable)) return true;
+                int count = Arguments.Count;
+                for(int index = 0; index < count; ++index)
+                {
+                    if (Arguments[index] is ITerm term)
+                    {
+                        if (term.Contains(variable, substitutions)) return true;
+                    }
+                }
+                return false;
             }
             bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
             {
