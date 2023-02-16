@@ -221,14 +221,11 @@ namespace Tests
                 Knows.Invoke(Yelena, Douglas)
             });
 
-            var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };
+            var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Charlie) };
 
             foreach (var result in KB.Query(query))
             {
                 Console.WriteLine(result[X]);
-                Console.WriteLine(result[Y]);
-                Console.WriteLine(result[Z]);
-                Console.WriteLine(result[W]);
                 Console.WriteLine();
             }
         }
@@ -244,10 +241,8 @@ namespace Tests
             var Douglas = "Douglas";
             var Edward = "Edward";
             var Frank = "Frank";
-            var Hubert = "Hubert";
             var Xavier = "Xavier";
             var Yelena = "Yelena";
-            var Wilma = "Wilma";
 
             Variable X = new(nameof(X));
             Variable Y = new(nameof(Y));
@@ -256,45 +251,156 @@ namespace Tests
 
             IStatementCollection KB = new Prototype(new Statement[]
             {
-                Knows.Invoke(Yelena, Douglas),
-                Knows.Invoke(Charlie, Douglas),
-                Knows.Invoke(Douglas, Edward),
-
                 Knows.Invoke(Alice, Bob),
                 Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Charlie, Douglas),
+                Knows.Invoke(Douglas, Edward),
                 Knows.Invoke(Edward, Frank),
 
                 Knows.Invoke(Alice, Xavier),
                 Knows.Invoke(Xavier, Yelena),
-
-                Knows.Invoke(Alice, Wilma),
-                Knows.Invoke(Wilma, Douglas),
-                Knows.Invoke(Douglas, Charlie),
-                Knows.Invoke(Charlie, Hubert),
-                Knows.Invoke(Hubert, Frank),
+                Knows.Invoke(Yelena, Douglas)
             });
 
             var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };
 
             foreach (var result in KB.Query(query))
             {
-                try
-                {
-                    Console.WriteLine(result[X]);
-                    Console.WriteLine(result[Y]);
-                    Console.WriteLine(result[Z]);
-                    Console.WriteLine(result[W]);
-                }
-                catch
-                {
-                    Console.WriteLine("Error");
-                }
+                Console.WriteLine(result[X]);
+                Console.WriteLine(result[Y]);
+                Console.WriteLine(result[Z]);
+                Console.WriteLine(result[W]);
                 Console.WriteLine();
             }
         }
 
         [Test]
         public void Test4()
+        {
+            Predicate Knows = new("Tests", nameof(Knows), 2);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+            var Charlie = "Charlie";
+            var Douglas = "Douglas";
+            var Edward = "Edward";
+            var Frank = "Frank";
+            var Glen = "Glen";
+            var Hubert = "Hubert";
+            var Xavier = "Xavier";
+            var Yelena = "Yelena";
+            var Zack = "Zack";
+            var Wilma = "Wilma";
+
+            Variable A = new(nameof(A));
+            Variable B = new(nameof(B));
+            Variable C = new(nameof(C));
+            Variable D = new(nameof(D));
+            Variable E = new(nameof(E));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                Knows.Invoke(Zack, Charlie),
+                Knows.Invoke(Douglas, Hubert),
+                Knows.Invoke(Yelena, Douglas),
+                Knows.Invoke(Douglas, Edward),
+
+                Knows.Invoke(Charlie, Douglas),
+
+                Knows.Invoke(Alice, Bob),
+                Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Edward, Frank),
+                Knows.Invoke(Edward, Charlie),
+
+                Knows.Invoke(Alice, Xavier),
+                Knows.Invoke(Xavier, Yelena),
+                Knows.Invoke(Yelena, Zack),
+
+                Knows.Invoke(Alice, Wilma),
+                Knows.Invoke(Wilma, Douglas),
+                Knows.Invoke(Charlie, Hubert),
+                Knows.Invoke(Hubert, Frank),
+                Knows.Invoke(Frank, Glen)
+            });
+
+            var query = new Statement[] { Knows.Invoke(A, B), Knows.Invoke(B, C), Knows.Invoke(C, D), Knows.Invoke(D, E), Knows.Invoke(E, Frank) };
+
+            foreach (var result in KB.Query(query))
+            {
+                Console.WriteLine(result[A]);
+                Console.WriteLine(result[B]);
+                Console.WriteLine(result[C]);
+                Console.WriteLine(result[D]);
+                Console.WriteLine(result[E]);
+
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void Test5()
+        {
+            Predicate Knows = new("Tests", nameof(Knows), 2);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+            var Charlie = "Charlie";
+            var Douglas = "Douglas";
+            var Edward = "Edward";
+            var Frank = "Frank";
+            var Glen = "Glen";
+            var Hubert = "Hubert";
+            var Xavier = "Xavier";
+            var Yelena = "Yelena";
+            var Zack = "Zack";
+            var Wilma = "Wilma";
+
+            Variable A = new(nameof(A));
+            Variable B = new(nameof(B));
+            Variable C = new(nameof(C));
+            Variable D = new(nameof(D));
+            Variable E = new(nameof(E));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                Knows.Invoke(Zack, Charlie),
+                Knows.Invoke(Douglas, Hubert),
+                Knows.Invoke(Yelena, Douglas),
+                Knows.Invoke(Douglas, Edward),
+
+                Knows.Invoke(Charlie, Douglas),
+
+                Knows.Invoke(Alice, Bob),
+                Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Edward, Frank),
+                Knows.Invoke(Edward, Charlie),
+
+                Knows.Invoke(Alice, Xavier),
+                Knows.Invoke(Xavier, Yelena),
+                Knows.Invoke(Yelena, Zack),
+
+                Knows.Invoke(Alice, Wilma),
+                Knows.Invoke(Wilma, Douglas),
+                Knows.Invoke(Charlie, Hubert),
+                Knows.Invoke(Hubert, Frank),
+                Knows.Invoke(Frank, Glen),
+                Knows.Invoke(Charlie, Alice)
+            });
+
+            var query = new Statement[] { Knows.Invoke(A, B), Knows.Invoke(B, C), Knows.Invoke(C, A) };
+
+            foreach (var result in KB.Query(query))
+            {
+                Console.WriteLine(result[A]);
+                Console.WriteLine(result[B]);
+                Console.WriteLine(result[C]);
+
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void Test6()
         {
             Predicate SawUsing = new("Tests", nameof(SawUsing), 3);
 

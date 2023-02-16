@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.50
+// 0.0.4.51
 
 namespace System
 {
@@ -87,6 +87,11 @@ namespace System.Collections.Generic
 
         bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
         bool TrySetValue(string key, object? value, IEnumerable justifications);
+    }
+
+    public interface ITrie<T>
+    {
+
     }
 }
 
@@ -447,45 +452,65 @@ namespace AI
             public bool Contains(Statement statement);
             public bool Contains(Statement statement, out IEnumerable? derivations);
 
-            public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query)
+            public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query, bool clone = true)
             {
                 int count = query.Count;
 
-                if (count <= 0) yield break;
+                var structure = new EnumerationStructure();
 
-                if (count == 1)
+                if (count <= 0)
                 {
-                    var query_statement = query[0];
-
-                    var substitutions = new Dictionary<Variable, object?>();
-
+                    yield break;
+                }
+                else if (count == 1)
+                {
                     foreach (var statement in this)
                     {
-                        if (query_statement.Matches(statement, substitutions))
+                        structure.Set(0, statement);
+                        if(structure.Matches(query))
                         {
-                            yield return new EnumerationStructure(statement, substitutions);
-                            substitutions = new Dictionary<Variable, object?>(0);
+                            if(clone)
+                            {
+                                yield return structure.Clone();
+                            }
+                            else
+                            {
+                                yield return structure;
+                            }
                         }
-                        else
-                        {
-                            substitutions.Clear();
-                        }
+                        structure.Clear();
                     }
                 }
                 else
                 {
-                    var structure = new EnumerationStructure();
+                    IQueryable<EnumerationStructure> queryable;
 
-                    var queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Clear().Set(0, _1).Set(1, _2));
-
-                    for (int index = 2; index < count; ++index)
+                    if (count == 2)
                     {
-                        int integer = new();
-                        integer = index;
-                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Clear().Set(integer, _x));
+                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Clear().Set(0, _1).Set(1, _2));
+                    }
+                    else
+                    {
+                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Set(0, _1).Set(1, _2));
+
+                        for (int index = 2; index < count - 1; ++index)
+                        {
+                            int integer = new();
+                            integer = index;
+                            queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(integer, _x));
+                        }
+                        
+                        int counter = new();
+                        counter = count - 1;
+                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Clear().Set(counter, _x));
                     }
 
-                    queryable = queryable.Where(iteration => iteration.Matches(query)).Select(iteration => iteration.Clone());
+                    queryable = queryable.Where(iteration => iteration.Matches(query));
+
+                    if (clone)
+                    {
+                        queryable = queryable.Select(iteration => iteration.Clone());
+                    }
 
                     foreach (var iteration in queryable)
                     {
