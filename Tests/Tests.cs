@@ -104,8 +104,8 @@ namespace Tests
 
             public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding => throw new NotImplementedException();
 
-            private List<Statement> m_data;
-            private IQueryable<Statement> m_queryable;
+            private readonly List<Statement> m_data;
+            private readonly IQueryable<Statement> m_queryable;
 
             public bool IsReadOnly => false;
 
@@ -147,7 +147,6 @@ namespace Tests
                 return m_queryable.GetEnumerator();
             }
         }
-
 
         [Test]
         public void Test1()
@@ -220,6 +219,63 @@ namespace Tests
                 Knows.Invoke(Alice, Xavier),
                 Knows.Invoke(Xavier, Yelena),
                 Knows.Invoke(Yelena, Douglas)
+            });
+
+            var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };
+
+            foreach (var result in KB.Query(query))
+            {
+                Console.WriteLine(result[X]);
+                Console.WriteLine(result[Y]);
+                Console.WriteLine(result[Z]);
+                Console.WriteLine(result[W]);
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void Test3()
+        {
+            Predicate Knows = new("Tests", nameof(Knows), 2);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+            var Charlie = "Charlie";
+            var Douglas = "Douglas";
+            var Edward = "Edward";
+            var Frank = "Frank";
+            var Glen = "Glen";
+            var Hubert = "Hubert";
+            var Isaac = "Isaac";
+            var Jim = "Jim";
+            var Keven = "Keven";
+            var Xavier = "Xavier";
+            var Yelena = "Yelena";
+            var Wilma = "Wilma";
+
+            Variable X = new(nameof(X));
+            Variable Y = new(nameof(Y));
+            Variable Z = new(nameof(Z));
+            Variable W = new(nameof(W));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                Knows.Invoke(Yelena, Douglas),
+                Knows.Invoke(Charlie, Douglas),
+                Knows.Invoke(Douglas, Edward),
+
+                Knows.Invoke(Alice, Bob),
+                Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Edward, Frank),
+
+                Knows.Invoke(Alice, Xavier),
+                Knows.Invoke(Xavier, Yelena),
+
+                Knows.Invoke(Alice, Wilma),
+                Knows.Invoke(Wilma, Douglas),
+                Knows.Invoke(Douglas, Charlie),
+                Knows.Invoke(Charlie, Hubert),
+                Knows.Invoke(Hubert, Frank),
             });
 
             var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };

@@ -450,16 +450,16 @@ namespace AI
             public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query)
             {
                 int count = query.Count;
-                
+
                 if (count <= 0) yield break;
-                
+
                 if (count == 1)
                 {
                     var query_statement = query[0];
 
                     var substitutions = new Dictionary<Variable, object?>();
 
-                    foreach(var statement in this)
+                    foreach (var statement in this)
                     {
                         if (query_statement.Matches(statement, substitutions))
                         {
@@ -478,16 +478,16 @@ namespace AI
 
                     var queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Clear().Set(0, _1).Set(1, _2));
 
-                    for(int index = 2; index < count; ++index)
+                    for (int index = 2; index < count; ++index)
                     {
                         int integer = new int();
                         integer = index;
-                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(integer, _x));
+                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Clear().Set(integer, _x));
                     }
 
-                    queryable = queryable.Where(iteration => iteration.Matches(query));
+                    queryable = queryable.Where(iteration => iteration.Matches(query)).Select(iteration => iteration.Clone());
 
-                    foreach(var iteration in queryable)
+                    foreach (var iteration in queryable)
                     {
                         yield return iteration;
                     }
@@ -572,7 +572,7 @@ namespace AI
             {
                 if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
 
-                if(index >= m_statements.Count)
+                if (index >= m_statements.Count)
                 {
                     m_statements.Add(_x);
                 }
@@ -587,6 +587,11 @@ namespace AI
             {
                 m_substitutions.Clear();
                 return this;
+            }
+
+            public EnumerationStructure Clone()
+            {
+                return new EnumerationStructure { m_statements = new(this.m_statements), m_substitutions = new Dictionary<Variable, object?>(this.m_substitutions) };
             }
         }
     }
