@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.41
+// 0.0.4.42
 
 namespace System
 {
@@ -106,7 +106,6 @@ namespace AI
     {
         internal interface ITerm
         {
-            public bool CanUnify(object? other, IDictionary<Variable, object?> substititions);
             public bool Unify(object? other, IDictionary<Variable, object?> substitutions);
             public bool Contains(Variable variable, IDictionary<Variable, object?> substitutions);
             public bool Replace(IDictionary<Variable, object?> substitutions, out object? value);
@@ -118,53 +117,27 @@ namespace AI
             {
                 Constraints = Array.Empty<IConstraint<object?>>();
             }
-            public Variable(Type type)
+            public Variable(string name)
             {
-                Constraints = Constraint.GenerateTypeOrVariableConstraints<object?>(new Type[] { type });
-            }
-            public Variable(Type type, string? name)
-            {
-                Constraints = Constraint.GenerateTypeOrVariableConstraints<object?>(new Type[] { type });
+                Constraints = Array.Empty<IConstraint<object?>>();
+                m_name = name;
             }
             public Variable(IEnumerable<IConstraint<object?>> constraints)
             {
                 Constraints = constraints;
             }
-            public Variable(IEnumerable<IConstraint<object?>> constraints, string? name)
+            public Variable(IEnumerable<IConstraint<object?>> constraints, string name)
             {
                 Constraints = constraints;
+                m_name = name;
             }
 
             public IEnumerable<IConstraint<object?>> Constraints { get; }
+            private string? m_name;
 
-            public bool CanUnify(object? other)
-            {
-                return Constraints.All(constraint => constraint.Invoke(other));
-            }
-
-            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
-            {
-                if (!CanUnify(other)) return false;
-
-                if (substititions.TryGetValue(this, out object? value))
-                {
-                    if (value is ITerm otherTerm)
-                    {
-                        return otherTerm.CanUnify(other, substititions);
-                    }
-                    else
-                    {
-                        return object.Equals(other, value);
-                    }
-                }
-                else
-                {
-                    return Constraints.All(constraint => constraint.Invoke(other));
-                }
-            }
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
-                if (!((ITerm)this).CanUnify(other, substitutions)) return false;
+                if (!Constraints.All(constraint => constraint.Invoke(other))) return false;
 
                 if (other is ITerm term)
                 {
@@ -199,8 +172,7 @@ namespace AI
                         }
                         else
                         {
-                            substitutions.Add(this, other);
-                            return true;
+                            return object.Equals(other, value);
                         }
                     }
                     else
@@ -235,7 +207,15 @@ namespace AI
                 return substitutions.TryGetValue(this, out value);
             }
 
-            //...
+            public Statement Invoke(params object?[] args)
+            {
+                return new Statement(this, args);
+            }
+
+            public override string? ToString()
+            {
+                return m_name ?? base.ToString();
+            }
         }
 
         public sealed class Predicate : INamespaceNamed, ITerm
@@ -295,7 +275,7 @@ namespace AI
                     reason = null;
                     return true;
                 }
-                catch(Exception error)
+                catch (Exception error)
                 {
                     reason = error;
                     return false;
@@ -313,10 +293,6 @@ namespace AI
                 }
             }
 
-            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
-            {
-                return object.Equals(this, other);
-            }
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
                 return false;
@@ -328,7 +304,14 @@ namespace AI
             }
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
-                return object.Equals(this, other);
+                if (other is Variable v)
+                {
+                    return ((ITerm)v).Unify(this, substitutions);
+                }
+                else
+                {
+                    return object.Equals(this, other);
+                }
             }
         }
 
@@ -390,46 +373,9 @@ namespace AI
 
             public bool Matches(Statement other)
             {
-                return ((ITerm)this).CanUnify(other, new Dictionary<Variable, object?>(0));
-            }
-            public bool Matches(Statement other, IDictionary<Variable, object?> substitutions)
-            {
-                return ((ITerm)this).CanUnify(other, substitutions);
+                return ((ITerm)this).Unify(other, new Dictionary<Variable, object?>(0));
             }
 
-            bool ITerm.CanUnify(object? other, IDictionary<Variable, object?> substititions)
-            {
-                if (other == null) return false;
-
-                if (other is Variable v)
-                {
-                    return ((ITerm)v).CanUnify(this, substititions);
-                }
-                else if (other is Statement s)
-                {
-                    int count = this.Arguments.Count;
-                    if (count != s.Arguments.Count) return false;
-
-                    if (!((ITerm)Predicate).CanUnify(s.Predicate, substititions)) return false;
-                    for (int index = 0; index < count; ++index)
-                    {
-                        var a = this.Arguments[index];
-                        if (a is ITerm term)
-                        {
-                            if (!term.CanUnify(s.Arguments[index], substititions)) return false;
-                        }
-                        else
-                        {
-                            if (object.Equals(a, s.Arguments[index])) return false;
-                        }
-                    }
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
             bool ITerm.Contains(Variable variable, IDictionary<Variable, object?> substitutions)
             {
                 throw new NotImplementedException();
@@ -440,7 +386,47 @@ namespace AI
             }
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
-                throw new NotImplementedException();
+                if (other == null) return false;
+
+                if (other is Variable v)
+                {
+                    return ((ITerm)v).Unify(this, substitutions);
+                }
+                else if (other is Statement s)
+                {
+                    int count = this.Arguments.Count;
+                    if (count != s.Arguments.Count) return false;
+
+                    if (!((ITerm)Predicate).Unify(s.Predicate, substitutions)) return false;
+                    for (int index = 0; index < count; ++index)
+                    {
+                        var a = this.Arguments[index];
+                        var o = s.Arguments[index];
+
+                        if (a is ITerm term)
+                        {
+                            if (!term.Unify(o, substitutions)) return false;
+                        }
+                        else if (o is ITerm otherTerm)
+                        {
+                            if (!otherTerm.Unify(a, substitutions)) return false;
+                        }
+                        else
+                        {
+                            if (!object.Equals(a, o)) return false;
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public override string ToString()
+            {
+                return ((dynamic)Predicate).Name + "(" + string.Join(", ", Arguments.Select(a => a?.ToString())) + ")";
             }
         }
 
