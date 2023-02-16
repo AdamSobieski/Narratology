@@ -244,11 +244,7 @@ namespace Tests
             var Douglas = "Douglas";
             var Edward = "Edward";
             var Frank = "Frank";
-            var Glen = "Glen";
             var Hubert = "Hubert";
-            var Isaac = "Isaac";
-            var Jim = "Jim";
-            var Keven = "Keven";
             var Xavier = "Xavier";
             var Yelena = "Yelena";
             var Wilma = "Wilma";
@@ -282,10 +278,51 @@ namespace Tests
 
             foreach (var result in KB.Query(query))
             {
+                try
+                {
+                    Console.WriteLine(result[X]);
+                    Console.WriteLine(result[Y]);
+                    Console.WriteLine(result[Z]);
+                    Console.WriteLine(result[W]);
+                }
+                catch
+                {
+                    Console.WriteLine("Error");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void Test4()
+        {
+            Predicate SawUsing = new("Tests", nameof(SawUsing), 3);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+
+            var Mercury = "Mercury";
+            var Moon = "Moon";
+
+            var Binoculars = "Binoculars";
+            var Telescope = "Telescope";
+
+            Variable X = new(nameof(X));
+            Variable Y = new(nameof(Y));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                SawUsing.Invoke(Alice, Moon, Binoculars),
+                SawUsing.Invoke(Bob, Mercury, Binoculars),
+                SawUsing.Invoke(Bob, Mercury, Telescope)
+            });
+
+            var query = new Statement[] { SawUsing.Invoke(X, Y, Binoculars) };
+
+            foreach(var result in KB.Query(query))
+            {
                 Console.WriteLine(result[X]);
                 Console.WriteLine(result[Y]);
-                Console.WriteLine(result[Z]);
-                Console.WriteLine(result[W]);
                 Console.WriteLine();
             }
         }

@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.44
+// 0.0.4.50
 
 namespace System
 {
@@ -132,7 +132,7 @@ namespace AI
             }
 
             public IEnumerable<IConstraint<object?>> Constraints { get; }
-            private string? m_name;
+            private readonly string? m_name;
 
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
@@ -307,9 +307,9 @@ namespace AI
 
         public sealed class Statement : ITerm
         {
-            static Predicate s_and = new Predicate("AI.Epistemology", "And", 2);
-            static Predicate s_or = new Predicate("AI.Epistemology", "Or", 2);
-            static Predicate s_not = new Predicate("AI.Epistemology", "Not", 1);
+            static readonly Predicate s_and = new("AI.Epistemology", "And", 2);
+            static readonly Predicate s_or = new("AI.Epistemology", "Or", 2);
+            static readonly Predicate s_not = new("AI.Epistemology", "Not", 1);
 
             public static Statement And(object? x, object? y)
             {
@@ -352,7 +352,7 @@ namespace AI
                         {
                             if (!s.IsGround) return false;
                         }
-                        else if (a is Variable v)
+                        else if (a is Variable)
                         {
                             return false;
                         }
@@ -480,7 +480,7 @@ namespace AI
 
                     for (int index = 2; index < count; ++index)
                     {
-                        int integer = new int();
+                        int integer = new();
                         integer = index;
                         queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Clear().Set(integer, _x));
                     }
@@ -504,7 +504,7 @@ namespace AI
         }
 
         // to do: optimize
-        internal struct EnumerationStructure : IStatementCollection.IQueryResult
+        internal class EnumerationStructure : IStatementCollection.IQueryResult
         {
             public EnumerationStructure()
             {
@@ -515,11 +515,6 @@ namespace AI
             {
                 m_statements = new List<Statement> { _1 };
                 m_substitutions = substitutions;
-            }
-            public EnumerationStructure(Statement _1, Statement _2)
-            {
-                m_statements = new List<Statement> { _1, _2 };
-                m_substitutions = new Dictionary<Variable, object?>();
             }
 
             private List<Statement> m_statements;
@@ -572,13 +567,19 @@ namespace AI
             {
                 if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
 
-                if (index >= m_statements.Count)
+                int count = m_statements.Count;
+
+                if (index < count)
+                {
+                    m_statements[index] = _x;
+                }
+                else if (index == count)
                 {
                     m_statements.Add(_x);
                 }
                 else
                 {
-                    m_statements[index] = _x;
+                    throw new ArgumentOutOfRangeException(nameof(index));
                 }
                 return this;
             }
