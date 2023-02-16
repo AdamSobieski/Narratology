@@ -1,4 +1,8 @@
 using AI.Epistemology;
+using AI.Epistemology.Reasoning;
+using System.Collections;
+using System.Collections.Graphs;
+using System.Linq.Expressions;
 
 namespace Tests
 {
@@ -85,6 +89,107 @@ namespace Tests
 
             Assert.IsFalse(s3.Matches(s4));
             Assert.IsFalse(s4.Matches(s3));
+        }
+    }
+
+    public class StatementCollection
+    {
+        public class Prototype : IStatementCollection
+        {
+            public Prototype(IEnumerable<Statement> statements)
+            {
+                m_data = new List<Statement>(statements);
+                m_queryable = m_data.AsQueryable();
+            }
+
+            public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding => throw new NotImplementedException();
+
+            private List<Statement> m_data;
+            private IQueryable<Statement> m_queryable;
+
+            public bool IsReadOnly => false;
+
+            public Type ElementType => typeof(Statement);
+
+            public Expression Expression => m_queryable.Expression;
+
+            public IQueryProvider Provider => m_queryable.Provider;
+
+            public bool IsValid => throw new NotImplementedException();
+
+            public IStatementCollection Clone()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(Statement statement)
+            {
+                return m_data.Contains(statement);
+            }
+
+            public bool Contains(Statement statement, out IEnumerable? derivations)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerator<Statement> GetEnumerator()
+            {
+                return m_queryable.GetEnumerator();
+            }
+
+            public void Update(IEnumerable<Statement> removals, IEnumerable<Statement> additions)
+            {
+                throw new NotImplementedException();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return m_queryable.GetEnumerator();
+            }
+        }
+
+        [Test]
+        public void Test1()
+        {
+            Predicate Knows = new("Tests", nameof(Knows), 2);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+            var Charlie = "Charlie";
+            var Douglas = "Douglas";
+            var Edward = "Edward";
+            var Frank = "Frank";
+            var Xavier = "Xavier";
+            var Yelena = "Yelena";
+
+            Variable X = new(nameof(X));
+            Variable Y = new(nameof(Y));
+            Variable Z = new(nameof(Z));
+            Variable W = new(nameof(W));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                Knows.Invoke(Alice, Bob),
+                Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Charlie, Douglas),
+                Knows.Invoke(Douglas, Edward),
+                Knows.Invoke(Edward, Frank),
+
+                Knows.Invoke(Alice, Xavier),
+                Knows.Invoke(Xavier, Yelena),
+                Knows.Invoke(Yelena, Douglas)
+            });
+
+            var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };
+
+            foreach(var result in KB.Query(query))
+            {
+                Console.WriteLine(result[X]);
+                Console.WriteLine(result[Y]);
+                Console.WriteLine(result[Z]);
+                Console.WriteLine(result[W]);
+                Console.WriteLine();
+            }
         }
     }
 

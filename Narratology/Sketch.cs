@@ -15,7 +15,7 @@ using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
-// 0.0.4.42
+// 0.0.4.44
 
 namespace System
 {
@@ -108,7 +108,6 @@ namespace AI
         {
             public bool Unify(object? other, IDictionary<Variable, object?> substitutions);
             public bool Contains(Variable variable, IDictionary<Variable, object?> substitutions);
-            public bool Replace(IDictionary<Variable, object?> substitutions, out object? value);
         }
 
         public sealed class Variable : ITerm
@@ -202,10 +201,6 @@ namespace AI
                     return false;
                 }
             }
-            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
-            {
-                return substitutions.TryGetValue(this, out value);
-            }
 
             public Statement Invoke(params object?[] args)
             {
@@ -297,11 +292,6 @@ namespace AI
             {
                 return false;
             }
-            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
-            {
-                value = null;
-                return false;
-            }
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
                 if (other is Variable v)
@@ -384,7 +374,7 @@ namespace AI
             {
                 if (object.ReferenceEquals(Predicate, variable)) return true;
                 int count = Arguments.Count;
-                for(int index = 0; index < count; ++index)
+                for (int index = 0; index < count; ++index)
                 {
                     if (Arguments[index] is ITerm term)
                     {
@@ -392,10 +382,6 @@ namespace AI
                     }
                 }
                 return false;
-            }
-            bool ITerm.Replace(IDictionary<Variable, object?> substitutions, out object? value)
-            {
-                throw new NotImplementedException();
             }
             bool ITerm.Unify(object? other, IDictionary<Variable, object?> substitutions)
             {
@@ -445,7 +431,7 @@ namespace AI
 
         public interface IStatementCollection : IQueryable<Statement>, IInvariant, ICloneable<IStatementCollection>
         {
-            public interface IQueryResult : IEnumerable<Statement>
+            public interface IQueryResult : IReadOnlyList<Statement>
             {
                 object? this[Variable key] { get; }
 
@@ -458,10 +444,44 @@ namespace AI
 
             public IEdge<IStatementCollection, IStatementCollection, IReasoner>? Binding { get; }
 
-            public bool Contains(Statement expression);
-            public bool Contains(Statement expression, out IEnumerable derivations);
+            public bool Contains(Statement statement);
+            public bool Contains(Statement statement, out IEnumerable? derivations);
 
-            public IEnumerable<IQueryResult> Query(IEnumerable<Statement> query);
+            public IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query)
+            {
+                int count = query.Count;
+                
+                if (count <= 0) yield break;
+                
+                if (count == 1)
+                {
+                    var query_statement = query[0];
+
+                    foreach(var statement in this)
+                    {
+                        var substitutions = new Dictionary<Variable, object?>(0);
+                        if (query_statement.Matches(statement, substitutions)) yield return new EnumerationStructure(statement, substitutions);
+                    }
+                }
+                else
+                {
+                    var queryable = this.SelectMany(_1 => this, (_1, _2) => new EnumerationStructure(_1, _2));
+
+                    for(int index = 2; index < count; ++index)
+                    {
+                        int integer = new int();
+                        integer = index;
+                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(integer, _x));
+                    }
+
+                    queryable = queryable.Where(iteration => iteration.Matches(query));
+
+                    foreach(var iteration in queryable)
+                    {
+                        yield return iteration;
+                    }
+                }
+            }
 
             public bool IsReadOnly { get; }
 
@@ -470,6 +490,82 @@ namespace AI
                 Update(delta.Removals, delta.Additions);
             }
             public void Update(IEnumerable<Statement> removals, IEnumerable<Statement> additions);
+        }
+
+        // to do: optimize
+        internal struct EnumerationStructure : IStatementCollection.IQueryResult
+        {
+            public EnumerationStructure(Statement _1, IDictionary<Variable, object?> substitutions)
+            {
+                m_statements = new List<Statement> { _1 };
+                m_substitutions = substitutions;
+            }
+            public EnumerationStructure(Statement _1, Statement _2)
+            {
+                m_statements = new List<Statement> { _1, _2 };
+                m_substitutions = new Dictionary<Variable, object?>();
+            }
+
+            private List<Statement> m_statements;
+            private IDictionary<Variable, object?> m_substitutions;
+
+            public IEnumerable<Variable> Keys => m_substitutions?.Keys ?? Enumerable.Empty<Variable>();
+
+            public IEnumerable<object?> Values => m_substitutions?.Values ?? Enumerable.Empty<object?>();
+
+            public int Count => m_statements.Count;
+
+            public Statement this[int index] => m_statements[index];
+
+            public object? this[Variable key] => m_substitutions?[key] ?? throw new KeyNotFoundException();
+
+            public bool ContainsKey(Variable key)
+            {
+                return m_substitutions.ContainsKey(key);
+            }
+
+            public bool TryGetValue(Variable key, [MaybeNullWhen(false)] out object? value)
+            {
+                return m_substitutions.TryGetValue(key, out value);
+            }
+
+            public IEnumerator<Statement> GetEnumerator()
+            {
+                return m_statements.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return m_statements.GetEnumerator();
+            }
+
+            public bool Matches(IReadOnlyList<Statement> query)
+            {
+                int count = query.Count;
+                if (count != m_statements.Count) throw new ArgumentException();
+
+                for (int index = 0; index < count; ++index)
+                {
+                    if (!query[index].Matches(m_statements[index], m_substitutions)) return false;
+                }
+
+                return true;
+            }
+
+            public EnumerationStructure Set(int index, Statement _x)
+            {
+                if (index < 0) throw new ArgumentOutOfRangeException(nameof(index));
+
+                if(index >= m_statements.Count)
+                {
+                    m_statements.Add(_x);
+                }
+                else
+                {
+                    m_statements[index] = _x;
+                }
+                return this;
+            }
         }
     }
 
