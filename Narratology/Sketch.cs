@@ -447,7 +447,7 @@ namespace AI
             public bool Contains(Statement statement);
             public bool Contains(Statement statement, out IEnumerable? derivations);
 
-            public IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query)
+            public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query)
             {
                 int count = query.Count;
                 
@@ -457,15 +457,26 @@ namespace AI
                 {
                     var query_statement = query[0];
 
+                    var substitutions = new Dictionary<Variable, object?>();
+
                     foreach(var statement in this)
                     {
-                        var substitutions = new Dictionary<Variable, object?>(0);
-                        if (query_statement.Matches(statement, substitutions)) yield return new EnumerationStructure(statement, substitutions);
+                        if (query_statement.Matches(statement, substitutions))
+                        {
+                            yield return new EnumerationStructure(statement, substitutions);
+                            substitutions = new Dictionary<Variable, object?>(0);
+                        }
+                        else
+                        {
+                            substitutions.Clear();
+                        }
                     }
                 }
                 else
                 {
-                    var queryable = this.SelectMany(_1 => this, (_1, _2) => new EnumerationStructure(_1, _2));
+                    var structure = new EnumerationStructure();
+
+                    var queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Clear().Set(0, _1).Set(1, _2));
 
                     for(int index = 2; index < count; ++index)
                     {
@@ -495,6 +506,11 @@ namespace AI
         // to do: optimize
         internal struct EnumerationStructure : IStatementCollection.IQueryResult
         {
+            public EnumerationStructure()
+            {
+                m_statements = new List<Statement>();
+                m_substitutions = new Dictionary<Variable, object?>();
+            }
             public EnumerationStructure(Statement _1, IDictionary<Variable, object?> substitutions)
             {
                 m_statements = new List<Statement> { _1 };
@@ -564,6 +580,12 @@ namespace AI
                 {
                     m_statements[index] = _x;
                 }
+                return this;
+            }
+
+            public EnumerationStructure Clear()
+            {
+                m_substitutions.Clear();
                 return this;
             }
         }

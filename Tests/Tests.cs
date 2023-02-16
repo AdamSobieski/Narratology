@@ -109,7 +109,7 @@ namespace Tests
 
             public bool IsReadOnly => false;
 
-            public Type ElementType => typeof(Statement);
+            public Type ElementType => m_queryable.ElementType;
 
             public Expression Expression => m_queryable.Expression;
 
@@ -148,6 +148,7 @@ namespace Tests
             }
         }
 
+
         [Test]
         public void Test1()
         {
@@ -180,9 +181,50 @@ namespace Tests
                 Knows.Invoke(Yelena, Douglas)
             });
 
+            var query = new Statement[] { Knows.Invoke(Alice, X) };
+
+            foreach (var result in KB.Query(query))
+            {
+                Console.WriteLine(result[X]);
+                Console.WriteLine();
+            }
+        }
+
+        [Test]
+        public void Test2()
+        {
+            Predicate Knows = new("Tests", nameof(Knows), 2);
+
+            var Alice = "Alice";
+            var Bob = "Bob";
+            var Charlie = "Charlie";
+            var Douglas = "Douglas";
+            var Edward = "Edward";
+            var Frank = "Frank";
+            var Xavier = "Xavier";
+            var Yelena = "Yelena";
+
+            Variable X = new(nameof(X));
+            Variable Y = new(nameof(Y));
+            Variable Z = new(nameof(Z));
+            Variable W = new(nameof(W));
+
+            IStatementCollection KB = new Prototype(new Statement[]
+            {
+                Knows.Invoke(Alice, Bob),
+                Knows.Invoke(Bob, Charlie),
+                Knows.Invoke(Charlie, Douglas),
+                Knows.Invoke(Douglas, Edward),
+                Knows.Invoke(Edward, Frank),
+
+                Knows.Invoke(Alice, Xavier),
+                Knows.Invoke(Xavier, Yelena),
+                Knows.Invoke(Yelena, Douglas)
+            });
+
             var query = new Statement[] { Knows.Invoke(Alice, X), Knows.Invoke(X, Y), Knows.Invoke(Y, Z), Knows.Invoke(Z, W), Knows.Invoke(W, Frank) };
 
-            foreach(var result in KB.Query(query))
+            foreach (var result in KB.Query(query))
             {
                 Console.WriteLine(result[X]);
                 Console.WriteLine(result[Y]);
