@@ -16,21 +16,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.55
+// 0.0.4.56
 
 namespace System
 {
-    public interface INamed
-    {
-        public string Name { get; }
-    }
-
-    public interface INamespaceNamed : INamed
-    {
-        public string Namespace { get; }
-        public string FullName { get; }
-    }
-
     public interface ICloneable<out T> : ICloneable
         where T : ICloneable<T>
     {
@@ -353,40 +342,71 @@ namespace AI
             }
         }
 
-        public sealed class Predicate : INamespaceNamed, ITerm
+        public sealed class Symbol : ITerm
         {
-            public Predicate(string @namespace, string name, int arity)
+            public Symbol(string fullname)
             {
-                if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
+                FullName = fullname;
+                Arity = 0;
+                Constraints = Enumerable.Empty<IConstraint>();
+            }
+            public Symbol(string fullname, int arity)
+            {
+                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
 
-                Namespace = @namespace;
-                Name = name;
+                FullName = fullname;
                 Arity = arity;
                 Constraints = Enumerable.Empty<IConstraint>();
             }
-            public Predicate(string @namespace, string name, int arity, Type[] types)
+            public Symbol(string fullname, int arity, Type[] types)
             {
-                if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
+                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
                 if (arity != types.Length) throw new ArgumentException("Number of types provided should equal arity.", nameof(types));
 
-                Namespace = @namespace;
-                Name = name;
+                FullName = fullname;
                 Arity = arity;
                 Constraints = Constraint.GenerateTypeOrVariableConstraints(types);
             }
-            public Predicate(string @namespace, string name, int arity, IEnumerable<IConstraint> constraints)
+            public Symbol(string fullname, int arity, IEnumerable<IConstraint> constraints)
             {
-                if (arity < 1) throw new ArgumentException("Arity is less than 1.", nameof(arity));
+                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
 
-                Namespace = @namespace;
-                Name = name;
+                FullName = fullname;
                 Arity = arity;
                 Constraints = constraints;
             }
 
-            public string Namespace { get; }
-            public string Name { get; }
-            public string FullName { get { return Namespace + "." + Name; } }
+            public string? Namespace
+            {
+                get
+                {
+                    var dot = FullName.LastIndexOf('.');
+                    if (dot > 0)
+                    {
+                        return FullName.Substring(0, dot);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            public string Name
+            {
+                get
+                {
+                    var dot = FullName.LastIndexOf('.');
+                    if (dot > 0)
+                    {
+                        return FullName.Substring(dot + 1);
+                    }
+                    else
+                    {
+                        return FullName;
+                    }
+                }
+            }
+            public string FullName { get; }
 
             public int Arity { get; }
 
@@ -397,6 +417,7 @@ namespace AI
                 try
                 {
                     if (args == null) throw new ArgumentNullException(nameof(args));
+                    if (Arity == 0) throw new ArgumentException("This symbol has zero arity.");
                     if (args.Length != Arity) throw new ArgumentException($"Expected {Arity} arguments in array.", nameof(args));
 
                     foreach (var constraint in Constraints)
@@ -450,9 +471,9 @@ namespace AI
 
         public sealed class Statement : ITerm
         {
-            static readonly Predicate s_and = new("AI.Epistemology", "And", 2);
-            static readonly Predicate s_or = new("AI.Epistemology", "Or", 2);
-            static readonly Predicate s_not = new("AI.Epistemology", "Not", 1);
+            static readonly Symbol s_and = new("AI.Epistemology.And", 2);
+            static readonly Symbol s_or = new("AI.Epistemology.Or", 2);
+            static readonly Symbol s_not = new("AI.Epistemology.Not", 1);
 
             public static Statement And(object? x, object? y)
             {
@@ -472,7 +493,7 @@ namespace AI
                 Predicate = predicate;
                 Arguments = args;
             }
-            internal Statement(Predicate predicate, object?[] args)
+            internal Statement(Symbol predicate, object?[] args)
             {
                 Predicate = predicate;
                 Arguments = args;
@@ -1055,8 +1076,10 @@ namespace AI
             }
         }
 
-        public interface IConstraint : INamed, IInspectableDelegate
+        public interface IConstraint : IInspectableDelegate
         {
+            public string Name { get; }
+
             public new bool Invoke(object?[]? args);
         }
 
@@ -1121,7 +1144,10 @@ namespace AI
 
     namespace Epistemology.Reasoning
     {
-        public interface IRule<TInput, TOutput> : INamed, IInspectableFunc<TInput, TOutput> { }
+        public interface IRule<TInput, TOutput> : IInspectableFunc<TInput, TOutput>
+        {
+            public string Name { get; }
+        }
 
         public interface IReasoner
         {

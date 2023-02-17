@@ -11,7 +11,7 @@ namespace AI.AutomatedPlanning
     {
         public IEnumerable<Type> Types { get; }
         public IEnumerable<IOperator> Operators { get; }
-        public IEnumerable<Predicate> Predicates { get; }
+        public IEnumerable<Symbol> Predicates { get; }
     }
 
     public interface IProblem
@@ -27,7 +27,7 @@ namespace AI.AutomatedPlanning
         //... public IInspectableFunc<IQueryable<IState>, IComparable> Metric { get; }
     }
 
-    public interface IOperator : INamespaceNamed
+    public interface IOperator
     {
         public IDomain Domain { get; }
         public IEnumerable<IConstraint> Constraints { get; }

@@ -16,9 +16,9 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            Predicate P1 = new("Tests", nameof(P1), 2);
-            Predicate P2 = new("Tests", nameof(P2), 2);
-            Predicate P3 = new("Tests", nameof(P3), 2);
+            Symbol P1 = new("Tests." + nameof(P1), 2);
+            Symbol P2 = new("Tests." + nameof(P2), 2);
+            Symbol P3 = new("Tests." + nameof(P3), 2);
 
             Variable x = new(nameof(x));
             Variable y = new(nameof(y));
@@ -58,9 +58,9 @@ namespace Tests
         [Test]
         public void Test2()
         {
-            Predicate P1 = new("Tests", nameof(P1), 3);
-            Predicate P2 = new("Tests", nameof(P2), 2);
-            Predicate P3 = new("Tests", nameof(P3), 2);
+            Symbol P1 = new("Tests." + nameof(P1), 3);
+            Symbol P2 = new("Tests." + nameof(P2), 2);
+            Symbol P3 = new("Tests." + nameof(P3), 2);
 
             Variable x = new(nameof(x));
             Variable y = new(nameof(y));
@@ -220,7 +220,7 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            Predicate Knows = new("Tests", nameof(Knows), 2);
+            Symbol Knows = new("Tests." + nameof(Knows), 2);
 
             var Alice = "Alice";
             var Bob = "Bob";
@@ -261,7 +261,7 @@ namespace Tests
         [Test]
         public void Test2()
         {
-            Predicate Knows = new("Tests", nameof(Knows), 2);
+            Symbol Knows = new("Tests." + nameof(Knows), 2);
 
             var Alice = "Alice";
             var Bob = "Bob";
@@ -302,7 +302,7 @@ namespace Tests
         [Test]
         public void Test3()
         {
-            Predicate Knows = new("Tests", nameof(Knows), 2);
+            Symbol Knows = new("Tests." + nameof(Knows), 2);
 
             var Alice = "Alice";
             var Bob = "Bob";
@@ -346,7 +346,7 @@ namespace Tests
         [Test]
         public void Test4()
         {
-            Predicate Knows = new("Tests", nameof(Knows), 2);
+            Symbol Knows = new("Tests." + nameof(Knows), 2);
 
             var Alice = "Alice";
             var Bob = "Bob";
@@ -410,7 +410,7 @@ namespace Tests
         [Test]
         public void Test5()
         {
-            Predicate Knows = new("Tests", nameof(Knows), 2);
+            Symbol Knows = new("Tests." + nameof(Knows), 2);
 
             var Alice = "Alice";
             var Bob = "Bob";
@@ -472,7 +472,7 @@ namespace Tests
         [Test]
         public void Test6()
         {
-            Predicate SawUsing = new("Tests", nameof(SawUsing), 3);
+            Symbol SawUsing = new("Tests." + nameof(SawUsing), 3);
 
             var Alice = "Alice";
             var Bob = "Bob";
