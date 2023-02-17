@@ -674,7 +674,7 @@ namespace AI
                     foreach (var s0 in this)
                     {
                         structure = structure.Set(0, s0);
-                        if (structure.Matches(query, 0, out IDictionary<Variable, object?>? copy))
+                        if (structure.Matches(query, 0))
                         {
                             yield return clone ? structure.Clone() : structure;
                         }
@@ -930,13 +930,6 @@ namespace AI
             public bool Matches(IReadOnlyList<Statement> query, int index)
             {
                 return query[index].Matches(m_statements[index], m_substitutions);
-            }
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public bool Matches(IReadOnlyList<Statement> query, int index, out IDictionary<Variable, object?>? copy)
-            {
-                copy = new Dictionary<Variable, object?>(m_substitutions);
-                bool r = query[index].Matches(m_statements[index], m_substitutions);
-                return r;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
