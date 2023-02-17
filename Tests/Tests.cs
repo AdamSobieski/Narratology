@@ -165,7 +165,6 @@ namespace Tests
 
             public Type ElementType => m_source.ElementType;
 
-            // m_reasoner.Bind(m_source) ?
             public Expression Expression => Expression.Constant(this);
 
             public IQueryProvider Provider => m_source.Provider;

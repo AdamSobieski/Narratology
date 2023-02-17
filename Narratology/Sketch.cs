@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.54
+// 0.0.4.55
 
 namespace System
 {
@@ -595,72 +595,6 @@ namespace AI
 
             public bool Contains(Statement statement);
             public bool Contains(Statement statement, out IEnumerable? derivations);
-
-            private IEnumerable<IQueryResult> QueryBackup(IReadOnlyList<Statement> query, bool clone = true)
-            {
-                int count = query.Count;
-
-                var structure = new EnumerationStructure(count);
-
-                if (count <= 0)
-                {
-                    yield break;
-                }
-                else if (count == 1)
-                {
-                    foreach (var statement in this)
-                    {
-                        if (structure.Set(0, statement).Matches(query))
-                        {
-                            if (clone)
-                            {
-                                yield return structure.Clone();
-                            }
-                            else
-                            {
-                                yield return structure;
-                            }
-                        }
-                        structure.Clear();
-                    }
-                }
-                else
-                {
-                    IQueryable<EnumerationStructure> queryable;
-
-                    if (count == 2)
-                    {
-                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Set(0, _1).Set(1, _2).Clear());
-                    }
-                    else
-                    {
-                        queryable = this.SelectMany(_1 => this, (_1, _2) => structure.Set(0, _1).Set(1, _2));
-
-                        for (int index = 2; index < count - 1; ++index)
-                        {
-                            int integer = new();
-                            integer = index;
-                            queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(integer, _x));
-                        }
-
-                        int counter = new();
-                        counter = count - 1;
-                        queryable = queryable.SelectMany(iteration => this, (iteration, _x) => iteration.Set(counter, _x).Clear());
-                    }
-
-                    queryable = queryable.Where(iteration => iteration.Matches(query));
-
-                    if (clone)
-                    {
-                        queryable = queryable.Select(iteration => iteration.Clone());
-                    }
-
-                    foreach (var iteration in queryable)
-                    {
-                        yield return iteration;
-                    }
-                }
-            }
 
             // to do: optimize
             public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query, bool clone = true)
@@ -1249,7 +1183,9 @@ namespace AI
 
     namespace Narratology.Aesthetics
     {
+        public interface ICriterion : IEquatable<ICriterion> { }
 
+        public interface IMultipleCriteria : IReadOnlyDictionary<ICriterion, IComparable> { }
     }
 
     namespace Narratology.Aesthetics.Morality
