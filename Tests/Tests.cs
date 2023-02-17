@@ -371,6 +371,7 @@ namespace Tests
             IStatementCollection KB = new Prototype(new Statement[]
             {
                 Knows.Invoke(Zack, Charlie),
+                Knows.Invoke(Zack, Douglas),
                 Knows.Invoke(Douglas, Hubert),
                 Knows.Invoke(Yelena, Douglas),
                 Knows.Invoke(Douglas, Edward),

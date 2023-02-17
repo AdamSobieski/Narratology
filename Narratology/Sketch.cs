@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.52
+// 0.0.4.53
 
 namespace System
 {
@@ -610,8 +610,7 @@ namespace AI
                 {
                     foreach (var statement in this)
                     {
-                        structure = structure.Set(0, statement);
-                        if (structure.Matches(query))
+                        if (structure.Set(0, statement).Matches(query))
                         {
                             if (clone)
                             {
@@ -685,11 +684,6 @@ namespace AI
                 m_statements = statements;
                 m_substitutions = substitutions;
             }
-            public EnumerationStructure(Statement _1, IDictionary<Variable, object?> substitutions)
-            {
-                m_statements = new Statement[] { _1 };
-                m_substitutions = substitutions;
-            }
 
             private Statement[] m_statements;
             private IDictionary<Variable, object?> m_substitutions;
@@ -734,8 +728,13 @@ namespace AI
                 {
                     if (!query[index].Matches(m_statements[index], m_substitutions)) return false;
                 }
-
                 return true;
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Matches(IReadOnlyList<Statement> query, int index)
+            {
+                return query[index].Matches(m_statements[index], m_substitutions);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
