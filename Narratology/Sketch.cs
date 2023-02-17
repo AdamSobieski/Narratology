@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.57
+// 0.0.4.58
 
 namespace System
 {
@@ -81,24 +81,24 @@ namespace System.Collections.Generic
 
     public interface ITrie<T>
     {
-        public interface Node
+        public interface INode
         {
-            public IDictionary<T, Node> Children { get; }
+            public IDictionary<T, INode> Children { get; }
             public bool IsWord { get; internal set; }
         }
 
-        protected Node Root { get; }
+        protected INode Root { get; }
 
-        protected Node CreateNode();
+        protected INode CreateNode();
 
         public void Add(IEnumerable<T> source)
         {
-            Node current = Root;
+            INode current = Root;
             foreach (T element in source)
             {
                 if (!current.Children.ContainsKey(element))
                 {
-                    Node tmp = CreateNode();
+                    INode tmp = CreateNode();
                     current.Children.Add(element, tmp);
                 }
                 current = current.Children[element];
@@ -107,7 +107,7 @@ namespace System.Collections.Generic
         }
         public bool Contains(IEnumerable<T> source)
         {
-            Node current = Root;
+            INode current = Root;
             foreach (T element in source)
             {
                 if (current.Children.ContainsKey(element))
@@ -125,7 +125,7 @@ namespace System.Collections.Generic
         {
             Remove(Root, source, 0);
         }
-        private bool Remove(Node current, IEnumerable<T> word, int depth)
+        private bool Remove(INode current, IEnumerable<T> word, int depth)
         {
             if (depth == word.Count())
             {
@@ -150,9 +150,9 @@ namespace System.Collections.Generic
         }
         public IEnumerable<IEnumerable<T>> StartsWith(IEnumerable<T> source)
         {
-            List<IEnumerable<T>> res = new List<IEnumerable<T>>();
+            List<IEnumerable<T>> res = new();
 
-            Node current = Root;
+            INode current = Root;
 
             foreach (T child in source)
             {
@@ -168,7 +168,7 @@ namespace System.Collections.Generic
             StartsWith(current, source, res);
             return res;
         }
-        private void StartsWith(Node current, IEnumerable<T> source, List<IEnumerable<T>> words)
+        private void StartsWith(INode current, IEnumerable<T> source, List<IEnumerable<T>> words)
         {
             if (current.IsWord)
             {
@@ -181,7 +181,7 @@ namespace System.Collections.Generic
         }
         public IEnumerable<IEnumerable<T>> StartsWith2(IEnumerable<T> source)
         {
-            Node current = Root;
+            INode current = Root;
 
             foreach (T child in source)
             {
@@ -199,7 +199,7 @@ namespace System.Collections.Generic
                 yield return word;
             }
         }
-        private IEnumerable<IEnumerable<T>> StartsWith2(Node current, IEnumerable<T> source)
+        private IEnumerable<IEnumerable<T>> StartsWith2(INode current, IEnumerable<T> source)
         {
             if (current.IsWord)
             {
@@ -352,7 +352,7 @@ namespace AI
             }
             public Symbol(string fullname, int arity)
             {
-                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
+                if (arity < 0) throw new ArgumentException("Arity must be greater than or equal to zero.", nameof(arity));
 
                 FullName = fullname;
                 Arity = arity;
@@ -360,8 +360,8 @@ namespace AI
             }
             public Symbol(string fullname, int arity, Type[] types)
             {
-                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
-                if (arity != types.Length) throw new ArgumentException("Number of types provided should equal arity.", nameof(types));
+                if (arity < 0) throw new ArgumentException("Arity must be greater than or equal to zero.", nameof(arity));
+                if (arity != types.Length) throw new ArgumentException("Number of types provided must equal arity.", nameof(types));
 
                 FullName = fullname;
                 Arity = arity;
@@ -369,7 +369,7 @@ namespace AI
             }
             public Symbol(string fullname, int arity, IEnumerable<IConstraint> constraints)
             {
-                if (arity < 0) throw new ArgumentException("Arity is less than zero.", nameof(arity));
+                if (arity < 0) throw new ArgumentException("Arity must be greater than or equal to zero.", nameof(arity));
 
                 FullName = fullname;
                 Arity = arity;
@@ -418,7 +418,7 @@ namespace AI
                 {
                     if (args == null) throw new ArgumentNullException(nameof(args));
                     if (Arity == 0) throw new ArgumentException("This symbol has zero arity.");
-                    if (args.Length != Arity) throw new ArgumentException($"Expected {Arity} arguments in array.", nameof(args));
+                    if (args.Length != Arity) throw new ArgumentException($"Expected {Arity} arguments.", nameof(args));
 
                     foreach (var constraint in Constraints)
                     {
@@ -1093,7 +1093,7 @@ namespace AI
 
         public interface IConstraint : IInspectableDelegate
         {
-            public string Name { get; }
+            public string? Name { get; }
 
             public new bool Invoke(object?[]? args);
         }
@@ -1161,7 +1161,7 @@ namespace AI
     {
         public interface IRule<TInput, TOutput> : IInspectableFunc<TInput, TOutput>
         {
-            public string Name { get; }
+            public string? Name { get; }
         }
 
         public interface IReasoner
@@ -1243,7 +1243,7 @@ namespace AI
             public ISelection Selection { get; }
         }
 
-        public interface ISelection : ITreeNodeParented<ISelection>
+        public interface ISelection : ITreeParented<ISelection>
         {
             public IText Text { get; }
 

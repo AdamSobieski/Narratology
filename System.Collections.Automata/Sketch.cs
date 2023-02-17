@@ -90,20 +90,20 @@ namespace System.Collections.Graphs
 
 namespace System.Collections.Trees
 {
-    public interface ITreeNode<out TNode>
-        where TNode : ITreeNode<TNode>
+    public interface ITree<out TNode>
+        where TNode : ITree<TNode>
     {
         public IReadOnlyList<TNode> Children { get; }
     }
 
-    public interface ITreeNodeParented<out TNode> : ITreeNode<TNode>
-        where TNode : ITreeNodeParented<TNode>
+    public interface ITreeParented<out TNode> : ITree<TNode>
+        where TNode : ITreeParented<TNode>
     {
         public TNode? Parent { get; }
     }
 
-    public interface ITreeNodeSiblinged<out TNode> : ITreeNodeParented<TNode>
-        where TNode : ITreeNodeParented<TNode>
+    public interface ITreeSiblinged<out TNode> : ITreeParented<TNode>
+        where TNode : ITreeParented<TNode>
     {
         public TNode? PreviousSibling { get; }
         public TNode? NextSibling { get; }
