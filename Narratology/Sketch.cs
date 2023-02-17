@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.53
+// 0.0.4.54
 
 namespace System
 {
@@ -596,7 +596,7 @@ namespace AI
             public bool Contains(Statement statement);
             public bool Contains(Statement statement, out IEnumerable? derivations);
 
-            public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query, bool clone = true)
+            private IEnumerable<IQueryResult> QueryBackup(IReadOnlyList<Statement> query, bool clone = true)
             {
                 int count = query.Count;
 
@@ -662,6 +662,202 @@ namespace AI
                 }
             }
 
+            // to do: optimize
+            public virtual IEnumerable<IQueryResult> Query(IReadOnlyList<Statement> query, bool clone = true)
+            {
+                int count = query.Count;
+
+                var structure = new EnumerationStructure(count);
+
+                if (count == 1)
+                {
+                    foreach (var s0 in this)
+                    {
+                        structure = structure.Set(0, s0);
+                        if (structure.Matches(query, 0, out IDictionary<Variable, object?>? copy))
+                        {
+                            yield return clone ? structure.Clone() : structure;
+                        }
+                        structure = structure.Clear();
+                    }
+                }
+                else if (count == 2)
+                {
+                    foreach (var s0 in this)
+                    {
+                        structure = structure.Set(0, s0);
+                        var tmp0 = structure.Clone();
+
+                        if (structure.Matches(query, 0))
+                        {
+                            foreach (var s1 in this)
+                            {
+                                structure = structure.Set(1, s1);
+                                var tmp1 = structure.Clone();
+
+                                if (structure.Matches(query, 1))
+                                {
+                                    yield return clone ? structure.Clone() : structure;
+                                }
+
+                                structure = tmp1;
+                            }
+                        }
+
+                        structure = tmp0;
+                    }
+                }
+                else if (count == 3)
+                {
+                    foreach (var s0 in this)
+                    {
+                        structure = structure.Set(0, s0);
+                        var tmp0 = structure.Clone();
+
+                        if (structure.Matches(query, 0))
+                        {
+                            foreach (var s1 in this)
+                            {
+                                structure = structure.Set(1, s1);
+                                var tmp1 = structure.Clone();
+
+                                if (structure.Matches(query, 1))
+                                {
+                                    foreach (var s2 in this)
+                                    {
+                                        structure = structure.Set(2, s2);
+                                        var tmp2 = structure.Clone();
+
+                                        if (structure.Matches(query, 2))
+                                        {
+                                            yield return clone ? structure.Clone() : structure;
+                                        }
+
+                                        structure = tmp2;
+                                    }
+                                }
+
+                                structure = tmp1;
+                            }
+                        }
+
+                        structure = tmp0;
+                    }
+                }
+                else if (count == 4)
+                {
+                    foreach (var s0 in this)
+                    {
+                        structure = structure.Set(0, s0);
+                        var tmp0 = structure.Clone();
+
+                        if (structure.Matches(query, 0))
+                        {
+                            foreach (var s1 in this)
+                            {
+                                structure = structure.Set(1, s1);
+                                var tmp1 = structure.Clone();
+
+                                if (structure.Matches(query, 1))
+                                {
+                                    foreach (var s2 in this)
+                                    {
+                                        structure = structure.Set(2, s2);
+                                        var tmp2 = structure.Clone();
+
+                                        if (structure.Matches(query, 2))
+                                        {
+                                            foreach (var s3 in this)
+                                            {
+                                                structure = structure.Set(3, s3);
+                                                var tmp3 = structure.Clone();
+
+                                                if (structure.Matches(query, 3))
+                                                {
+                                                    yield return clone ? structure.Clone() : structure;
+                                                }
+
+                                                structure = tmp3;
+                                            }
+                                        }
+
+                                        structure = tmp2;
+                                    }
+                                }
+
+                                structure = tmp1;
+                            }
+                        }
+
+                        structure = tmp0;
+                    }
+                }
+                else if (count == 5)
+                {
+                    foreach (var s0 in this)
+                    {
+                        structure = structure.Set(0, s0);
+                        var tmp0 = structure.Clone();
+
+                        if (structure.Matches(query, 0))
+                        {
+                            foreach (var s1 in this)
+                            {
+                                structure = structure.Set(1, s1);
+                                var tmp1 = structure.Clone();
+
+                                if (structure.Matches(query, 1))
+                                {
+                                    foreach (var s2 in this)
+                                    {
+                                        structure = structure.Set(2, s2);
+                                        var tmp2 = structure.Clone();
+
+                                        if (structure.Matches(query, 2))
+                                        {
+                                            foreach (var s3 in this)
+                                            {
+                                                structure = structure.Set(3, s3);
+                                                var tmp3 = structure.Clone();
+
+                                                if (structure.Matches(query, 3))
+                                                {
+                                                    foreach (var s4 in this)
+                                                    {
+                                                        structure = structure.Set(4, s4);
+                                                        var tmp4 = structure.Clone();
+
+                                                        if (structure.Matches(query, 4))
+                                                        {
+                                                            yield return clone ? structure.Clone() : structure;
+                                                        }
+
+                                                        structure = tmp4;
+                                                    }
+                                                }
+
+                                                structure = tmp3;
+                                            }
+                                        }
+
+                                        structure = tmp2;
+                                    }
+                                }
+
+                                structure = tmp1;
+                            }
+                        }
+
+                        structure = tmp0;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Count = {count}.");
+                    throw new NotImplementedException();
+                }
+            }
+
             public bool IsReadOnly { get; }
 
             public void Update(IDelta<Statement> delta)
@@ -671,7 +867,6 @@ namespace AI
             public void Update(IEnumerable<Statement> removals, IEnumerable<Statement> additions);
         }
 
-        // to do: optimize
         internal sealed class EnumerationStructure : IStatementCollection.IQueryResult
         {
             public EnumerationStructure(int count)
@@ -685,8 +880,8 @@ namespace AI
                 m_substitutions = substitutions;
             }
 
-            private Statement[] m_statements;
-            private IDictionary<Variable, object?> m_substitutions;
+            private readonly Statement[] m_statements;
+            private readonly IDictionary<Variable, object?> m_substitutions;
 
             public IEnumerable<Variable> Keys => m_substitutions?.Keys ?? Enumerable.Empty<Variable>();
 
@@ -735,6 +930,13 @@ namespace AI
             public bool Matches(IReadOnlyList<Statement> query, int index)
             {
                 return query[index].Matches(m_statements[index], m_substitutions);
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public bool Matches(IReadOnlyList<Statement> query, int index, out IDictionary<Variable, object?>? copy)
+            {
+                copy = new Dictionary<Variable, object?>(m_substitutions);
+                bool r = query[index].Matches(m_statements[index], m_substitutions);
+                return r;
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
