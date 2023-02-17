@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.56
+// 0.0.4.57
 
 namespace System
 {
@@ -488,14 +488,14 @@ namespace AI
                 return s_not.Invoke(x);
             }
 
-            internal Statement(Variable predicate, object?[] args)
+            internal Statement(Variable variable, object?[] args)
             {
-                Predicate = predicate;
+                Predicate = variable;
                 Arguments = args;
             }
-            internal Statement(Symbol predicate, object?[] args)
+            internal Statement(Symbol symbol, object?[] args)
             {
-                Predicate = predicate;
+                Predicate = symbol;
                 Arguments = args;
             }
 
@@ -595,7 +595,23 @@ namespace AI
 
             public override string ToString()
             {
-                return ((dynamic)Predicate).Name + "(" + string.Join(", ", Arguments.Select(a => a?.ToString())) + ")";
+                string? name;
+
+                if (Predicate is Symbol symbol)
+                {
+                    name = symbol.Name;
+                }
+                else if (Predicate is Variable variable)
+                {
+                    name = variable.ToString();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+
+                return name + "(" + string.Join(", ", Arguments.Select(a => a?.ToString())) + ")";
             }
         }
 
@@ -808,7 +824,6 @@ namespace AI
                 }
                 else
                 {
-                    Console.WriteLine($"Count = {count}.");
                     throw new NotImplementedException();
                 }
             }

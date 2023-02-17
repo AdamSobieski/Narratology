@@ -8,11 +8,6 @@ namespace Tests
 {
     public class PredicateCalculus
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Test1()
         {
@@ -506,11 +501,6 @@ namespace Tests
 
     public class StateTrajectoryConstraints
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void Test1()
         {
