@@ -946,15 +946,19 @@ namespace AI
 
     namespace Epistemology.Reasoning
     {
-        public interface IRule<TInput, TOutput> : IInspectableFunc<TInput, TOutput>
+        public interface IRule : IInspectableFunc<IQueryable<Statement>, IQueryable<Statement>>
         {
             public string? Name { get; }
+
+            public IReadOnlyList<Statement> Consequent { get; }
+
+            public IReadOnlyList<Statement> Antecedent { get; }
         }
 
         public interface IReasoner
         {
             public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
-            public IEnumerable<IRule<IQueryable<Statement>, IQueryable<Statement>>> Rules { get; }
+            public IEnumerable<IRule> Rules { get; }
 
             public IStatementCollection Bind(IStatementCollection source);
         }
