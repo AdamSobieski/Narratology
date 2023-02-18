@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-// 0.0.4.58
+// 0.0.4.60
 
 namespace System
 {
@@ -918,7 +918,14 @@ namespace AI
 
             public EnumerationStructure Clone()
             {
-                return new EnumerationStructure((Statement[])m_statements.Clone(), new Dictionary<Variable, object?>(m_substitutions));
+                if (m_substitutions.Count == 0)
+                {
+                    return new EnumerationStructure((Statement[])m_statements.Clone(), new Dictionary<Variable, object?>());
+                }
+                else
+                {
+                    return new EnumerationStructure((Statement[])m_statements.Clone(), new Dictionary<Variable, object?>(m_substitutions));
+                }
             }
         }
     }
@@ -1322,7 +1329,7 @@ namespace AI
             // https://en.wikipedia.org/wiki/Behavioral_script
             // https://en.wikipedia.org/wiki/Schema_(psychology)
 
-            public IAlternatives<bool> Contains(IEnumerable<IEvent> events);
+            public IAlternatives<bool?> Contains(IEnumerable<IEvent> events);
         }
 
         public interface IScriptCollection : ILookup<IEnumerable<IEvent>, IScript, IState>
@@ -1375,9 +1382,9 @@ namespace AI
         {
             public IEvent Event { get; }
 
-            public IContent Content { get; }
-
             public IText Text { get; }
+
+            public IContent Content { get; }
         }
 
         public interface IContent : IReadOnlyDictionary<IEventSequence, IThing>
@@ -1408,6 +1415,11 @@ namespace AI
     }
 
     namespace Narratology.Hermeneutics.Thematics
+    {
+
+    }
+
+    namespace Narratology.Hermeneutics.Thematics.Allegory
     {
 
     }
