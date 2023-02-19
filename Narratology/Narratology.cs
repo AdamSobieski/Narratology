@@ -8,11 +8,10 @@ using AI.Narratology.Events;
 using AI.Narratology.Hermeneutics;
 using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
-using System.Collections;
 using System.Collections.Trees;
 using System.Diagnostics.CodeAnalysis;
 
-// 0.0.4.63
+// 0.0.4.64
 
 namespace System
 {
@@ -214,16 +213,6 @@ namespace System.Collections.Generic
 
 namespace AI
 {
-    namespace Agents
-    {
-        public interface IAgent : IThing
-        {
-            public IStatementCollection Beliefs { get; }
-            public IEnumerable Desires { get; }
-            public IEnumerable Intentions { get; }
-        }
-    }
-
     namespace Narratology
     {
         public interface INarrative : IThing

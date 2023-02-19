@@ -953,10 +953,15 @@ namespace AI
 
         public interface IReasoner
         {
-            public IEnumerable<IConstraint<IQueryable<Statement>>> Constraints { get; }
-            public IEnumerable<IRule> Rules { get; }
+            public IReadOnlyList<IConstraint<IQueryable<Statement>>> Constraints { get; }
+            public IReadOnlyList<IRule> Rules { get; }
 
             public IStatementCollection Bind(IStatementCollection source);
         }
+    }
+
+    namespace Epistemology.Reasoning.Analogical
+    {
+
     }
 }
