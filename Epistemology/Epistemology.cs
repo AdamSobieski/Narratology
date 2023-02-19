@@ -6,6 +6,170 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
+namespace System
+{
+    public interface IHasProperties
+    {
+        public IDataDictionary Properties { get; }
+    }
+
+    public interface IHasMetadata
+    {
+        public IDataDictionary Metadata { get; }
+    }
+
+    public interface IThing : IHasProperties, IHasMetadata { }
+
+    public interface IDataDictionary : IDictionary<string, object?>
+    {
+        void Define(string key, Type type);
+        void Define(string key, IEnumerable<IConstraint> constraints);
+        bool TryGetDefinition(string key, out IEnumerable<IConstraint> constraints);
+
+        bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
+        bool TrySetValue(string key, object? value, IEnumerable justifications);
+    }
+}
+
+namespace System.Collections.Generic
+{
+    public interface ITrie<T>
+    {
+        public interface INode
+        {
+            public IDictionary<T, INode> Children { get; }
+            public bool IsWord { get; internal set; }
+        }
+
+        protected INode Root { get; }
+
+        protected INode CreateNode();
+
+        public void Add(IEnumerable<T> source)
+        {
+            INode current = Root;
+            foreach (T element in source)
+            {
+                if (!current.Children.ContainsKey(element))
+                {
+                    INode tmp = CreateNode();
+                    current.Children.Add(element, tmp);
+                }
+                current = current.Children[element];
+            }
+            current.IsWord = true;
+        }
+        public bool Contains(IEnumerable<T> source)
+        {
+            INode current = Root;
+            foreach (T element in source)
+            {
+                if (current.Children.ContainsKey(element))
+                {
+                    current = current.Children[element];
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return current.IsWord;
+        }
+        public void Remove(IEnumerable<T> source)
+        {
+            Remove(Root, source, 0);
+        }
+        private bool Remove(INode current, IEnumerable<T> word, int depth)
+        {
+            if (depth == word.Count())
+            {
+                current.IsWord = false;
+            }
+            else
+            {
+                T child = word.ElementAt(depth);
+                if (current.Children.ContainsKey(child))
+                {
+                    if (Remove(current.Children[child], word, depth + 1) == false)
+                    {
+                        current.Children.Remove(child);
+                    }
+                }
+            }
+            if (current.Children.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public IEnumerable<IEnumerable<T>> StartsWith(IEnumerable<T> source)
+        {
+            List<IEnumerable<T>> res = new();
+
+            INode current = Root;
+
+            foreach (T child in source)
+            {
+                if (current.Children.ContainsKey(child))
+                {
+                    current = current.Children[child];
+                }
+                else
+                {
+                    return res;
+                }
+            }
+            StartsWith(current, source, res);
+            return res;
+        }
+        private void StartsWith(INode current, IEnumerable<T> source, List<IEnumerable<T>> words)
+        {
+            if (current.IsWord)
+            {
+                words.Add(source);
+            }
+            foreach (T key in current.Children.Keys)
+            {
+                StartsWith(current.Children[key], source.Append(key), words);
+            }
+        }
+        public IEnumerable<IEnumerable<T>> StartsWith2(IEnumerable<T> source)
+        {
+            INode current = Root;
+
+            foreach (T child in source)
+            {
+                if (current.Children.ContainsKey(child))
+                {
+                    current = current.Children[child];
+                }
+                else
+                {
+                    yield break;
+                }
+            }
+            foreach (var word in StartsWith2(current, source))
+            {
+                yield return word;
+            }
+        }
+        private IEnumerable<IEnumerable<T>> StartsWith2(INode current, IEnumerable<T> source)
+        {
+            if (current.IsWord)
+            {
+                yield return source;
+            }
+            foreach (T key in current.Children.Keys)
+            {
+                foreach (var word in StartsWith2(current.Children[key], source.Append(key)))
+                {
+                    yield return word;
+                }
+            }
+        }
+    }
+}
+
 namespace AI
 {
     namespace Epistemology
@@ -29,15 +193,15 @@ namespace AI
             }
             public Variable(IEnumerable<IConstraint<object?>> constraints)
             {
-                Constraints = constraints;
+                Constraints = constraints.ToArray();
             }
             public Variable(IEnumerable<IConstraint<object?>> constraints, string name)
             {
-                Constraints = constraints;
+                Constraints = constraints.ToArray();
                 m_name = name;
             }
 
-            public IEnumerable<IConstraint<object?>> Constraints { get; }
+            public IReadOnlyList<IConstraint<object?>> Constraints { get; }
             private readonly string? m_name;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -128,7 +292,7 @@ namespace AI
             {
                 FullName = fullname;
                 Arity = 0;
-                Constraints = Enumerable.Empty<IConstraint>();
+                Constraints = Array.Empty<IConstraint>();
             }
             public Symbol(string fullname, int arity)
             {
@@ -136,7 +300,7 @@ namespace AI
 
                 FullName = fullname;
                 Arity = arity;
-                Constraints = Enumerable.Empty<IConstraint>();
+                Constraints = Array.Empty<IConstraint>();
             }
             public Symbol(string fullname, int arity, Type[] types)
             {
@@ -145,7 +309,7 @@ namespace AI
 
                 FullName = fullname;
                 Arity = arity;
-                Constraints = Constraint.GenerateTypeOrVariableConstraints(types);
+                Constraints = Constraint.GenerateTypeOrVariableConstraints(types).ToArray();
             }
             public Symbol(string fullname, int arity, IEnumerable<IConstraint> constraints)
             {
@@ -153,7 +317,7 @@ namespace AI
 
                 FullName = fullname;
                 Arity = arity;
-                Constraints = constraints;
+                Constraints = constraints.ToArray();
             }
 
             public string? Namespace
@@ -190,7 +354,7 @@ namespace AI
 
             public int Arity { get; }
 
-            public IEnumerable<IConstraint> Constraints { get; }
+            public IReadOnlyList<IConstraint> Constraints { get; }
 
             public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason)
             {
@@ -748,7 +912,7 @@ namespace AI
 
     namespace Epistemology.Constraints
     {
-        internal class Constraint : IConstraint
+        public sealed class Constraint : IConstraint
         {
             public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
             {
@@ -838,7 +1002,7 @@ namespace AI
             }
         }
 
-        internal class Constraint<T> : IConstraint<T>
+        public sealed class Constraint<T> : IConstraint<T>
         {
             public Constraint(Expression<Func<T, bool>> lambda, string name)
             {

@@ -1,6 +1,5 @@
 ﻿using AI.Epistemology;
 using AI.Epistemology.Constraints;
-using AI.Narratology.Pragmatics;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
@@ -9,20 +8,20 @@ namespace AI.AutomatedPlanning
 {
     public interface IDomain
     {
-        public IEnumerable<Type> Types { get; }
-        public IEnumerable<IOperator> Operators { get; }
-        public IEnumerable<Symbol> Predicates { get; }
+        public IReadOnlyList<Type> Types { get; }
+        public IReadOnlyList<IOperator> Operators { get; }
+        public IReadOnlyList<Symbol> Predicates { get; }
     }
 
     public interface IProblem
     {
         public IDomain Domain { get; }
         public IState Initial { get; }
-        public IEnumerable<IConstraint<IState>> Goal { get; } // or public IState Goal { get; } ?
+        public IReadOnlyList<IConstraint<IState>> Goal { get; } // or public IState Goal { get; } ?
         public IEnumerable Objects { get; }
 
-        public IEnumerable<IConstraint<IQueryable<IState>>> Constraints { get; }
-        public IEnumerable<IConstraint<IQueryable<IState>>> Preferences { get; }
+        public IReadOnlyList<IConstraint<IQueryable<IState>>> Constraints { get; }
+        public IReadOnlyList<IConstraint<IQueryable<IState>>> Preferences { get; }
 
         //... public IInspectableFunc<IQueryable<IState>, IComparable> Metric { get; }
     }
@@ -30,25 +29,25 @@ namespace AI.AutomatedPlanning
     public interface IOperator
     {
         public IDomain Domain { get; }
-        public IEnumerable<IConstraint> Constraints { get; }
+        public IReadOnlyList<IConstraint> Constraints { get; }
         public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason);
         public IAction Invoke(object?[]? args);
-        public IEnumerable<ILambdaGenerator>? Preconditions { get; }
-        public IEnumerable<ILambdaGenerator>? Effects { get; }
+        public IReadOnlyList<ILambdaGenerator<Func<IState, bool>>>? Preconditions { get; }
+        public IReadOnlyList<ILambdaGenerator<Action<IState>>>? Effects { get; }
     }
 
-    public interface IAction //: IThing
+    public interface IAction
     {
         public IOperator Operator { get; }
         public IReadOnlyList<object?> Arguments { get; }
-        public IEnumerable<IConstraint<IState>> Preconditions { get; }
-        public IEnumerable<IInspectableAction<IState>> Effects { get; }
+        public IReadOnlyList<IConstraint<IState>> Preconditions { get; }
+        public IReadOnlyList<IInspectableAction<IState>> Effects { get; }
         // public IComparable Cost { get; }
     }
 
-    public interface IPlan //: IThing
+    public interface IPlan
     {
-        public IEnumerable<IAction> Actions { get; }
+        public IReadOnlyList<IAction> Actions { get; }
 
         // public IComparable Metric { get; }
     }
@@ -56,6 +55,17 @@ namespace AI.AutomatedPlanning
     public interface ISolver
     {
         public IAsyncEnumerable<IPlan> Solve(IProblem problem, CancellationToken cancellationToken = default);
+    }
+
+    public interface IState : IInvariant
+    {
+        public IStatementCollection Content { get; }
+
+        public bool TryGetNext(IDelta<Statement> delta, out IState? state)
+        {
+            return TryGetNext(delta.Removals, delta.Additions, out state);
+        }
+        public bool TryGetNext(IEnumerable<Statement> removals, IEnumerable<Statement> additions, out IState? state);
     }
 
     public static class StateTrajectory

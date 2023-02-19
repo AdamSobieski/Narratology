@@ -23,8 +23,8 @@
             m_value = value;
         }
 
-        private Type m_type;
-        private object? m_value;
+        private readonly Type m_type;
+        private readonly object? m_value;
 
         public Type GetValueType()
         {
@@ -107,8 +107,8 @@
             m_value = value;
         }
 
-        private Type m_type;
-        private object? m_value;
+        private readonly Type m_type;
+        private readonly object? m_value;
 
         public Type GetValueType()
         {
@@ -190,8 +190,8 @@
             m_value = value;
         }
 
-        private Type m_type;
-        private object? m_value;
+        private readonly Type m_type;
+        private readonly object? m_value;
 
         public Type GetValueType()
         {

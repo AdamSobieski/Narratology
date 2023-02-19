@@ -2,214 +2,13 @@
 using AI.AutomatedPlanning;
 using AI.Epistemology;
 using AI.Epistemology.Adaptation;
-using AI.Epistemology.Constraints;
 using AI.Narratology.Annotation;
 using AI.Narratology.Events;
 using AI.Narratology.Hermeneutics;
-using AI.Narratology.Pragmatics;
 using AI.Narratology.Stylistics;
 using System.Collections.Trees;
-using System.Diagnostics.CodeAnalysis;
 
-// 0.0.4.64
-
-namespace System
-{
-    public interface ICloneable<out T> : ICloneable
-        where T : ICloneable<T>
-    {
-        object ICloneable.Clone() => Clone();
-
-        public new T Clone();
-    }
-
-    public interface IHasProperties
-    {
-        public IDataDictionary Properties { get; }
-    }
-
-    public interface IHasMetadata
-    {
-        public IDataDictionary Metadata { get; }
-    }
-
-    public interface IThing : IHasProperties, IHasMetadata { }
-}
-
-namespace System.Collections.Generic
-{
-    public interface IContainer<in T>
-    {
-        public bool Contains(T element);
-    }
-
-    public interface ICountable<out T> : IEnumerable<T>
-    {
-        public int Count { get; }
-    }
-
-    public interface IDelta<out T>
-    {
-        IEnumerable<T> Additions { get; }
-        IEnumerable<T> Removals { get; }
-    }
-
-    public interface ISimilarity<in T>
-    {
-        public double Dissimilarity(T other);
-    }
-
-    public interface ISimilarityComparer<in T>
-    {
-        public double Dissimilarity(T x, T y);
-    }
-
-    public interface IDataDictionary : IDictionary<string, object?>
-    {
-        void Define(string key, Type type);
-        void Define(string key, IEnumerable<IConstraint> constraints);
-        bool TryGetDefinition(string key, out IEnumerable<IConstraint> constraints);
-
-        bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
-        bool TrySetValue(string key, object? value, IEnumerable justifications);
-    }
-
-    public interface ITrie<T>
-    {
-        public interface INode
-        {
-            public IDictionary<T, INode> Children { get; }
-            public bool IsWord { get; internal set; }
-        }
-
-        protected INode Root { get; }
-
-        protected INode CreateNode();
-
-        public void Add(IEnumerable<T> source)
-        {
-            INode current = Root;
-            foreach (T element in source)
-            {
-                if (!current.Children.ContainsKey(element))
-                {
-                    INode tmp = CreateNode();
-                    current.Children.Add(element, tmp);
-                }
-                current = current.Children[element];
-            }
-            current.IsWord = true;
-        }
-        public bool Contains(IEnumerable<T> source)
-        {
-            INode current = Root;
-            foreach (T element in source)
-            {
-                if (current.Children.ContainsKey(element))
-                {
-                    current = current.Children[element];
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return current.IsWord;
-        }
-        public void Remove(IEnumerable<T> source)
-        {
-            Remove(Root, source, 0);
-        }
-        private bool Remove(INode current, IEnumerable<T> word, int depth)
-        {
-            if (depth == word.Count())
-            {
-                current.IsWord = false;
-            }
-            else
-            {
-                T child = word.ElementAt(depth);
-                if (current.Children.ContainsKey(child))
-                {
-                    if (Remove(current.Children[child], word, depth + 1) == false)
-                    {
-                        current.Children.Remove(child);
-                    }
-                }
-            }
-            if (current.Children.Count > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-        public IEnumerable<IEnumerable<T>> StartsWith(IEnumerable<T> source)
-        {
-            List<IEnumerable<T>> res = new();
-
-            INode current = Root;
-
-            foreach (T child in source)
-            {
-                if (current.Children.ContainsKey(child))
-                {
-                    current = current.Children[child];
-                }
-                else
-                {
-                    return res;
-                }
-            }
-            StartsWith(current, source, res);
-            return res;
-        }
-        private void StartsWith(INode current, IEnumerable<T> source, List<IEnumerable<T>> words)
-        {
-            if (current.IsWord)
-            {
-                words.Add(source);
-            }
-            foreach (T key in current.Children.Keys)
-            {
-                StartsWith(current.Children[key], source.Append(key), words);
-            }
-        }
-        public IEnumerable<IEnumerable<T>> StartsWith2(IEnumerable<T> source)
-        {
-            INode current = Root;
-
-            foreach (T child in source)
-            {
-                if (current.Children.ContainsKey(child))
-                {
-                    current = current.Children[child];
-                }
-                else
-                {
-                    yield break;
-                }
-            }
-            foreach (var word in StartsWith2(current, source))
-            {
-                yield return word;
-            }
-        }
-        private IEnumerable<IEnumerable<T>> StartsWith2(INode current, IEnumerable<T> source)
-        {
-            if (current.IsWord)
-            {
-                yield return source;
-            }
-            foreach (T key in current.Children.Keys)
-            {
-                foreach (var word in StartsWith2(current.Children[key], source.Append(key)))
-                {
-                    yield return word;
-                }
-            }
-        }
-    }
-}
+// 0.0.4.80
 
 namespace AI
 {
@@ -264,9 +63,7 @@ namespace AI
 
     namespace Narratology.Aesthetics
     {
-        public interface ICriterion : IEquatable<ICriterion> { }
 
-        public interface IMultipleCriteria : IReadOnlyDictionary<ICriterion, IComparable> { }
     }
 
     namespace Narratology.Aesthetics.Morality
@@ -459,16 +256,7 @@ namespace AI
 
     namespace Narratology.Pragmatics
     {
-        public interface IState : IInvariant
-        {
-            public IStatementCollection Content { get; }
 
-            public bool TryGetNext(IDelta<Statement> delta, out IState? state)
-            {
-                return TryGetNext(delta.Removals, delta.Additions, out state);
-            }
-            public bool TryGetNext(IEnumerable<Statement> removals, IEnumerable<Statement> additions, out IState? state);
-        }
     }
 
     namespace Narratology.Stylistics

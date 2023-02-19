@@ -7,11 +7,16 @@ namespace System
         public new LambdaExpression Invoke(object?[]? args);
     }
 
-    public interface ILambdaGenerator<T> : ILambdaGenerator, IInspectableFunc<T, LambdaExpression> { }
+    public interface ILambdaGenerator<TDelegate> : ILambdaGenerator
+    {
+        public new Expression<TDelegate> Invoke(object?[]? args);
+    }
 
-    public interface ILambdaGenerator<T1, T2> : ILambdaGenerator, IInspectableFunc<T1, T2, LambdaExpression> { }
+    public interface ILambdaGenerator<T, TDelegate> : ILambdaGenerator<TDelegate>, IInspectableFunc<T, Expression<TDelegate>> { }
 
-    public interface ILambdaGenerator<T1, T2, T3> : ILambdaGenerator, IInspectableFunc<T1, T2, T3, LambdaExpression> { }
+    public interface ILambdaGenerator<T1, T2, TDelegate> : ILambdaGenerator<TDelegate>, IInspectableFunc<T1, T2, Expression<TDelegate>> { }
 
-    public interface ILambdaGenerator<T1, T2, T3, T4> : ILambdaGenerator, IInspectableFunc<T1, T2, T3, T4, LambdaExpression> { }
+    public interface ILambdaGenerator<T1, T2, T3, TDelegate> : ILambdaGenerator<TDelegate>, IInspectableFunc<T1, T2, T3, Expression<TDelegate>> { }
+
+    public interface ILambdaGenerator<T1, T2, T3, T4, TDelegate> : ILambdaGenerator<TDelegate>, IInspectableFunc<T1, T2, T3, T4, Expression<TDelegate>> { }
 }

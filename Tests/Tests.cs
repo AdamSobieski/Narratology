@@ -12,8 +12,6 @@ namespace Tests
         public void Test1()
         {
             Symbol P1 = new("Tests." + nameof(P1), 2);
-            Symbol P2 = new("Tests." + nameof(P2), 2);
-            Symbol P3 = new("Tests." + nameof(P3), 2);
 
             Variable x = new(nameof(x));
             Variable y = new(nameof(y));
@@ -55,11 +53,8 @@ namespace Tests
         {
             Symbol P1 = new("Tests." + nameof(P1), 3);
             Symbol P2 = new("Tests." + nameof(P2), 2);
-            Symbol P3 = new("Tests." + nameof(P3), 2);
 
             Variable x = new(nameof(x));
-            Variable y = new(nameof(y));
-            Variable z = new(nameof(z));
 
             var s1 = P1.Invoke(123, P2.Invoke(234, 345), P2.Invoke(345, 456));
             var s2 = P1.Invoke(123, P2.Invoke(234, x), P2.Invoke(x, 456));
@@ -265,9 +260,6 @@ namespace Tests
             var Yelena = "Yelena";
 
             Variable X = new(nameof(X));
-            Variable Y = new(nameof(Y));
-            Variable Z = new(nameof(Z));
-            Variable W = new(nameof(W));
 
             IStatementCollection KB = new Prototype(new Statement[]
             {
@@ -420,8 +412,6 @@ namespace Tests
             Variable A = new(nameof(A));
             Variable B = new(nameof(B));
             Variable C = new(nameof(C));
-            Variable D = new(nameof(D));
-            Variable E = new(nameof(E));
 
             IStatementCollection KB = new Prototype(new Statement[]
             {
