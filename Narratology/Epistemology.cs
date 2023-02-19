@@ -738,16 +738,12 @@ namespace AI
 
     namespace Epistemology.Argumentation
     {
-        public interface IJustifiedValue<out T>
-        {
-            public T Value { get; }
-            public IEnumerable Justifications { get; }
-        }
 
-        public interface IJustifiedComparable<in T> : IComparable<T>
-        {
-            public new IJustifiedValue<int> CompareTo(T? other);
-        }
+    }
+
+    namespace Epistemology.Argumentation.Proof
+    {
+
     }
 
     namespace Epistemology.Constraints

@@ -227,9 +227,6 @@ namespace Tests
             var Yelena = "Yelena";
 
             Variable X = new(nameof(X));
-            Variable Y = new(nameof(Y));
-            Variable Z = new(nameof(Z));
-            Variable W = new(nameof(W));
 
             IStatementCollection KB = new Prototype(new Statement[]
             {
