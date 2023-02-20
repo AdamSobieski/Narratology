@@ -914,6 +914,15 @@ namespace AI
     {
         public sealed class Constraint : IConstraint
         {
+            public static IConstraint Create(LambdaExpression expression, string name)
+            {
+                return new Constraint(expression, name);
+            }
+            public static IConstraint<T> Create<T>(Expression<Func<T, bool>> expression, string name)
+            {
+                return new Constraint<T>(expression, name);
+            }
+
             public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
             {
                 int length = types.Length;
@@ -975,8 +984,7 @@ namespace AI
                 }
             }
 
-
-            public Constraint(LambdaExpression lambda, string name)
+            internal Constraint(LambdaExpression lambda, string name)
             {
                 Expression = lambda;
                 m_delegate = null;
@@ -1002,7 +1010,7 @@ namespace AI
             }
         }
 
-        public sealed class Constraint<T> : IConstraint<T>
+        internal sealed class Constraint<T> : IConstraint<T>
         {
             public Constraint(Expression<Func<T, bool>> lambda, string name)
             {

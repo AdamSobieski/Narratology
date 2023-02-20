@@ -8,7 +8,7 @@ using AI.Narratology.Hermeneutics;
 using AI.Narratology.Stylistics;
 using System.Collections.Trees;
 
-// 0.0.4.80
+// 0.0.4.82
 
 namespace AI
 {

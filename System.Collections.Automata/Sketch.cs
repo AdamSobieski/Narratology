@@ -25,6 +25,35 @@ namespace System.Collections.Automata.Learning
 
 }
 
+namespace System.Collections.Generic
+{
+    public interface IContainer<in T>
+    {
+        public bool Contains(T element);
+    }
+
+    public interface ICountable<out T> : IEnumerable<T>
+    {
+        public int Count { get; }
+    }
+
+    public interface IDelta<out T>
+    {
+        IEnumerable<T> Additions { get; }
+        IEnumerable<T> Removals { get; }
+    }
+
+    public interface ISimilarity<in T>
+    {
+        public double Dissimilarity(T other);
+    }
+
+    public interface ISimilarityComparer<in T>
+    {
+        public double Dissimilarity(T x, T y);
+    }
+}
+
 namespace System.Collections.Graphs
 {
     public interface ISource<out TSource>
@@ -115,34 +144,5 @@ namespace System.Collections.Trees
     {
         public TNode? PreviousSibling { get; }
         public TNode? NextSibling { get; }
-    }
-}
-
-namespace System.Collections.Generic
-{
-    public interface IContainer<in T>
-    {
-        public bool Contains(T element);
-    }
-
-    public interface ICountable<out T> : IEnumerable<T>
-    {
-        public int Count { get; }
-    }
-
-    public interface IDelta<out T>
-    {
-        IEnumerable<T> Additions { get; }
-        IEnumerable<T> Removals { get; }
-    }
-
-    public interface ISimilarity<in T>
-    {
-        public double Dissimilarity(T other);
-    }
-
-    public interface ISimilarityComparer<in T>
-    {
-        public double Dissimilarity(T x, T y);
     }
 }
