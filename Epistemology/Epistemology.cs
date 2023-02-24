@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Graphs;
 using System.Diagnostics.CodeAnalysis;
 using System.Inspectability;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace System
@@ -950,6 +951,15 @@ namespace AI
 
             public string Name => m_name;
 
+            public MethodInfo Method
+            {
+                get
+                {
+                    m_delegate ??= Syntax.Compile();
+                    return m_delegate.Method;
+                }
+            }
+
             public bool Invoke(object?[]? args)
             {
                 if (args == null) throw new ArgumentNullException(nameof(args));
@@ -977,6 +987,15 @@ namespace AI
             private readonly string m_name;
 
             public string Name => m_name;
+
+            public MethodInfo Method
+            {
+                get
+                {
+                    m_delegate ??= Syntax.Compile();
+                    return m_delegate.Method;
+                }
+            }
 
             public bool Invoke(object?[]? args)
             {
