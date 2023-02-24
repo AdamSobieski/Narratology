@@ -1,9 +1,10 @@
 ﻿using AI.Epistemology.Constraints;
 using AI.Epistemology.Reasoning;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections;
 using System.Collections.Graphs;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
+using System.Inspectability;
 using System.Runtime.CompilerServices;
 
 namespace System
@@ -914,84 +915,36 @@ namespace AI
     {
         public sealed class Constraint : IConstraint
         {
-            public static IConstraint Create(LambdaExpression expression, string name)
+            public static IConstraint Create(MethodDeclarationSyntax expression, string name)
             {
                 return new Constraint(expression, name);
             }
-            public static IConstraint<T> Create<T>(Expression<Func<T, bool>> expression, string name)
+            public static IConstraint<T> Create<T>(MethodDeclarationSyntax expression, string name)
             {
                 return new Constraint<T>(expression, name);
             }
 
             public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
             {
-                int length = types.Length;
-                List<ParameterExpression> parameters = new();
-                List<Expression> typeisexprs = new();
-                for (int index = 0; index < length; ++index)
-                {
-                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
-                    parameters.Add(p);
-                    typeisexprs.Add(System.Linq.Expressions.Expression.TypeIs(p, types[index]));
-                }
-                for (int index = 0; index < length; ++index)
-                {
-                    yield return new Constraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
-                }
+                throw new NotImplementedException();
             }
             public static IEnumerable<IConstraint> GenerateTypeOrVariableConstraints(Type[] types)
             {
-                int length = types.Length;
-                List<ParameterExpression> parameters = new();
-                List<Expression> typeisexprs = new();
-
-                for (int index = 0; index < length; ++index)
-                {
-                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
-                    parameters.Add(p);
-                    typeisexprs.Add(
-                        System.Linq.Expressions.Expression.OrElse(
-                            System.Linq.Expressions.Expression.TypeIs(p, types[index]),
-                            System.Linq.Expressions.Expression.TypeIs(p, typeof(Variable))
-                            )
-                        );
-                }
-                for (int index = 0; index < length; ++index)
-                {
-                    yield return new Constraint(System.Linq.Expressions.Expression.Lambda(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
-                }
+                throw new NotImplementedException();
             }
             public static IEnumerable<IConstraint<T>> GenerateTypeOrVariableConstraints<T>(Type[] types)
             {
-                int length = types.Length;
-                List<ParameterExpression> parameters = new();
-                List<Expression> typeisexprs = new();
-
-                for (int index = 0; index < length; ++index)
-                {
-                    var p = System.Linq.Expressions.Expression.Parameter(typeof(object));
-                    parameters.Add(p);
-                    typeisexprs.Add(
-                        System.Linq.Expressions.Expression.OrElse(
-                            System.Linq.Expressions.Expression.TypeIs(p, types[index]),
-                            System.Linq.Expressions.Expression.TypeIs(p, typeof(Variable))
-                            )
-                        );
-                }
-                for (int index = 0; index < length; ++index)
-                {
-                    yield return new Constraint<T>(System.Linq.Expressions.Expression.Lambda<Func<T, bool>>(typeisexprs[index], parameters), types[index].FullName ?? string.Empty);
-                }
+                throw new NotImplementedException();
             }
 
-            internal Constraint(LambdaExpression lambda, string name)
+            internal Constraint(MethodDeclarationSyntax method, string name)
             {
-                Expression = lambda;
+                Syntax = method;
                 m_delegate = null;
                 m_name = name;
             }
 
-            public LambdaExpression Expression { get; }
+            public MethodDeclarationSyntax Syntax { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
 
@@ -1000,7 +953,7 @@ namespace AI
             public bool Invoke(object?[]? args)
             {
                 if (args == null) throw new ArgumentNullException(nameof(args));
-                m_delegate ??= Expression.Compile();
+                m_delegate ??= Syntax.Compile();
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
@@ -1012,25 +965,23 @@ namespace AI
 
         internal sealed class Constraint<T> : IConstraint<T>
         {
-            public Constraint(Expression<Func<T, bool>> lambda, string name)
+            public Constraint(MethodDeclarationSyntax method, string name)
             {
-                Expression = lambda;
+                Syntax = method;
                 m_delegate = null;
                 m_name = name;
             }
 
-            public Expression<Func<T, bool>> Expression { get; }
+            public MethodDeclarationSyntax Syntax { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
 
             public string Name => m_name;
 
-            LambdaExpression IInspectableDelegate.Expression => Expression;
-
             public bool Invoke(object?[]? args)
             {
                 if (args == null) throw new ArgumentNullException(nameof(args));
-                m_delegate ??= Expression.Compile();
+                m_delegate ??= Syntax.Compile();
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
@@ -1041,7 +992,7 @@ namespace AI
 
             public bool Invoke(T arg)
             {
-                m_delegate ??= Expression.Compile();
+                m_delegate ??= Syntax.Compile();
                 return ((Func<T, bool>)m_delegate!)(arg);
             }
         }

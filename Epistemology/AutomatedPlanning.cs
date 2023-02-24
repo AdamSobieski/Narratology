@@ -32,8 +32,8 @@ namespace AI.AutomatedPlanning
         public IReadOnlyList<IConstraint> Constraints { get; }
         public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason);
         public IAction Invoke(object?[]? args);
-        public IReadOnlyList<ILambdaGenerator<Func<IState, bool>>>? Preconditions { get; }
-        public IReadOnlyList<ILambdaGenerator<Action<IState>>>? Effects { get; }
+        public IReadOnlyList<IMethodGenerator>? Preconditions { get; }
+        public IReadOnlyList<IMethodGenerator>? Effects { get; }
     }
 
     public interface IAction
@@ -74,11 +74,11 @@ namespace AI.AutomatedPlanning
         {
             public static IConstraint<IQueryable<T>> Always<T>(Expression<Func<T, bool>> predicate, string name)
             {
-                return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Always(predicate), name);
+                throw new NotImplementedException();
             }
             public static IConstraint<IQueryable<T>> Sometime<T>(Expression<Func<T, bool>> predicate, string name)
             {
-                return new Constraint<IQueryable<T>>((IQueryable<T> source) => source.Sometime(predicate), name);
+                throw new NotImplementedException();
             }
 
             //...
