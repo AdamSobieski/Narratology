@@ -1,6 +1,6 @@
 ﻿using AI.Epistemology.Constraints;
 using AI.Epistemology.Reasoning;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis;
 using System.Collections;
 using System.Collections.Graphs;
 using System.Diagnostics.CodeAnalysis;
@@ -916,13 +916,13 @@ namespace AI
     {
         public sealed class Constraint : IConstraint
         {
-            public static IConstraint Create(MethodDeclarationSyntax expression, string name)
+            public static IConstraint Create(SyntaxNode syntax, string name)
             {
-                return new Constraint(expression, name);
+                return new Constraint(syntax, name);
             }
-            public static IConstraint<T> Create<T>(MethodDeclarationSyntax expression, string name)
+            public static IConstraint<T> Create<T>(SyntaxNode syntax, string name)
             {
-                return new Constraint<T>(expression, name);
+                return new Constraint<T>(syntax, name);
             }
 
             public static IEnumerable<IConstraint> GenerateTypeConstraints(Type[] types)
@@ -938,18 +938,20 @@ namespace AI
                 throw new NotImplementedException();
             }
 
-            internal Constraint(MethodDeclarationSyntax method, string name)
+            internal Constraint(SyntaxNode syntax, string name)
             {
-                Syntax = method;
+                Syntax = syntax;
                 m_delegate = null;
                 m_name = name;
             }
 
-            public MethodDeclarationSyntax Syntax { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
 
             public string Name => m_name;
+
+            public SyntaxNode Syntax { get; }
+            public SemanticModel Semantics => throw new NotImplementedException();
 
             public MethodInfo Method
             {
@@ -975,18 +977,21 @@ namespace AI
 
         internal sealed class Constraint<T> : IConstraint<T>
         {
-            public Constraint(MethodDeclarationSyntax method, string name)
+            public Constraint(SyntaxNode syntax, string name)
             {
-                Syntax = method;
+                Syntax = syntax;
                 m_delegate = null;
                 m_name = name;
             }
 
-            public MethodDeclarationSyntax Syntax { get; }
             private Delegate? m_delegate;
             private readonly string m_name;
 
             public string Name => m_name;
+
+            public SyntaxNode Syntax { get; }
+
+            public SemanticModel Semantics => throw new NotImplementedException();
 
             public MethodInfo Method
             {

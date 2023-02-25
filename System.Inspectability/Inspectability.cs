@@ -1,14 +1,13 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis;
 using System.Reflection;
 
 namespace System
 {
     public interface IInspectableDelegate
     {
-        public MethodDeclarationSyntax Syntax { get; }
-
+        public SyntaxNode Syntax { get; }
+        public SemanticModel Semantics { get; }
         public MethodInfo Method { get; }
-
         public object? Invoke(object?[]? args);
     }
 
