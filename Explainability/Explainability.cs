@@ -2,7 +2,12 @@
 
 namespace Prototype.CodeAnalysis
 {
-    public sealed class Explained<T> { }
+    public sealed class Explained<T>
+    {
+        public T Value { get; }
+
+        // ...
+    }
 
     public sealed class CausalFlowAnalysis
     {
