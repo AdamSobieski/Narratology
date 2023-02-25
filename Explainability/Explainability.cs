@@ -4,7 +4,10 @@ namespace Prototype.CodeAnalysis
 {
     public sealed class Explained<T> { }
 
-    public sealed class CausalFlowAnalysis { }
+    public sealed class CausalFlowAnalysis
+    {
+        // see also: https://github.com/dotnet/roslyn-analyzers/tree/main/src/Utilities/FlowAnalysis/FlowAnalysis
+    }
 
     public static class Explainability
     {
