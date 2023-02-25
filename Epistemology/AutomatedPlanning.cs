@@ -32,8 +32,8 @@ namespace AI.AutomatedPlanning
         public IReadOnlyList<IConstraint> Constraints { get; }
         public bool CanInvoke(object?[]? args, [NotNullWhen(false)] out Exception? reason);
         public IAction Invoke(object?[]? args);
-        public IReadOnlyList<IMethodGenerator>? Preconditions { get; }
-        public IReadOnlyList<IMethodGenerator>? Effects { get; }
+        public IReadOnlyList<IInspectableDelegateGenerator>? Preconditions { get; }
+        public IReadOnlyList<IInspectableDelegateGenerator>? Effects { get; }
     }
 
     public interface IAction

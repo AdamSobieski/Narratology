@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Runtime.Loader;
 
-namespace System.Inspectability
+namespace System
 {
     public static class RuntimeCompiler
     {

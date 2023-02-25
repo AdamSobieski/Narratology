@@ -18,9 +18,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Epistemology\Epistemology.csproj" />
+    <ProjectReference Include="..\Inspectability\Inspectability.csproj" />
     <ProjectReference Include="..\Narratology\Narratology.csproj" />
     <ProjectReference Include="..\System.Collections.Automata\System.Collections.Automata.csproj" />
-    <ProjectReference Include="..\System.Inspectability\System.Inspectability.csproj" />
   </ItemGroup>
 
 </Project>

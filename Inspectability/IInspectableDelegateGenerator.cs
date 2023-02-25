@@ -1,6 +1,6 @@
 ﻿namespace System
 {
-    public interface IMethodGenerator : IInspectableDelegate
+    public interface IInspectableDelegateGenerator : IInspectableDelegate
     {
         public new IInspectableDelegate Invoke(object?[]? args);
     }
