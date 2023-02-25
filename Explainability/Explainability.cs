@@ -4,11 +4,11 @@ namespace Prototype.CodeAnalysis
 {
     public sealed class Explained<T> { }
 
-    public sealed class CausalAnalysis { }
+    public sealed class CausalFlowAnalysis { }
 
     public static class Explainability
     {
-        public static CausalAnalysis AnalyzeCausalFlow(this SemanticModel model, SyntaxNode statement)
+        public static CausalFlowAnalysis AnalyzeCausalFlow(this SemanticModel model, SyntaxNode statement)
         {
             throw new NotImplementedException();
         }

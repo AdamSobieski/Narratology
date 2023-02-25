@@ -8,7 +8,7 @@ using AI.Narratology.Hermeneutics;
 using AI.Narratology.Stylistics;
 using System.Collections.Trees;
 
-// 0.0.4.82
+// 0.0.4.83
 
 namespace AI
 {
@@ -93,7 +93,7 @@ namespace AI
 
     namespace Narratology.Causality
     {
-        public interface ICausalReasoner : IThing
+        public interface ICausalReasoner
         {
             public bool? Caused(IEnumerable<IEvent> x, IEvent y);
             public bool? Caused(IEnumerable<IEvent> x, IEnumerable<IEvent> y)
