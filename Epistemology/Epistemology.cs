@@ -961,6 +961,8 @@ namespace AI
                 }
             }
 
+            public object? Target => throw new NotImplementedException();
+
             public bool Invoke(object?[]? args)
             {
                 if (args == null) throw new ArgumentNullException(nameof(args));
@@ -968,7 +970,7 @@ namespace AI
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
-            object? IInspectableDelegate.Invoke(object?[]? args)
+            object? IInspectableDelegate.DynamicInvoke(object?[]? args)
             {
                 return Invoke(args);
             }
@@ -1001,6 +1003,8 @@ namespace AI
                 }
             }
 
+            public object? Target => throw new NotImplementedException();
+
             public bool Invoke(object?[]? args)
             {
                 if (args == null) throw new ArgumentNullException(nameof(args));
@@ -1008,7 +1012,7 @@ namespace AI
                 return (bool)(m_delegate.DynamicInvoke(args) ?? false);
             }
 
-            object? IInspectableDelegate.Invoke(object?[]? args)
+            object? IInspectableDelegate.DynamicInvoke(object?[]? args)
             {
                 return Invoke(args);
             }
@@ -1024,7 +1028,7 @@ namespace AI
         {
             public string? Name { get; }
 
-            public new bool Invoke(object?[]? args);
+            public bool Invoke(object?[]? args);
         }
 
         public interface IConstraint<T> : IConstraint, IInspectableFunc<T, bool> { }

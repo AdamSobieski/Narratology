@@ -4,6 +4,11 @@ namespace Prototype.CodeAnalysis
 {
     public sealed class Explained<T>
     {
+        public Explained(T value)
+        {
+            Value = value;
+        }
+
         public T Value { get; }
 
         // ...

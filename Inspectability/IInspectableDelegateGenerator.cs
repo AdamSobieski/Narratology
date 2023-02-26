@@ -2,6 +2,6 @@
 {
     public interface IInspectableDelegateGenerator : IInspectableDelegate
     {
-        public new IInspectableDelegate Invoke(object?[]? args);
+        public IInspectableDelegate Invoke(object?[]? args);
     }
 }

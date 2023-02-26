@@ -8,7 +8,8 @@ namespace System
         public SyntaxNode Syntax { get; }
         public SemanticModel Semantics { get; }
         public MethodInfo Method { get; }
-        public object? Invoke(object?[]? args);
+        public object? Target { get; }
+        public object? DynamicInvoke(params object?[]? args);
     }
 
     public interface IInspectableFunc<TResult> : IInspectableDelegate
