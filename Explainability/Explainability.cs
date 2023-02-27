@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using ICSharpCode.Decompiler.Semantics;
+using Microsoft.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
@@ -83,7 +84,7 @@ namespace Prototype.CodeAnalysis
                 // Step 4: Transform the ICSharpCode.Decompiler syntax tree into a Microsoft.CodeAnalysis.CSharp syntax tree using a visitor, e.g., extending DepthFirstAstVisitor<object>
 
                 // Step 5: Obtain a Microsoft.CodeAnalysis.CSharp semantic model for the resultant syntax tree
-                
+
                 // Step 6: Perform a configurable causal flow analysis on the Microsoft.CodeAnalysis.CSharp semantic model
 
                 // Step 7: Obtain data, the explanations of each return or yield statement, with which to construct each Explained<T> value for each resultant return or yield statement
@@ -109,6 +110,30 @@ namespace Prototype.CodeAnalysis
             throw new NotImplementedException();
         }
         public static Func<T1, T2, T3, T4, Explained<TResult>> ToExplainable<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, TResult> method)
+        {
+            throw new NotImplementedException();
+        }
+
+        //...
+
+        // should these extension methods be named ToExplainableIterator() ?
+        public static Func<IEnumerable<Explained<TResult>>> ToExplainable<TResult>(this Func<IEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T, IEnumerable<Explained<TResult>>> ToExplainable<T, TResult>(this Func<T, IEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, IEnumerable<Explained<TResult>>> ToExplainable<T1, T2, TResult>(this Func<T1, T2, IEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, IEnumerable<Explained<TResult>>> ToExplainable<T1, T2, T3, TResult>(this Func<T1, T2, T3, IEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, T4, IEnumerable<Explained<TResult>>> ToExplainable<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, IEnumerable<TResult>> method)
         {
             throw new NotImplementedException();
         }
