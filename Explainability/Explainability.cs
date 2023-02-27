@@ -115,6 +115,27 @@ namespace Prototype.CodeAnalysis
 
         //...
 
+        public static Func<Task<Explained<TResult>>> ToExplainable<TResult>(this Func<Task<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T, Task<Explained<TResult>>> ToExplainable<T, TResult>(this Func<T, Task<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, Task<Explained<TResult>>> ToExplainable<T1, T2, TResult>(this Func<T1, T2, Task<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, Task<Explained<TResult>>> ToExplainable<T1, T2, T3, TResult>(this Func<T1, T2, T3, Task<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, T4, Task<Explained<TResult>>> ToExplainable<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, Task<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+
         // should these extension methods be named ToExplainableIterator() ?
         public static Func<IEnumerable<Explained<TResult>>> ToExplainable<TResult>(this Func<IEnumerable<TResult>> method)
         {
@@ -136,7 +157,6 @@ namespace Prototype.CodeAnalysis
         {
             throw new NotImplementedException();
         }
-
 
         // should these extension methods be named ToExplainableAsyncIterator() ?
         public static Func<IAsyncEnumerable<Explained<TResult>>> ToExplainable<TResult>(this Func<IAsyncEnumerable<TResult>> method)
