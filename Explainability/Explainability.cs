@@ -82,15 +82,17 @@ namespace Prototype.CodeAnalysis
 
                 // Step 4: Transform the ICSharpCode.Decompiler syntax tree into a Microsoft.CodeAnalysis.CSharp syntax tree using a visitor, e.g., extending DepthFirstAstVisitor<object>
 
-                // Step 5: Perform causal flow analysis on the Microsoft.CodeAnalysis.CSharp syntax tree
+                // Step 5: Obtain a Microsoft.CodeAnalysis.CSharp semantic model for the resultant syntax tree
+                
+                // Step 6: Perform causal flow analysis on the Microsoft.CodeAnalysis.CSharp semantic model
 
-                // Step 6: Obtain data, explanatations, with which to construct each return or yield statement for the output method of type Explained<T>
+                // Step 7: Obtain data, explanatations, with which to construct each return or yield statement for the output method of type Explained<T>
 
-                // Step 7: Generate the output method (add CompilerGenerated attribute to it, add ExplainsMethod attribute to it (?), etc.)
+                // Step 8: Generate the output method (add CompilerGenerated attribute to it, add ExplainsMethod attribute to it (?), etc.)
 
-                // Step 8: Compile the output method
+                // Step 9: Compile the output method
 
-                // Step 9: Return a delegate for the compiled output method
+                // Step 10: Return a delegate for the compiled output method
             }
             throw new NotImplementedException();
         }
