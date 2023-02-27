@@ -1,5 +1,4 @@
-﻿using ICSharpCode.Decompiler.Semantics;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
@@ -134,6 +133,29 @@ namespace Prototype.CodeAnalysis
             throw new NotImplementedException();
         }
         public static Func<T1, T2, T3, T4, IEnumerable<Explained<TResult>>> ToExplainable<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, IEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // should these extension methods be named ToExplainableAsyncIterator() ?
+        public static Func<IAsyncEnumerable<Explained<TResult>>> ToExplainable<TResult>(this Func<IAsyncEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T, IAsyncEnumerable<Explained<TResult>>> ToExplainable<T, TResult>(this Func<T, IAsyncEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, IAsyncEnumerable<Explained<TResult>>> ToExplainable<T1, T2, TResult>(this Func<T1, T2, IAsyncEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, IAsyncEnumerable<Explained<TResult>>> ToExplainable<T1, T2, T3, TResult>(this Func<T1, T2, T3, IAsyncEnumerable<TResult>> method)
+        {
+            throw new NotImplementedException();
+        }
+        public static Func<T1, T2, T3, T4, IAsyncEnumerable<Explained<TResult>>> ToExplainable<T1, T2, T3, T4, TResult>(this Func<T1, T2, T3, T4, IAsyncEnumerable<TResult>> method)
         {
             throw new NotImplementedException();
         }
