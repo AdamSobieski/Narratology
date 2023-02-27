@@ -86,7 +86,7 @@ namespace Prototype.CodeAnalysis
                 
                 // Step 6: Perform causal flow analysis on the Microsoft.CodeAnalysis.CSharp semantic model
 
-                // Step 7: Obtain data, explanatations, with which to construct each return or yield statement for the output method of type Explained<T>
+                // Step 7: Obtain data, the explanations of each return or yield statement, with which to construct each Explained<T> value for each resultant return or yield statement
 
                 // Step 8: Generate the output method (add CompilerGenerated attribute to it, add ExplainsMethod attribute to it (?), etc.)
 
