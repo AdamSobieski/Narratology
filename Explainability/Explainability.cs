@@ -84,7 +84,7 @@ namespace Prototype.CodeAnalysis
 
                 // Step 5: Obtain a Microsoft.CodeAnalysis.CSharp semantic model for the resultant syntax tree
                 
-                // Step 6: Perform causal flow analysis on the Microsoft.CodeAnalysis.CSharp semantic model
+                // Step 6: Perform a configurable causal flow analysis on the Microsoft.CodeAnalysis.CSharp semantic model
 
                 // Step 7: Obtain data, the explanations of each return or yield statement, with which to construct each Explained<T> value for each resultant return or yield statement
 
