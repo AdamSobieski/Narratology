@@ -1,4 +1,34 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    public sealed class ExplainedByMethodAttribute : Attribute
+    {
+        public ExplainedByMethodAttribute(Type type, string methodName)
+        {
+            Type = type;
+            MethodName = methodName;
+        }
+
+        public Type Type { get; }
+        public string MethodName { get; }
+    }
+
+    //[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    //public sealed class ExplainsMethodAttribute : Attribute
+    //{
+    //    public ExplainsMethodAttribute(Type type, string methodName)
+    //    {
+    //        Type = type;
+    //        MethodName = methodName;
+    //    }
+
+    //    public Type Type { get; }
+    //    public string MethodName { get; }
+    //}
+}
 
 namespace Prototype.CodeAnalysis
 {
@@ -28,6 +58,40 @@ namespace Prototype.CodeAnalysis
 
         public static Func<Explained<TResult>> ToExplainable<TResult>(this Func<TResult> method)
         {
+            // Algorithm rough draft:
+
+            // Step 1: Does the input method have a metadata attribute indicating that it was compiled with an accompanying explainable method?
+
+            object[] attributes = method.Method.GetCustomAttributes(typeof(ExplainedByMethodAttribute), false);
+            if (attributes.Length > 0)
+            {
+                if (attributes.Length > 1)
+                {
+                    throw new InvalidProgramException();
+                }
+
+                var attribute = (ExplainedByMethodAttribute)attributes[0];
+
+                // ...
+            }
+            else
+            {
+                // Step 2: If not, is there a cached result for this input method?
+
+                // Step 3: If not, decompile the input method
+
+                // Step 4: Transform the ICSharpCode.Decompiler syntax tree into a Microsoft.CodeAnalysis.CSharp syntax tree using a visitor, e.g., extending DepthFirstAstVisitor<object>
+
+                // Step 5: Perform causal flow analysis on the Microsoft.CodeAnalysis.CSharp syntax tree
+
+                // Step 6: Obtain data, explanatations, with which to construct each return or yield statement for the output method of type Explained<T>
+
+                // Step 7: Generate the output method (add CompilerGenerated attribute to it, add ExplainsMethod attribute to it (?), etc.)
+
+                // Step 8: Compile the output method
+
+                // Step 9: Return a delegate for the compiled output method
+            }
             throw new NotImplementedException();
         }
         public static Func<T, Explained<TResult>> ToExplainable<T, TResult>(this Func<T, TResult> method)
