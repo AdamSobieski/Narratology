@@ -14,25 +14,25 @@ namespace AI
 {
     namespace Narratology
     {
-        public interface INarrative : IThing
+        public interface INarrative
         {
             public IFabula Fabula { get; }
             public IEnumerable<ISyuzhet> Syuzhets { get; }
         }
 
-        public interface IFabula : IThing
+        public interface IFabula
         {
             public IEventSet Events { get; }
         }
 
-        public interface ISyuzhet : IThing
+        public interface ISyuzhet
         {
             public IEventSequence Events { get; }
 
             public IEnumerable<INarration> Narrations { get; }
         }
 
-        public interface INarration : IThing
+        public interface INarration
         {
             public IEvent Event { get; }
 
@@ -43,7 +43,7 @@ namespace AI
             public IEnumerable<IText> Realizations { get; }
         }
 
-        public interface IText : IThing
+        public interface IText
         {
             public ISegment CreateSegment(ISelection selection);
         }
@@ -73,7 +73,7 @@ namespace AI
 
     namespace Narratology.Annotation
     {
-        public interface ISegment : IThing
+        public interface ISegment
         {
             public IText Text { get; }
 
@@ -114,7 +114,7 @@ namespace AI
             }
         }
 
-        public interface IPlot : IThing
+        public interface IPlot
         {
             public IEventSequence Events { get; }
         }
@@ -178,7 +178,7 @@ namespace AI
 
     namespace Narratology.Events
     {
-        public interface IEvent : IThing
+        public interface IEvent
         {
             // https://plato.stanford.edu/entries/events/
             // https://en.wikipedia.org/wiki/Thematic_relation
@@ -208,7 +208,7 @@ namespace AI
 
     namespace Narratology.Hermeneutics
     {
-        public interface IInterpretation : IThing
+        public interface IInterpretation
         {
             public IEvent Event { get; }
 
@@ -217,9 +217,9 @@ namespace AI
             public IContent Content { get; }
         }
 
-        public interface IContent : IReadOnlyDictionary<IEventSequence, IThing>
+        public interface IContent : IReadOnlyDictionary<IEventSequence, object>
         {
-            public IThing this[params IEvent[] events]
+            public object this[params IEvent[] events]
             {
                 get;
             }
@@ -261,7 +261,7 @@ namespace AI
 
     namespace Narratology.Stylistics
     {
-        public interface IStyle : IThing
+        public interface IStyle
         {
             public IStatementCollection Content { get; }
 

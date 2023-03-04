@@ -7,31 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace System
-{
-    public interface IHasProperties
-    {
-        public IDataDictionary Properties { get; }
-    }
-
-    public interface IHasMetadata
-    {
-        public IDataDictionary Metadata { get; }
-    }
-
-    public interface IThing : IHasProperties, IHasMetadata { }
-
-    public interface IDataDictionary : IDictionary<string, object?>
-    {
-        void Define(string key, Type type);
-        void Define(string key, IEnumerable<IConstraint> constraints);
-        bool TryGetDefinition(string key, out IEnumerable<IConstraint> constraints);
-
-        bool TryGetValue(string key, out object? value, [NotNullWhen(true)] out IEnumerable? justifications);
-        bool TrySetValue(string key, object? value, IEnumerable justifications);
-    }
-}
-
 namespace System.Collections.Generic
 {
     public interface ITrie<T>
