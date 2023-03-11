@@ -56,6 +56,18 @@ Chaturvedi, Snigdha, Haoruo Peng, and Dan Roth. "Story comprehension for predict
 
 Piper, Andrew, Richard Jean So, and David Bamman. "Narrative theory for computational narrative understanding." In Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing, pp. 298-311. 2021.
 
+### Narrative Infilling
+
+Ippolito, Daphne, David Grangier, Chris Callison-Burch, and Douglas Eck. "Unsupervised hierarchical story infilling." In Proceedings of the First Workshop on Narrative Understanding, pp. 37-43. 2019.
+
+Mori, Yusuke, Hiroaki Yamane, Yusuke Mukuta, and Tatsuya Harada. "Finding and generating a missing part for story completion." In Proceedings of the The 4th Joint SIGHUM Workshop on Computational Linguistics for Cultural Heritage, Social Sciences, Humanities and Literature, pp. 156-166. 2020.
+
+### Causal Reasoning
+
+Trabasso, Tom. "The role of causal reasoning in understanding narratives." From orthography to pedagogy: Essays in honor of Richard L. Venezky (2005): 81-106.
+
+Van den Broek, Paul. "Causal reasoning and inference making in judging the importance of story statements." Child development (1989): 286-297.
+
 ### Question-answering
 
 Choi, Seongho, Kyoung-Woon On, Yu-Jung Heo, Ahjeong Seo, Youwon Jang, Minsu Lee, and Byoung-Tak Zhang. "DramaQA: Character-centered video story understanding with hierarchical QA." In Proceedings of the AAAI Conference on Artificial Intelligence, vol. 35, no. 2, pp. 1166-1174. 2021.
