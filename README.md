@@ -50,6 +50,12 @@ Li, Maosen, Siheng Chen, Yanning Shen, Genjia Liu, Ivor W. Tsang, and Ya Zhang. 
 
 Yuan, Ye, Xinshuo Weng, Yanglan Ou, and Kris M. Kitani. "AgentFormer: Agent-aware transformers for socio-temporal multi-agent forecasting." In Proceedings of the IEEE/CVF International Conference on Computer Vision, pp. 9813-9823. 2021.
 
+### Causal Reasoning
+
+Trabasso, Tom. "The role of causal reasoning in understanding narratives." From orthography to pedagogy: Essays in honor of Richard L. Venezky (2005): 81-106.
+
+Van den Broek, Paul. "Causal reasoning and inference making in judging the importance of story statements." Child development (1989): 286-297.
+
 ### Narrative Comprehension and Prediction
 
 Chaturvedi, Snigdha, Haoruo Peng, and Dan Roth. "Story comprehension for predicting what happens next." In Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing, pp. 1603-1614. 2017.
@@ -61,12 +67,6 @@ Piper, Andrew, Richard Jean So, and David Bamman. "Narrative theory for computat
 Ippolito, Daphne, David Grangier, Chris Callison-Burch, and Douglas Eck. "Unsupervised hierarchical story infilling." In Proceedings of the First Workshop on Narrative Understanding, pp. 37-43. 2019.
 
 Mori, Yusuke, Hiroaki Yamane, Yusuke Mukuta, and Tatsuya Harada. "Finding and generating a missing part for story completion." In Proceedings of the The 4th Joint SIGHUM Workshop on Computational Linguistics for Cultural Heritage, Social Sciences, Humanities and Literature, pp. 156-166. 2020.
-
-### Causal Reasoning
-
-Trabasso, Tom. "The role of causal reasoning in understanding narratives." From orthography to pedagogy: Essays in honor of Richard L. Venezky (2005): 81-106.
-
-Van den Broek, Paul. "Causal reasoning and inference making in judging the importance of story statements." Child development (1989): 286-297.
 
 ### Question-answering
 
