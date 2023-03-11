@@ -25,8 +25,18 @@ Setty, Vinay, and Katja Hose. "Event2vec: Neural embeddings for news events." In
 
 Torricelli, Maddalena, Márton Karsai, and Laetitia Gauvin. "Weg2vec: Event embedding for temporal networks." Scientific reports 10, no. 1 (2020): 7164.
 
+### Character Modeling
+
+Rashkin, Hannah, Antoine Bosselut, Maarten Sap, Kevin Knight, and Yejin Choi. "Modeling naive psychology of characters in simple commonsense stories." arXiv preprint arXiv:1805.06533 (2018).
+
 ### Character Networks
 
 Labatut, Vincent, and Xavier Bost. "Extraction and analysis of fictional character networks: A survey." ACM Computing Surveys (CSUR) 52, no. 5 (2019): 1-40.
 
 Lee, O-Joun, and Jason J. Jung. "Story embedding: Learning distributed representations of stories based on character networks." Artificial Intelligence 281 (2020): 103235.
+
+### Story Comprehension and Prediction
+
+Chaturvedi, Snigdha, Haoruo Peng, and Dan Roth. "Story comprehension for predicting what happens next." In Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing, pp. 1603-1614. 2017.
+
+Piper, Andrew, Richard Jean So, and David Bamman. "Narrative theory for computational narrative understanding." In Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing, pp. 298-311. 2021.
