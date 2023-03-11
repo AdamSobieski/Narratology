@@ -57,6 +57,8 @@ Huang, Lifu, Ronan Le Bras, Chandra Bhagavatula, and Yejin Choi. "Cosmos QA: Mac
 
 Kočiský, Tomáš, Jonathan Schwarz, Phil Blunsom, Chris Dyer, Karl Moritz Hermann, Gábor Melis, and Edward Grefenstette. "The narrativeQA reading comprehension challenge." Transactions of the Association for Computational Linguistics 6 (2018): 317-328.
 
+Sap, Maarten, Hannah Rashkin, Derek Chen, Ronan LeBras, and Yejin Choi. "SocialIQa: Commonsense reasoning about social interactions." arXiv preprint arXiv:1904.09728 (2019).
+
 Talmor, Alon, and Jonathan Berant. "MultiQA: An empirical investigation of generalization and transfer in reading comprehension." arXiv preprint arXiv:1905.13453 (2019).
 
 Tapaswi, Makarand, Yukun Zhu, Rainer Stiefelhagen, Antonio Torralba, Raquel Urtasun, and Sanja Fidler. "MovieQA: Understanding stories in movies through question-answering." In Proceedings of the IEEE conference on computer vision and pattern recognition, pp. 4631-4640. 2016.
