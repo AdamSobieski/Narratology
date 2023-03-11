@@ -24,3 +24,9 @@ Hong, Shenda, Meng Wu, Hongyan Li, and Zhengwu Wu. "Event2vec: Learning represen
 Setty, Vinay, and Katja Hose. "Event2vec: Neural embeddings for news events." In The 41st International ACM SIGIR Conference on Research & Development in Information Retrieval, pp. 1013-1016. 2018.
 
 Torricelli, Maddalena, Márton Karsai, and Laetitia Gauvin. "Weg2vec: Event embedding for temporal networks." Scientific reports 10, no. 1 (2020): 7164.
+
+### Character Networks
+
+Labatut, Vincent, and Xavier Bost. "Extraction and analysis of fictional character networks: A survey." ACM Computing Surveys (CSUR) 52, no. 5 (2019): 1-40.
+
+Lee, O-Joun, and Jason J. Jung. "Story embedding: Learning distributed representations of stories based on character networks." Artificial Intelligence 281 (2020): 103235.
