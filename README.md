@@ -35,6 +35,12 @@ Labatut, Vincent, and Xavier Bost. "Extraction and analysis of fictional charact
 
 Lee, O-Joun, and Jason J. Jung. "Story embedding: Learning distributed representations of stories based on character networks." Artificial Intelligence 281 (2020): 103235.
 
+### Multiagent Systems
+
+Shoham, Yoav, and Kevin Leyton-Brown. Multiagent systems: Algorithmic, game-theoretic, and logical foundations. Cambridge University Press, 2008.
+
+Sun, Ron, ed. Cognition and multi-agent interaction: From cognitive modeling to social simulation. Cambridge University Press, 2006.
+
 ### Story Comprehension and Prediction
 
 Chaturvedi, Snigdha, Haoruo Peng, and Dan Roth. "Story comprehension for predicting what happens next." In Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing, pp. 1603-1614. 2017.
