@@ -39,6 +39,8 @@ Lee, O-Joun, and Jason J. Jung. "Story embedding: Learning distributed represent
 
 ### Multiagent Systems
 
+Li, Maosen, Siheng Chen, Yanning Shen, Genjia Liu, Ivor W. Tsang, and Ya Zhang. "Online multi-agent forecasting with interpretable collaborative graph neural networks." IEEE Transactions on Neural Networks and Learning Systems (2022).
+
 Shoham, Yoav, and Kevin Leyton-Brown. Multiagent systems: Algorithmic, game-theoretic, and logical foundations. Cambridge University Press, 2008.
 
 Sun, Ron, ed. Cognition and multi-agent interaction: From cognitive modeling to social simulation. Cambridge University Press, 2006.
