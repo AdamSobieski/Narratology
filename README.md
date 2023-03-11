@@ -39,15 +39,17 @@ Lee, O-Joun, and Jason J. Jung. "Story embedding: Learning distributed represent
 
 ### Multiagent Systems
 
-Li, Maosen, Siheng Chen, Yanning Shen, Genjia Liu, Ivor W. Tsang, and Ya Zhang. "Online multi-agent forecasting with interpretable collaborative graph neural networks." IEEE Transactions on Neural Networks and Learning Systems (2022).
-
 Shoham, Yoav, and Kevin Leyton-Brown. Multiagent systems: Algorithmic, game-theoretic, and logical foundations. Cambridge University Press, 2008.
 
 Sun, Ron, ed. Cognition and multi-agent interaction: From cognitive modeling to social simulation. Cambridge University Press, 2006.
 
+### Multiagent Forecasting
+
+Li, Maosen, Siheng Chen, Yanning Shen, Genjia Liu, Ivor W. Tsang, and Ya Zhang. "Online multi-agent forecasting with interpretable collaborative graph neural networks." IEEE Transactions on Neural Networks and Learning Systems (2022).
+
 Yuan, Ye, Xinshuo Weng, Yanglan Ou, and Kris M. Kitani. "AgentFormer: Agent-aware transformers for socio-temporal multi-agent forecasting." In Proceedings of the IEEE/CVF International Conference on Computer Vision, pp. 9813-9823. 2021.
 
-### Story Comprehension and Prediction
+### Narrative Comprehension and Prediction
 
 Chaturvedi, Snigdha, Haoruo Peng, and Dan Roth. "Story comprehension for predicting what happens next." In Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing, pp. 1603-1614. 2017.
 
