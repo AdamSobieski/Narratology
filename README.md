@@ -83,3 +83,7 @@ Talmor, Alon, and Jonathan Berant. "MultiQA: An empirical investigation of gener
 Tapaswi, Makarand, Yukun Zhu, Rainer Stiefelhagen, Antonio Torralba, Raquel Urtasun, and Sanja Fidler. "MovieQA: Understanding stories in movies through question-answering." In Proceedings of the IEEE conference on computer vision and pattern recognition, pp. 4631-4640. 2016.
 
 Xu, Ying, Dakuo Wang, Mo Yu, Daniel Ritchie, Bingsheng Yao, Tongshuang Wu, Zheng Zhang et al. "Fantastic questions and where to find them: FairytaleQA -- An authentic dataset for narrative comprehension." arXiv preprint arXiv:2203.13947 (2022).
+
+### Computational Hermeneutics
+
+Porter, Stanley E., and Jason C. Robinson. Hermeneutics: An introduction to interpretive theory. Wm. B. Eerdmans Publishing, 2011.
