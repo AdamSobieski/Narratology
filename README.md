@@ -11,13 +11,12 @@ The composition of the `IEvent` interface will prove to be important. Let us, in
 ```cs
 public partial interface IEvent
 {
-    public IEnumerable<IEventCategory> Categories { get; }
+    public IEnumerable<ICategory> Categories { get; }
 
     public DateTime Start { get; }
     public DateTime? End { get; }
 
-    public string? DisplayName { get; }
-
+    public string? Name { get; }
     public string Description { get; }
 
     public bool Involves(IPerson person);
@@ -39,7 +38,7 @@ public static partial class Extensions
 so that we can express:
 
 ```cs
-IEnumerable<IGrouping<IEventCategory, IEvent>> x = events.Where(e => e.Involves(person)).GroupByMany(e => e.Categories);
+IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.Involves(person)).GroupByMany(e => e.Categories);
 ```
 
 If events' categories were hierarchical in nature, capable of having super-categories and sub-categories, then we could consider tree-hierarchical, chronologically-sorted, multi-track, timeline views of life events.
