@@ -35,10 +35,10 @@ public static partial class Extensions
 }
 ```
 
-so that we can express:
+so that we can more readily express:
 
 ```cs
-IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.Involves(person)).GroupByMany(e => e.Categories);
+IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.Involves(person)).OrderBy(e => e.Start).GroupByMany(e => e.Categories);
 ```
 
 If events' categories were hierarchical in nature, capable of having super-categories and sub-categories, then we could consider tree-hierarchical, chronologically-sorted, multi-track, timeline views of life events.
