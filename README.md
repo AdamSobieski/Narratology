@@ -1,6 +1,10 @@
 ## Computational Narratology and Biography
 
-Considered, here, are computational narratological and biographical approaches primarily involving queryable sets of events.
+Considered, here, are some implementational approaches to computational narratology and biography.
+
+### Language Integrated Query
+
+With language integrated query (LINQ), we can consider queryable collections of events:
 
 ```cs
 IQueryable<IEvent> events;
