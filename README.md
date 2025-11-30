@@ -27,6 +27,29 @@ public partial interface IAudience : ISituationModeler, IEventInterpreter
 }
 ```
 
+### Concurrency
+
+Perhaps, instead of one `IEvent` necessarily being processed at a time, an array of concurrent events, `IEvent[]`, could be provided.
+
+```cs
+public partial interface IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent[] e);
+}
+
+public partial interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent[] e)
+    {
+        return this.Interpret(this.SituationModel, e);
+    }
+}
+```
+
+### Scopes and Contexts
+
+Coming soon.
+
 ### Question-asking
 
 How might an `IEventInterpreter` or `Audience` produce questions about an event to enhance interpretation and any corresponding updating of situation models?
