@@ -2,15 +2,9 @@
 
 Considered, here, are some implementational approaches to computational narratology and biography.
 
-### Language Integrated Query
+### Language Integrated Query and Events
 
-With language integrated query (LINQ), we can consider queryable collections of events:
-
-```cs
-IQueryable<IEvent> events;
-```
-
-The composition of the `IEvent` interface will prove to be important. Let us, initially, consider a simple model where events have categories.
+With language integrated query (LINQ), we could consider queryable collections of events, `IQueryable<IEvent>`. The specifics of any `IEvent` interface would prove to be important; let us, initially, consider a simple model where events can have one or more categories.
 
 ```cs
 public partial interface IEvent
@@ -32,7 +26,7 @@ public partial interface IEvent
 }
 ```
 
-Next, we can provide an extension function, `GroupByMany()`:
+Next, we could provide an extension function, `GroupByMany()`:
 
 ```cs
 public static partial class Extensions
@@ -44,60 +38,10 @@ public static partial class Extensions
 }
 ```
 
-so that we can more readily express:
+so that we might more readily express:
 
 ```cs
 IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.About(person)).OrderBy(e => e.Start).GroupByMany(e => e.Categories);
 ```
 
-There is a relationship between `IEnumerable<IGrouping<ICategory, IEvent>>` and the following example diagram:
-
-```
-+-------------+------------------------
-| Category #1 | [Event #1][Event #2]
-+-------------+------------------------
-| Category #2 | [Event #3]
-+-------------+------------------------
-| Category #3 |            [Event #4]
-+-------------+------------------------
-| Category #4 |      [Event #5     ]
-+-------------+------------------------
-| Category #5 |   [Event #6          ]
-+-------------+------------------------
-| Category #6 | [Event #3][Event# 7]
-+-------------+------------------------
-| Category #7 |            [Event #8]
-+-------------+------------------------
-| Category #8 |  [Event #9][Event #10]
-+-------------+------------------------
-              |1|1|1|1|1|1|1|1|1|1|1|1|
-              |9|9|9|9|9|9|9|9|9|9|9|9| 
-              |5|5|5|5|5|5|5|5|5|5|6|6| ...
-              |0|1|2|3|4|5|6|7|8|9|0|1|
-```
-
-If events' categories were hierarchical in nature, capable of having super-categories and sub-categories, then we could consider hierarchical, chronologically-sorted, multi-track, timeline views of life events:
-
-```
-+--------------+--------------+-------------+------------------------
-|              |              | Category #1 | [Event #1][Event #2]
-|              | Category #9  +-------------+------------------------
-|              |              | Category #2 | [Event #3]
-| Category #13 +--------------+-------------+------------------------
-|              |              | Category #3 |            [Event #4]
-|              | Category #10 +-------------+------------------------
-|              |              | Category #4 |      [Event #5     ]
-+--------------+--------------+-------------+------------------------
-|              |              | Category #5 |   [Event #6          ]
-|              | Category #11 +-------------+------------------------
-|              |              | Category #6 | [Event #3][Event# 7]
-| Category #14 +--------------+-------------+------------------------
-|              |              | Category #7 |            [Event #8]
-|              | Category #12 +-------------+------------------------
-|              |              | Category #8 |  [Event #9][Event #10]
-+--------------+--------------+-------------+------------------------
-                                            |1|1|1|1|1|1|1|1|1|1|1|1|
-                                            |9|9|9|9|9|9|9|9|9|9|9|9| 
-                                            |5|5|5|5|5|5|5|5|5|5|6|6| ...
-                                            |0|1|2|3|4|5|6|7|8|9|0|1|
-```
+If events' categories were hierarchical in nature, capable of having super-categories and sub-categories, then one could create hierarchical, chronologically-sorted, multi-track, timeline-based, event-related data structures.
