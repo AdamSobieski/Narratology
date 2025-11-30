@@ -85,3 +85,7 @@ public partial interface IAudience : ISituationModeler, IEventInterpreter
 ```
 
 Alternatively, agentic approaches could be considered; `IAudience` and `INarrator` could be agents capable of engaging in dialogue.
+
+### Multi-agent Systems
+
+Coming soon.
