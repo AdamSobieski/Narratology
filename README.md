@@ -4,7 +4,7 @@ Considered, here, are some implementational approaches to computational narratol
 
 ### Situation Modeling and Event Interpretation
 
-The following simple sketches explore the concepts that a situation model could be represented using a semantic graph and that a computational interpretation of an event involves producing weighted candidate updates to such a semantic situation model.
+The following simple sketches explore the concepts that a situation model could be represented using a semantic dataset and that a computational interpretation of an event could involve producing weighted candidate update sets for such a situation model.
 
 ```cs
 using VDS.RDF;
