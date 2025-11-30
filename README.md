@@ -44,7 +44,12 @@ If events' categories were hierarchical in nature, capable of having super-categ
 
 ### Situation Modeling and Event Interpretation
 
+The following sketches explore the concepts that a situation model could be represented using a semantic graph and that an event interpretation involves updates to a semantic situation model.
+
 ```cs
+using VDS.RDF;
+using VDS.RDF.Update;
+
 public interface ISituationModeler
 {
     public IInMemoryQueryableStore SituationModel { get; }
