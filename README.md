@@ -1,6 +1,6 @@
 ## Computational Narratology
 
-Considered, here, are some implementational approaches to computational narratology and biography.
+Considered, here, are some implementational approaches to computational narratology.
 
 ### Situation Modeling and Event Interpretation
 
