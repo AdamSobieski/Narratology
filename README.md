@@ -1,10 +1,10 @@
-## Computational Narratology and Biography
+## Computational Narratology
 
 Considered, here, are some implementational approaches to computational narratology and biography.
 
 ### Situation Modeling and Event Interpretation
 
-The following sketches explore the concepts that a situation model could be represented using a semantic graph and that a computational interpretation of an event involves producing weighted candidate updates to a semantic situation model.
+The following sketches explore the concepts that a situation model could be represented using a semantic graph and that a computational interpretation of an event involves producing weighted candidate updates to such a semantic situation model.
 
 ```cs
 using VDS.RDF;
