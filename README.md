@@ -29,7 +29,7 @@ public static partial class Extensions
 {
     public static IEnumerable<IGrouping<TKey, TElement>> GroupByMany<TKey, TElement>(this IEnumerable<TElement> source, Func<TElement, IEnumerable<TKey>> keysSelector)
     {
-        return source.SelectMany(element => keysSelector(element).Select(key => new { Key = key, Element = element })).GroupBy(pair => pair.Key, pair => pair.Element);
+        return source.SelectMany(element => keysSelector(element).Select(key => (key, element))).GroupBy(pair => pair.key, pair => pair.element);
     }
 }
 ```
