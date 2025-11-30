@@ -1,7 +1,5 @@
 ## Computational Narratology
 
-Considered, here, are some implementational approaches to computational narratology.
-
 ### Situation Modeling and Event Interpretation
 
 The following simple sketches explore the concepts that a situation model could be represented using a semantic dataset and that a computational interpretation of an event could involve producing weighted candidate update sets for such a situation model.
