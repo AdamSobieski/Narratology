@@ -31,7 +31,7 @@ public partial interface IAudience : ISituationModeler, IEventInterpreter
 
 ### Question-asking
 
-How might an `IEventInterpreter` or `Audience` produce questions about a story or event with which to enhance interpretations and any corresponding updating of situation models?
+How might an `IEventInterpreter` or `Audience` produce questions about an event to enhance interpretation and any corresponding updating of situation models?
 
 A callback function could be provided:
 
