@@ -50,6 +50,10 @@ public partial interface IAudience : ISituationModeler, IEventInterpreter
 
 Coming soon.
 
+### Semantic and Episodic Working Memory
+
+Coming soon.
+
 ### Question-asking
 
 How might an `IEventInterpreter` or `Audience` produce questions about an event to enhance interpretation and any corresponding updating of situation models?
