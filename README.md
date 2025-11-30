@@ -41,3 +41,25 @@ IEnumerable<IGrouping<ICategory, IEvent>> data = events.Where(e => e.About(perso
 ```
 
 If events' categories were hierarchical in nature, capable of having super-categories and sub-categories, then one could create hierarchical, chronologically-sorted, multi-track, timeline-based, event-related data structures.
+
+### Situation Modeling and Event Interpretation
+
+```cs
+public interface ISituationModeler
+{
+    public IInMemoryQueryableStore SituationModel { get; }
+}
+
+public interface IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e);
+}
+
+public interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e)
+    {
+        return this.Interpret(this.SituationModel, e);
+    }
+}
+```
