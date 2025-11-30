@@ -47,7 +47,7 @@ public static partial class Extensions
 so that we can more readily express:
 
 ```cs
-IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.Involves(person)).OrderBy(e => e.Start).GroupByMany(e => e.Categories);
+IEnumerable<IGrouping<ICategory, IEvent>> x = events.Where(e => e.About(person)).OrderBy(e => e.Start).GroupByMany(e => e.Categories);
 ```
 
 There is a relationship between `IEnumerable<IGrouping<ICategory, IEvent>>` and the following example diagram:
