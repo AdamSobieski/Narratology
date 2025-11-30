@@ -32,3 +32,56 @@ public partial interface IAudience : ISituationModeler, IEventInterpreter
 ### Question-asking
 
 How might an `IEventInterpreter` or `Audience` produce questions about a story or event with which to enhance interpretations and any corresponding updating of situation models?
+
+A callback function could be provided:
+
+```cs
+public partial interface IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e, QuestionCallback callback);
+}
+
+public partial interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e, QuestionCallback callback);
+}
+```
+
+Alternatively, an event could be created on `IAudience`:
+
+```cs
+public partial interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public event QuestionEventHandler OnQuestionAsked;
+}
+```
+
+Alternatively, questions could be provided on an output data structure:
+
+```cs
+public partial interface IEventInterpreter
+{
+    public IEventInterpretationResult Interpret(IInMemoryQueryableStore currentModel, IEvent e);
+}
+
+public partial interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public IEventInterpretationResult Interpret(IEvent e);
+}
+```
+
+Alternatively, `IAudience` could receive an `INarrator` instance in its `Interpret()` method to ask questions of:
+
+```cs
+public partial interface IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e, INarrator narrator);
+}
+
+public partial interface IAudience : ISituationModeler, IEventInterpreter
+{
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e, INarrator narrator);
+}
+```
+
+Alternatively, agentic approaches could be considered; `IAudience` and `INarrator` could be agents capable of engaging in dialogue.
