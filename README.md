@@ -19,11 +19,6 @@ public interface IInterpretation
     public IEnumerable<(float Confidence, SparqlUpdateCommandSet Commands)> Updates { get; }
 }
 
-public interface IValidator<in T>
-{
-    public IEnumerable<Exception> Validate(T value);
-}
-
 public interface IInterpreter<in T> : ISituationModeler
 {
     public IInterpretation Interpret(T input);
@@ -40,6 +35,11 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
+}
+
+public interface IValidator<in T>
+{
+    public IEnumerable<Exception> Validate(T value);
 }
 ```
 
