@@ -1,6 +1,6 @@
 ## Computational Narratology
 
-### Situation Modeling and Event Interpretation
+### Situation Models and Event Interpretation
 
 The following simple sketches explore the concepts that a situation model could be represented using a semantic dataset and that a computational interpretation of an event could involve producing weighted candidate update sets for such a situation model.
 
@@ -27,8 +27,6 @@ public interface IReader : ISituationModeler, IInterpreter<IEvent>
 }
 ```
 
-### Concurrency
-
 Perhaps, instead of one event being processed at a time, a set of events could be processed at a time.
 
 ```cs
@@ -41,7 +39,7 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<I
 }
 ```
 
-### Scopes and Contexts
+### Character Modeling and Social Cognition
 
 Coming soon.
 
@@ -49,25 +47,27 @@ Coming soon.
 
 Coming soon.
 
-### Character Modeling and Social Cognition
-
-Coming soon.
-
 ### Question-asking
 
-How might an `IReader` instance generate and ask questions about an input event to enhance its interpretive processes?
+To enhance its interpretive processes, how might an `IReader` instance generate and ask parsiminous questions about input events?
 
-Perhaps questions resulting from processing an arriving input event could be provided on an output data structure, `IInterpretationResult<T>`:
+Perhaps questions arising from the processing of input events could be provided on an output data structure, `IInterpretation`, with these questions intended for a narrator. Questions could be structured queries intended to be processed against the narrator's situation model.
 
 ```cs
-public partial interface IInterpreter<T>
+public partial interface IInterpretation
 {
-    public IInterpretationResult<T> Interpret(IInMemoryQueryableStore model, T input);
+    public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Result { get; }
+}
+
+public partial interface IInterpreter<in T>
+{
+    public IInterpretation Interpret(IInMemoryQueryableStore model, T input);
 }
 
 public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 {
-    public IInterpretationResult<IEvent> Interpret(IEvent input)
+    public IInterpretation Interpret(IEvent input)
     {
         return this.Interpret(this.SituationModel, input);
     }
@@ -76,6 +76,6 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 
 Agentic approaches should also be considered. `IReader` and `INarrator`, providing sequences of story events, could be agents capable of engaging with one another in dialogues.
 
-### Multi-agent Systems
+### Agentic Systems
 
 Coming soon.
