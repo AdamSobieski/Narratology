@@ -20,21 +20,10 @@ public interface IInterpretation
 
 public interface IInterpreter<in T>
 {
-    public IInterpretation Interpret(IInMemoryQueryableStore model, T input);
+    public IInterpretation Interpret(T input);
 }
 
 public partial interface IReader : ISituationModeler, IInterpreter<IEvent> { }
-
-public static class Extensions
-{
-    extension(IReader reader)
-    {
-        public IInterpretation Interpret(IEvent input)
-        {
-            return reader.Interpret(reader.SituationModel, input);
-        }
-    }
-}
 ```
 
 Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input, given a situation model.
