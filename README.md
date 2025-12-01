@@ -29,12 +29,6 @@ public partial interface IReader : IInterpreter<IEvent> { }
 
 Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input.
 
-Perhaps, instead of a reader incrementally processing input events one at a time, readers could process sets of events at a time.
-
-```cs
-public partial interface IReader : IInterpreter<IEnumerable<IEvent>> { }
-```
-
 ## Agentic Computational Narratology
 
 Story readers and narrators could be artificial-intelligence agents capable of engaging with one another in natural-language dialogues.
