@@ -49,9 +49,9 @@ Coming soon.
 
 ### Question-asking
 
-To enhance its interpretive processes, how might an `IReader` instance generate and ask parsiminous questions about input events?
+To enhance its interpretive processes, how might an `IReader` instance generate and efficiently, parsimoniously, ask questions about input events?
 
-Perhaps questions arising from the processing of input events could be provided on an output data structure, `IInterpretation`, with these questions intended for a narrator. Questions could be structured queries intended to be processed against the narrator's situation model.
+Perhaps questions pertinent to processing input events could be provided on an output data structure, `IInterpretation`, with these questions intended for a narrator or event provider. Questions could be structured queries intended to be processed against the narrator's situation model.
 
 ```cs
 public partial interface IInterpretation
