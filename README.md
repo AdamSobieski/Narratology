@@ -29,7 +29,7 @@ public interface IInterpreter<in T> : ISituationModeler
     public IInterpretation Interpret(T input);
 }
 
-public interface IInterpreterTreeNode<THIS, in T> : IInterpreter<T>
+public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
     where THIS : IInterpreterTreeNode<THIS, T>
 {
     public float Confidence { get; }
@@ -47,6 +47,22 @@ Using the above model, one could implement:
 
 ```cs
 public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
+```
+
+Using the above model, one could implement extension methods:
+
+```cs
+public static class Extensions
+{
+    extension<THIS, T>(IInterpreterTreeNode<THIS, T> node)
+        where THIS : IInterpreterTreeNode<THIS, T>
+    {
+        public IEnumerable<THIS> Process(T input, IValidator<THIS> validator)
+        {
+            ...
+        }
+    }
+}
 ```
 
 ## Agentic Computational Narratology
