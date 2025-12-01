@@ -36,7 +36,7 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 
     public THIS? Parent { get; }
     public IReadOnlyCollection<THIS> Children { get; }
-    public THIS CreateChild(float confidence, SparqlUpdateCommandSet updates);
+    public THIS CreateChild(float confidence, SparqlUpdateCommandSet commands);
 
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
