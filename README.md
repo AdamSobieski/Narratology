@@ -42,11 +42,6 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
 }
-
-public interface IValidator<in T>
-{
-    public IEnumerable<Exception> Validate(T value);
-}
 ```
 
 Using the above model, one could implement:
@@ -58,6 +53,16 @@ public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
 Using the above model, one could implement extension methods resembling:
 
 ```cs
+public interface IValidator<in T>
+{
+    public IEnumerable<Exception> Validate(T value);
+}
+
+public interface IScorer<in T>
+{
+    public float Score(T value);
+}
+
 public static class Extensions
 {
     extension<THIS, T>(IInterpreterTreeNode<THIS, T> node)
@@ -84,7 +89,26 @@ public static class Extensions
             }
         }
 
-        ...
+        public IEnumerable<(float Score, THIS Child)> Process(T input, IScorer<THIS> scorer)
+        {
+            foreach (var interpretation in node.Interpret(input))
+            {
+                if (!interpretation.Errors.Any())
+                {
+                    var child = node.CreateChild(interpretation);
+                    var score = scorer.Score(child);
+
+                    if (score > 0.0f && score <= 1.0f)
+                    {
+                        yield return (score, child);
+                    }
+                    else
+                    {
+                        child.Rollback(new Exception[] { });
+                    }
+                }
+            }
+        }
     }
 }
 ```
