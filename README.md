@@ -110,7 +110,3 @@ public static class Extensions
     }
 }
 ```
-
-## Agentic Computational Narratology
-
-Story readers and narrators could be artificial-intelligence agents capable of engaging with one another in natural-language dialogues.
