@@ -37,9 +37,9 @@ public static class Extensions
 }
 ```
 
-Note that `IInterpretation` supports providing both questions (intended for a narrator) and updates (intended for a reader's situation model).
+Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input, given a situation model.
 
-Perhaps, instead of events being incrementally processed one at a time, events could be processed a set at a time.
+Perhaps, instead of a reader incrementally processing input events one at a time, readers could process sets of events at a time.
 
 ```cs
 public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>> { }
