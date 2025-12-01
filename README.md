@@ -15,7 +15,7 @@ public interface ISituationModeler
 public interface IInterpretation
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Updates { get; }
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Commands)> Updates { get; }
 }
 
 public interface IInterpreter<in T>
