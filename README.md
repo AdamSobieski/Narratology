@@ -7,9 +7,9 @@ using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
 
-public interface ISituationModeler
+public interface IModeler
 {
-    public IInMemoryQueryableStore SituationModel { get; }
+    public IInMemoryQueryableStore Model { get; }
 }
 
 public interface IInterpretation
@@ -23,7 +23,7 @@ public interface IInterpretation
     public IEnumerable<Exception> Errors { get; }
 }
 
-public interface IInterpreter<in T> : ISituationModeler
+public interface IInterpreter<in T> : IModeler
 {
     public IEnumerable<IInterpretation> Interpret(T input);
 }
