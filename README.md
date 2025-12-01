@@ -41,10 +41,6 @@ public interface IInterpreterTreeNode<THIS, in T> : IInterpreter<T>
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
 }
-
-public interface IReader<T> : IInterpreterTreeNode<IReader<T>, T> { }
-
-public interface IEventReader : IReader<IEvent> { }
 ```
 
 ## Agentic Computational Narratology
