@@ -43,8 +43,12 @@ public interface IInterpreterTreeNode<THIS, in T> : IInterpreter<T>
 }
 ```
 
+Using the above model, one could implement:
+
+```cs
+public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
+```
+
 ## Agentic Computational Narratology
 
 Story readers and narrators could be artificial-intelligence agents capable of engaging with one another in natural-language dialogues.
-
-More coming soon.
