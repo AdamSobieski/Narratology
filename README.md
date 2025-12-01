@@ -29,7 +29,7 @@ public interface IReader : ISituationModeler, IInterpreter<IEvent>
 
 ### Concurrency
 
-Perhaps, instead of one `IEvent` necessarily being processed at a time, a set of concurrent events, `IEnumerable<IEvent>`, could be processed.
+Perhaps, instead of one event being processed at a time, a set of events could be processed at a time.
 
 ```cs
 public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>>
