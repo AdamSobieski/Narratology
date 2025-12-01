@@ -1,11 +1,10 @@
 ## Incremental Story Comprehension
 
-### Situation Models and Event Interpretation
-
-The following sketches explore that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate update sets for such situation models.
+The following interfaces explore that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate sets of updates for such situation models.
 
 ```cs
 using VDS.RDF;
+using VDS.RDF.Query;
 using VDS.RDF.Update;
 
 public interface ISituationModeler
@@ -13,35 +12,6 @@ public interface ISituationModeler
     public IInMemoryQueryableStore SituationModel { get; }
 }
 
-public interface IInterpreter<in T>
-{
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore model, T input);
-}
-
-public partial interface IReader : ISituationModeler, IInterpreter<IEvent> { }
-
-public static class Extensions
-{
-    public static IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(this IReader reader, IEvent input)
-    {
-        return reader.Interpret(reader.SituationModel, input);
-    }
-}
-```
-
-Perhaps, instead of one event being processed at a time, sets of events could be processed at a time.
-
-```cs
-public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>> { }
-```
-
-### Question-asking
-
-To enhance its interpretive processes, how might an `IReader` instance generate and efficiently, parsimoniously, ask questions about input events?
-
-Perhaps questions pertinent to processing input events could be provided on an output data structure, `IInterpretation`, with these questions intended for a narrator or event provider. Questions could be structured queries intended to be processed against the narrator's situation model.
-
-```cs
 public interface IInterpretation
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
@@ -54,6 +24,25 @@ public interface IInterpreter<in T>
 }
 
 public partial interface IReader : ISituationModeler, IInterpreter<IEvent> { }
+
+public static class Extensions
+{
+    extension(IReader reader)
+    {
+        public IInterpretation Interpret(IEvent input)
+        {
+            return reader.Interpret(reader.SituationModel, input);
+        }
+    }
+}
+```
+
+To enhance its interpretive processes, an `IReader` instance could generate and efficiently, parsimoniously, ask questions about input events. These questions could be structured queries intended for narrator's situation model.
+
+Also, perhaps, instead of events being incrementally processed one at a time, events could be processed a set at a time.
+
+```cs
+public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>> { }
 ```
 
 ## Agentic Computational Narratology
