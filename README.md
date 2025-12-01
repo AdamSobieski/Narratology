@@ -18,20 +18,20 @@ public interface IInterpretation
     public IEnumerable<(float Confidence, SparqlUpdateCommandSet Commands)> Updates { get; }
 }
 
-public interface IInterpreter<in T>
+public interface IInterpreter<in T> : ISituationModeler
 {
     public IInterpretation Interpret(T input);
 }
 
-public partial interface IReader : ISituationModeler, IInterpreter<IEvent> { }
+public partial interface IReader : IInterpreter<IEvent> { }
 ```
 
-Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input, given a situation model.
+Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input.
 
 Perhaps, instead of a reader incrementally processing input events one at a time, readers could process sets of events at a time.
 
 ```cs
-public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>> { }
+public partial interface IReader : IInterpreter<IEnumerable<IEvent>> { }
 ```
 
 ## Agentic Computational Narratology
