@@ -8,40 +8,35 @@ The following simple sketches explore the concepts that a situation model could 
 using VDS.RDF;
 using VDS.RDF.Update;
 
-public partial interface ISituationModeler
+public interface ISituationModeler
 {
     public IInMemoryQueryableStore SituationModel { get; }
 }
 
-public partial interface IEventInterpreter
+public interface IInterpreter<in T>
 {
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e);
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore model, T input);
 }
 
-public partial interface IAudience : ISituationModeler, IEventInterpreter
+public interface IReader : ISituationModeler, IInterpreter<IEvent>
 {
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e)
+    public virtual IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent input)
     {
-        return this.Interpret(this.SituationModel, e);
+        return this.Interpret(this.SituationModel, input);
     }
 }
 ```
 
 ### Concurrency
 
-Perhaps, instead of one `IEvent` necessarily being processed at a time, an array of concurrent events, `IEvent[]`, could be provided.
+Perhaps, instead of one `IEvent` necessarily being processed at a time, a set of concurrent events, `IEnumerable<IEvent>`, could be processed.
 
 ```cs
-public partial interface IEventInterpreter
+public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>>
 {
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent[] e);
-}
-
-public partial interface IAudience : ISituationModeler, IEventInterpreter
-{
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent[] e)
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEnumerable<IEvent> input)
     {
-        return this.Interpret(this.SituationModel, e);
+        return this.Interpret(this.SituationModel, input);
     }
 }
 ```
@@ -60,60 +55,26 @@ Coming soon.
 
 ### Question-asking
 
-How might an `IEventInterpreter` or `Audience` produce questions about an event to enhance interpretation and any corresponding updating of situation models?
+How might an `IReader` instance generate and ask questions about an input event to enhance its interpretive processes?
 
-A callback function could be provided:
+Perhaps questions resulting from processing an arriving input event could be provided on an output data structure, `IInterpretationResult<T>`:
 
 ```cs
-public partial interface IEventInterpreter
+public partial interface IInterpreter<T>
 {
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e, QuestionCallback callback);
+    public IInterpretationResult<T> Interpret(IInMemoryQueryableStore model, T input);
 }
 
-public partial interface IAudience : ISituationModeler, IEventInterpreter
+public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 {
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e, QuestionCallback callback);
+    public IInterpretationResult<IEvent> Interpret(IEvent input)
+    {
+        return this.Interpret(this.SituationModel, input);
+    }
 }
 ```
 
-Alternatively, an event could be created on `IAudience`:
-
-```cs
-public partial interface IAudience : ISituationModeler, IEventInterpreter
-{
-    public event QuestionEventHandler OnQuestionAsked;
-}
-```
-
-Alternatively, questions could be provided on an output data structure:
-
-```cs
-public partial interface IEventInterpreter
-{
-    public IEventInterpretationResult Interpret(IInMemoryQueryableStore currentModel, IEvent e);
-}
-
-public partial interface IAudience : ISituationModeler, IEventInterpreter
-{
-    public IEventInterpretationResult Interpret(IEvent e);
-}
-```
-
-Alternatively, `IAudience` could receive an `INarrator` instance in its `Interpret()` method to ask questions of:
-
-```cs
-public partial interface IEventInterpreter
-{
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IInMemoryQueryableStore currentModel, IEvent e, INarrator narrator);
-}
-
-public partial interface IAudience : ISituationModeler, IEventInterpreter
-{
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Interpret(IEvent e, INarrator narrator);
-}
-```
-
-Alternatively, agentic approaches could be considered; `IAudience` and `INarrator` could be agents capable of engaging in dialogue.
+Agentic approaches should also be considered. `IReader` and `INarrator`, providing sequences of story events, could be agents capable of engaging with one another in dialogues.
 
 ### Multi-agent Systems
 
