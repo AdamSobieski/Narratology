@@ -89,7 +89,7 @@ public static class Extensions
             }
         }
 
-        public IEnumerable<(float Score, THIS Child)> Process(T input, IScorer<THIS> scorer)
+        public IEnumerable<(float Score, THIS Node)> Process(T input, IScorer<THIS> scorer)
         {
             foreach (var interpretation in node.Interpret(input))
             {
@@ -104,7 +104,7 @@ public static class Extensions
                     }
                     else
                     {
-                        child.Rollback(new Exception[] { });
+                        child.Rollback([]);
                     }
                 }
             }
