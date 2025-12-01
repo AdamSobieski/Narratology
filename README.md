@@ -43,7 +43,7 @@ public interface IInterpreter<out THIS, in T> : IModeler
 One could then implement:
 
 ```cs
-public class Reader : IInterpreter<Reader, IEvent> { ... }
+public class StoryReader : IInterpreter<StoryReader, StoryEvent> { ... }
 ```
 
 One could also implement extension methods resembling:
