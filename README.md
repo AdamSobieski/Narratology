@@ -49,7 +49,7 @@ Perhaps questions pertinent to processing input events could be provided on an o
 public partial interface IInterpretation
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Result { get; }
+    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Updates)> Results { get; }
 }
 
 public partial interface IInterpreter<in T>
