@@ -1,6 +1,6 @@
 ## Incremental Story Comprehension
 
-The following model explores that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate sets of updates for such situation models.
+The following model explores that situation models could be represented using semantic datasets and that computational interpretations of sequences of events could involve producing weighted candidate sets of updates for such situation models.
 
 ```cs
 using VDS.RDF;
@@ -19,15 +19,33 @@ public interface IInterpretation
     public IEnumerable<(float Confidence, SparqlUpdateCommandSet Commands)> Updates { get; }
 }
 
+public interface IValidator<in T>
+{
+    public IEnumerable<Exception> Validate(T value);
+}
+
 public interface IInterpreter<in T> : ISituationModeler
 {
     public IInterpretation Interpret(T input);
 }
 
-public partial interface IReader : IInterpreter<IEvent> { }
-```
+public interface IInterpreterTreeNode<THIS, in T> : IInterpreter<T>
+    where THIS : IInterpreterTreeNode<THIS, T>
+{
+    public float Confidence { get; }
 
-Note that `IInterpretation` supports providing both questions (e.g., intended for a narrator) and updates (e.g., intended for a reader's situation model) in response to interpreting an input.
+    public THIS? Parent { get; }
+    public IReadOnlyCollection<THIS> Children { get; }
+    public THIS CreateChild(float confidence, SparqlUpdateCommandSet commands);
+
+    public THIS Commit(float confidence = 1.0f);
+    public void Rollback(IEnumerable<Exception> reason);
+}
+
+public interface IReader<T> : IInterpreterTreeNode<IReader<T>, T> { }
+
+public interface IEventReader : IReader<IEvent> { }
+```
 
 ## Agentic Computational Narratology
 
