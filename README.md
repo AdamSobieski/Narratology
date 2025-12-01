@@ -74,7 +74,7 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 }
 ```
 
-Agentic approaches should also be considered. Story readers and narrators could be agents capable of engaging with one another in dialogues.
+Agentic approaches should also be considered. Story readers and narrators could be agents capable of engaging with one another in natural-language dialogues.
 
 ### Agentic Systems
 
