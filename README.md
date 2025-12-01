@@ -68,6 +68,6 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 
 ## Agentic Computational Narratology
 
-Story readers and narrators could be artificial-intelligence agents capable of engaging with one another in natural-language dialogues in multi-agent systems.
+Story readers and narrators could be artificial-intelligence agents capable of engaging with one another in natural-language dialogues.
 
 More coming soon.
