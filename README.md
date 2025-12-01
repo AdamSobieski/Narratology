@@ -16,12 +16,14 @@ public interface IInterpretation
 {
     public IEnumerable<Exception> Errors { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
-    public IEnumerable<(float Confidence, SparqlUpdateCommandSet Commands)> Updates { get; }
+
+    public float Confidence { get; };
+    public SparqlUpdateCommandSet Commands { get; }
 }
 
 public interface IInterpreter<in T> : ISituationModeler
 {
-    public IInterpretation Interpret(T input);
+    public IEnumerable<IInterpretation> Interpret(T input);
 }
 
 public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
@@ -31,7 +33,7 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 
     public THIS? Parent { get; }
     public IReadOnlyCollection<THIS> Children { get; }
-    public THIS CreateChild(float confidence, SparqlUpdateCommandSet commands);
+    public THIS CreateChild(IInterpretation interpretation);
 
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
