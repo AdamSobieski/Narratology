@@ -44,13 +44,13 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 }
 ```
 
-Using the above model, one could implement:
+One could then implement:
 
 ```cs
 public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
 ```
 
-Using the above model, one could implement extension methods resembling:
+One could also implement extension methods resembling:
 
 ```cs
 public interface IValidator<in T>
