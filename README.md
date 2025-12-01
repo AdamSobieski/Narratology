@@ -9,6 +9,7 @@ using VDS.RDF.Update;
 
 public interface IModeler
 {
+    public float Confidence { get; }
     public IInMemoryQueryableStore Model { get; }
 }
 
@@ -23,15 +24,10 @@ public interface IInterpretation
     public IEnumerable<Exception> Errors { get; }
 }
 
-public interface IInterpreter<in T> : IModeler
+public interface IInterpreter<out THIS, in T> : IModeler
+    where THIS : IInterpreter<THIS, T>
 {
     public IEnumerable<IInterpretation> Interpret(T input);
-}
-
-public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
-    where THIS : IInterpreterTreeNode<THIS, T>
-{
-    public float Confidence { get; }
 
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 
@@ -47,7 +43,7 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 One could then implement:
 
 ```cs
-public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
+public class Reader : IInterpreter<Reader, IEvent> { ... }
 ```
 
 One could also implement extension methods resembling:
@@ -65,8 +61,8 @@ public interface IScorer<in T>
 
 public static class Extensions
 {
-    extension<THIS, T>(IInterpreterTreeNode<THIS, T> node)
-        where THIS : IInterpreterTreeNode<THIS, T>
+    extension<THIS, T>(IInterpreter<THIS, T> node)
+        where THIS : IInterpreter<THIS, T>
     {
         public IEnumerable<THIS> Process(T input, IValidator<THIS> validator)
         {
