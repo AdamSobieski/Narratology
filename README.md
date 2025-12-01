@@ -105,6 +105,8 @@ public static class Extensions
                 }
             }
         }
+
+        ...
     }
 }
 ```
