@@ -31,6 +31,8 @@ public interface IInterpreterTreeNode<out THIS, in T> : IInterpreter<T>
 {
     public float Confidence { get; }
 
+    public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
+
     public THIS? Parent { get; }
     public IReadOnlyCollection<THIS> Children { get; }
     public THIS CreateChild(IInterpretation interpretation);
@@ -51,7 +53,7 @@ Using the above model, one could implement:
 public class Reader : IInterpreterTreeNode<Reader, IEvent> { ... }
 ```
 
-Using the above model, one could implement extension methods:
+Using the above model, one could implement extension methods resembling:
 
 ```cs
 public static class Extensions
@@ -61,8 +63,26 @@ public static class Extensions
     {
         public IEnumerable<THIS> Process(T input, IValidator<THIS> validator)
         {
-            ...
+            foreach (var interpretation in node.Interpret(input))
+            {
+                if (!interpretation.Errors.Any())
+                {
+                    var child = node.CreateChild(interpretation);
+                    var errors = validator.Validate(child);
+
+                    if (!errors.Any())
+                    {
+                        yield return child;
+                    }
+                    else
+                    {
+                        child.Rollback(errors);
+                    }
+                }
+            }
         }
+
+        ...
     }
 }
 ```
