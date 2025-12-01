@@ -1,8 +1,10 @@
 ## Computational Narratology
 
-### Situation Models and Event Interpretation
+### Incremental Story Comprehension
 
-The following simple sketches explore the concepts that a situation model could be represented using a semantic dataset and that a computational interpretation of an event could involve producing weighted candidate update sets for such a situation model.
+#### Situation Models and Event Interpretation
+
+The following sketches explore that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate update sets for such situation models.
 
 ```cs
 using VDS.RDF;
@@ -27,7 +29,7 @@ public interface IReader : ISituationModeler, IInterpreter<IEvent>
 }
 ```
 
-Perhaps, instead of one event being processed at a time, a set of events could be processed at a time.
+Perhaps, instead of one event being processed at a time, sets of events could be processed at a time.
 
 ```cs
 public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>>
@@ -39,15 +41,7 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<I
 }
 ```
 
-### Character Modeling and Social Cognition
-
-Coming soon.
-
-### Semantic and Episodic Working Memory
-
-Coming soon.
-
-### Question-asking
+#### Question-asking
 
 To enhance its interpretive processes, how might an `IReader` instance generate and efficiently, parsimoniously, ask questions about input events?
 
@@ -76,6 +70,6 @@ public partial interface IReader : ISituationModeler, IInterpreter<IEvent>
 
 Agentic approaches should also be considered. Story readers and narrators could be agents capable of engaging with one another in natural-language dialogues.
 
-### Agentic Systems
+### Agentic Narratology
 
 Coming soon.
