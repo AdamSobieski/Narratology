@@ -37,9 +37,9 @@ public static class Extensions
 }
 ```
 
-To enhance its interpretive processes, an `IReader` instance could generate and efficiently, parsimoniously, ask questions about input events. These questions could be structured queries intended for narrator's situation model.
+Note that `IInterpretation` supports providing both questions (intended for a narrator) and updates (intended for a reader's situation model).
 
-Also, perhaps, instead of events being incrementally processed one at a time, events could be processed a set at a time.
+Perhaps, instead of events being incrementally processed one at a time, events could be processed a set at a time.
 
 ```cs
 public partial interface IReader : ISituationModeler, IInterpreter<IEnumerable<IEvent>> { }
