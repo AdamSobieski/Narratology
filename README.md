@@ -1,6 +1,6 @@
 ## Incremental Comprehension
 
-The following model explores that situation models could be represented using semantic datasets and that computational interpretations of sequences, e.g., sequences of story events, could involve producing weighted candidate sets of updates to nodes' situation models.
+The following model explores that situation models or world models could be represented using semantic datasets and that the computational interpretation of sequences, e.g., sequences of story events, could involve producing weighted candidate sets of updates to nodes' models.
 
 ```cs
 using VDS.RDF;
