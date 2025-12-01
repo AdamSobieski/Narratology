@@ -1,6 +1,6 @@
 ## Incremental Story Comprehension
 
-The following interfaces explore that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate sets of updates for such situation models.
+The following model explores that situation models could be represented using semantic datasets and that computational interpretations of (story) events could involve producing weighted candidate sets of updates for such situation models.
 
 ```cs
 using VDS.RDF;
