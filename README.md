@@ -19,7 +19,7 @@ public interface IInterpretation
     public IEnumerable<SparqlQuery> AnsweredQuestions { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 
-    public float Confidence { get; };
+    public float Confidence { get; }
     public SparqlUpdateCommandSet Commands { get; }
 }
 
