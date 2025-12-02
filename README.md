@@ -111,6 +111,16 @@ public static class Extensions
 }
 ```
 
+## Computational Poetics
+
+In what cases does it make a sense for two or more interpretations to be simultaneously valid? Should `IInterpretation`, `IInterpreter<,>`, or another interface provide methods for combining multiple interpretations? In what cases could multiple interpretations be combined? In what cases would multiple interpretations be mutually exclusive?
+
+## Working Memory and Telemetry
+
+Should artificial-intelligence systems be able to answer questions about their processes and procedures of incremental interpretation and comprehension?
+
+Should logging or telemetry be processed during incremental interpretation and comprehension, analogously resembling a working memory buffer pertaining to cognitive processes and procedures?
+
 ## Agentic Computational Narratology
 
 Coming soon.
