@@ -19,6 +19,13 @@ public interface ICuriousInterpretation : IInterpretation
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
+public interface IPredictiveInterpretation : IInterpretation
+{
+    public IEnumerable<SparqlQuery> CorrectlyResolvedPredictions { get; }
+    public IEnumerable<SparqlQuery> IncorrectlyResolvedPredictions { get; }
+    public IEnumerable<(float Salience, SparqlQuery Query)> NewPredictions { get; }
+}
+
 public interface IInterpreter<out TSelf, in TInput, TInterpretation>
     where TSelf : IInterpreter<TSelf, TInput, TInterpretation>
     where TInterpretation : IInterpretation
@@ -42,6 +49,14 @@ public interface ICuriousInterpreter<out TSelf, in TInput, TInterpretation> :
     where TInterpretation : ICuriousInterpretation
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
+}
+
+public interface IPredictiveInterpreter<out TSelf, in TInput, TInterpretation> :
+    IInterpreter<TSelf, TInput, TInterpretation>
+    where TSelf : IPredictiveInterpreter<TSelf, TInput, TInterpretation>
+    where TInterpretation : IPredictiveInterpretation
+{
+    public IEnumerable<(float Salience, SparqlQuery Prediction)> Predictions { get; }
 }
 ```
 
