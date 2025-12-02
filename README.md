@@ -15,14 +15,14 @@ public interface IModeler
 
 public interface IInterpretation
 {
+    public IReadOnlyCollection<IInterpretation> Composition { get; }
+
     public SparqlUpdateCommandSet Updates { get; }
 
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 
     public IEnumerable<Exception> Errors { get; }
-
-    public IReadOnlyCollection<IInterpretation> Composition { get; }
 }
 
 public interface IInterpreter<out THIS, in T> : IModeler
@@ -116,9 +116,7 @@ public static class Extensions
 
 ## Computational Poetics
 
-In what cases does it make a sense for two or more interpretations to be simultaneously valid?
-
-When can interpretations be combined? When are interpretations mutually exclusive?
+When does it make sense for two or more interpretations to be simultaneously valid? When can interpretations be combined? When are interpretations mutually exclusive?
 
 ## Computational Narratology
 
