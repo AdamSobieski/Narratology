@@ -16,6 +16,7 @@ public interface IInterpretation
 public interface ICuriousInterpretation : IInterpretation
 {
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
+    public IEnumerable<(SparqlQuery Old, SparqlQuery New)> UpdatedQuestions { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
