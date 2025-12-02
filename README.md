@@ -10,22 +10,29 @@ using VDS.RDF.Update;
 public interface IInterpretation
 {
     public SparqlUpdateCommandSet Updates { get; }
+
     public IEnumerable<Exception> Errors { get; }
 }
 
 public interface ICuriousInterpretation : IInterpretation
 {
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
+
     public IEnumerable<(SparqlQuery Old, SparqlQuery New)> UpdatedQuestions { get; }
+
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
 public interface IPredictiveInterpretation : IInterpretation
 {
-    public IEnumerable<SparqlQuery> CorrectlyResolvedPredictions { get; }
-    public IEnumerable<SparqlQuery> IncorrectlyResolvedPredictions { get; }
-    public IEnumerable<(SparqlQuery Old, SparqlQuery New)> UpdatedPredictions { get; }
-    public IEnumerable<(float Salience, SparqlQuery Query)> NewPredictions { get; }
+    public IEnumerable<(SparqlQuery Query, SparqlResultSet Result)> CorrectlyResolvedPredictions { get; }
+
+    public IEnumerable<(SparqlQuery Query, SparqlResultSet Result)> IncorrectlyResolvedPredictions { get; }
+
+    public IEnumerable<(SparqlQuery OldQuery, SparqlResultSet OldResult,
+        SparqlQuery NewQuery, SparqlResultSet NewResult)> UpdatedPredictions { get; }
+
+    public IEnumerable<(float Salience, SparqlQuery Query, SparqlResultSet Result)> NewPredictions { get; }
 }
 
 public interface IInterpreter<out TSelf, in TInput, TInterpretation>
@@ -33,15 +40,19 @@ public interface IInterpreter<out TSelf, in TInput, TInterpretation>
     where TInterpretation : IInterpretation
 {
     public float Confidence { get; }
+
     public IInMemoryQueryableStore Model { get; }
 
     public IEnumerable<(float Confidence, TInterpretation Interpretation)> Interpret(TInput input);
 
     public TSelf? Parent { get; }
+
     public IReadOnlyCollection<TSelf> Children { get; }
+
     public TSelf CreateChild(float confidence, TInterpretation interpretation);
 
     public TSelf Commit(float confidence = 1.0f);
+
     public void Rollback(IEnumerable<Exception> reason);
 }
 
@@ -58,7 +69,7 @@ public interface IPredictiveInterpreter<out TSelf, in TInput, TInterpretation> :
     where TSelf : IPredictiveInterpreter<TSelf, TInput, TInterpretation>
     where TInterpretation : IPredictiveInterpretation
 {
-    public IEnumerable<(float Salience, SparqlQuery Prediction)> Predictions { get; }
+    public IEnumerable<(float Salience, SparqlQuery Query, SparqlResultSet Result)> Predictions { get; }
 }
 ```
 
