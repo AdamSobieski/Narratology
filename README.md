@@ -48,7 +48,10 @@ public interface ICuriousInterpreter<out TSelf, in TInput, TInterpretation> :
 One could then implement:
 
 ```cs
-public class StoryReader : ICuriousInterpreter<StoryReader, StoryEvent, ICuriousInterpretation> { ... }
+public class StoryReader : ICuriousInterpreter<StoryReader, StoryEvent, ICuriousInterpretation>
+{
+    ...
+}
 ```
 
 One could also implement extension methods resembling:
