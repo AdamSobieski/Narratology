@@ -108,6 +108,10 @@ public static class Extensions
 }
 ```
 
+## Prediction and Infilling
+
+Coming soon.
+
 ## Computational Poetics
 
 When does it make sense for two or more interpretations to be simultaneously valid? When can interpretations be combined? When are interpretations mutually exclusive?
