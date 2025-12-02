@@ -15,8 +15,6 @@ public interface IModeler
 
 public interface IInterpretation
 {
-    public IReadOnlyCollection<IInterpretation> Composition { get; }
-
     public SparqlUpdateCommandSet Updates { get; }
 
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
@@ -29,8 +27,6 @@ public interface IInterpreter<out THIS, in T> : IModeler
     where THIS : IInterpreter<THIS, T>
 {
     public IEnumerable<(float Confidence, IInterpretation Interpretation)> Interpret(T input);
-
-    public IInterpretation Combine(params IInterpretation[] interpretations);
 
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 
@@ -73,7 +69,7 @@ public static class Extensions
             {
                 if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(confidence, interpretation);
+                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
                     var errors = validator.Validate(child);
 
                     if (!errors.Any())
@@ -94,7 +90,7 @@ public static class Extensions
             {
                 if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(confidence, interpretation);
+                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
                     var score = scorer.Score(child);
 
                     if (score > 0.0f && score <= 1.0f)
@@ -118,11 +114,13 @@ public static class Extensions
 
 When does it make sense for two or more interpretations to be simultaneously valid? When can interpretations be combined? When are interpretations mutually exclusive?
 
+How can a system's focus and attention be distributed across tree nodes representing incremental interpretations and comprehensions?
+
 ## Computational Narratology
 
 Coming soon.
 
-## Working Memory and Telemetry
+## Cognition, Working Memory, and Telemetry
 
 Should artificial-intelligence systems be able to answer questions about their processes and procedures of incremental interpretation and comprehension?
 
