@@ -7,12 +7,6 @@ using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
 
-public interface IModeler
-{
-    public float Confidence { get; }
-    public IInMemoryQueryableStore Model { get; }
-}
-
 public interface IUpdate
 {
     public SparqlUpdateCommandSet Updates { get; }
@@ -25,10 +19,13 @@ public interface ICuriousUpdate : IUpdate
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
-public interface IUpdater<out THIS, in TInput, TUpdate> : IModeler
+public interface IUpdater<out THIS, in TInput, TUpdate>
     where THIS : IUpdater<THIS, TInput, TUpdate>
     where TUpdate : IUpdate
 {
+    public float Confidence { get; }
+    public IInMemoryQueryableStore Model { get; }
+
     public IEnumerable<(float Confidence, TUpdate Update)> Update(TInput input);
 
     public THIS? Parent { get; }
