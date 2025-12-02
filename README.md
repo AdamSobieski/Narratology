@@ -64,6 +64,11 @@ public interface IPredictiveInterpreter<out TSelf, in TInput, TInterpretation> :
 One could then implement:
 
 ```cs
+public class StoryEvent
+{
+    ...
+}
+
 public class StoryEventInterpretation :
     ICuriousInterpretation,
     IPredictiveInterpretation
