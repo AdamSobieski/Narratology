@@ -7,38 +7,39 @@ using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
 
-public interface IUpdate
+public interface IInterpretation
 {
     public SparqlUpdateCommandSet Updates { get; }
     public IEnumerable<Exception> Errors { get; }
 }
 
-public interface ICuriousUpdate : IUpdate
+public interface ICuriousInterpretation : IInterpretation
 {
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
-public interface IUpdater<out THIS, in TInput, TUpdate>
-    where THIS : IUpdater<THIS, TInput, TUpdate>
-    where TUpdate : IUpdate
+public interface IInterpreter<out TSelf, in TInput, TInterpretation>
+    where TSelf : IInterpreter<TSelf, TInput, TInterpretation>
+    where TInterpretation : IInterpretation
 {
     public float Confidence { get; }
     public IInMemoryQueryableStore Model { get; }
 
-    public IEnumerable<(float Confidence, TUpdate Update)> Update(TInput input);
+    public IEnumerable<(float Confidence, TInterpretation Interpretation)> Interpret(TInput input);
 
-    public THIS? Parent { get; }
-    public IReadOnlyCollection<THIS> Children { get; }
-    public THIS CreateChild(float confidence, TUpdate update);
+    public TSelf? Parent { get; }
+    public IReadOnlyCollection<TSelf> Children { get; }
+    public TSelf CreateChild(float confidence, TInterpretation interpretation);
 
-    public THIS Commit(float confidence = 1.0f);
+    public TSelf Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
 }
 
-public interface ICuriousUpdater<out THIS, in TInput, TUpdate> : IUpdater<THIS, TInput, TUpdate>
-    where THIS : ICuriousUpdater<THIS, TInput, TUpdate>
-    where TUpdate : ICuriousUpdate
+public interface ICuriousInterpreter<out TSelf, in TInput, TInterpretation> :
+    IInterpreter<TSelf, TInput, TInterpretation>
+    where TSelf : ICuriousInterpreter<TSelf, TInput, TInterpretation>
+    where TInterpretation : ICuriousInterpretation
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 }
@@ -47,7 +48,7 @@ public interface ICuriousUpdater<out THIS, in TInput, TUpdate> : IUpdater<THIS, 
 One could then implement:
 
 ```cs
-public class StoryReader : ICuriousUpdater<StoryReader, StoryEvent, ICuriousUpdate> { ... }
+public class StoryReader : ICuriousInterpreter<StoryReader, StoryEvent, ICuriousInterpretation> { ... }
 ```
 
 One could also implement extension methods resembling:
@@ -55,17 +56,17 @@ One could also implement extension methods resembling:
 ```cs
 public static class Extensions
 {
-    extension<THIS, TInput, TUpdate>(IUpdater<THIS, TInput, TUpdate> node)
-        where THIS : IUpdater<THIS, TInput, TUpdate>
-        where TUpdate : IUpdate
+    extension<TSelf, TInput, TInterpretation>(IInterpreter<TSelf, TInput, TInterpretation> node)
+        where TSelf : IInterpreter<TSelf, TInput, TInterpretation>
+        where TInterpretation : IInterpretation
     {
-        public IEnumerable<THIS> Process(TInput input, Func<THIS, IEnumerable<Exception>> validator)
+        public IEnumerable<TSelf> Process(TInput input, Func<TSelf, IEnumerable<Exception>> validator)
         {
-            foreach (var (confidence, update) in node.Update(input))
+            foreach (var (confidence, interpretation) in node.Interpret(input))
             {
-                if (!update.Errors.Any())
+                if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(node.Confidence * confidence, update);
+                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
                     var errors = validator(child);
 
                     if (!errors.Any())
@@ -80,13 +81,13 @@ public static class Extensions
             }
         }
 
-        public IEnumerable<(float Score, THIS Node)> Process(TInput input, Func<THIS, float> scorer)
+        public IEnumerable<(float Score, TSelf Node)> Process(TInput input, Func<TSelf, float> scorer)
         {
-            foreach (var (confidence, update) in node.Update(input))
+            foreach (var (confidence, interpretation) in node.Interpret(input))
             {
-                if (!update.Errors.Any())
+                if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(node.Confidence * confidence, update);
+                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
                     var score = scorer(child);
 
                     if (score > 0.0f && score <= 1.0f)
@@ -100,8 +101,6 @@ public static class Extensions
                 }
             }
         }
-
-        ...
     }
 }
 ```
