@@ -13,64 +13,63 @@ public interface IModeler
     public IInMemoryQueryableStore Model { get; }
 }
 
-public interface IInterpretation
+public interface IUpdate
 {
     public SparqlUpdateCommandSet Updates { get; }
-
-    public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
-    public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
-
     public IEnumerable<Exception> Errors { get; }
 }
 
-public interface IInterpreter<out THIS, in T> : IModeler
-    where THIS : IInterpreter<THIS, T>
+public interface ICuriousUpdate : IUpdate
 {
-    public IEnumerable<(float Confidence, IInterpretation Interpretation)> Interpret(T input);
+    public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
+    public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
+}
 
-    public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
+public interface IUpdateableModeler<out TSelf, in TInput, TUpdate> : IModeler
+    where TSelf : IUpdateableModeler<TSelf, TInput, TUpdate>
+    where TUpdate : IUpdate
+{
+    public IEnumerable<(float Confidence, TUpdate Update)> Update(TInput input);
 
-    public THIS? Parent { get; }
-    public IReadOnlyCollection<THIS> Children { get; }
-    public THIS CreateChild(float confidence, IInterpretation interpretation);
+    public TSelf? Parent { get; }
+    public IReadOnlyCollection<TSelf> Children { get; }
+    public TSelf CreateChild(float confidence, TUpdate update);
 
-    public THIS Commit(float confidence = 1.0f);
+    public TSelf Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
+}
+
+public interface ICuriousUpdateableModeler<out TSelf, in TInput, TUpdate> : IUpdateableModeler<TSelf, TInput, TUpdate>
+    where TSelf : IUpdateableModeler<TSelf, TInput, TUpdate>
+    where TUpdate : ICuriousUpdate
+{
+    public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 }
 ```
 
 One could then implement:
 
 ```cs
-public class StoryReader : IInterpreter<StoryReader, StoryEvent> { ... }
+public class StoryReader : ICuriousUpdateableModeler<StoryReader, StoryEvent, ICuriousUpdate> { ... }
 ```
 
 One could also implement extension methods resembling:
 
 ```cs
-public interface IValidator<in T>
-{
-    public IEnumerable<Exception> Validate(T value);
-}
-
-public interface IScorer<in T>
-{
-    public float Score(T value);
-}
-
 public static class Extensions
 {
-    extension<THIS, T>(IInterpreter<THIS, T> node)
-        where THIS : IInterpreter<THIS, T>
+    extension<TSelf, TInput, TUpdate>(IUpdateableModeler<TSelf, TInput, TUpdate> node)
+        where TSelf : IUpdateableModeler<TSelf, TInput, TUpdate>
+        where TUpdate : IUpdate
     {
-        public IEnumerable<THIS> Process(T input, IValidator<THIS> validator)
+        public IEnumerable<TSelf> Process(TInput input, Func<TSelf, IEnumerable<Exception>> validator)
         {
-            foreach (var (confidence, interpretation) in node.Interpret(input))
+            foreach (var (confidence, update) in node.Update(input))
             {
-                if (!interpretation.Errors.Any())
+                if (!update.Errors.Any())
                 {
-                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
-                    var errors = validator.Validate(child);
+                    var child = node.CreateChild(node.Confidence * confidence, update);
+                    var errors = validator(child);
 
                     if (!errors.Any())
                     {
@@ -84,14 +83,14 @@ public static class Extensions
             }
         }
 
-        public IEnumerable<(float Score, THIS Node)> Process(T input, IScorer<THIS> scorer)
+        public IEnumerable<(float Score, TSelf Node)> Process(TInput input, Func<TSelf, float> scorer)
         {
-            foreach (var (confidence, interpretation) in node.Interpret(input))
+            foreach (var (confidence, update) in node.Update(input))
             {
-                if (!interpretation.Errors.Any())
+                if (!update.Errors.Any())
                 {
-                    var child = node.CreateChild(node.Confidence * confidence, interpretation);
-                    var score = scorer.Score(child);
+                    var child = node.CreateChild(node.Confidence * confidence, update);
+                    var score = scorer(child);
 
                     if (score > 0.0f && score <= 1.0f)
                     {
@@ -104,8 +103,6 @@ public static class Extensions
                 }
             }
         }
-
-        ...
     }
 }
 ```
