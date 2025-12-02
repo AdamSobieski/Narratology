@@ -25,22 +25,22 @@ public interface ICuriousUpdate : IUpdate
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
-public interface IUpdateable<out TSelf, in TInput, TUpdate> : IModeler
-    where TSelf : IUpdateable<TSelf, TInput, TUpdate>
+public interface IUpdateable<out THIS, in TInput, TUpdate> : IModeler
+    where THIS : IUpdateable<THIS, TInput, TUpdate>
     where TUpdate : IUpdate
 {
     public IEnumerable<(float Confidence, TUpdate Update)> Update(TInput input);
 
-    public TSelf? Parent { get; }
-    public IReadOnlyCollection<TSelf> Children { get; }
-    public TSelf CreateChild(float confidence, TUpdate update);
+    public THIS? Parent { get; }
+    public IReadOnlyCollection<THIS> Children { get; }
+    public THIS CreateChild(float confidence, TUpdate update);
 
-    public TSelf Commit(float confidence = 1.0f);
+    public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
 }
 
-public interface ICuriousUpdateable<out TSelf, in TInput, TUpdate> : IUpdateable<TSelf, TInput, TUpdate>
-    where TSelf : IUpdateable<TSelf, TInput, TUpdate>
+public interface ICuriousUpdateable<out THIS, in TInput, TUpdate> : IUpdateable<THIS, TInput, TUpdate>
+    where THIS : IUpdateable<THIS, TInput, TUpdate>
     where TUpdate : ICuriousUpdate
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
@@ -58,11 +58,11 @@ One could also implement extension methods resembling:
 ```cs
 public static class Extensions
 {
-    extension<TSelf, TInput, TUpdate>(IUpdateable<TSelf, TInput, TUpdate> node)
-        where TSelf : IUpdateable<TSelf, TInput, TUpdate>
+    extension<THIS, TInput, TUpdate>(IUpdateable<THIS, TInput, TUpdate> node)
+        where THIS : IUpdateable<THIS, TInput, TUpdate>
         where TUpdate : IUpdate
     {
-        public IEnumerable<TSelf> Process(TInput input, Func<TSelf, IEnumerable<Exception>> validator)
+        public IEnumerable<THIS> Process(TInput input, Func<THIS, IEnumerable<Exception>> validator)
         {
             foreach (var (confidence, update) in node.Update(input))
             {
@@ -83,7 +83,7 @@ public static class Extensions
             }
         }
 
-        public IEnumerable<(float Score, TSelf Node)> Process(TInput input, Func<TSelf, float> scorer)
+        public IEnumerable<(float Score, THIS Node)> Process(TInput input, Func<THIS, float> scorer)
         {
             foreach (var (confidence, update) in node.Update(input))
             {
