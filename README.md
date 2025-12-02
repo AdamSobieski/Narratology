@@ -124,7 +124,7 @@ Coming soon.
 
 Should artificial-intelligence systems be able to answer questions about their processes and procedures of incremental interpretation and comprehension?
 
-Should logging or telemetry be processed during incremental interpretation and comprehension, analogously resembling a working memory buffer pertaining to cognitive processes and procedures?
+Should logging or telemetry be obtained during incremental interpretation and comprehension, analogously resembling a working memory buffer pertaining to cognitive processes and procedures, and consulted during introspective question-answering?
 
 ## Agentic Artificial Intelligence
 
