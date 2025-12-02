@@ -113,9 +113,13 @@ public static class Extensions
 
 ## Computational Poetics
 
-In what cases does it make a sense for two or more interpretations to be simultaneously valid? Should `IInterpretation`, `IInterpreter<,>`, or another interface provide methods for combining multiple interpretations? Should the `CreateChild()` method on `IInterpreter<,>` be capable of receiving multiple interpretations?
+In what cases does it make a sense for two or more interpretations to be simultaneously valid?
 
-In what cases could multiple interpretations be combined? In what cases would multiple interpretations be mutually exclusive?
+Should `IInterpretation`, `IInterpreter<,>`, or another interface provide methods for combining multiple interpretations? Should the `CreateChild()` method on `IInterpreter<,>` be capable of receiving multiple interpretations?
+
+Should `IInterpretation` provide those ingredient interpretations which were combined to create it?
+
+When can interpretations be combined? When are interpretations mutually exclusive?
 
 ## Working Memory and Telemetry
 
