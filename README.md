@@ -63,7 +63,7 @@ public static class Extensions
         where TSelf : IInterpreter<TSelf, TInput, TInterpretation>
         where TInterpretation : IInterpretation
     {
-        public IEnumerable<TSelf> Process(TInput input, Func<TSelf, IEnumerable<Exception>> validator)
+        public IEnumerable<TSelf> Foo(TInput input, Func<TSelf, IEnumerable<Exception>> validator)
         {
             foreach (var (confidence, interpretation) in node.Interpret(input))
             {
@@ -84,7 +84,7 @@ public static class Extensions
             }
         }
 
-        public IEnumerable<(float Score, TSelf Node)> Process(TInput input, Func<TSelf, float> scorer)
+        public IEnumerable<(float Score, TSelf Node)> Foo(TInput input, Func<TSelf, float> scorer)
         {
             foreach (var (confidence, interpretation) in node.Interpret(input))
             {
