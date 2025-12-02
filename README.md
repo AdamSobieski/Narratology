@@ -90,11 +90,11 @@ public static class Extensions
 
         public IEnumerable<(float Score, THIS Node)> Process(T input, IScorer<THIS> scorer)
         {
-            foreach (var interpretation in node.Interpret(input))
+            foreach (var (confidence, interpretation) in node.Interpret(input))
             {
                 if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(interpretation);
+                    var child = node.CreateChild(confidence, interpretation);
                     var score = scorer.Score(child);
 
                     if (score > 0.0f && score <= 1.0f)
