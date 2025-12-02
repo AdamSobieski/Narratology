@@ -50,7 +50,7 @@ public interface ICuriousUpdateable<out TSelf, in TInput, TUpdate> : IUpdateable
 One could then implement:
 
 ```cs
-public class StoryReader : ICuriousUpdateableModeler<StoryReader, StoryEvent, ICuriousUpdate> { ... }
+public class StoryReader : ICuriousUpdateable<StoryReader, StoryEvent, ICuriousUpdate> { ... }
 ```
 
 One could also implement extension methods resembling:
