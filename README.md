@@ -6,10 +6,10 @@ The following interfaces show that situation models or world models can be repre
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
-using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query, VDS.RDF.Query.SparqlResultSet Result);
+using SparqlPrediction = (float Confidence,
+                          VDS.RDF.Query.SparqlQuery Query,
+                          VDS.RDF.Query.SparqlResultSet Result);
 
-namespace Narratology
-{
 public interface IInterpretation
 {
     public SparqlUpdateCommandSet Updates { get; }
@@ -28,7 +28,7 @@ public interface IPredictiveInterpretation : IInterpretation
     public IEnumerable<SparqlPrediction> CorrectlyResolvedPredictions { get; }
     public IEnumerable<SparqlPrediction> IncorrectlyResolvedPredictions { get; }
     public IEnumerable<(SparqlPrediction Old, SparqlPrediction New)> UpdatedPredictions { get; }
-    public IEnumerable<(float Salience, SparqlPrediction Prediction)> NewPredictions { get; }
+    public IEnumerable<(float Priority, SparqlPrediction Prediction)> NewPredictions { get; }
 }
 
 public interface IInterpreter<out TSelf, in TInput, TInterpretation>
@@ -61,7 +61,7 @@ public interface IPredictiveInterpreter<out TSelf, in TInput, TInterpretation> :
     where TSelf : IPredictiveInterpreter<TSelf, TInput, TInterpretation>
     where TInterpretation : IPredictiveInterpretation
 {
-    public IEnumerable<(float Salience, SparqlPrediction Prediction)> Predictions { get; }
+    public IEnumerable<(float Priority, SparqlPrediction Prediction)> Predictions { get; }
 }
 ```
 
