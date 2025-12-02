@@ -15,25 +15,28 @@ public interface IModeler
 
 public interface IInterpretation
 {
-    public float Confidence { get; }
     public SparqlUpdateCommandSet Updates { get; }
 
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 
     public IEnumerable<Exception> Errors { get; }
+
+    public IReadOnlyCollection<IInterpretation> Composition { get; }
 }
 
 public interface IInterpreter<out THIS, in T> : IModeler
     where THIS : IInterpreter<THIS, T>
 {
-    public IEnumerable<IInterpretation> Interpret(T input);
+    public IEnumerable<(float Confidence, IInterpretation Interpretation)> Interpret(T input);
+
+    public IInterpretation Combine(params IInterpretation[] interpretations);
 
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 
     public THIS? Parent { get; }
     public IReadOnlyCollection<THIS> Children { get; }
-    public THIS CreateChild(IInterpretation interpretation);
+    public THIS CreateChild(float confidence, IInterpretation interpretation);
 
     public THIS Commit(float confidence = 1.0f);
     public void Rollback(IEnumerable<Exception> reason);
@@ -66,11 +69,11 @@ public static class Extensions
     {
         public IEnumerable<THIS> Process(T input, IValidator<THIS> validator)
         {
-            foreach (var interpretation in node.Interpret(input))
+            foreach (var (confidence, interpretation) in node.Interpret(input))
             {
                 if (!interpretation.Errors.Any())
                 {
-                    var child = node.CreateChild(interpretation);
+                    var child = node.CreateChild(confidence, interpretation);
                     var errors = validator.Validate(child);
 
                     if (!errors.Any())
@@ -115,11 +118,11 @@ public static class Extensions
 
 In what cases does it make a sense for two or more interpretations to be simultaneously valid?
 
-Should `IInterpretation`, `IInterpreter<,>`, or another interface provide methods for combining multiple interpretations? Should the `CreateChild()` method on `IInterpreter<,>` be capable of receiving multiple interpretations?
-
-Should `IInterpretation` provide those ingredient interpretations which were combined to create it?
-
 When can interpretations be combined? When are interpretations mutually exclusive?
+
+## Computational Narratology
+
+Coming soon.
 
 ## Working Memory and Telemetry
 
@@ -127,6 +130,6 @@ Should artificial-intelligence systems be able to answer questions about their p
 
 Should logging or telemetry be processed during incremental interpretation and comprehension, analogously resembling a working memory buffer pertaining to cognitive processes and procedures?
 
-## Agentic Computational Narratology
+## Agentic Artificial Intelligence
 
 Coming soon.
