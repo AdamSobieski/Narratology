@@ -103,6 +103,8 @@ public static class Extensions
                 }
             }
         }
+
+        ...
     }
 }
 ```
