@@ -25,8 +25,8 @@ public interface ICuriousUpdate : IUpdate
     public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
 }
 
-public interface IUpdateable<out THIS, in TInput, TUpdate> : IModeler
-    where THIS : IUpdateable<THIS, TInput, TUpdate>
+public interface IUpdater<out THIS, in TInput, TUpdate> : IModeler
+    where THIS : IUpdater<THIS, TInput, TUpdate>
     where TUpdate : IUpdate
 {
     public IEnumerable<(float Confidence, TUpdate Update)> Update(TInput input);
@@ -39,8 +39,8 @@ public interface IUpdateable<out THIS, in TInput, TUpdate> : IModeler
     public void Rollback(IEnumerable<Exception> reason);
 }
 
-public interface ICuriousUpdateable<out THIS, in TInput, TUpdate> : IUpdateable<THIS, TInput, TUpdate>
-    where THIS : IUpdateable<THIS, TInput, TUpdate>
+public interface ICuriousUpdater<out THIS, in TInput, TUpdate> : IUpdater<THIS, TInput, TUpdate>
+    where THIS : IUpdater<THIS, TInput, TUpdate>
     where TUpdate : ICuriousUpdate
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
@@ -50,7 +50,7 @@ public interface ICuriousUpdateable<out THIS, in TInput, TUpdate> : IUpdateable<
 One could then implement:
 
 ```cs
-public class StoryReader : ICuriousUpdateable<StoryReader, StoryEvent, ICuriousUpdate> { ... }
+public class StoryReader : ICuriousUpdater<StoryReader, StoryEvent, ICuriousUpdate> { ... }
 ```
 
 One could also implement extension methods resembling:
@@ -58,8 +58,8 @@ One could also implement extension methods resembling:
 ```cs
 public static class Extensions
 {
-    extension<THIS, TInput, TUpdate>(IUpdateable<THIS, TInput, TUpdate> node)
-        where THIS : IUpdateable<THIS, TInput, TUpdate>
+    extension<THIS, TInput, TUpdate>(IUpdater<THIS, TInput, TUpdate> node)
+        where THIS : IUpdater<THIS, TInput, TUpdate>
         where TUpdate : IUpdate
     {
         public IEnumerable<THIS> Process(TInput input, Func<THIS, IEnumerable<Exception>> validator)
