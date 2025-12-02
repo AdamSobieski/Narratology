@@ -23,6 +23,7 @@ public interface IPredictiveInterpretation : IInterpretation
 {
     public IEnumerable<SparqlQuery> CorrectlyResolvedPredictions { get; }
     public IEnumerable<SparqlQuery> IncorrectlyResolvedPredictions { get; }
+    public IEnumerable<(SparqlQuery Old, SparqlQuery New)> UpdatedPredictions { get; }
     public IEnumerable<(float Salience, SparqlQuery Query)> NewPredictions { get; }
 }
 
