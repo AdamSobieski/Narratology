@@ -40,7 +40,7 @@ public interface IUpdater<out THIS, in TInput, TUpdate> : IModeler
 }
 
 public interface ICuriousUpdater<out THIS, in TInput, TUpdate> : IUpdater<THIS, TInput, TUpdate>
-    where THIS : IUpdater<THIS, TInput, TUpdate>
+    where THIS : ICuriousUpdater<THIS, TInput, TUpdate>
     where TUpdate : ICuriousUpdate
 {
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
