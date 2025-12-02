@@ -1,6 +1,6 @@
 ## Incremental Interpretation and Comprehension
 
-The following interfaces show that situation models or world models can be represented using semantic datasets and that the incremental interpretation and comprehension of sequences, e.g., sequences of story events, can be implemented by producing sequences of weighted candidate updates to nodes' models.
+The following interfaces show that situation models or world models can be represented using semantic datasets and that the incremental interpretation and comprehension of sequences, e.g., of sequences of story events, can be implemented by producing sequences of weighted candidate updates to nodes' models.
 
 ```cs
 using VDS.RDF;
