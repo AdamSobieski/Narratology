@@ -7,35 +7,6 @@ using VDS.RDF.Update;
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
-public interface IDifferenceable<TSelf, TDifference>
-    where TSelf : IDifferenceable<TSelf, TDifference>
-{
-    public TDifference Difference(TSelf other);
-    public TSelf Apply(TDifference difference);
-}
-
-public interface IDifference
-{
-    public SparqlUpdateCommandSet Updates { get; }
-}
-
-public interface ICuriousDifference : IDifference
-{
-    public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
-    public IEnumerable<SparqlQuery> AddedQuestions { get; }
-    public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
-}
-
-public interface IPredictiveDifference : IDifference
-{
-    public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
-    public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
-    public IEnumerable<SparqlPrediction> AddedPredictions { get; }
-    public IEnumerable<SparqlPrediction> UnresolvedRemovedPredictions { get; }
-
-    public float ConfidenceChange(SparqlPrediction prediction);
-}
-
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
     IDifferenceable<TSelf, TDifference>
     where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
@@ -63,16 +34,6 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
     public float Confidence(SparqlPrediction prediction);
 }
 
-public interface IAttentional<in T>
-{
-    public float Attention(T value);
-}
-
-public interface IAttentionalChange<in T>
-{
-    public float AttentionChange(T value);
-}
-
 public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
     ICuriousInterpretationNode<TSelf, TInput, TDifference>,
     IAttentional<SparqlQuery>
@@ -86,6 +47,44 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
     where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IPredictiveDifference, IAttentionalChange<SparqlPrediction>
 { }
+
+public interface IDifferenceable<TSelf, TDifference>
+    where TSelf : IDifferenceable<TSelf, TDifference>
+{
+    public TDifference Difference(TSelf other);
+    public TSelf Apply(TDifference difference);
+}
+
+public interface IDifference
+{
+    public SparqlUpdateCommandSet Updates { get; }
+}
+
+public interface ICuriousDifference : IDifference
+{
+    public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
+    public IEnumerable<SparqlQuery> AddedQuestions { get; }
+    public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
+}
+
+public interface IPredictiveDifference : IDifference
+{
+    public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
+    public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
+    public IEnumerable<SparqlPrediction> AddedPredictions { get; }
+    public IEnumerable<SparqlPrediction> UnresolvedRemovedPredictions { get; }
+    public float ConfidenceChange(SparqlPrediction prediction);
+}
+
+public interface IAttentional<in T>
+{
+    public float Attention(T value);
+}
+
+public interface IAttentionalChange<in T>
+{
+    public float AttentionChange(T value);
+}
 ```
 
 Using the above interfaces, one could implement classes resembling:
