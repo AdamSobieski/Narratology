@@ -107,7 +107,7 @@ public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
     public IEnumerable<TInput> Buffer { get; }
 }
 
-public interface IBufferingDifference<TInput> : ISemanticDifference
+public interface IBufferingDifference<out TInput> : ISemanticDifference
 {
     public IEnumerable<TInput> BufferEnqueued { get; }
     public IEnumerable<TInput> BufferDequeued { get; }
