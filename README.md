@@ -94,6 +94,26 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
 { }
 ```
 
+## Buffering, Chunks, and Segments
+
+One could add capabilities for incremental interpreters and comprehenders to buffer arriving inputs into abstract chunks or segments.
+
+```cs
+public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
+    IInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IBufferingInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IBufferingDifference<TInput>
+{
+    public Queue<TInput> Buffer { get; }
+}
+
+public interface IBufferingDifference<TInput> : ISemanticDifference
+{
+    public IEnumerable<TInput> BufferEnqueued { get; }
+    public IEnumerable<TInput> BufferDequeued { get; }
+}
+```
+
 ## Example
 
 Using the above interfaces, one could implement classes resembling:
