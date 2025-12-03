@@ -98,15 +98,15 @@ public class StoryEvent
 }
 
 public class StoryNodeDifference :
-    ICuriousDifference,
-    IPredictiveDifference
+    IAttentionalCuriousDifference,
+    IAttentionalPredictiveDifference
 {
     ...
 }
 
 public class StoryNode :
-    ICuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
+    IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
+    IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
 {
     ...
 }
