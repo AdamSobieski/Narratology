@@ -104,13 +104,13 @@ public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
     where TSelf : IBufferingInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IBufferingDifference<TInput>
 {
-    public IEnumerable<TInput> Buffer { get; }
+    public IReadOnlyCollection<TInput> Buffer { get; }
 }
 
 public interface IBufferingDifference<out TInput> : ISemanticDifference
 {
-    public IEnumerable<TInput> BufferEnqueued { get; }
-    public IEnumerable<TInput> BufferDequeued { get; }
+    public IReadOnlyCollection<TInput> BufferEnqueued { get; }
+    public IReadOnlyCollection<TInput> BufferDequeued { get; }
 }
 ```
 
