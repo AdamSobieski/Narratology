@@ -63,7 +63,9 @@ public interface IPredictiveDifference : IDifference
 }
 ```
 
-One could add capabilities for systems to distribute attention to things, e.g., to their questions and predictions. This would be one means of prioritizing questions and predictions.
+## Attention and Focus
+
+One could add capabilities for systems to distribute attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
 public interface IAttentional<in T>
@@ -90,6 +92,8 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
     where TDifference : IPredictiveDifference, IAttentionalChange<SparqlPrediction>
 { }
 ```
+
+## Example
 
 Using the above interfaces, one could implement classes resembling:
 
