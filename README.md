@@ -4,13 +4,14 @@
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
+
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
     IDifferenceable<TSelf, TDifference>
     where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IDifference
+    where TDifference : ISemanticDifference
 {
     public IInMemoryQueryableStore Model { get; }
 
@@ -41,19 +42,19 @@ public interface IDifferenceable<TSelf, TDifference>
     public TSelf Apply(TDifference difference);
 }
 
-public interface IDifference
+public interface ISemanticDifference
 {
     public SparqlUpdateCommandSet Updates { get; }
 }
 
-public interface ICuriousDifference : IDifference
+public interface ICuriousDifference : ISemanticDifference
 {
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
     public IEnumerable<SparqlQuery> AddedQuestions { get; }
     public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
 }
 
-public interface IPredictiveDifference : IDifference
+public interface IPredictiveDifference : ISemanticDifference
 {
     public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
     public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
