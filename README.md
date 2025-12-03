@@ -30,19 +30,10 @@ public interface IPredictiveDifference : IDifference
 {
     public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
     public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
-    public IReadOnlyDictionary<SparqlPrediction, float> PredictionsConfidenceChange { get; }
     public IEnumerable<SparqlPrediction> AddedPredictions { get; }
     public IEnumerable<SparqlPrediction> UnresolvedRemovedPredictions { get; }
-}
 
-public interface IAttentionalCuriousDifference : ICuriousDifference
-{
-    public IReadOnlyDictionary<SparqlQuery, float> QuestionsAttentionChange { get; }
-}
-
-public interface IAttentionalPredictiveDifference : IPredictiveDifference
-{
-    public IReadOnlyDictionary<SparqlPrediction, float> PredictionsAttentionChange { get; }
+    public float ConfidenceChange(SparqlPrediction prediction);
 }
 
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
@@ -72,21 +63,39 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
     public float Confidence(SparqlPrediction prediction);
 }
 
-public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
-    ICuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IAttentionalCuriousDifference
+public interface IAttentional<in T>
 {
-    public float Attention(SparqlQuery question);
+    public float Attention(T value);
 }
 
+public interface IAttentionalChange<in T>
+{
+    public float AttentionChange(T value);
+}
+
+public interface IAttentionalCuriousDifference :
+    ICuriousDifference,
+    IAttentionalChange<SparqlQuery>
+{ }
+
+public interface IAttentionalPredictiveDifference :
+    IPredictiveDifference,
+    IAttentionalChange<SparqlPrediction>
+{ }
+
+public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
+    ICuriousInterpretationNode<TSelf, TInput, TDifference>,
+    IAttentional<SparqlQuery>
+    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IAttentionalCuriousDifference
+{ }
+
 public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
-    IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    IPredictiveInterpretationNode<TSelf, TInput, TDifference>,
+    IAttentional<SparqlPrediction>
     where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IAttentionalPredictiveDifference
-{
-    public float Attention(SparqlPrediction prediction);
-}
+{ }
 ```
 
 Using the above interfaces, one could implement classes resembling:
