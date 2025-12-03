@@ -104,7 +104,7 @@ public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
     where TSelf : IBufferingInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IBufferingDifference<TInput>
 {
-    public Queue<TInput> Buffer { get; }
+    public IEnumerable<TInput> Buffer { get; }
 }
 
 public interface IBufferingDifference<TInput> : ISemanticDifference
