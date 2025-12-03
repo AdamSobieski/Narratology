@@ -177,7 +177,7 @@ public class StoryEvent
     ...
 }
 
-public class StoryEventChunk
+public class StoryChunk
 {
     ...
 }
@@ -185,7 +185,7 @@ public class StoryEventChunk
 public class StoryNode :
     IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
     IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IMediumTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryEventChunk, StoryNodeDifference>
+    IMediumTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryChunk, StoryNodeDifference>
 {
     ...
 }
@@ -195,7 +195,7 @@ public class StoryNodeDifference :
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
-    IMediumTermBufferingDifference<StoryEvent, StoryEventChunk>
+    IMediumTermBufferingDifference<StoryEvent, StoryChunk>
 {
     ...
 }
