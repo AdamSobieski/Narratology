@@ -68,7 +68,7 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
 }
 ```
 
-Then, one could implement some classes resembling:
+Then, one could implement classes resembling:
 
 ```cs
 public class StoryEvent
