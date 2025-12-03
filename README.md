@@ -65,7 +65,7 @@ public interface IPredictiveDifference : IDifference
 
 ## Attention and Focus
 
-One could add capabilities for systems to distribute attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
+One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
 public interface IAttentional<in T>
