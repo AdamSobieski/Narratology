@@ -70,16 +70,16 @@ public class StoryEvent
     ...
 }
 
-public class StoryInterpretationNodeDifference :
+public class StoryNodeDifference :
     ICuriousDifference,
     IPredictiveDifference
 {
     ...
 }
 
-public class StoryInterpretationNode :
-    ICuriousInterpretationNode<StoryInterpretationNode, StoryEvent, StoryInterpretationNodeDifference>,
-    IPredictiveInterpretationNode<StoryInterpretationNode, StoryEvent, StoryInterpretationNodeDifference>
+public class StoryNode :
+    ICuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
+    IPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
 {
     ...
 }
