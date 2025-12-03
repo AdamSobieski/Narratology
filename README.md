@@ -122,7 +122,7 @@ public interface IBufferingDifference<out TInput> : ISemanticDifference
 }
 ```
 
-## Concurrency, Multitasking, and Threads
+## Concurrency, Threads, and Multitasking
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, multitasking, and threads in a number of ways.
 
