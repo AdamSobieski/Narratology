@@ -63,7 +63,7 @@ public interface IPredictiveDifference : IDifference
 }
 ```
 
-One could add capabilities for systems to distribute attention to things, e.g., to their questions and predictions.
+One could add capabilities for systems to distribute attention to things, e.g., to their questions and predictions. This would be one means of prioritizing questions and predictions.
 
 ```cs
 public interface IAttentional<in T>
