@@ -59,10 +59,10 @@ public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
     public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
 }
 
-public interface IPredictiveInterpretationNode<TSelf, in TInput, TDiff> :
-    IInterpretationNode<TSelf, TInput, TDiff>
-    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDiff>
-    where TDiff : IPredictiveDifference
+public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
+    IInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IPredictiveDifference
 {
     public IEnumerable<(float Priority, SparqlPrediction Prediction)> Predictions { get; }
 }
