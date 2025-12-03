@@ -96,7 +96,7 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
 
 ## Buffering, Chunks, and Segments
 
-One could add capabilities for incremental interpreters and comprehenders to buffer arriving inputs into abstract chunks or segments.
+Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to buffer arriving inputs into abstract chunks or segments.
 
 ```cs
 public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
