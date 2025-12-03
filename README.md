@@ -107,18 +107,20 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
 Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
 ```cs
-public interface IBufferingInterpretationNode<TSelf, TInput, TDifference> :
+public interface IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference> :
     IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IBufferingInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IBufferingDifference<TInput>
+    where TSelf : IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IShortTermBufferingDifference<TInput>
 {
-    public IReadOnlyCollection<TInput> Buffer { get; }
+    public IReadOnlyCollection<TInput> ShortTermBuffer { get; }
+
+    // TSelf Flush();
 }
 
-public interface IBufferingDifference<out TInput> : ISemanticDifference
+public interface IShortTermBufferingDifference<out TInput> : ISemanticDifference
 {
-    public IReadOnlyCollection<TInput> BufferEnqueued { get; }
-    public IReadOnlyCollection<TInput> BufferDequeued { get; }
+    public IReadOnlyCollection<TInput> ShortTermBufferEnqueued { get; }
+    public IReadOnlyCollection<TInput> ShortTermBufferDequeued { get; }
 }
 ```
 
@@ -145,7 +147,7 @@ public class StoryEvent
 public class StoryNode :
     IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
     IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IBufferingInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
+    IShortTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
 {
     ...
 }
@@ -155,7 +157,7 @@ public class StoryNodeDifference :
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
-    IBufferingDifference<StoryEvent>
+    IShortTermBufferingDifference<StoryEvent>
 {
     ...
 }
