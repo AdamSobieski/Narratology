@@ -72,7 +72,10 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDiff> :
 Then, one could implement some classes resembling:
 
 ```cs
-public class StoryEvent { }
+public class StoryEvent
+{
+    ...
+}
 
 public class StoryInterpreterNodeDifference :
     ICuriousDifference,
