@@ -130,7 +130,7 @@ Firstly, depending upon the nature of `TInput`, one input could describe multipl
 
 Secondly, events from different story threads could be interwoven together and presented to a system serially.
 
-Thirdly, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch when story threads switch in a narration.
+Thirdly, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
 
 ## Example
 
