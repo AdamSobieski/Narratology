@@ -73,28 +73,18 @@ public interface IAttentionalChange<in T>
     public float AttentionChange(T value);
 }
 
-public interface IAttentionalCuriousDifference :
-    ICuriousDifference,
-    IAttentionalChange<SparqlQuery>
-{ }
-
-public interface IAttentionalPredictiveDifference :
-    IPredictiveDifference,
-    IAttentionalChange<SparqlPrediction>
-{ }
-
 public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
     ICuriousInterpretationNode<TSelf, TInput, TDifference>,
     IAttentional<SparqlQuery>
     where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IAttentionalCuriousDifference
+    where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
 { }
 
 public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
     IPredictiveInterpretationNode<TSelf, TInput, TDifference>,
     IAttentional<SparqlPrediction>
     where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IAttentionalPredictiveDifference
+    where TDifference : IPredictiveDifference, IAttentionalChange<SparqlPrediction>
 { }
 ```
 
@@ -107,8 +97,10 @@ public class StoryEvent
 }
 
 public class StoryNodeDifference :
-    IAttentionalCuriousDifference,
-    IAttentionalPredictiveDifference
+    ICuriousDifference,
+    IAttentionalChange<SparqlQuery>,
+    IPredictiveDifference,
+    IAttentionalChange<SparqlPrediction>
 {
     ...
 }
