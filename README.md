@@ -102,7 +102,7 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
 { }
 ```
 
-## Buffers, Chunks, and Segments
+## Working Memory Buffers, Chunks, Segments, and Compression
 
 Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
@@ -113,14 +113,46 @@ public interface IShortTermBufferingInterpretationNode<TSelf, TInput, TDifferenc
     where TDifference : IShortTermBufferingDifference<TInput>
 {
     public IReadOnlyCollection<TInput> ShortTermBuffer { get; }
-
-    // TSelf Flush();
 }
 
 public interface IShortTermBufferingDifference<out TInput> : ISemanticDifference
 {
-    public IReadOnlyCollection<TInput> ShortTermBufferEnqueued { get; }
-    public IReadOnlyCollection<TInput> ShortTermBufferDequeued { get; }
+    public IReadOnlyCollection<TInput> ShortTermBufferAdded { get; }
+    public IReadOnlyCollection<TInput> ShortTermBufferRemoved { get; }
+}
+```
+
+Depending upon the nature of `TInput`, one could also "compress" sequences of inputs into chunks or segments to store in secondary buffers and could subsequently "decompress" individual chunks or segments back into input sequences as needed.
+
+A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TChunk`, `TSegment`, or `TEpisode`.
+
+```cs
+public interface ICompressor<TFrom, out TTo>
+{
+    public TTo Compress(IEnumerable<TFrom> inputs);
+}
+
+public interface IDecompressor<out TFrom, in TTo>
+{
+    public IEnumerable<TFrom> Decompress(TTo input);
+}
+```
+
+```cs
+public interface IMediumTermBufferingInterpretationNode<TSelf, TInput, TChunk, TDifference> :
+    IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference>,
+    ICompressor<TInput, TChunk>,
+    IDecompressor<TInput, TChunk>
+    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TInput, TChunk, TDifference>
+    where TDifference : IMediumTermBufferingDifference<TInput, TChunk>
+{
+    public IReadOnlyCollection<TChunk> MediumTermBuffer { get; }
+}
+
+public interface IMediumTermBufferingDifference<out TInput, out TChunk> : IShortTermBufferingDifference<TInput>
+{
+    public IReadOnlyCollection<TChunk> MediumTermBufferAdded { get; }
+    public IReadOnlyCollection<TChunk> MediumTermBufferRemoved { get; }
 }
 ```
 
@@ -144,10 +176,15 @@ public class StoryEvent
     ...
 }
 
+public class StoryEventChunk
+{
+    ...
+}
+
 public class StoryNode :
     IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
     IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IShortTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
+    IMediumTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryEventChunk, StoryNodeDifference>
 {
     ...
 }
@@ -157,7 +194,7 @@ public class StoryNodeDifference :
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
-    IShortTermBufferingDifference<StoryEvent>
+    IMediumTermBufferingDifference<StoryEvent, StoryEventChunk>
 {
     ...
 }
