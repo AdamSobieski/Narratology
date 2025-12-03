@@ -90,35 +90,3 @@ public class StoryInterpreterNode :
     ...
 }
 ```
-
-## Computational Poetics
-
-When does it make sense for two or more interpretations to be simultaneously valid? When can interpretations be combined? When are interpretations mutually exclusive?
-
-How can a system's focus and attention be distributed across tree nodes representing incremental interpretations and comprehensions?
-
-## Computational Narratology
-
-Coming soon.
-
-### Erotetics
-
-Coming soon.
-
-### Prediction
-
-Coming soon.
-
-### Infilling
-
-Coming soon.
-
-## Cognition, Working Memory, and Telemetry
-
-Should artificial-intelligence systems be able to answer introspective questions about their processes and procedures of incremental interpretation and comprehension?
-
-How might logs or telemetry obtained during incremental interpretation and comprehension, analogously resembling a working memory buffer, be consulted during introspective question-answering?
-
-## Agentic Artificial Intelligence
-
-Coming soon.
