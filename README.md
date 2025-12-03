@@ -132,20 +132,20 @@ public class StoryEvent
     ...
 }
 
+public class StoryNode :
+    IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
+    IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
+    IBufferingInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
+{
+    ...
+}
+
 public class StoryNodeDifference :
     ICuriousDifference,
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
     IBufferingDifference<StoryEvent>
-{
-    ...
-}
-
-public class StoryNode :
-    IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IBufferingInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>
 {
     ...
 }
