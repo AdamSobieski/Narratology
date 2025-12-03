@@ -74,7 +74,7 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
 
 public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
     ICuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IAttentionalCuriousDifference
 {
     public float Attention(SparqlQuery question);
@@ -82,7 +82,7 @@ public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDiffer
 
 public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
     IPredictiveInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IAttentionalPredictiveDifference
 {
     public float Attention(SparqlPrediction prediction);
