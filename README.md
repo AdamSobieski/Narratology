@@ -149,7 +149,8 @@ public interface IMediumTermBufferingInterpretationNode<TSelf, TInput, TChunk, T
     public IReadOnlyCollection<TChunk> MediumTermBuffer { get; }
 }
 
-public interface IMediumTermBufferingDifference<out TInput, out TChunk> : IShortTermBufferingDifference<TInput>
+public interface IMediumTermBufferingDifference<out TInput, out TChunk> :
+    IShortTermBufferingDifference<TInput>
 {
     public IReadOnlyCollection<TChunk> MediumTermBufferAdded { get; }
     public IReadOnlyCollection<TChunk> MediumTermBufferRemoved { get; }
