@@ -38,8 +38,7 @@ public interface IPredictiveDifference : IDifference
 }
 
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
-    IDifferenceable<TSelf, TDifference>,
-    IDisposable
+    IDifferenceable<TSelf, TDifference>
     where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IDifference
 {
