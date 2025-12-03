@@ -4,8 +4,7 @@
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
-using SparqlPrediction = (float Confidence,
-                          VDS.RDF.Query.SparqlQuery Query,
+using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
 public interface IDifferenceable<TSelf, TDifference>
@@ -23,16 +22,27 @@ public interface IDifference
 public interface ICuriousDifference : IDifference
 {
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
-    public IEnumerable<(SparqlQuery Old, SparqlQuery New)> UpdatedQuestions { get; }
-    public IEnumerable<(float Priority, SparqlQuery Query)> NewQuestions { get; }
+    public IEnumerable<SparqlQuery> AddedQuestions { get; }
+    public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
 }
 
 public interface IPredictiveDifference : IDifference
 {
-    public IEnumerable<SparqlPrediction> CorrectlyResolvedPredictions { get; }
-    public IEnumerable<SparqlPrediction> IncorrectlyResolvedPredictions { get; }
-    public IEnumerable<(SparqlPrediction Old, SparqlPrediction New)> UpdatedPredictions { get; }
-    public IEnumerable<(float Priority, SparqlPrediction Prediction)> NewPredictions { get; }
+    public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
+    public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
+    public IReadOnlyDictionary<SparqlPrediction, float> PredictionsConfidenceChange { get; }
+    public IEnumerable<SparqlPrediction> AddedPredictions { get; }
+    public IEnumerable<SparqlPrediction> UnresolvedRemovedPredictions { get; }
+}
+
+public interface IAttentionalCuriousDifference : ICuriousDifference
+{
+    public IReadOnlyDictionary<SparqlQuery, float> QuestionsAttentionChange { get; }
+}
+
+public interface IAttentionalPredictiveDifference : IPredictiveDifference
+{
+    public IReadOnlyDictionary<SparqlPrediction, float> PredictionsAttentionChange { get; }
 }
 
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
@@ -50,7 +60,7 @@ public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
     where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : ICuriousDifference
 {
-    public IEnumerable<(float Priority, SparqlQuery Query)> Questions { get; }
+    public IEnumerable<SparqlQuery> Questions { get; }
 }
 
 public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
@@ -58,7 +68,24 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
     where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IPredictiveDifference
 {
-    public IEnumerable<(float Priority, SparqlPrediction Prediction)> Predictions { get; }
+    public IEnumerable<SparqlPrediction> Predictions { get; }
+    public float Confidence(SparqlPrediction prediction);
+}
+
+public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
+    ICuriousInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IAttentionalCuriousDifference
+{
+    public float Attention(SparqlQuery question);
+}
+
+public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
+    IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IAttentionalPredictiveDifference
+{
+    public float Attention(SparqlPrediction prediction);
 }
 ```
 
