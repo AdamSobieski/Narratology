@@ -69,6 +69,26 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDiff> :
 }
 ```
 
+Then, one could implement some classes resembling:
+
+```cs
+public class StoryEvent { }
+
+public class StoryInterpreterNodeDifference :
+    ICuriousDifference,
+    IPredictiveDifference
+{
+    ...
+}
+
+public class StoryInterpreterNode :
+    ICuriousInterpretationNode<StoryInterpreterNode, StoryEvent, StoryInterpreterNodeDifference>,
+    IPredictiveInterpretationNode<StoryInterpreterNode, StoryEvent, StoryInterpreterNodeDifference>
+{
+    ...
+}
+```
+
 ## Computational Poetics
 
 When does it make sense for two or more interpretations to be simultaneously valid? When can interpretations be combined? When are interpretations mutually exclusive?
