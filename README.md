@@ -1,7 +1,5 @@
 ## Incremental Interpretation and Comprehension
 
-The following interfaces show that situation models or world models can be represented using semantic datasets and that the incremental interpretation and comprehension of sequences, e.g., of sequences of story events, can be implemented by producing sequences of weighted candidate updates to nodes' models.
-
 ```cs
 using VDS.RDF;
 using VDS.RDF.Query;
@@ -42,13 +40,9 @@ public interface IInterpretationNode<TSelf, in TInput, TDifference> :
     where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : IDifference
 {
-    public float Score { get; set; }
     public IInMemoryQueryableStore Model { get; }
 
     public IEnumerable<TSelf> Interpret(TInput input);
-
-    public TSelf? Parent { get; }
-    public ICollection<TSelf> Children { get; }
 }
 
 public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
@@ -68,7 +62,7 @@ public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
 }
 ```
 
-Then, one could implement classes resembling:
+Using the above interfaces, one could implement classes resembling:
 
 ```cs
 public class StoryEvent
