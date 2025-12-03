@@ -18,21 +18,9 @@ public interface IInterpretationNode<TSelf, in TInput, TDifference> :
     public IEnumerable<TSelf> Interpret(TInput input);
 }
 
-public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
-    IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : ICuriousDifference
+public interface ISemanticDifference
 {
-    public IEnumerable<SparqlQuery> Questions { get; }
-}
-
-public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
-    IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : IPredictiveDifference
-{
-    public IEnumerable<SparqlPrediction> Predictions { get; }
-    public float Confidence(SparqlPrediction prediction);
+    public SparqlUpdateCommandSet Updates { get; }
 }
 
 public interface IDifferenceable<TSelf, TDifference>
@@ -41,10 +29,17 @@ public interface IDifferenceable<TSelf, TDifference>
     public TDifference Difference(TSelf other);
     public TSelf Apply(TDifference difference);
 }
+```
 
-public interface ISemanticDifference
+## Curiosity
+
+```cs
+public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
+    IInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : ICuriousDifference
 {
-    public SparqlUpdateCommandSet Updates { get; }
+    public IEnumerable<SparqlQuery> Questions { get; }
 }
 
 public interface ICuriousDifference : ISemanticDifference
@@ -52,6 +47,19 @@ public interface ICuriousDifference : ISemanticDifference
     public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
     public IEnumerable<SparqlQuery> AddedQuestions { get; }
     public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
+}
+```
+
+## Prediction
+
+```cs
+public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
+    IInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TDifference : IPredictiveDifference
+{
+    public IEnumerable<SparqlPrediction> Predictions { get; }
+    public float Confidence(SparqlPrediction prediction);
 }
 
 public interface IPredictiveDifference : ISemanticDifference
