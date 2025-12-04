@@ -124,7 +124,7 @@ public interface IShortTermBufferingDifference<out TInput> : ISemanticDifference
 
 Depending upon the nature of `TInput`, one could also "compress" sequences of inputs into chunks or segments to store in secondary buffers and could subsequently "decompress" individual chunks or segments back into input sequences as needed.
 
-A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TChunk`, `TSegment`, or `TEpisode`.
+A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TCompressed`.
 
 ```cs
 public interface ICompressor<in TInput, out TCompressed>
