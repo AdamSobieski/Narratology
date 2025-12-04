@@ -196,25 +196,26 @@ Thirdly, a system could have multiple incremental interpreters and comprehenders
 Using the interfaces presented, above, one could implement classes resembling:
 
 ```cs
-public class StoryChunk : ITree<StoryChunk>
+public class StoryChunk :
+  ITree<StoryChunk>
 {
     ...
 }
 
 public class ReaderNode :
-    IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-    IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-    IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk, StoryChunk>
+  IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
+  IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
+  IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk, StoryChunk>
 {
     ...
 }
 
 public class ReaderNodeDifference :
-    ICuriousDifference,
-    IAttentionalChange<SparqlQuery>,
-    IPredictiveDifference,
-    IAttentionalChange<SparqlPrediction>,
-    IBufferingDifference<StoryChunk, StoryChunk, StoryChunk>
+  ICuriousDifference,
+  IAttentionalChange<SparqlQuery>,
+  IPredictiveDifference,
+  IAttentionalChange<SparqlPrediction>,
+  IBufferingDifference<StoryChunk, StoryChunk, StoryChunk>
 {
     ...
 }
