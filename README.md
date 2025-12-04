@@ -189,15 +189,15 @@ public class StoryChunk : ITree<StoryChunk>
     ...
 }
 
-public class Reader :
-    IAttentionalCuriousInterpretationNode<Reader, StoryChunk, ReaderDifference>,
-    IAttentionalPredictiveInterpretationNode<Reader, StoryChunk, ReaderDifference>,
-    IMediumTermBufferingInterpretationNode<Reader, StoryChunk, StoryChunk, ReaderDifference>
+public class ReaderNode :
+    IAttentionalCuriousInterpretationNode<ReaderNode, StoryChunk, ReaderNodeDifference>,
+    IAttentionalPredictiveInterpretationNode<ReaderNode, StoryChunk, ReaderNodeDifference>,
+    IMediumTermBufferingInterpretationNode<ReaderNode, StoryChunk, StoryChunk, ReaderNodeDifference>
 {
     ...
 }
 
-public class ReaderDifference :
+public class ReaderNodeDifference :
     ICuriousDifference,
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
