@@ -157,6 +157,25 @@ public interface IMediumTermBufferingDifference<out TInput, out TChunk> :
 }
 ```
 
+Notice that a type, e.g., a hierarhical tree-based type, could be closed under compression and decompression operations: `ICompressor<T, T>` and `IDecompressor<T, T>`.
+
+```cs
+public interface ITree<out TSelf>
+{
+    TSelf? Parent { get; }
+    public IReadOnlyCollection<TSelf> Children { get; }
+}
+```
+
+For example:
+
+```cs
+public class StoryChunk : ITree<StoryChunk>
+{
+   ...
+}
+```
+
 ## Concurrency, Threads, and Multitasking
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
@@ -167,25 +186,20 @@ Secondly, events from different story threads could be interwoven together and p
 
 Thirdly, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
 
-## Example
+## Examples
 
 Using the above interfaces, one could implement classes resembling:
 
 ```cs
-public class StoryEvent
-{
-    ...
-}
-
-public class StoryChunk
+public class StoryChunk : ITree<StoryChunk>
 {
     ...
 }
 
 public class StoryNode :
-    IAttentionalCuriousInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IAttentionalPredictiveInterpretationNode<StoryNode, StoryEvent, StoryNodeDifference>,
-    IMediumTermBufferingInterpretationNode<StoryNode, StoryEvent, StoryChunk, StoryNodeDifference>
+    IAttentionalCuriousInterpretationNode<StoryNode, StoryChunk, StoryNodeDifference>,
+    IAttentionalPredictiveInterpretationNode<StoryNode, StoryChunk, StoryNodeDifference>,
+    IMediumTermBufferingInterpretationNode<StoryNode, StoryChunk, StoryChunk, StoryNodeDifference>
 {
     ...
 }
@@ -195,7 +209,7 @@ public class StoryNodeDifference :
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
-    IMediumTermBufferingDifference<StoryEvent, StoryChunk>
+    IMediumTermBufferingDifference<StoryChunk, StoryChunk>
 {
     ...
 }
