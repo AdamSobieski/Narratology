@@ -109,7 +109,7 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in
 
 ## Working Memory, Buffers, Chunks, and Compression
 
-Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
+Depending upon the nature of the input, `T1`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
 ```cs
 public interface IBufferingInterpretationNode<TSelf, TDifference, T1> :
@@ -127,9 +127,9 @@ public interface IBufferingDifference<out T1> : ISemanticDifference
 }
 ```
 
-Depending upon the nature of `TInput`, one could also "compress" sequences of inputs into chunks or segments to store in secondary buffers and could subsequently "decompress" individual chunks or segments back into input sequences as needed.
+Depending upon the nature of the input, `T1`, one could also "compress" sequences of inputs into chunks or segments to store in secondary buffers and could subsequently "decompress" individual chunks or segments back into input sequences as needed.
 
-A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TCompressed`.
+A system could, for example, "compress" some of the contents of its `Buffer1` of type `T1` into its `Buffer2` of type `T2`.
 
 ```cs
 public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2> :
@@ -171,7 +171,7 @@ public interface IBufferingDifference<out T1, out T2, out T3> :
 }
 ```
 
-It could be the case that `T1` equals `T2` equals `T3`, for example if that input type compresses to itself, for instance if it inherits from `ITree<>`:
+It may be the case that `T1` equals `T2` equals `T3`, for example if that input type compresses to itself, for instance if it inherits from `ITree<>`:
 
 ```cs
 public interface ITree<out TSelf>
