@@ -107,7 +107,7 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in
 { }
 ```
 
-## Working Memory Buffers, Chunks, Segments, and Compression
+## Working Memory, Buffers, Chunks, and Compression
 
 Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
@@ -117,13 +117,13 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1> :
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1>
     where TDifference : IBufferingDifference<T1>
 {
-    public IReadOnlyCollection<T1> ShortTermBuffer { get; }
+    public IReadOnlyCollection<T1> Buffer1 { get; }
 }
 
 public interface IBufferingDifference<out T1> : ISemanticDifference
 {
-    public IReadOnlyCollection<T1> ShortTermBufferAdded { get; }
-    public IReadOnlyCollection<T1> ShortTermBufferRemoved { get; }
+    public IReadOnlyCollection<T1> Buffer1Added { get; }
+    public IReadOnlyCollection<T1> Buffer1Removed { get; }
 }
 ```
 
@@ -137,7 +137,7 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2> :
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
     where TDifference : IBufferingDifference<T1, T2>
 {
-    public IReadOnlyCollection<T2> MediumTermBuffer { get; }
+    public IReadOnlyCollection<T2> Buffer2 { get; }
 
     public T2 Compress(IEnumerable<T1> sequence);
     public IEnumerable<T1> Decompress(T2 chunk);
@@ -146,8 +146,8 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2> :
 public interface IBufferingDifference<out T1, out T2> :
     IBufferingDifference<T1>
 {
-    public IReadOnlyCollection<T2> MediumTermBufferAdded { get; }
-    public IReadOnlyCollection<T2> MediumTermBufferRemoved { get; }
+    public IReadOnlyCollection<T2> Buffer2Added { get; }
+    public IReadOnlyCollection<T2> Buffer2Removed { get; }
 }
 ```
 
@@ -157,7 +157,7 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3>
     where TDifference : IBufferingDifference<T1, T2>
 {
-    public IReadOnlyCollection<T3> LongTermBuffer { get; }
+    public IReadOnlyCollection<T3> Buffer3 { get; }
 
     public T3 Compress(IEnumerable<T2> sequence);
     public IEnumerable<T2> Decompress(T3 chunk);
@@ -166,8 +166,8 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
 public interface IBufferingDifference<out T1, out T2, out T3> :
     IBufferingDifference<T1, T2>
 {
-    public IReadOnlyCollection<T3> LongTermBufferAdded { get; }
-    public IReadOnlyCollection<T3> LongTermBufferRemoved { get; }
+    public IReadOnlyCollection<T3> Buffer3Added { get; }
+    public IReadOnlyCollection<T3> Buffer3Removed { get; }
 }
 ```
 
