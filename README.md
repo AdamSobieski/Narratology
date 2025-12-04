@@ -17,14 +17,14 @@ public interface INode<TSelf, in TInput>
 public interface IDifferenceable<TSelf, TDifference>
 where TSelf : IDifferenceable<TSelf, TDifference>
 {
-    public TDifference Difference(TSelf other);
+    public TDifference Difference(TSelf from);
     public TSelf Apply(TDifference difference);
 }
 
-public interface IInterpretationNode<TSelf, in TInput, TDifference> :
+public interface IInterpretationNode<TSelf, TDifference, in TInput> :
     INode<TSelf, TInput>,
     IDifferenceable<TSelf, TDifference>
-    where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : ISemanticDifference
 {
     public IInMemoryQueryableStore Model { get; }
@@ -39,9 +39,9 @@ public interface ISemanticDifference
 ## Curiosity
 
 ```cs
-public interface ICuriousInterpretationNode<TSelf, in TInput, TDifference> :
-    IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : ICuriousInterpretationNode<TSelf, TInput, TDifference>
+public interface ICuriousInterpretationNode<TSelf, TDifference, in TInput> :
+    IInterpretationNode<TSelf, TDifference, TInput>
+    where TSelf : ICuriousInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : ICuriousDifference
 {
     public IEnumerable<SparqlQuery> Questions { get; }
@@ -58,9 +58,9 @@ public interface ICuriousDifference : ISemanticDifference
 ## Prediction
 
 ```cs
-public interface IPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
-    IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IPredictiveInterpretationNode<TSelf, TInput, TDifference>
+public interface IPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
+    IInterpretationNode<TSelf, TDifference, TInput>
+    where TSelf : IPredictiveInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : IPredictiveDifference
 {
     public IEnumerable<SparqlPrediction> Predictions { get; }
@@ -92,17 +92,17 @@ public interface IAttentionalChange<in T>
     public float AttentionChange(T value);
 }
 
-public interface IAttentionalCuriousInterpretationNode<TSelf, in TInput, TDifference> :
-    ICuriousInterpretationNode<TSelf, TInput, TDifference>,
-    IAttentional<SparqlQuery>
-    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TInput, TDifference>
-    where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
+public interface IAttentionalCuriousInterpretationNode<TSelf, TDifference, in TInput> :
+ICuriousInterpretationNode<TSelf, TDifference, TInput>,
+IAttentional<SparqlQuery>
+where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TDifference, TInput>
+where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
 { }
 
-public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDifference> :
-    IPredictiveInterpretationNode<TSelf, TInput, TDifference>,
+public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
+    IPredictiveInterpretationNode<TSelf, TDifference, TInput>,
     IAttentional<SparqlPrediction>
-    where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TInput, TDifference>
+    where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : IPredictiveDifference, IAttentionalChange<SparqlPrediction>
 { }
 ```
@@ -112,9 +112,9 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, in TInput, TDif
 Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
 ```cs
-public interface IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference> :
-    IInterpretationNode<TSelf, TInput, TDifference>
-    where TSelf : IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference>
+public interface IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput> :
+    IInterpretationNode<TSelf, TDifference, TInput>
+    where TSelf : IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : IShortTermBufferingDifference<TInput>
 {
     public IReadOnlyCollection<TInput> ShortTermBuffer { get; }
@@ -144,11 +144,11 @@ public interface IDecompressor<out TInput, in TCompressed>
 ```
 
 ```cs
-public interface IMediumTermBufferingInterpretationNode<TSelf, TInput, TCompressed, TDifference> :
-    IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference>,
+public interface IMediumTermBufferingInterpretationNode<TSelf, TDifference, TInput, TCompressed> :
+    IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput>,
     ICompressor<TInput, TCompressed>,
     IDecompressor<TInput, TCompressed>
-    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TInput, TCompressed, TDifference>
+    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TDifference, TInput, TCompressed>
     where TDifference : IMediumTermBufferingDifference<TInput, TCompressed>
 {
     public IReadOnlyCollection<TCompressed> MediumTermBuffer { get; }
@@ -195,9 +195,9 @@ public class StoryChunk : ITree<StoryChunk>
 }
 
 public class ReaderNode :
-    IAttentionalCuriousInterpretationNode<ReaderNode, StoryChunk, ReaderNodeDifference>,
-    IAttentionalPredictiveInterpretationNode<ReaderNode, StoryChunk, ReaderNodeDifference>,
-    IMediumTermBufferingInterpretationNode<ReaderNode, StoryChunk, StoryChunk, ReaderNodeDifference>
+    IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
+    IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
+    IMediumTermBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk>
 {
     ...
 }
