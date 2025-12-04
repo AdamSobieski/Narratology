@@ -170,7 +170,7 @@ public interface IBufferList<out T0, out T1, out T2>
     }
 }
 
-public interface IHasBufferList
+public interface IBuffering
 {
     public IBufferList Buffers { get; }
 }
@@ -181,7 +181,7 @@ Then, a buffering interpretation node could resemble:
 ```cs
 public interface IBufferingInterpretationNode<TSelf, TDifference, T0> :
     IInterpretationNode<TSelf, TDifference, T0>,
-    IHasBufferList
+    IBuffering
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0>
     where TDifference : IBufferingDifference<T0>
 {
