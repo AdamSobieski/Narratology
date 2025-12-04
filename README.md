@@ -187,7 +187,7 @@ public interface ITree<out TSelf>
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
-Firstly, depending upon the nature of `TInput`, one input could describe multiple happenings simultaneously.
+Firstly, depending upon the nature of the type of input, one input object instance could describe multiple happenings simultaneously.
 
 Secondly, events from different story threads could be interwoven together and presented to a system serially.
 
