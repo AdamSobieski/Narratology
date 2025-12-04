@@ -112,18 +112,18 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in
 Depending upon the nature of `TInput`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs, perhaps to form them into chunks or segments.
 
 ```cs
-public interface IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput> :
-    IInterpretationNode<TSelf, TDifference, TInput>
-    where TSelf : IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : IShortTermBufferingDifference<TInput>
+public interface IBufferingInterpretationNode<TSelf, TDifference, T1> :
+    IInterpretationNode<TSelf, TDifference, T1>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1>
+    where TDifference : IBufferingDifference<T1>
 {
-    public IReadOnlyCollection<TInput> ShortTermBuffer { get; }
+    public IReadOnlyCollection<T1> ShortTermBuffer { get; }
 }
 
-public interface IShortTermBufferingDifference<out TInput> : ISemanticDifference
+public interface IBufferingDifference<out T1> : ISemanticDifference
 {
-    public IReadOnlyCollection<TInput> ShortTermBufferAdded { get; }
-    public IReadOnlyCollection<TInput> ShortTermBufferRemoved { get; }
+    public IReadOnlyCollection<T1> ShortTermBufferAdded { get; }
+    public IReadOnlyCollection<T1> ShortTermBufferRemoved { get; }
 }
 ```
 
@@ -132,39 +132,46 @@ Depending upon the nature of `TInput`, one could also "compress" sequences of in
 A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TCompressed`.
 
 ```cs
-public interface ICompressor<in TInput, out TCompressed>
+public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2> :
+    IBufferingInterpretationNode<TSelf, TDifference, T1>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
+    where TDifference : IBufferingDifference<T1, T2>
 {
-    public TCompressed Compress(IEnumerable<TInput> inputs);
+    public IReadOnlyCollection<T2> MediumTermBuffer { get; }
+
+    public T2 Compress(IEnumerable<T1> sequence);
+    public IEnumerable<T1> Decompress(T2 chunk);
 }
 
-public interface IDecompressor<out TInput, in TCompressed>
+public interface IBufferingDifference<out T1, out T2> :
+    IBufferingDifference<T1>
 {
-    public IEnumerable<TInput> Decompress(TCompressed input);
+    public IReadOnlyCollection<T2> MediumTermBufferAdded { get; }
+    public IReadOnlyCollection<T2> MediumTermBufferRemoved { get; }
 }
 ```
 
 ```cs
-public interface IMediumTermBufferingInterpretationNode<TSelf, TDifference, TInput, TCompressed> :
-    IShortTermBufferingInterpretationNode<TSelf, TDifference, TInput>,
-    ICompressor<TInput, TCompressed>,
-    IDecompressor<TInput, TCompressed>
-    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TDifference, TInput, TCompressed>
-    where TDifference : IMediumTermBufferingDifference<TInput, TCompressed>
+public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
+    IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3>
+    where TDifference : IBufferingDifference<T1, T2>
 {
-    public IReadOnlyCollection<TCompressed> MediumTermBuffer { get; }
+    public IReadOnlyCollection<T3> LongTermBuffer { get; }
+
+    public T3 Compress(IEnumerable<T2> sequence);
+    public IEnumerable<T2> Decompress(T3 chunk);
 }
 
-public interface IMediumTermBufferingDifference<out TInput, out TCompressed> :
-    IShortTermBufferingDifference<TInput>
+public interface IBufferingDifference<out T1, out T2, out T3> :
+    IBufferingDifference<T1, T2>
 {
-    public IReadOnlyCollection<TCompressed> MediumTermBufferAdded { get; }
-    public IReadOnlyCollection<TCompressed> MediumTermBufferRemoved { get; }
+    public IReadOnlyCollection<T3> LongTermBufferAdded { get; }
+    public IReadOnlyCollection<T3> LongTermBufferRemoved { get; }
 }
 ```
 
-Notice that a type could be closed under compression and decompression operations, i.e., `ICompressor<T, T>` and `IDecompressor<T, T>`.
-
-For example, such a type could inherit from:
+It could be the case that `T1` equals `T2` equals `T3`, for example if that input type compresses to itself, for instance if it inherits from `ITree<>`:
 
 ```cs
 public interface ITree<out TSelf>
@@ -197,7 +204,7 @@ public class StoryChunk : ITree<StoryChunk>
 public class ReaderNode :
     IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
     IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-    IMediumTermBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk>
+    IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk, StoryChunk>
 {
     ...
 }
@@ -207,7 +214,7 @@ public class ReaderNodeDifference :
     IAttentionalChange<SparqlQuery>,
     IPredictiveDifference,
     IAttentionalChange<SparqlPrediction>,
-    IMediumTermBufferingDifference<StoryChunk, StoryChunk>
+    IBufferingDifference<StoryChunk, StoryChunk, StoryChunk>
 {
     ...
 }
