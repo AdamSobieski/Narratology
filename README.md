@@ -179,19 +179,6 @@ Secondly, events from different story threads could be interwoven together and p
 
 Thirdly, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
 
-## Advanced Differencing, Operations, and Lambda Expressions
-
-Revisiting differencing, obtaining differences or deltas between instances of a type and being able to apply these to object instances, in theory, a difference between two instances of some types could provide a sequence of simple operations to inspect and/or to perform upon a clone of one object to obtain an object equivalent to another.
-
-That is, one could simplify differences in a manner resembling:
-
-```cs
-public interface IOperationSequenceDifference<T>
-{
-    public IReadOnlyCollection<Expression<Action<T>>> Operations { get; }
-}
-```
-
 ## Examples
 
 Using the interfaces presented, above, one could implement classes resembling:
