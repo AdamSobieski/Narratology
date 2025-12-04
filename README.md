@@ -157,7 +157,7 @@ Similarly, tertiary buffers could be considered:
 public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
     IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3>
-    where TDifference : IBufferingDifference<T1, T2>
+    where TDifference : IBufferingDifference<T1, T2, T3>
 {
     public IReadOnlyCollection<T3> Buffer3 { get; }
 
@@ -166,7 +166,7 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
 }
 
 public interface IBufferingDifference<out T1, out T2, out T3> :
-    IBufferingDifference<T1, T2, T3>
+    IBufferingDifference<T1, T2>
 {
     public IReadOnlyCollection<T3> Buffer3Added { get; }
     public IReadOnlyCollection<T3> Buffer3Removed { get; }
