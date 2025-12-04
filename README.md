@@ -111,11 +111,9 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in
 
 ## Working Memory, Buffers, Chunks, and Compression
 
-Depending upon the nature of the input, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs.
+Depending upon the nature of the input, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs. One could also "compress" buffered sequences of inputs into chunks to store these chunks in secondary buffers and subsequently "decompress" these chunks back into input sequences, in primary buffers, as needed. That is, a system could "compress" some of the contents of its primary buffer into a secondary buffer. Similarly, tertiary buffers &ndash; and beyond &ndash; could be considered.
 
-Depending upon the nature of the input, one could also "compress" buffered sequences of inputs into chunks to store these chunks in secondary buffers and subsequently "decompress" these chunks back into input sequences, in primary buffers, as needed. That is, a system could "compress" some of the contents of its primary buffer into a secondary buffer. Similarly, tertiary buffers could be considered &ndash; and beyond.
-
-A buffer system could, then, resemble:
+A buffer system could, then, might resemble:
 
 ```cs
 public interface IBuffer : ICollection
