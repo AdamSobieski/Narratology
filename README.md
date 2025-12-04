@@ -17,7 +17,7 @@ public interface INode<TSelf, in TInput>
 public interface IDifferenceable<TSelf, TDifference>
 where TSelf : IDifferenceable<TSelf, TDifference>
 {
-    public TDifference Difference(TSelf from);
+    public TDifference Difference(TSelf other);
     public TSelf Apply(TDifference difference);
 }
 
