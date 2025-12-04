@@ -8,26 +8,31 @@ using VDS.RDF.Update;
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
+public interface INode<TSelf, in TInput>
+    where TSelf : INode<TSelf, TInput>
+{
+    public IEnumerable<TSelf> Process(TInput input);
+}
+
+public interface IDifferenceable<TSelf, TDifference>
+where TSelf : IDifferenceable<TSelf, TDifference>
+{
+    public TDifference Difference(TSelf other);
+    public TSelf Apply(TDifference difference);
+}
+
 public interface IInterpretationNode<TSelf, in TInput, TDifference> :
+    INode<TSelf, TInput>,
     IDifferenceable<TSelf, TDifference>
     where TSelf : IInterpretationNode<TSelf, TInput, TDifference>
     where TDifference : ISemanticDifference
 {
     public IInMemoryQueryableStore Model { get; }
-
-    public IEnumerable<TSelf> Interpret(TInput input);
 }
 
 public interface ISemanticDifference
 {
     public SparqlUpdateCommandSet Updates { get; }
-}
-
-public interface IDifferenceable<TSelf, TDifference>
-    where TSelf : IDifferenceable<TSelf, TDifference>
-{
-    public TDifference Difference(TSelf other);
-    public TSelf Apply(TDifference difference);
 }
 ```
 
