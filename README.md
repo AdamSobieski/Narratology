@@ -139,21 +139,21 @@ public interface IDecompressor<out TInput, in TCompressed>
 ```
 
 ```cs
-public interface IMediumTermBufferingInterpretationNode<TSelf, TInput, TChunk, TDifference> :
+public interface IMediumTermBufferingInterpretationNode<TSelf, TInput, TCompressed, TDifference> :
     IShortTermBufferingInterpretationNode<TSelf, TInput, TDifference>,
-    ICompressor<TInput, TChunk>,
-    IDecompressor<TInput, TChunk>
-    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TInput, TChunk, TDifference>
-    where TDifference : IMediumTermBufferingDifference<TInput, TChunk>
+    ICompressor<TInput, TCompressed>,
+    IDecompressor<TInput, TCompressed>
+    where TSelf : IMediumTermBufferingInterpretationNode<TSelf, TInput, TCompressed, TDifference>
+    where TDifference : IMediumTermBufferingDifference<TInput, TCompressed>
 {
-    public IReadOnlyCollection<TChunk> MediumTermBuffer { get; }
+    public IReadOnlyCollection<TCompressed> MediumTermBuffer { get; }
 }
 
-public interface IMediumTermBufferingDifference<out TInput, out TChunk> :
+public interface IMediumTermBufferingDifference<out TInput, out TCompressed> :
     IShortTermBufferingDifference<TInput>
 {
-    public IReadOnlyCollection<TChunk> MediumTermBufferAdded { get; }
-    public IReadOnlyCollection<TChunk> MediumTermBufferRemoved { get; }
+    public IReadOnlyCollection<TCompressed> MediumTermBufferAdded { get; }
+    public IReadOnlyCollection<TCompressed> MediumTermBufferRemoved { get; }
 }
 ```
 
