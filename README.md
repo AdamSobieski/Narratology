@@ -2,6 +2,7 @@
 
 ```cs
 using System.Collections;
+using System.ComponentModel;
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
@@ -50,9 +51,9 @@ public interface ICuriousInterpretationNode<TSelf, TDifference, in TInput> :
 
 public interface ICuriousDifference : ISemanticDifference
 {
-    public IEnumerable<SparqlQuery> ResolvedQuestions { get; }
-    public IEnumerable<SparqlQuery> AddedQuestions { get; }
-    public IEnumerable<SparqlQuery> UnresolvedRemovedQuestions { get; }
+    public IReadOnlyList<SparqlQuery> ResolvedQuestions { get; }
+    public IReadOnlyList<SparqlQuery> AddedQuestions { get; }
+    public IReadOnlyList<SparqlQuery> UnresolvedRemovedQuestions { get; }
 }
 ```
 
@@ -70,10 +71,10 @@ public interface IPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
 
 public interface IPredictiveDifference : ISemanticDifference
 {
-    public IEnumerable<SparqlPrediction> ResolvedPredictionsCorrect { get; }
-    public IEnumerable<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
-    public IEnumerable<SparqlPrediction> AddedPredictions { get; }
-    public IEnumerable<SparqlPrediction> UnresolvedRemovedPredictions { get; }
+    public IReadOnlyList<SparqlPrediction> ResolvedPredictionsCorrect { get; }
+    public IReadOnlyList<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
+    public IReadOnlyList<SparqlPrediction> AddedPredictions { get; }
+    public IReadOnlyList<SparqlPrediction> UnresolvedRemovedPredictions { get; }
     public float ConfidenceChange(SparqlPrediction prediction);
 }
 ```
@@ -117,139 +118,33 @@ A buffer-list system could resemble:
 ```cs
 public interface IBuffer : ICollection
 {
-    public Type ElementType { get; }
-
     public object this[int index] { get; }
-}
-
-public interface IBuffer<out T> :
-    IEnumerable<T>,
-    IBuffer
-{
-    public new T this[int index] { get; }
 }
 
 public interface IBufferList :
     IReadOnlyList<IBuffer>
-{
-
-}
-
-public interface IBufferList<out T0> : IBufferList
-{
-    public IBuffer<T0> Buffer0
-    {
-        get
-        {
-            return (IBuffer<T0>)this[0];
-        }
-    }
-}
-
-public interface IBufferList<out T0, out T1>
-    : IBufferList<T0>
-{
-    public IBuffer<T1> Buffer1
-    {
-        get
-        {
-            return (IBuffer<T1>)this[1];
-        }
-    }
-}
-
-public interface IBufferList<out T0, out T1, out T2>
-    : IBufferList<T0, T1>
-{
-    public IBuffer<T2> Buffer2
-    {
-        get
-        {
-            return (IBuffer<T2>)this[2];
-        }
-    }
-}
-
-public interface IBuffering
-{
-    public IBufferList Buffers { get; }
-}
+{ }
 ```
 
 Then, a buffering interpretation node could resemble:
 
 ```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T0> :
-    IInterpretationNode<TSelf, TDifference, T0>,
-    IBuffering
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0>
-    where TDifference : IBufferingDifference<T0>
+public interface IBufferingInterpretationNode<TSelf, TDifference, TInput> :
+    IInterpretationNode<TSelf, TDifference, TInput>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, TInput>
+    where TDifference : IBufferingDifference
 {
-    public new IBufferList<T0> Buffers { get; }
+    public IBufferList Buffers { get; }
 }
 
-public interface IBufferingDifference<out T0> : ISemanticDifference
+public interface IBufferingDifference : ISemanticDifference
 {
-    public IReadOnlyCollection<T0> Buffer0Added { get; }
-    public IReadOnlyCollection<T0> Buffer0Removed { get; }
-}
-```
-
-Depending upon the nature of the input, one could also "compress" sequences of inputs into chunks to store in secondary buffers and subsequently "decompress" these chunks back into input sequences, as needed.
-
-That is, a system could "compress" some of the contents of its primary buffer into a secondary buffer.
-
-```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T0, T1> :
-    IBufferingInterpretationNode<TSelf, TDifference, T0>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0, T1>
-    where TDifference : IBufferingDifference<T0, T1>
-{
-    public new IBufferList<T0, T1> Buffers { get; }
-
-    public T1 Compress(IEnumerable<T0> sequence);
-    public IEnumerable<T0> Decompress(T1 chunk);
-}
-
-public interface IBufferingDifference<out T0, out T1> :
-    IBufferingDifference<T0>
-{
-    public IReadOnlyCollection<T1> Buffer1Added { get; }
-    public IReadOnlyCollection<T1> Buffer1Removed { get; }
+    public IReadOnlyList<(int Buffer,
+        CollectionChangeEventArgs Update)> BufferChanges { get; }
 }
 ```
 
-Similarly, tertiary buffers could be considered:
-
-```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T0, T1, T2> :
-    IBufferingInterpretationNode<TSelf, TDifference, T0, T1>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0, T1, T2>
-    where TDifference : IBufferingDifference<T0, T1, T2>
-{
-    public new IBufferList<T0, T1, T2> Buffers { get; }
-
-    public T2 Compress(IEnumerable<T1> sequence);
-    public IEnumerable<T1> Decompress(T2 chunk);
-}
-
-public interface IBufferingDifference<out T0, out T1, out T2> :
-    IBufferingDifference<T0, T1>
-{
-    public IReadOnlyCollection<T2> Buffer2Added { get; }
-    public IReadOnlyCollection<T2> Buffer2Removed { get; }
-}
-```
-
-It may be the case that `T0` equals `T1` equals `T2`, for example if that input type compresses to itself, perhaps inheriting from `ITree<>`:
-
-```cs
-public interface ITree<out TSelf>
-{
-    TSelf? Parent { get; }
-    public IReadOnlyCollection<TSelf> Children { get; }
-}
-```
+Depending upon the nature of the input, one could also "compress" buffered sequences of inputs into chunks to store these chunks in secondary buffers and subsequently "decompress" these chunks back into input sequences, in primary buffers, as needed. That is, a system could "compress" some of the contents of its primary buffer into a secondary buffer. Similarly, tertiary buffers could be considered &ndash; and beyond.
 
 ## Concurrency, Threads, and Multitasking
 
@@ -275,7 +170,7 @@ public class StoryChunk :
 public class ReaderNode :
   IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
   IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-  IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk, StoryChunk, StoryChunk>
+  IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>
 {
     ...
 }
@@ -285,7 +180,7 @@ public class ReaderNodeDifference :
   IAttentionalChange<SparqlQuery>,
   IPredictiveDifference,
   IAttentionalChange<SparqlPrediction>,
-  IBufferingDifference<StoryChunk, StoryChunk, StoryChunk>
+  IBufferingDifference
 {
     ...
 }
