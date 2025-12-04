@@ -1,6 +1,7 @@
 ## Incremental Interpretation and Comprehension
 
 ```cs
+using System.Collections;
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
@@ -109,71 +110,138 @@ public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in
 
 ## Working Memory, Buffers, Chunks, and Compression
 
-Depending upon the nature of the input, `T1`, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs.
+Depending upon the nature of the input, one could add capabilities for incremental interpreters and comprehenders to be able to buffer arriving inputs.
+
+A buffer-list system could resemble:
 
 ```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T1> :
-    IInterpretationNode<TSelf, TDifference, T1>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1>
-    where TDifference : IBufferingDifference<T1>
+public interface IBuffer : ICollection
 {
-    public IReadOnlyCollection<T1> Buffer1 { get; }
+    public Type ElementType { get; }
+
+    public object this[int index] { get; }
 }
 
-public interface IBufferingDifference<out T1> : ISemanticDifference
+public interface IBuffer<out T> :
+    IEnumerable<T>,
+    IBuffer
+{
+    public new T this[int index] { get; }
+}
+
+public interface IBufferList :
+    IReadOnlyList<IBuffer>
+{
+
+}
+
+public interface IBufferList<out T0> : IBufferList
+{
+    public IBuffer<T0> Buffer0
+    {
+        get
+        {
+            return (IBuffer<T0>)this[0];
+        }
+    }
+}
+
+public interface IBufferList<out T0, out T1>
+    : IBufferList<T0>
+{
+    public IBuffer<T1> Buffer1
+    {
+        get
+        {
+            return (IBuffer<T1>)this[1];
+        }
+    }
+}
+
+public interface IBufferList<out T0, out T1, out T2>
+    : IBufferList<T0, T1>
+{
+    public IBuffer<T2> Buffer2
+    {
+        get
+        {
+            return (IBuffer<T2>)this[2];
+        }
+    }
+}
+
+public interface IHasBufferList
+{
+    public IBufferList Buffers { get; }
+}
+```
+
+Then, a buffering interpretation node could resemble:
+
+```cs
+public interface IBufferingInterpretationNode<TSelf, TDifference, T0> :
+    IInterpretationNode<TSelf, TDifference, T0>,
+    IHasBufferList
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0>
+    where TDifference : IBufferingDifference<T0>
+{
+    public new IBufferList<T0> Buffers { get; }
+}
+
+public interface IBufferingDifference<out T0> : ISemanticDifference
+{
+    public IReadOnlyCollection<T0> Buffer0Added { get; }
+    public IReadOnlyCollection<T0> Buffer0Removed { get; }
+}
+```
+
+Depending upon the nature of the input, one could also "compress" sequences of inputs into chunks to store in secondary buffers and subsequently "decompress" these chunks back into input sequences, as needed.
+
+That is, a system could "compress" some of the contents of its primary buffer into a secondary buffer.
+
+```cs
+public interface IBufferingInterpretationNode<TSelf, TDifference, T0, T1> :
+    IBufferingInterpretationNode<TSelf, TDifference, T0>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0, T1>
+    where TDifference : IBufferingDifference<T0, T1>
+{
+    public new IBufferList<T0, T1> Buffers { get; }
+
+    public T1 Compress(IEnumerable<T0> sequence);
+    public IEnumerable<T0> Decompress(T1 chunk);
+}
+
+public interface IBufferingDifference<out T0, out T1> :
+    IBufferingDifference<T0>
 {
     public IReadOnlyCollection<T1> Buffer1Added { get; }
     public IReadOnlyCollection<T1> Buffer1Removed { get; }
 }
 ```
 
-Depending upon the nature of the input, `T1`, one could also "compress" sequences of inputs into chunks to store in secondary buffers and subsequently "decompress" these chunks back into input sequences, as needed.
-
-A system could, for example, "compress" some of the contents of its `Buffer1` of type `T1` into its `Buffer2` of type `T2`.
+Similarly, tertiary buffers could be considered:
 
 ```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2> :
-    IBufferingInterpretationNode<TSelf, TDifference, T1>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
-    where TDifference : IBufferingDifference<T1, T2>
+public interface IBufferingInterpretationNode<TSelf, TDifference, T0, T1, T2> :
+    IBufferingInterpretationNode<TSelf, TDifference, T0, T1>
+    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T0, T1, T2>
+    where TDifference : IBufferingDifference<T0, T1, T2>
 {
-    public IReadOnlyCollection<T2> Buffer2 { get; }
+    public new IBufferList<T0, T1, T2> Buffers { get; }
 
     public T2 Compress(IEnumerable<T1> sequence);
     public IEnumerable<T1> Decompress(T2 chunk);
 }
 
-public interface IBufferingDifference<out T1, out T2> :
-    IBufferingDifference<T1>
+public interface IBufferingDifference<out T0, out T1, out T2> :
+    IBufferingDifference<T0, T1>
 {
     public IReadOnlyCollection<T2> Buffer2Added { get; }
     public IReadOnlyCollection<T2> Buffer2Removed { get; }
 }
 ```
 
-Similarly, tertiary buffers could be considered:
-
-```cs
-public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
-    IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3>
-    where TDifference : IBufferingDifference<T1, T2, T3>
-{
-    public IReadOnlyCollection<T3> Buffer3 { get; }
-
-    public T3 Compress(IEnumerable<T2> sequence);
-    public IEnumerable<T2> Decompress(T3 chunk);
-}
-
-public interface IBufferingDifference<out T1, out T2, out T3> :
-    IBufferingDifference<T1, T2>
-{
-    public IReadOnlyCollection<T3> Buffer3Added { get; }
-    public IReadOnlyCollection<T3> Buffer3Removed { get; }
-}
-```
-
-It may be the case that `T1` equals `T2` equals `T3`, for example if that input type compresses to itself, for instance if it inherits from `ITree<>`:
+It may be the case that `T0` equals `T1` equals `T2`, for example if that input type compresses to itself, perhaps inheriting from `ITree<>`:
 
 ```cs
 public interface ITree<out TSelf>
