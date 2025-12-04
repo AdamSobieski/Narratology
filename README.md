@@ -181,7 +181,7 @@ Thirdly, a system could have multiple incremental interpreters and comprehenders
 
 ## Advanced Differencing, Actions, and Lambda Expressions
 
-Revisiting differencing, obtaining differences or deltas between instances of a type and being able to apply these to object instances, in theory, a difference between two instances of a type could provide a sequence of simple operations to inspect and/or perform upon a clone of one object to obtain an object equivalent to another.
+Revisiting differencing, obtaining differences or deltas between instances of a type and being able to apply these to object instances, in theory, a difference between two instances of some types could provide a sequence of simple operations to inspect and/or to perform upon a clone of one object to obtain an object equivalent to another.
 
 That is, one could simplify differences to a more abstract representation, perhaps in a manner resembling:
 
