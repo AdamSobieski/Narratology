@@ -116,10 +116,9 @@ Depending upon the nature of the input, one could add capabilities for increment
 A buffer system could, then, might resemble:
 
 ```cs
-public interface IBuffer : ICollection
-{
-    public object this[int index] { get; }
-}
+public interface IBuffer :
+    ICollection
+{ }
 
 public interface IBufferList :
     IReadOnlyList<IBuffer>
