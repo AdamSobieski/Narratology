@@ -93,10 +93,10 @@ public interface IAttentionalChange<in T>
 }
 
 public interface IAttentionalCuriousInterpretationNode<TSelf, TDifference, in TInput> :
-ICuriousInterpretationNode<TSelf, TDifference, TInput>,
-IAttentional<SparqlQuery>
-where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TDifference, TInput>
-where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
+    ICuriousInterpretationNode<TSelf, TDifference, TInput>,
+    IAttentional<SparqlQuery>
+    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TDifference, TInput>
+    where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
 { }
 
 public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
