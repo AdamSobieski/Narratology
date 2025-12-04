@@ -166,7 +166,7 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
 }
 
 public interface IBufferingDifference<out T1, out T2, out T3> :
-    IBufferingDifference<T1, T2>
+    IBufferingDifference<T1, T2, T3>
 {
     public IReadOnlyCollection<T3> Buffer3Added { get; }
     public IReadOnlyCollection<T3> Buffer3Removed { get; }
