@@ -127,14 +127,14 @@ Depending upon the nature of `TInput`, one could also "compress" sequences of in
 A system could, for example, "compress" some of the contents of its `ShortTermBuffer` of type `TInput` into its `MediumTermBuffer` of type `TChunk`, `TSegment`, or `TEpisode`.
 
 ```cs
-public interface ICompressor<TFrom, out TTo>
+public interface ICompressor<in TInput, out TCompressed>
 {
-    public TTo Compress(IEnumerable<TFrom> inputs);
+    public TCompressed Compress(IEnumerable<TInput> inputs);
 }
 
-public interface IDecompressor<out TFrom, in TTo>
+public interface IDecompressor<out TInput, in TCompressed>
 {
-    public IEnumerable<TFrom> Decompress(TTo input);
+    public IEnumerable<TInput> Decompress(TCompressed input);
 }
 ```
 
