@@ -183,26 +183,12 @@ Thirdly, a system could have multiple incremental interpreters and comprehenders
 
 Revisiting differencing, obtaining differences or deltas between instances of a type and being able to apply these to object instances, in theory, a difference between two instances of some types could provide a sequence of simple operations to inspect and/or to perform upon a clone of one object to obtain an object equivalent to another.
 
-That is, one could simplify differences to a more abstract representation, perhaps in a manner resembling:
+That is, one could simplify differences in a manner resembling:
 
 ```cs
-public interface IOperationSequenceDifference<TOperation>
+public interface IOperationSequenceDifference<T>
 {
-    public IReadOnlyCollection<TOperation> Operations { get; }
-}
-```
-or:
-```cs
-public interface IOperationSequenceDifference<TSelf>
-{
-    public IReadOnlyCollection<Action<TSelf>> Operations { get; }
-}
-```
-or:
-```cs
-public interface IOperationSequenceDifference<TSelf>
-{
-    public IReadOnlyCollection<Expression<Action<TSelf>>> Operations { get; }
+    public IReadOnlyCollection<Expression<Action<T>>> Operations { get; }
 }
 ```
 
