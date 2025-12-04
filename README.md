@@ -157,7 +157,7 @@ public interface IMediumTermBufferingDifference<out TInput, out TChunk> :
 }
 ```
 
-Notice that a type could be closed under compression and decompression operations: `ICompressor<T, T>` and `IDecompressor<T, T>`.
+Notice that a type could be closed under compression and decompression operations, i.e., `ICompressor<T, T>` and `IDecompressor<T, T>`.
 
 For example, such a type could inherit from:
 
