@@ -151,6 +151,8 @@ public interface IBufferingDifference<out T1, out T2> :
 }
 ```
 
+Similarly, tertiary buffers could be considered:
+
 ```cs
 public interface IBufferingInterpretationNode<TSelf, TDifference, T1, T2, T3> :
     IBufferingInterpretationNode<TSelf, TDifference, T1, T2>
