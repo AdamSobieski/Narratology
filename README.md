@@ -284,8 +284,8 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent { get; }
-    public bool GetContent(out TOutput? response);
+    public bool HasContent(Type type);
+    public bool GetContent([NotNullWhen(true)] out TOutput? response);
 }
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
@@ -294,15 +294,15 @@ public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent { get; }
-    public bool GetContent(out TOutput? response);
+    public bool HasContent(Type type);
+    public bool GetContent([NotNullWhen(true)] out TOutput? response);
 
     public Task<TSelf> Continue();
 }
 
 public interface IQueryableState<TSelf> :
-ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
-where TSelf : IQueryableState<TSelf>
+    ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
+    where TSelf : IQueryableState<TSelf>
 { }
 ```
 
@@ -356,11 +356,6 @@ public class ReaderState :
         get { ... }
     }
 
-    public bool HasContent
-    {
-        get { ... }
-    }
-
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
     public async Task<Operation?> Difference(ReaderState other) { ... }
@@ -373,7 +368,9 @@ public class ReaderState :
 
     public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
 
-    public bool GetContent(out SparqlResultSet? result) { ... }
+    public bool HasContent(Type type) { ... }
+
+    public bool GetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
 
     ...
 }
