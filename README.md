@@ -19,7 +19,10 @@ public abstract class Operation { }
 
 public sealed class CompoundOperation : Operation
 {
-    public CompoundOperation(IEnumerable<Operation> operations)
+    public CompoundOperation
+    (
+        IEnumerable<Operation> operations
+    )
     {
         Operations = operations;
     }
