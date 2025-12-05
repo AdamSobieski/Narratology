@@ -2,7 +2,6 @@
 
 ```cs
 using System.Collections;
-using System.ComponentModel;
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
@@ -10,72 +9,113 @@ using VDS.RDF.Update;
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
-public interface INode<TSelf, in TInput>
-    where TSelf : INode<TSelf, TInput>
+public interface IInterpretationNode<TSelf, in TInput>
+    where TSelf : IInterpretationNode<TSelf, TInput>
 {
-    public IEnumerable<TSelf> Process(TInput input);
+    public IEnumerable<TSelf> Interpret(TInput input);
 }
 
-public interface IDifferenceable<TSelf, TDifference>
-where TSelf : IDifferenceable<TSelf, TDifference>
+public abstract class Operation { }
+
+public interface IDifferenceable<TSelf>
+    where TSelf : IDifferenceable<TSelf>
 {
-    public TDifference Difference(TSelf other);
-    public TSelf Apply(TDifference difference);
+    public IEnumerable<Operation> Difference(TSelf other);
+    public TSelf Apply(IEnumerable<Operation> difference);
 }
 
-public interface IInterpretationNode<TSelf, TDifference, in TInput> :
-    INode<TSelf, TInput>,
-    IDifferenceable<TSelf, TDifference>
-    where TSelf : IInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : ISemanticDifference
+public interface ISemanticNode<TSelf, in TInput> :
+    IInterpretationNode<TSelf, TInput>,
+    IDifferenceable<TSelf>
+    where TSelf : ISemanticNode<TSelf, TInput>
 {
     public IInMemoryQueryableStore Model { get; }
 }
 
-public interface ISemanticDifference
+public sealed class SemanticOperation : Operation
 {
-    public SparqlUpdateCommandSet Updates { get; }
+    public SemanticOperation
+    (
+        SparqlUpdateCommandSet updateCommands
+    )
+    {
+        UpdateCommands = updateCommands;
+    }
+
+    public SparqlUpdateCommandSet UpdateCommands { get; }
 }
 ```
 
 ## Curiosity
 
 ```cs
-public interface ICuriousInterpretationNode<TSelf, TDifference, in TInput> :
-    IInterpretationNode<TSelf, TDifference, TInput>
-    where TSelf : ICuriousInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : ICuriousDifference
+public interface ICuriousNode<TSelf, in TInput> :
+    ISemanticNode<TSelf, TInput>
+    where TSelf : ICuriousNode<TSelf, TInput>
 {
     public IEnumerable<SparqlQuery> Questions { get; }
 }
 
-public interface ICuriousDifference : ISemanticDifference
+public sealed class CuriousOperation : Operation
 {
-    public IReadOnlyList<SparqlQuery> ResolvedQuestions { get; }
-    public IReadOnlyList<SparqlQuery> AddedQuestions { get; }
-    public IReadOnlyList<SparqlQuery> UnresolvedRemovedQuestions { get; }
+    public enum OperationStatus
+    {
+        Added,
+        Removed,
+        Resolved
+    }
+
+    public CuriousOperation
+    (
+        OperationStatus status,
+        SparqlQuery question
+    )
+    {
+        Status = status;
+        Question = question;
+    }
+
+    public OperationStatus Status { get; }
+    public SparqlQuery Question { get; }
 }
 ```
 
 ## Prediction
 
 ```cs
-public interface IPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
-    IInterpretationNode<TSelf, TDifference, TInput>
-    where TSelf : IPredictiveInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : IPredictiveDifference
+public interface IPredictiveNode<TSelf, in TInput> :
+    ISemanticNode<TSelf, TInput>
+    where TSelf : IPredictiveNode<TSelf, TInput>
 {
     public IEnumerable<SparqlPrediction> Predictions { get; }
     public float Confidence(SparqlPrediction prediction);
 }
 
-public interface IPredictiveDifference : ISemanticDifference
+public sealed class PredictiveOperation : Operation
 {
-    public IReadOnlyList<SparqlPrediction> ResolvedPredictionsCorrect { get; }
-    public IReadOnlyList<SparqlPrediction> ResolvedPredictionsIncorrect { get; }
-    public IReadOnlyList<SparqlPrediction> AddedPredictions { get; }
-    public IReadOnlyList<SparqlPrediction> UnresolvedRemovedPredictions { get; }
-    public float ConfidenceChange(SparqlPrediction prediction);
+    public enum OperationStatus
+    {
+        Added,
+        Removed,
+        Resolved,
+        ConfidenceChanged
+    }
+
+    public PredictiveOperation
+    (
+        OperationStatus status,
+        SparqlPrediction prediction,
+        float confidenceChange = 0.0f
+    )
+    {
+        Prediction = prediction;
+        Status = status;
+        ConfidenceChange = confidenceChange;
+    }
+
+    public OperationStatus Status { get; }
+    public SparqlPrediction Prediction { get; }
+    public float ConfidenceChange { get; }
 }
 ```
 
@@ -84,29 +124,28 @@ public interface IPredictiveDifference : ISemanticDifference
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentional<in T>
+public interface IAttentionalNode<TSelf, in TInput> :
+    ISemanticNode<TSelf, TInput>
+    where TSelf : ISemanticNode<TSelf, TInput>
 {
-    public float Attention(T value);
+    public float Attention(object value);
 }
 
-public interface IAttentionalChange<in T>
+public sealed class AttentionalOperation : Operation
 {
-    public float AttentionChange(T value);
+    public AttentionalOperation
+    (
+        object value,
+        float attentionChange
+    )
+    {
+        Value = value;
+        AttentionChange = attentionChange;
+    }
+
+    public object Value { get; }
+    public float AttentionChange { get; }
 }
-
-public interface IAttentionalCuriousInterpretationNode<TSelf, TDifference, in TInput> :
-    ICuriousInterpretationNode<TSelf, TDifference, TInput>,
-    IAttentional<SparqlQuery>
-    where TSelf : IAttentionalCuriousInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : ICuriousDifference, IAttentionalChange<SparqlQuery>
-{ }
-
-public interface IAttentionalPredictiveInterpretationNode<TSelf, TDifference, in TInput> :
-    IPredictiveInterpretationNode<TSelf, TDifference, TInput>,
-    IAttentional<SparqlPrediction>
-    where TSelf : IAttentionalPredictiveInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : IPredictiveDifference, IAttentionalChange<SparqlPrediction>
-{ }
 ```
 
 ## Working Memory, Buffers, Chunks, and Compression
@@ -124,24 +163,47 @@ public interface IBuffer :
 
 public interface IBufferSystem
     : IReadOnlyList<IBuffer>
-{ } 
+{ }
 
-public interface IBufferingInterpretationNode<TSelf, TDifference, TInput> :
-    IInterpretationNode<TSelf, TDifference, TInput>
-    where TSelf : IBufferingInterpretationNode<TSelf, TDifference, TInput>
-    where TDifference : IBufferingDifference
+public interface IBufferingNode<TSelf, TInput> :
+    ISemanticNode<TSelf, TInput>
+    where TSelf : IBufferingNode<TSelf, TInput>
 {
     public IBufferSystem Buffers { get; }
 }
 
-public interface IBufferingDifference : ISemanticDifference
+public sealed class BufferSystemOperation : Operation
 {
-    public IReadOnlyList<BufferSystemChangeEventArgs> BufferChanges { get; }
-}
+    public enum OperationStatus
+    {
+        Added,
+        Removed,
+        Compression,
+        Decompression
+    }
 
-public sealed class BufferSystemChangeEventArgs : EventArgs
-{
-    ...
+    public BufferSystemOperation
+    (
+        OperationStatus status,
+        int? fromBuffer,
+        IEnumerable? fromSequence,
+        int? toBuffer,
+        IEnumerable? toSequence
+    )
+    {
+        Status = status;
+        FromBuffer = fromBuffer;
+        FromSequence = fromSequence;
+        ToBuffer = toBuffer;
+        ToSequence = toSequence;
+    }
+
+    public OperationStatus Status { get; }
+
+    public int? FromBuffer { get; }
+    public int? ToBuffer { get; }
+    public IEnumerable? FromSequence { get; }
+    public IEnumerable? ToSequence { get; }
 }
 ```
 
@@ -160,27 +222,17 @@ Thirdly, a system could have multiple incremental interpreters and comprehenders
 Using the interfaces presented, above, one could implement classes resembling:
 
 ```cs
-public class StoryChunk :
-  ITree<StoryChunk>
+public class StoryChunk : ITree<StoryChunk>
 {
-    ...
+
 }
 
-public class ReaderNode :
-  IAttentionalCuriousInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-  IAttentionalPredictiveInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>,
-  IBufferingInterpretationNode<ReaderNode, ReaderNodeDifference, StoryChunk>
+public class Reader :
+    ICuriousNode<Reader, StoryChunk>,
+    IPredictiveNode<Reader, StoryChunk>,
+    IAttentionalNode<Reader, StoryChunk>,
+    IBufferingNode<Reader, StoryChunk>
 {
-    ...
-}
 
-public class ReaderNodeDifference :
-  ICuriousDifference,
-  IAttentionalChange<SparqlQuery>,
-  IPredictiveDifference,
-  IAttentionalChange<SparqlPrediction>,
-  IBufferingDifference
-{
-    ...
 }
 ```
