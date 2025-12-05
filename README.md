@@ -9,8 +9,8 @@ using VDS.RDF.Update;
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
-public interface IInterpretationNode<TSelf, in TInput>
-    where TSelf : IInterpretationNode<TSelf, TInput>
+public interface IInterpretationState<TSelf, in TInput>
+    where TSelf : IInterpretationState<TSelf, TInput>
 {
     public IEnumerable<TSelf> Interpret(TInput input);
 }
@@ -24,10 +24,10 @@ public interface IDifferenceable<TSelf>
     public TSelf Apply(IEnumerable<Operation> difference);
 }
 
-public interface ISemanticNode<TSelf, in TInput> :
-    IInterpretationNode<TSelf, TInput>,
+public interface ISemanticState<TSelf, in TInput> :
+    IInterpretationState<TSelf, TInput>,
     IDifferenceable<TSelf>
-    where TSelf : ISemanticNode<TSelf, TInput>
+    where TSelf : ISemanticState<TSelf, TInput>
 {
     public IInMemoryQueryableStore Model { get; }
 }
@@ -49,9 +49,9 @@ public sealed class SemanticOperation : Operation
 ## Curiosity
 
 ```cs
-public interface ICuriousNode<TSelf, in TInput> :
-    ISemanticNode<TSelf, TInput>
-    where TSelf : ICuriousNode<TSelf, TInput>
+public interface ICuriousState<TSelf, in TInput> :
+    ISemanticState<TSelf, TInput>
+    where TSelf : ICuriousState<TSelf, TInput>
 {
     public IEnumerable<SparqlQuery> Questions { get; }
 }
@@ -83,9 +83,9 @@ public sealed class CuriousOperation : Operation
 ## Prediction
 
 ```cs
-public interface IPredictiveNode<TSelf, in TInput> :
-    ISemanticNode<TSelf, TInput>
-    where TSelf : IPredictiveNode<TSelf, TInput>
+public interface IPredictiveState<TSelf, in TInput> :
+    ISemanticState<TSelf, TInput>
+    where TSelf : IPredictiveState<TSelf, TInput>
 {
     public IEnumerable<SparqlPrediction> Predictions { get; }
     public float Confidence(SparqlPrediction prediction);
@@ -124,9 +124,9 @@ public sealed class PredictiveOperation : Operation
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalNode<TSelf, in TInput> :
-    ISemanticNode<TSelf, TInput>
-    where TSelf : IAttentionalNode<TSelf, TInput>
+public interface IAttentionalState<TSelf, in TInput> :
+    ISemanticState<TSelf, TInput>
+    where TSelf : IAttentionalState<TSelf, TInput>
 {
     public float Attention(object value);
 }
@@ -165,9 +165,9 @@ public interface IBufferSystem
     : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingNode<TSelf, TInput> :
-    ISemanticNode<TSelf, TInput>
-    where TSelf : IBufferingNode<TSelf, TInput>
+public interface IBufferingState<TSelf, TInput> :
+    ISemanticState<TSelf, TInput>
+    where TSelf : IBufferingState<TSelf, TInput>
 {
     public IBufferSystem Buffers { get; }
 }
@@ -264,11 +264,11 @@ public class StoryChunk : ITree<StoryChunk>
     ...
 }
 
-public class Reader :
-    ICuriousNode<Reader, StoryChunk>,
-    IPredictiveNode<Reader, StoryChunk>,
-    IAttentionalNode<Reader, StoryChunk>,
-    IBufferingNode<Reader, StoryChunk>
+public class ReaderState :
+    ICuriousState<ReaderState, StoryChunk>,
+    IPredictiveState<ReaderState, StoryChunk>,
+    IAttentionalState<ReaderState, StoryChunk>,
+    IBufferingState<ReaderState, StoryChunk>
 {
     public IInMemoryQueryableStore Model
     {
@@ -292,7 +292,7 @@ public class Reader :
 
     public IEnumerable<Reader> Interpret(StoryChunk input) { ... }
 
-    public IEnumerable<Operation> Difference(Reader other) { ... }
+    public IEnumerable<Operation> Difference(ReaderState other) { ... }
 
     public Reader Apply(IEnumerable<Operation> difference) { ... }
 
