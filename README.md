@@ -144,7 +144,7 @@ public sealed class PredictiveOperation :
 }
 ```
 
-## Attention and Focus
+## Attention
 
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
@@ -307,7 +307,7 @@ public interface IQueryableState<TSelf> :
 { }
 ```
 
-One could use extension methods in a manner resembling:
+One could provide extension methods in a manner resembling:
 
 ```cs
 public static partial class Extensions
