@@ -292,7 +292,7 @@ public class ReaderState :
         get { ... }
     }
 
-    public IEnumerable<Reader> Interpret(StoryChunk input) { ... }
+    public IEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
     public IEnumerable<Operation> Difference(ReaderState other) { ... }
 
