@@ -27,8 +27,8 @@ public sealed class CompoundOperation : Operation
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Operation Difference(TSelf other);
-    public TSelf Apply(Operation difference);
+    public Operation? Difference(TSelf other);
+    public TSelf Apply(Operation? difference);
 }
 ```
 
@@ -353,9 +353,9 @@ public class ReaderState :
 
     public IEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public Operation Difference(ReaderState other) { ... }
+    public Operation? Difference(ReaderState other) { ... }
 
-    public ReaderState Apply(Operation difference) { ... }
+    public ReaderState Apply(Operation? difference) { ... }
 
     public float Attention(object value) { ... }
 
