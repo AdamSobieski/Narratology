@@ -18,7 +18,8 @@ public interface IDifferenceable<TSelf>
 
 public abstract class Operation { }
 
-public sealed class CompoundOperation : Operation
+public sealed class CompoundOperation :
+    Operation
 {
     public CompoundOperation
     (
@@ -52,7 +53,8 @@ public interface ISemanticState<TSelf> :
     public IInMemoryQueryableStore Model { get; }
 }
 
-public sealed class SemanticOperation : Operation
+public sealed class SemanticOperation :
+    Operation
 {
     public SemanticOperation
     (
@@ -76,7 +78,8 @@ public interface ICuriousState<TSelf> :
     public IEnumerable<SparqlQuery> Questions { get; }
 }
 
-public sealed class CuriousOperation : Operation
+public sealed class CuriousOperation :
+    Operation
 {
     public enum OperationStatus
     {
@@ -111,7 +114,8 @@ public interface IPredictiveState<TSelf> :
     public float Confidence(SparqlPrediction prediction);
 }
 
-public sealed class PredictiveOperation : Operation
+public sealed class PredictiveOperation :
+    Operation
 {
     public enum OperationStatus
     {
@@ -151,7 +155,8 @@ public interface IAttentionalState<TSelf> :
     public float Attention(object value);
 }
 
-public sealed class AttentionalOperation : Operation
+public sealed class AttentionalOperation :
+    Operation
 {
     public AttentionalOperation
     (
@@ -181,8 +186,8 @@ public interface IBuffer :
     public Type ElementType { get; }
 }
 
-public interface IBufferSystem
-    : IReadOnlyList<IBuffer>
+public interface IBufferSystem :
+    IReadOnlyList<IBuffer>
 { }
 
 public interface IBufferingState<TSelf> :
@@ -192,7 +197,8 @@ public interface IBufferingState<TSelf> :
     public IBufferSystem Buffers { get; }
 }
 
-public sealed class BufferSystemOperation : Operation
+public sealed class BufferSystemOperation :
+    Operation
 {
     public enum OperationStatus
     {
@@ -234,7 +240,8 @@ Approaches to incremental interpretation and comprehension can tackle concurrenc
 With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
 
 ```cs
-public sealed class ConcurrentOperation : Operation
+public sealed class ConcurrentOperation :
+    Operation
 {
     public ConcurrentOperation
     (
