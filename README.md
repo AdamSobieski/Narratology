@@ -283,7 +283,7 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
     ICommunicatorState<TSelf, TInput, IEnumerable<TOutput>>
-    where TSelf : ICommunicatorState<TSelf, TInput, IEnumerable<TOutput>>
+    where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
 {
     public bool GetContent(out TOutput? response);
 
