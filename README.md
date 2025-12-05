@@ -289,17 +289,20 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
 }
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
-    ICommunicatorState<TSelf, TInput, IAsyncEnumerable<TOutput>>
+    IDifferenceable<TSelf>
     where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
 {
+    public Task<TSelf> Prompt(TInput prompt);
+
+    public bool HasContent { get; }
     public bool GetContent(out TOutput? response);
 
     public Task<TSelf> Continue();
 }
 
 public interface IQueryableState<TSelf> :
-    ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
-    where TSelf : IQueryableState<TSelf>
+ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
+where TSelf : IQueryableState<TSelf>
 { }
 ```
 
