@@ -271,14 +271,6 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting questions to systems, asking questions where state changes are expected of systems, where modeled and simulated procesess of cognition are expected to occur, during the processes of answering the questions.
 
 ```cs
-public interface IQueryableState<TSelf> :
-    IDifferenceable<TSelf>
-    where TSelf : IQueryableState<TSelf>
-{
-    public TSelf Query(SparqlQuery query);
-    public bool GetContent(out SparqlResultSet? result);
-}
-
 public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     IDifferenceable<TSelf>
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
@@ -286,6 +278,11 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     public TSelf Prompt(TInput prompt);
     public bool GetContent(out TOutput? response);
 }
+
+public interface IQueryableState<TSelf> :
+    ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
+    where TSelf : IQueryableState<TSelf>
+{ }
 ```
 
 ## Examples
@@ -348,7 +345,7 @@ public class ReaderState :
 
     public float Confidence(SparqlPrediction prediction) { ... }
 
-    public ReaderState Query(SparqlQuery query) { ... }
+    public ReaderState Prompt(SparqlQuery query) { ... }
 
     public bool GetContent(out SparqlResultSet? result) { ... }
 
