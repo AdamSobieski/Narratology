@@ -108,8 +108,8 @@ public sealed class PredictiveOperation : Operation
         float confidenceChange = 0.0f
     )
     {
-        Prediction = prediction;
         Status = status;
+        Prediction = prediction;
         ConfidenceChange = confidenceChange;
     }
 
