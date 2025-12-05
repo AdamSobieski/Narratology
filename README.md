@@ -276,7 +276,7 @@ public interface IQueryableState<TSelf> :
     where TSelf : IQueryableState<TSelf>
 {
     public TSelf Query(SparqlQuery query);
-    public bool GetResponse(out SparqlResultSet? response);
+    public bool GetContent(out SparqlResultSet? result);
 }
 
 public interface ICommunicatorState<TSelf, in TInput, TOutput> :
@@ -284,7 +284,7 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
 {
     public TSelf Prompt(TInput prompt);
-    public bool GetResponse(out TOutput? response);
+    public bool GetContent(out TOutput? response);
 }
 ```
 
@@ -350,7 +350,7 @@ public class ReaderState :
 
     public ReaderState Query(SparqlQuery query) { ... }
 
-    public bool GetResponse(out SparqlResultSet? response) { ... }
+    public bool GetContent(out SparqlResultSet? result) { ... }
 
     ...
 }
