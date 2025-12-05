@@ -259,6 +259,20 @@ The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expand
 
 Alternatively, a _cognitive timeline_ system could be explored to provide multiple concurrent tracks of activities for describing and visualizing modeled and simulated processes.
 
+## Question-answering
+
+While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting questions to systems, asking questions where state changes are expected of systems, where cognitive processes are expected to occur during the processes of answering the questions.
+
+```cs
+public interface IAskableState<TSelf, TInput> :
+    ISemanticState<TSelf, TInput>
+    where TSelf : IAskableState<TSelf, TInput>
+{
+    public TSelf Ask(SparqlQuery question);
+    public SparqlResultSet? Response { get; }
+}
+```
+
 ## Examples
 
 Using the interfaces presented, above, one could implement classes resembling:
