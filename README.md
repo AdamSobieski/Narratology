@@ -2,6 +2,7 @@
 
 ```cs
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
@@ -12,7 +13,7 @@ using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<Operation?> Difference(TSelf other);
+    public Task<Operation?> DifferenceFrom(TSelf other);
     public Task<TSelf> Apply(Operation? difference);
 }
 
