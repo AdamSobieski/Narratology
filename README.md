@@ -149,11 +149,11 @@ public sealed class PredictiveOperation :
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<TSelf> :
+public interface IAttentionalState<TSelf, in TElement> :
     IDifferenceable<TSelf>
-    where TSelf : IAttentionalState<TSelf>
+    where TSelf : IAttentionalState<TSelf, TElement>
 {
-    public float Attention(object value);
+    public float Attention(TElement value);
 }
 
 public sealed class AttentionalOperation :
@@ -366,7 +366,8 @@ public class ReaderState :
     ICuriousState<ReaderState>,
     IPredictiveState<ReaderState>,
     IBufferingState<ReaderState>,
-    IAttentionalState<ReaderState>,
+    IAttentionalState<ReaderState, SparqlQuery>,
+    IAttentionalState<ReaderState, SparqlPrediction>,
     IQueryableState<ReaderState>
 {
     public IInMemoryQueryableStore Model
@@ -400,7 +401,9 @@ public class ReaderState :
 
     public async Task<ReaderState> Apply(Operation? difference) { ... }
 
-    public float Attention(object value) { ... }
+    public float Attention(SparqlQuery value) { ... }
+
+    public float Attention(SparqlPrediction value) { ... }
 
     public float Confidence(SparqlPrediction prediction) { ... }
 
