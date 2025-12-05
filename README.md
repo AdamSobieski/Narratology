@@ -9,6 +9,13 @@ using VDS.RDF.Update;
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
 
+public interface IDifferenceable<TSelf>
+    where TSelf : IDifferenceable<TSelf>
+{
+    public Operation? Difference(TSelf other);
+    public TSelf Apply(Operation? difference);
+}
+
 public abstract class Operation { }
 
 public sealed class CompoundOperation : Operation
@@ -22,13 +29,6 @@ public sealed class CompoundOperation : Operation
     }
 
     public IEnumerable<Operation> Operations { get; }
-}
-
-public interface IDifferenceable<TSelf>
-    where TSelf : IDifferenceable<TSelf>
-{
-    public Operation? Difference(TSelf other);
-    public TSelf Apply(Operation? difference);
 }
 ```
 
