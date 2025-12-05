@@ -276,6 +276,8 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
 {
     public TSelf Prompt(TInput prompt);
+
+    public bool HasContent { get; }
     public bool GetContent(out TOutput? response);
 }
 
@@ -331,6 +333,11 @@ public class ReaderState :
     }
 
     public IBufferSystem Buffers
+    {
+        get { ... }
+    }
+
+    public bool HasContent
     {
         get { ... }
     }
