@@ -1,3 +1,7 @@
-1. [Computational Narratology Sketch](Sketch1.md)
+## Computational Narratology
 
-2. Generative Narratology Sketch (Coming Soon)
+[Here](Sketch1.md) is a computational narratology sketch showcasing some ideas including incremental interpretation and comprehension.
+
+## Generative Narratology
+
+Coming soon.
