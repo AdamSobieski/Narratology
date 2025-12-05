@@ -211,11 +211,28 @@ public sealed class BufferSystemOperation : Operation
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
-Firstly, depending upon the nature of the type of input, one input object instance could describe multiple happenings simultaneously.
+With respect to concurrency regarding operations affecting differencing, one could add the following to interpret a set of `Operation` instances as occurring concurrently:
 
-Secondly, events from different story threads could be interwoven together and presented to a system serially.
+```cs
+public sealed class ConcurrentOperation : Operation
+{
+    public ConcurrentOperation
+    (
+        IEnumerable<Operation> operations
+    )
+    {
+        Operations = operations;
+    }
 
-Thirdly, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
+    public IEnumerable<Operation> Operations { get; }
+}
+```
+
+With respect to processing concurrent happenings, depending upon the nature of the type of input, one input object instance could describe multiple happenings simultaneously.
+
+More specifically, Events from different story threads could be interwoven together and presented to a system serially.
+
+Alternatively, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
 
 ## Examples
 
