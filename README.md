@@ -241,9 +241,15 @@ Using the interfaces presented, above, one could implement classes resembling:
 ```cs
 public class StoryChunk : ITree<StoryChunk>
 {
-    public StoryChunk? Parent => throw new NotImplementedException();
+    public StoryChunk? Parent
+    {
+        get { ... }
+    }
 
-    public IReadOnlyList<StoryChunk> Children => throw new NotImplementedException();
+    public IReadOnlyList<StoryChunk> Children
+    {
+        get { ... }
+    }
 
     ...
 }
