@@ -127,7 +127,7 @@ public interface IBufferSystem
 {
     public bool TryCompress
     (
-        object context,
+        object node,
         int fromBuffer,
         int toBuffer,
         IEnumerable sequence,
@@ -136,7 +136,7 @@ public interface IBufferSystem
 
     public bool TryDecompress
     (
-        object context,
+        object node,
         int fromBuffer,
         int toBuffer,
         object chunk,
