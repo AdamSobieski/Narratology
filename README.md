@@ -307,6 +307,38 @@ public interface IQueryableState<TSelf> :
 { }
 ```
 
+One could use extension methods in a manner resembling:
+
+```cs
+public static partial class Extensions
+{
+    extension<TSelf, TInput, TOutput>
+        (ISequentialCommunicatorState<TSelf, TInput, TOutput> state)
+        where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
+    {
+        public async IAsyncEnumerable<(TSelf State, TOutput Value)>
+            PromptAsyncEnumerable(TInput prompt)
+        {
+            TSelf current = await state.Prompt(prompt);
+
+            while(current.HasContent)
+            {
+                if(current.GetContent(out TOutput? value))
+                {
+                    yield return (current, value);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+                current = await current.Continue();
+            }
+        }
+    }
+}
+```
+
 ## Examples
 
 Using the interfaces presented, above, one could implement classes resembling:
