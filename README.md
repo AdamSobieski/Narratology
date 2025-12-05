@@ -230,7 +230,7 @@ public sealed class ConcurrentOperation : Operation
 
 With respect to processing concurrent happenings, depending upon the nature of the type of input, one input object instance could describe multiple happenings simultaneously.
 
-More specifically, Events from different story threads could be interwoven together and presented to a system serially.
+More specifically, events from different story threads could be interwoven together and presented to a system sequentially.
 
 Alternatively, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
 
@@ -241,6 +241,10 @@ Using the interfaces presented, above, one could implement classes resembling:
 ```cs
 public class StoryChunk : ITree<StoryChunk>
 {
+    public StoryChunk? Parent => throw new NotImplementedException();
+
+    public IReadOnlyList<StoryChunk> Children => throw new NotImplementedException();
+
     ...
 }
 
@@ -250,6 +254,36 @@ public class Reader :
     IAttentionalNode<Reader, StoryChunk>,
     IBufferingNode<Reader, StoryChunk>
 {
+    public IInMemoryQueryableStore Model
+    {
+        get { ... }
+    }
+
+    public IEnumerable<SparqlQuery> Questions
+    {
+        get { ... }
+    }
+
+    public IEnumerable<SparqlPrediction> Predictions
+    {
+        get { ... }
+    }
+
+    public IBufferSystem Buffers
+    {
+        get { ... }
+    }
+
+    public IEnumerable<Reader> Interpret(StoryChunk input) { ... }
+
+    public IEnumerable<Operation> Difference(Reader other) { ... }
+
+    public Reader Apply(IEnumerable<Operation> difference) { ... }
+
+    public float Attention(object value) { ... }
+
+    public float Confidence(SparqlPrediction prediction) { ... }
+
     ...
 }
 ```
