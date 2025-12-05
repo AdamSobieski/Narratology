@@ -249,7 +249,7 @@ A system could have multiple incremental interpreters and comprehenders, one per
 
 ## Semantic Overlays
 
-Instead of having to copy a semantic model for each interpretation of each input, a _semantic overlay_ framework could be developed where subsequent nodes could, internally, provide overlays to their predecessors' datasets while implementing the `IInMemoryQueryableStore` interface.
+Instead of having to copy a semantic model for each interpretation of each input, a _semantic overlay_ framework could be developed where subsequent nodes could, internally, provide overlays atop their predecessors' datasets while implementing the `IInMemoryQueryableStore` interface.
 
 Semantic interpretation nodes could, then, manually or automatically, asynchronously migrate their predecessors' semantic datasets into themselves, deferring any needed copying processes until convenient to systems.
 
