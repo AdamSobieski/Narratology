@@ -221,7 +221,7 @@ public sealed class BufferSystemOperation : Operation
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
-With respect to concurrency regarding operations affecting differencing, one could add the following to interpret a set of `Operation` instances as occurring concurrently:
+With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
 
 ```cs
 public sealed class ConcurrentOperation : Operation
