@@ -118,26 +118,44 @@ A buffer system could, then, might resemble:
 ```cs
 public interface IBuffer :
     ICollection
-{ }
+{
+    public Type ElementType { get; }
+}
 
-public interface IBufferList :
-    IReadOnlyList<IBuffer>
-{ }
-```
+public interface IBufferSystem
+    : IReadOnlyList<IBuffer>
+{
+    public bool TryCompress
+    (
+        object context,
+        int fromBuffer,
+        int toBuffer,
+        IEnumerable sequence,
+        out object chunk
+    );
 
-```cs
+    public bool TryDecompress
+    (
+        object context,
+        int fromBuffer,
+        int toBuffer,
+        object chunk,
+        out IEnumerable sequence
+    );
+}
+
 public interface IBufferingInterpretationNode<TSelf, TDifference, TInput> :
     IInterpretationNode<TSelf, TDifference, TInput>
     where TSelf : IBufferingInterpretationNode<TSelf, TDifference, TInput>
     where TDifference : IBufferingDifference
 {
-    public IBufferList Buffers { get; }
+    public IBufferSystem Buffers { get; }
 }
 
 public interface IBufferingDifference : ISemanticDifference
 {
     public IReadOnlyList<(int Buffer,
-        CollectionChangeEventArgs Update)> BufferChanges { get; }
+        CollectionChangeEventArgs Action)> BufferChanges { get; }
 }
 ```
 
