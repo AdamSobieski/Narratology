@@ -261,7 +261,7 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 
 ## Communication and Question-answering
 
-While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting questions to systems, asking questions where state changes are expected of systems, where cognitive processes are expected to occur during the processes of answering the questions.
+While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting questions to systems, asking questions where state changes are expected of systems, where modeled and simulated procesess of cognition are expected to occur during the processes of answering the questions.
 
 ```cs
 public interface IAskableState<TSelf, TInput> :
