@@ -284,8 +284,8 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent(Type type);
-    public bool GetContent([NotNullWhen(true)] out TOutput? response);
+    public bool HasContent { get; }
+    public bool GetContent([NotNullWhen(true)] out TOutput? content);
 }
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
@@ -294,8 +294,8 @@ public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent(Type type);
-    public bool GetContent([NotNullWhen(true)] out TOutput? response);
+    public bool HasContent { get; }
+    public bool GetContent([NotNullWhen(true)] out TOutput? content);
 
     public Task<TSelf> Continue();
 }
@@ -356,6 +356,11 @@ public class ReaderState :
         get { ... }
     }
 
+    public bool HasContent
+    {
+        get { ... }
+    }
+
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
     public async Task<Operation?> Difference(ReaderState other) { ... }
@@ -367,8 +372,6 @@ public class ReaderState :
     public float Confidence(SparqlPrediction prediction) { ... }
 
     public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
-
-    public bool HasContent(Type type) { ... }
 
     public bool GetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
 
