@@ -124,25 +124,7 @@ public interface IBuffer :
 
 public interface IBufferSystem
     : IReadOnlyList<IBuffer>
-{
-    public bool TryCompress
-    (
-        object node,
-        int fromBuffer,
-        int toBuffer,
-        IEnumerable sequence,
-        out object chunk
-    );
-
-    public bool TryDecompress
-    (
-        object node,
-        int fromBuffer,
-        int toBuffer,
-        object chunk,
-        out IEnumerable sequence
-    );
-}
+{ } 
 
 public interface IBufferingInterpretationNode<TSelf, TDifference, TInput> :
     IInterpretationNode<TSelf, TDifference, TInput>
@@ -154,8 +136,12 @@ public interface IBufferingInterpretationNode<TSelf, TDifference, TInput> :
 
 public interface IBufferingDifference : ISemanticDifference
 {
-    public IReadOnlyList<(int Buffer,
-        CollectionChangeEventArgs Action)> BufferChanges { get; }
+    public IReadOnlyList<BufferSystemChangeEventArgs> BufferChanges { get; }
+}
+
+public sealed class BufferSystemChangeEventArgs : EventArgs
+{
+    ...
 }
 ```
 
