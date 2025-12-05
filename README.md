@@ -37,10 +37,9 @@ public interface IDifferenceable<TSelf>
     public TSelf Apply(Operation difference);
 }
 
-public interface ISemanticState<TSelf, in TInput> :
-    IInterpretationState<TSelf, TInput>,
+public interface ISemanticState<TSelf> :
     IDifferenceable<TSelf>
-    where TSelf : ISemanticState<TSelf, TInput>
+    where TSelf : ISemanticState<TSelf>
 {
     public IInMemoryQueryableStore Model { get; }
 }
@@ -62,9 +61,9 @@ public sealed class SemanticOperation : Operation
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf, in TInput> :
-    ISemanticState<TSelf, TInput>
-    where TSelf : ICuriousState<TSelf, TInput>
+public interface ICuriousState<TSelf> :
+    IDifferenceable<TSelf>
+    where TSelf : ICuriousState<TSelf>
 {
     public IEnumerable<SparqlQuery> Questions { get; }
 }
@@ -96,9 +95,9 @@ public sealed class CuriousOperation : Operation
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf, in TInput> :
-    ISemanticState<TSelf, TInput>
-    where TSelf : IPredictiveState<TSelf, TInput>
+public interface IPredictiveState<TSelf> :
+    IDifferenceable<TSelf>
+    where TSelf : IPredictiveState<TSelf>
 {
     public IEnumerable<SparqlPrediction> Predictions { get; }
     public float Confidence(SparqlPrediction prediction);
@@ -110,8 +109,8 @@ public sealed class PredictiveOperation : Operation
     {
         Added,
         Removed,
-        Resolved,
-        ConfidenceChanged
+        Changed,
+        Resolved
     }
 
     public PredictiveOperation
@@ -137,9 +136,9 @@ public sealed class PredictiveOperation : Operation
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<TSelf, in TInput> :
-    ISemanticState<TSelf, TInput>
-    where TSelf : IAttentionalState<TSelf, TInput>
+public interface IAttentionalState<TSelf> :
+    IDifferenceable<TSelf>
+    where TSelf : IAttentionalState<TSelf>
 {
     public float Attention(object value);
 }
@@ -178,9 +177,9 @@ public interface IBufferSystem
     : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingState<TSelf, TInput> :
-    ISemanticState<TSelf, TInput>
-    where TSelf : IBufferingState<TSelf, TInput>
+public interface IBufferingState<TSelf> :
+    IDifferenceable<TSelf>
+    where TSelf : IBufferingState<TSelf>
 {
     public IBufferSystem Buffers { get; }
 }
@@ -264,9 +263,9 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting questions to systems, asking questions where state changes are expected of systems, where modeled and simulated procesess of cognition are expected to occur, during the processes of answering the questions.
 
 ```cs
-public interface IAskableState<TSelf, TInput> :
-    ISemanticState<TSelf, TInput>
-    where TSelf : IAskableState<TSelf, TInput>
+public interface IAskableState<TSelf> :
+    IDifferenceable<TSelf>
+    where TSelf : IAskableState<TSelf>
 {
     public TSelf Ask(SparqlQuery question);
     public SparqlResultSet? Response { get; }
@@ -294,10 +293,14 @@ public class StoryChunk : ITree<StoryChunk>
 }
 
 public class ReaderState :
-    ICuriousState<ReaderState, StoryChunk>,
-    IPredictiveState<ReaderState, StoryChunk>,
-    IAttentionalState<ReaderState, StoryChunk>,
-    IBufferingState<ReaderState, StoryChunk>
+    IInterpretationState<ReaderState, StoryChunk>,
+    IDifferenceable<ReaderState>,
+    ISemanticState<ReaderState>,
+    ICuriousState<ReaderState>,
+    IPredictiveState<ReaderState>,
+    IBufferingState<ReaderState>,
+    IAttentionalState<ReaderState>,
+    IAskableState<ReaderState>
 {
     public IInMemoryQueryableStore Model
     {
@@ -328,6 +331,13 @@ public class ReaderState :
     public float Attention(object value) { ... }
 
     public float Confidence(SparqlPrediction prediction) { ... }
+
+    public ReaderState Ask(SparqlQuery question) { ... }
+
+    public SparqlResultSet? Response
+    {
+        get { ... }
+    }
 
     ...
 }
