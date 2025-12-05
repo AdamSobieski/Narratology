@@ -281,6 +281,15 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     public bool GetContent(out TOutput? response);
 }
 
+public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
+    ICommunicatorState<TSelf, TInput, IEnumerable<TOutput>>
+    where TSelf : ICommunicatorState<TSelf, TInput, IEnumerable<TOutput>>
+{
+    public bool GetContent(out TOutput? response);
+
+    public TSelf Continue();
+}
+
 public interface IQueryableState<TSelf> :
     ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
     where TSelf : IQueryableState<TSelf>
