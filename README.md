@@ -242,7 +242,7 @@ Semantic interpretation nodes could, then, manually or automatically, asynchrono
 
 ## Cognitive Workflow
 
-The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expanded upon into a fuller _cognitive workflow_ framework for describing those processes of modeled and simulated cognition occurring as a result of the processing of inputs.
+The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expanded into a fuller _cognitive workflow_ system for describing those modeled and simulated processes of cognition occurring as a result of the processing of inputs.
 
 ## Examples
 
