@@ -126,7 +126,7 @@ One could add capabilities for systems to simulate the distribution or allocatio
 ```cs
 public interface IAttentionalNode<TSelf, in TInput> :
     ISemanticNode<TSelf, TInput>
-    where TSelf : ISemanticNode<TSelf, TInput>
+    where TSelf : IAttentionalNode<TSelf, TInput>
 {
     public float Attention(object value);
 }
