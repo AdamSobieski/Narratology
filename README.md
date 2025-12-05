@@ -1,4 +1,4 @@
-## Incremental Interpretation and Comprehension
+## Introduction
 
 ```cs
 using System.Collections;
@@ -8,12 +8,6 @@ using VDS.RDF.Update;
 
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
                           VDS.RDF.Query.SparqlResultSet Result);
-
-public interface IInterpretationState<TSelf, in TInput>
-    where TSelf : IInterpretationState<TSelf, TInput>
-{
-    public IEnumerable<TSelf> Interpret(TInput input);
-}
 
 public abstract class Operation { }
 
@@ -36,7 +30,21 @@ public interface IDifferenceable<TSelf>
     public Operation Difference(TSelf other);
     public TSelf Apply(Operation difference);
 }
+```
 
+## Incremental Interpretation and Comprehension
+
+```cs
+public interface IInterpretationState<TSelf, in TInput>
+    where TSelf : IInterpretationState<TSelf, TInput>
+{
+    public IEnumerable<TSelf> Interpret(TInput input);
+}
+```
+
+## Semantics
+
+```cs
 public interface ISemanticState<TSelf> :
     IDifferenceable<TSelf>
     where TSelf : ISemanticState<TSelf>
