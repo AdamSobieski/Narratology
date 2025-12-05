@@ -224,7 +224,7 @@ Using the interfaces presented, above, one could implement classes resembling:
 ```cs
 public class StoryChunk : ITree<StoryChunk>
 {
-
+    ...
 }
 
 public class Reader :
@@ -233,6 +233,6 @@ public class Reader :
     IAttentionalNode<Reader, StoryChunk>,
     IBufferingNode<Reader, StoryChunk>
 {
-
+    ...
 }
 ```
