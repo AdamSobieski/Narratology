@@ -12,8 +12,8 @@ using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Operation? Difference(TSelf other);
-    public TSelf Apply(Operation? difference);
+    public Task<Operation?> Difference(TSelf other);
+    public Task<TSelf> Apply(Operation? difference);
 }
 
 public abstract class Operation { }
@@ -38,7 +38,7 @@ public sealed class CompoundOperation : Operation
 public interface IInterpretationState<TSelf, in TInput>
     where TSelf : IInterpretationState<TSelf, TInput>
 {
-    public IEnumerable<TSelf> Interpret(TInput input);
+    public IAsyncEnumerable<TSelf> Interpret(TInput input);
 }
 ```
 
@@ -275,19 +275,19 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     IDifferenceable<TSelf>
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
 {
-    public TSelf Prompt(TInput prompt);
+    public Task<TSelf> Prompt(TInput prompt);
 
     public bool HasContent { get; }
     public bool GetContent(out TOutput? response);
 }
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
-    ICommunicatorState<TSelf, TInput, IEnumerable<TOutput>>
+    ICommunicatorState<TSelf, TInput, IAsyncEnumerable<TOutput>>
     where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
 {
     public bool GetContent(out TOutput? response);
 
-    public TSelf Continue();
+    public Task<TSelf> Continue();
 }
 
 public interface IQueryableState<TSelf> :
@@ -351,17 +351,17 @@ public class ReaderState :
         get { ... }
     }
 
-    public IEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
+    public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public Operation? Difference(ReaderState other) { ... }
+    public async Task<Operation?> Difference(ReaderState other) { ... }
 
-    public ReaderState Apply(Operation? difference) { ... }
+    public async Task<ReaderState> Apply(Operation? difference) { ... }
 
     public float Attention(object value) { ... }
 
     public float Confidence(SparqlPrediction prediction) { ... }
 
-    public ReaderState Prompt(SparqlQuery query) { ... }
+    public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
 
     public bool GetContent(out SparqlResultSet? result) { ... }
 
