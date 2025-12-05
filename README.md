@@ -240,9 +240,11 @@ Instead of having to copy a semantic model for each interpretation of each input
 
 Semantic interpretation nodes could, then, manually or automatically, asynchronously migrate their predecessors' semantic datasets into themselves, deferring any needed copying processes until convenient to systems.
 
-## Cognitive Workflow
+## Cognitive Workflow and Timelines
 
-The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expanded into a fuller _cognitive workflow_ system for describing those modeled and simulated processes of cognition occurring as a result of the processing of inputs and sequences of inputs.
+The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expanded into a fuller _cognitive workflow_ system for describing and visualizing those modeled and simulated processes of cognition occurring as a result of the processing of inputs and sequences of inputs.
+
+Alternatively, a _cognitive timeline_ system could be explored to provide multiple concurrent tracks of activities for describing and visualizing those modeled and simulated processes of cognition occurring as a result of the processing of inputs and sequences of inputs.
 
 ## Examples
 
