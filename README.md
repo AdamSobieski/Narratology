@@ -230,9 +230,9 @@ public sealed class ConcurrentOperation : Operation
 
 With respect to processing concurrent happenings, depending upon the nature of the type of input, one input object instance could describe multiple happenings simultaneously.
 
-More specifically, events from different story threads could be interwoven together and presented to a system sequentially.
+With respect to story threads in a narration, events from different story threads could be presented to a system sequentially.
 
-Alternatively, a system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between these when story threads switched in a narration.
+A system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between them when story threads switched in a narration.
 
 ## Examples
 
