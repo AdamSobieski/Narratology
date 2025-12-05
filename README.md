@@ -296,7 +296,7 @@ public class ReaderState :
 
     public IEnumerable<Operation> Difference(ReaderState other) { ... }
 
-    public Reader Apply(IEnumerable<Operation> difference) { ... }
+    public ReaderState Apply(IEnumerable<Operation> difference) { ... }
 
     public float Attention(object value) { ... }
 
