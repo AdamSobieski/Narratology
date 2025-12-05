@@ -276,7 +276,15 @@ public interface IAskableState<TSelf> :
     where TSelf : IAskableState<TSelf>
 {
     public TSelf Ask(SparqlQuery question);
-    public SparqlResultSet? Response { get; }
+    public bool GetResponse(out SparqlResultSet? response);
+}
+
+public interface ICommunicatorState<TSelf, in TInput, TOutput> :
+    IDifferenceable<TSelf>
+    where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
+{
+    public TSelf Prompt(TInput prompt);
+    public bool GetResponse(out TOutput? response);
 }
 ```
 
@@ -342,10 +350,7 @@ public class ReaderState :
 
     public ReaderState Ask(SparqlQuery question) { ... }
 
-    public SparqlResultSet? Response
-    {
-        get { ... }
-    }
+    public bool GetResponse(out SparqlResultSet? response) { ... }
 
     ...
 }
