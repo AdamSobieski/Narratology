@@ -275,7 +275,7 @@ public interface IQueryableState<TSelf> :
     IDifferenceable<TSelf>
     where TSelf : IQueryableState<TSelf>
 {
-    public TSelf Query(SparqlQuery question);
+    public TSelf Query(SparqlQuery query);
     public bool GetResponse(out SparqlResultSet? response);
 }
 
@@ -316,7 +316,7 @@ public class ReaderState :
     IPredictiveState<ReaderState>,
     IBufferingState<ReaderState>,
     IAttentionalState<ReaderState>,
-    IAskableState<ReaderState>
+    IQueryableState<ReaderState>
 {
     public IInMemoryQueryableStore Model
     {
@@ -348,7 +348,7 @@ public class ReaderState :
 
     public float Confidence(SparqlPrediction prediction) { ... }
 
-    public ReaderState Ask(SparqlQuery question) { ... }
+    public ReaderState Query(SparqlQuery query) { ... }
 
     public bool GetResponse(out SparqlResultSet? response) { ... }
 
