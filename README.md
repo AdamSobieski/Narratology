@@ -17,11 +17,21 @@ public interface IInterpretationState<TSelf, in TInput>
 
 public abstract class Operation { }
 
-public interface IDifferenceable<TSelf>
-    where TSelf : IDifferenceable<TSelf>
+public sealed class CompoundOperation : Operation
 {
-    public IEnumerable<Operation> Difference(TSelf other);
-    public TSelf Apply(IEnumerable<Operation> difference);
+    public CompoundOperation(IEnumerable<Operation> operations)
+    {
+        Operations = operations;
+    }
+
+    public IEnumerable<Operation> Operations { get; }
+}
+
+public interface IDifferenceable<TSelf>
+where TSelf : IDifferenceable<TSelf>
+{
+    public Operation Difference(TSelf other);
+    public TSelf Apply(Operation difference);
 }
 
 public interface ISemanticState<TSelf, in TInput> :
@@ -294,9 +304,9 @@ public class ReaderState :
 
     public IEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public IEnumerable<Operation> Difference(ReaderState other) { ... }
+    public Operation Difference(ReaderState other) { ... }
 
-    public ReaderState Apply(IEnumerable<Operation> difference) { ... }
+    public ReaderState Apply(Operation difference) { ... }
 
     public float Attention(object value) { ... }
 
