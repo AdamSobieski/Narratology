@@ -31,7 +31,7 @@ public sealed class CompoundOperation : Operation
 }
 
 public interface IDifferenceable<TSelf>
-where TSelf : IDifferenceable<TSelf>
+    where TSelf : IDifferenceable<TSelf>
 {
     public Operation Difference(TSelf other);
     public TSelf Apply(Operation difference);
