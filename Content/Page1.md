@@ -7,7 +7,6 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using VDS.RDF;
 using VDS.RDF.Query;
-using VDS.RDF.Update;
 
 using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query, VDS.RDF.Query.SparqlResultSet Result);
 
@@ -29,12 +28,13 @@ public class StoryChunk : ITree<StoryChunk>
 public class ReaderState :
     IInterpretationState<ReaderState, StoryChunk>,
     IDifferenceable<ReaderState>,
-    ISemanticState<ReaderState>,
-    ICuriousState<ReaderState>,
-    IPredictiveState<ReaderState>,
+    ISemanticModelState<ReaderState, IInMemoryQueryableStore>,
+    ICuriousState<ReaderState, SparqlQuery>,
+    IPredictiveState<ReaderState, SparqlPrediction>,
     IBufferingState<ReaderState>,
     IAttentionalState<ReaderState, SparqlQuery>,
     IAttentionalState<ReaderState, SparqlPrediction>,
+    IConfidenceState<ReaderState, SparqlPrediction>,
     IQueryableState<ReaderState>
 {
     public IInMemoryQueryableStore Model
@@ -68,11 +68,11 @@ public class ReaderState :
 
     public async Task<ReaderState> Apply(Operation? difference) { ... }
 
-    public float Attention(SparqlQuery value) { ... }
+    public float GetAttention(SparqlQuery value) { ... }
 
-    public float Attention(SparqlPrediction value) { ... }
+    public float GetAttention(SparqlPrediction value) { ... }
 
-    public float Confidence(SparqlPrediction prediction) { ... }
+    public float GetConfidence(SparqlPrediction prediction) { ... }
 
     public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
 
@@ -91,7 +91,11 @@ public interface IDifferenceable<TSelf>
     public Task<Operation?> DifferenceFrom(TSelf other);
     public Task<TSelf> Apply(Operation? difference);
 }
+```
 
+### Operations
+
+```cs
 public abstract class Operation { }
 
 public sealed class CompoundOperation : Operation
@@ -105,6 +109,47 @@ public sealed class CompoundOperation : Operation
     }
 
     public IEnumerable<Operation> Operations { get; }
+}
+
+public class LambdaExpressionOperation : Operation
+{
+    public LambdaExpressionOperation(LambdaExpression lambda)
+    {
+        LambdaExpression = lambda;
+        m_delegate = null;
+    }
+
+    public LambdaExpression LambdaExpression { get; }
+        
+    private Delegate? m_delegate;
+
+    public Delegate Compiled
+    {
+        get
+        {
+            if (m_delegate == null)
+            {
+                m_delegate = LambdaExpression.Compile();
+            }
+            return m_delegate;
+        }
+    }
+}
+```
+
+### Extensions
+
+```cs
+public static partial class Extensions
+{
+    extension<TSelf>(IDifferenceable<TSelf> differenceable)
+        where TSelf : IDifferenceable<TSelf>
+    {
+        public Operation CreateOperation(Expression<Action<TSelf>> expression)
+        {
+            return new LambdaExpressionOperation(expression);
+        }
+    }
 }
 ```
 
@@ -121,96 +166,40 @@ public interface IInterpretationState<TSelf, in TInput>
 ## Semantic Modeling
 
 ```cs
-public interface ISemanticState<TSelf> : IDifferenceable<TSelf>
-    where TSelf : ISemanticState<TSelf>
+public interface ISemanticState<TSelf, out TModel> : IDifferenceable<TSelf>
+    where TSelf : ISemanticState<TSelf, TModel>
 {
-    public IInMemoryQueryableStore Model { get; }
-}
-
-public sealed class SemanticOperation : Operation
-{
-    public SemanticOperation
-    (
-        SparqlUpdateCommandSet updateCommands
-    )
-    {
-        UpdateCommands = updateCommands;
-    }
-
-    public SparqlUpdateCommandSet UpdateCommands { get; }
+    public TModel Model { get; }
 }
 ```
 
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf> : IDifferenceable<TSelf>
-    where TSelf : ICuriousState<TSelf>
+public interface ICuriousState<TSelf, out TQuestion> : IDifferenceable<TSelf>
+    where TSelf : ICuriousState<TSelf, TQuestion>
 {
-    public IEnumerable<SparqlQuery> Questions { get; }
-}
-
-public sealed class CuriousOperation :
-    Operation
-{
-    public enum OperationStatus
-    {
-        Added,
-        Removed,
-        Resolved
-    }
-
-    public CuriousOperation
-    (
-        OperationStatus status,
-        SparqlQuery question
-    )
-    {
-        Status = status;
-        Question = question;
-    }
-
-    public OperationStatus Status { get; }
-    public SparqlQuery Question { get; }
+    public IEnumerable<TQuestion> Questions { get; }
 }
 ```
 
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf> : IDifferenceable<TSelf>
-    where TSelf : IPredictiveState<TSelf>
+public interface IPredictiveState<TSelf, out TPrediction> : IDifferenceable<TSelf>
+    where TSelf : IPredictiveState<TSelf, TPrediction>
 {
-    public IEnumerable<SparqlPrediction> Predictions { get; }
-    public float Confidence(SparqlPrediction prediction);
+    public IEnumerable<TPrediction> Predictions { get; }
 }
+```
 
-public sealed class PredictiveOperation :
-    Operation
+## Confidence
+
+```cs
+public interface IConfidenceState<TSelf, in TElement> : IDifferenceable<TSelf>
+    where TSelf : IConfidenceState<TSelf, TElement>
 {
-    public enum OperationStatus
-    {
-        Added,
-        Removed,
-        Changed,
-        Resolved
-    }
-
-    public PredictiveOperation
-    (
-        OperationStatus status,
-        SparqlPrediction prediction,
-        float confidenceChange = 0.0f
-    )
-    {
-        Status = status;
-        Prediction = prediction;
-        ConfidenceChange = confidenceChange;
-    }
-
-    public OperationStatus Status { get; }
-    public SparqlPrediction Prediction { get; }
-    public float ConfidenceChange { get; }
+    public float GetConfidence(TElement value);
 }
 ```
 
@@ -222,23 +211,7 @@ One could add capabilities for systems to simulate the distribution or allocatio
 public interface IAttentionalState<TSelf, in TElement> : IDifferenceable<TSelf>
     where TSelf : IAttentionalState<TSelf, TElement>
 {
-    public float Attention(TElement value);
-}
-
-public sealed class AttentionalOperation : Operation
-{
-    public AttentionalOperation
-    (
-        object value,
-        float attentionChange
-    )
-    {
-        Value = value;
-        AttentionChange = attentionChange;
-    }
-
-    public object Value { get; }
-    public float AttentionChange { get; }
+    public float GetAttention(TElement value);
 }
 ```
 
@@ -261,40 +234,6 @@ public interface IBufferingState<TSelf> : IDifferenceable<TSelf>
     where TSelf : IBufferingState<TSelf>
 {
     public IBufferSystem Buffers { get; }
-}
-
-public sealed class BufferSystemOperation : Operation
-{
-    public enum OperationStatus
-    {
-        Added,
-        Removed,
-        Compression,
-        Decompression
-    }
-
-    public BufferSystemOperation
-    (
-        OperationStatus status,
-        int? fromBuffer,
-        IEnumerable? fromSequence,
-        int? toBuffer,
-        IEnumerable? toSequence
-    )
-    {
-        Status = status;
-        FromBuffer = fromBuffer;
-        FromSequence = fromSequence;
-        ToBuffer = toBuffer;
-        ToSequence = toSequence;
-    }
-
-    public OperationStatus Status { get; }
-
-    public int? FromBuffer { get; }
-    public int? ToBuffer { get; }
-    public IEnumerable? FromSequence { get; }
-    public IEnumerable? ToSequence { get; }
 }
 ```
 
