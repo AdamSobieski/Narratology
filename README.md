@@ -1,6 +1,6 @@
 ## Computational Narratology
 
-[Here](Content/Page1.md) is a computational narratology framework.
+Presented, [here](Content/Page1.md), is a computational narratology framework.
 
 ## Generative and Agentic Narratology
 
