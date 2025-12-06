@@ -95,8 +95,7 @@ public interface IDifferenceable<TSelf>
 
 public abstract class Operation { }
 
-public sealed class CompoundOperation :
-    Operation
+public sealed class CompoundOperation : Operation
 {
     public CompoundOperation
     (
@@ -123,15 +122,13 @@ public interface IInterpretationState<TSelf, in TInput>
 ## Semantics
 
 ```cs
-public interface ISemanticState<TSelf> :
-    IDifferenceable<TSelf>
+public interface ISemanticState<TSelf> : IDifferenceable<TSelf>
     where TSelf : ISemanticState<TSelf>
 {
     public IInMemoryQueryableStore Model { get; }
 }
 
-public sealed class SemanticOperation :
-    Operation
+public sealed class SemanticOperation : Operation
 {
     public SemanticOperation
     (
@@ -148,8 +145,7 @@ public sealed class SemanticOperation :
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf> :
-    IDifferenceable<TSelf>
+public interface ICuriousState<TSelf> : IDifferenceable<TSelf>
     where TSelf : ICuriousState<TSelf>
 {
     public IEnumerable<SparqlQuery> Questions { get; }
@@ -183,8 +179,7 @@ public sealed class CuriousOperation :
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf> :
-    IDifferenceable<TSelf>
+public interface IPredictiveState<TSelf> : IDifferenceable<TSelf>
     where TSelf : IPredictiveState<TSelf>
 {
     public IEnumerable<SparqlPrediction> Predictions { get; }
@@ -225,15 +220,13 @@ public sealed class PredictiveOperation :
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<TSelf, in TElement> :
-    IDifferenceable<TSelf>
+public interface IAttentionalState<TSelf, in TElement> : IDifferenceable<TSelf>
     where TSelf : IAttentionalState<TSelf, TElement>
 {
     public float Attention(TElement value);
 }
 
-public sealed class AttentionalOperation :
-    Operation
+public sealed class AttentionalOperation : Operation
 {
     public AttentionalOperation
     (
@@ -257,25 +250,21 @@ Depending upon the nature of the input, one could add capabilities for increment
 A buffer system could, then, might resemble:
 
 ```cs
-public interface IBuffer :
-    ICollection
+public interface IBuffer : ICollection
 {
     public Type ElementType { get; }
 }
 
-public interface IBufferSystem :
-    IReadOnlyList<IBuffer>
+public interface IBufferSystem : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingState<TSelf> :
-    IDifferenceable<TSelf>
+public interface IBufferingState<TSelf> : IDifferenceable<TSelf>
     where TSelf : IBufferingState<TSelf>
 {
     public IBufferSystem Buffers { get; }
 }
 
-public sealed class BufferSystemOperation :
-    Operation
+public sealed class BufferSystemOperation : Operation
 {
     public enum OperationStatus
     {
@@ -317,8 +306,7 @@ Approaches to incremental interpretation and comprehension can tackle concurrenc
 With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
 
 ```cs
-public sealed class ConcurrentOperation :
-    Operation
+public sealed class ConcurrentOperation : Operation
 {
     public ConcurrentOperation
     (
@@ -355,8 +343,7 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 While `ISemanticState<,>` provides a `Model` property of type `IInMemoryQueryableStore` which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
 
 ```cs
-public interface ICommunicatorState<TSelf, in TInput, TOutput> :
-    IDifferenceable<TSelf>
+public interface ICommunicatorState<TSelf, in TInput, TOutput> : IDifferenceable<TSelf>
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
@@ -365,8 +352,7 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> :
     public bool GetContent([NotNullWhen(true)] out TOutput? content);
 }
 
-public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
-    IDifferenceable<TSelf>
+public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> : IDifferenceable<TSelf>
     where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
@@ -377,8 +363,7 @@ public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> :
     public Task<TSelf> Continue();
 }
 
-public interface IQueryableState<TSelf> :
-    ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
+public interface IQueryableState<TSelf> : ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
     where TSelf : IQueryableState<TSelf>
 { }
 ```
@@ -388,8 +373,7 @@ One could provide extension methods like:
 ```cs
 public static partial class Extensions
 {
-    extension<TSelf, TInput, TOutput>
-        (ISequentialCommunicatorState<TSelf, TInput, TOutput> state)
+    extension<TSelf, TInput, TOutput> (ISequentialCommunicatorState<TSelf, TInput, TOutput> state)
         where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
     {
         public async IAsyncEnumerable<(TSelf State, TOutput Value)>
