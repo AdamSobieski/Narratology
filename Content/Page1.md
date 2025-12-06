@@ -1,5 +1,81 @@
 ## Introduction
 
+Using the interfaces presented, below, one would be able to implement classes resembling:
+
+```cs
+public class StoryChunk : ITree<StoryChunk>
+{
+    public StoryChunk? Parent
+    {
+        get { ... }
+    }
+
+    public IReadOnlyList<StoryChunk> Children
+    {
+        get { ... }
+    }
+
+    ...
+}
+
+public class ReaderState :
+    IInterpretationState<ReaderState, StoryChunk>,
+    IDifferenceable<ReaderState>,
+    ISemanticState<ReaderState>,
+    ICuriousState<ReaderState>,
+    IPredictiveState<ReaderState>,
+    IBufferingState<ReaderState>,
+    IAttentionalState<ReaderState, SparqlQuery>,
+    IAttentionalState<ReaderState, SparqlPrediction>,
+    IQueryableState<ReaderState>
+{
+    public IInMemoryQueryableStore Model
+    {
+        get { ... }
+    }
+
+    public IEnumerable<SparqlQuery> Questions
+    {
+        get { ... }
+    }
+
+    public IEnumerable<SparqlPrediction> Predictions
+    {
+        get { ... }
+    }
+
+    public IBufferSystem Buffers
+    {
+        get { ... }
+    }
+
+    public bool HasContent
+    {
+        get { ... }
+    }
+
+    public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
+
+    public async Task<Operation?> Difference(ReaderState other) { ... }
+
+    public async Task<ReaderState> Apply(Operation? difference) { ... }
+
+    public float Attention(SparqlQuery value) { ... }
+
+    public float Attention(SparqlPrediction value) { ... }
+
+    public float Confidence(SparqlPrediction prediction) { ... }
+
+    public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
+
+    public bool GetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
+
+    ...
+}
+```
+
+## Differencing
+
 ```cs
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
@@ -307,7 +383,7 @@ public interface IQueryableState<TSelf> :
 { }
 ```
 
-One could provide extension methods in a manner resembling:
+One could provide extension methods like:
 
 ```cs
 public static partial class Extensions
@@ -336,81 +412,5 @@ public static partial class Extensions
             }
         }
     }
-}
-```
-
-## Examples
-
-Using the interfaces presented, above, one could implement classes resembling:
-
-```cs
-public class StoryChunk : ITree<StoryChunk>
-{
-    public StoryChunk? Parent
-    {
-        get { ... }
-    }
-
-    public IReadOnlyList<StoryChunk> Children
-    {
-        get { ... }
-    }
-
-    ...
-}
-
-public class ReaderState :
-    IInterpretationState<ReaderState, StoryChunk>,
-    IDifferenceable<ReaderState>,
-    ISemanticState<ReaderState>,
-    ICuriousState<ReaderState>,
-    IPredictiveState<ReaderState>,
-    IBufferingState<ReaderState>,
-    IAttentionalState<ReaderState, SparqlQuery>,
-    IAttentionalState<ReaderState, SparqlPrediction>,
-    IQueryableState<ReaderState>
-{
-    public IInMemoryQueryableStore Model
-    {
-        get { ... }
-    }
-
-    public IEnumerable<SparqlQuery> Questions
-    {
-        get { ... }
-    }
-
-    public IEnumerable<SparqlPrediction> Predictions
-    {
-        get { ... }
-    }
-
-    public IBufferSystem Buffers
-    {
-        get { ... }
-    }
-
-    public bool HasContent
-    {
-        get { ... }
-    }
-
-    public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
-
-    public async Task<Operation?> Difference(ReaderState other) { ... }
-
-    public async Task<ReaderState> Apply(Operation? difference) { ... }
-
-    public float Attention(SparqlQuery value) { ... }
-
-    public float Attention(SparqlPrediction value) { ... }
-
-    public float Confidence(SparqlPrediction prediction) { ... }
-
-    public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
-
-    public bool GetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
-
-    ...
 }
 ```
