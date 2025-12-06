@@ -3,6 +3,15 @@
 Using the framework presented, below, one could implement classes resembling:
 
 ```cs
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using VDS.RDF;
+using VDS.RDF.Query;
+using VDS.RDF.Update;
+
+using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
+                          VDS.RDF.Query.SparqlResultSet Result);
+
 public class StoryChunk : ITree<StoryChunk>
 {
     public StoryChunk? Parent
@@ -77,15 +86,6 @@ public class ReaderState :
 ## Differencing
 
 ```cs
-using System.Collections;
-using System.Diagnostics.CodeAnalysis;
-using VDS.RDF;
-using VDS.RDF.Query;
-using VDS.RDF.Update;
-
-using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
-                          VDS.RDF.Query.SparqlResultSet Result);
-
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
