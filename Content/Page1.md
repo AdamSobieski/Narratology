@@ -98,19 +98,27 @@ public interface IDifferenceable<TSelf>
 ### Operations
 
 ```cs
-public abstract class Operation { }
+public abstract class Operation
+{
+    public abstract Task Execute(object arg);
+}
 
 public sealed class CompoundOperation : Operation
 {
-    public CompoundOperation
-    (
-        IEnumerable<Operation> operations
-    )
+    public CompoundOperation(IEnumerable<Operation> operations)
     {
         Operations = operations;
     }
 
     public IEnumerable<Operation> Operations { get; }
+
+    public sealed override async Task Execute(object arg)
+    {
+        foreach(var operation in Operations)
+        {
+            await operation.Execute(arg);
+        }
+    }
 }
 
 public class LambdaExpressionOperation : Operation
@@ -135,6 +143,11 @@ public class LambdaExpressionOperation : Operation
             }
             return m_delegate;
         }
+    }
+
+    public override Task Execute(object arg)
+    {
+        return Task.Run(() => Compiled.DynamicInvoke(arg));
     }
 }
 ```
@@ -250,15 +263,17 @@ With respect to concurrency regarding operations affecting differencing, one cou
 ```cs
 public sealed class ConcurrentOperation : Operation
 {
-    public ConcurrentOperation
-    (
-        IEnumerable<Operation> operations
-    )
+    public ConcurrentOperation(IEnumerable<Operation> operations)
     {
         Operations = operations;
     }
 
     public IEnumerable<Operation> Operations { get; }
+
+    public sealed override Task Execute(object arg)
+    {
+        return Task.WhenAll(Operations.Select(o => o.Execute(arg)));
+    }
 }
 ```
 
