@@ -60,7 +60,7 @@ public class ReaderState :
 
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public async Task<Operation?> Difference(ReaderState other) { ... }
+    public async Task<Operation?> DifferenceFrom(ReaderState other) { ... }
 
     public async Task<ReaderState> Apply(Operation? difference) { ... }
 
