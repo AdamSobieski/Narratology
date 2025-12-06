@@ -118,7 +118,7 @@ public interface IInterpretationState<TSelf, in TInput>
 }
 ```
 
-## Semantics
+## Semantic Modeling
 
 ```cs
 public interface ISemanticState<TSelf> : IDifferenceable<TSelf>
