@@ -9,8 +9,7 @@ using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Update;
 
-using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query,
-                          VDS.RDF.Query.SparqlResultSet Result);
+using SparqlPrediction = (VDS.RDF.Query.SparqlQuery Query, VDS.RDF.Query.SparqlResultSet Result);
 
 public class StoryChunk : ITree<StoryChunk>
 {
