@@ -173,7 +173,7 @@ public interface IInterpretationState<TSelf, in TInput>
 ## Semantic Modeling
 
 ```cs
-public interface ISemanticState<TSelf, out TModel> : IDifferenceable<TSelf>
+public interface ISemanticState<TSelf, out TModel>
     where TSelf : ISemanticState<TSelf, TModel>
 {
     public TModel Model { get; }
@@ -183,7 +183,7 @@ public interface ISemanticState<TSelf, out TModel> : IDifferenceable<TSelf>
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf, TQuestion> : IDifferenceable<TSelf>
+public interface ICuriousState<TSelf, TQuestion>
     where TSelf : ICuriousState<TSelf, TQuestion>
 {
     public ICollection<TQuestion> Questions { get; }
@@ -193,7 +193,7 @@ public interface ICuriousState<TSelf, TQuestion> : IDifferenceable<TSelf>
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf, TPrediction> : IDifferenceable<TSelf>
+public interface IPredictiveState<TSelf, TPrediction>
     where TSelf : IPredictiveState<TSelf, TPrediction>
 {
     public ICollection<TPrediction> Predictions { get; }
@@ -203,7 +203,7 @@ public interface IPredictiveState<TSelf, TPrediction> : IDifferenceable<TSelf>
 ## Confidence
 
 ```cs
-public interface IConfidenceState<TSelf, in TElement> : IDifferenceable<TSelf>
+public interface IConfidenceState<TSelf, in TElement>
     where TSelf : IConfidenceState<TSelf, TElement>
 {
     public float GetConfidence(TElement item);
@@ -216,7 +216,7 @@ public interface IConfidenceState<TSelf, in TElement> : IDifferenceable<TSelf>
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<TSelf, in TElement> : IDifferenceable<TSelf>
+public interface IAttentionalState<TSelf, in TElement>
     where TSelf : IAttentionalState<TSelf, TElement>
 {
     public float GetAttention(TElement item);
@@ -239,7 +239,7 @@ public interface IBuffer : ICollection
 public interface IBufferSystem : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingState<TSelf> : IDifferenceable<TSelf>
+public interface IBufferingState<TSelf>
     where TSelf : IBufferingState<TSelf>
 {
     public IBufferSystem Buffers { get; }
@@ -290,7 +290,7 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 While `ISemanticState<,>` provides a `Model` property which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
 
 ```cs
-public interface ICommunicatorState<TSelf, in TInput, TOutput> : IDifferenceable<TSelf>
+public interface ICommunicatorState<TSelf, in TInput, TOutput>
     where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
@@ -299,7 +299,7 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput> : IDifferenceable
     public bool GetContent([NotNullWhen(true)] out TOutput? content);
 }
 
-public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput> : IDifferenceable<TSelf>
+public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput>
     where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
