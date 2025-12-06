@@ -376,8 +376,7 @@ public static partial class Extensions
     extension<TSelf, TInput, TOutput> (ISequentialCommunicatorState<TSelf, TInput, TOutput> state)
         where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
     {
-        public async IAsyncEnumerable<(TSelf State, TOutput Value)>
-            PromptAsyncEnumerable(TInput prompt)
+        public async IAsyncEnumerable<(TSelf State, TOutput Value)> PromptAsyncEnumerable(TInput prompt)
         {
             TSelf current = await state.Prompt(prompt);
 
