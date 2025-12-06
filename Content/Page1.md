@@ -36,7 +36,7 @@ public class ReaderState :
     IAttentionalState<ReaderState, SparqlQuery>,
     IAttentionalState<ReaderState, SparqlPrediction>,
     IConfidenceState<ReaderState, SparqlPrediction>,
-    IQueryableState<ReaderState>
+    ICommunicatorState<ReaderState, SparqlQuery, SparqlResultSet>
 {
     public IInMemoryQueryableStore Model
     {
@@ -54,11 +54,6 @@ public class ReaderState :
     }
 
     public IBufferSystem Buffers
-    {
-        get { ... }
-    }
-
-    public bool HasContent
     {
         get { ... }
     }
@@ -83,7 +78,7 @@ public class ReaderState :
 
     public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
 
-    public bool GetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
+    public bool TryGetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
 
     ...
 }
@@ -295,8 +290,7 @@ public interface ICommunicatorState<TSelf, in TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent { get; }
-    public bool GetContent([NotNullWhen(true)] out TOutput? content);
+    public bool TryGetContent([NotNullWhen(true)] out TOutput? content);
 }
 
 public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput>
@@ -304,13 +298,8 @@ public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
 
-    public bool HasContent { get; }
-    public bool GetContent([NotNullWhen(true)] out TOutput? content);
+    public bool TryGetContent([NotNullWhen(true)] out TOutput? content);
 
     public Task<TSelf> Continue();
 }
-
-public interface IQueryableState<TSelf> : ICommunicatorState<TSelf, SparqlQuery, SparqlResultSet>
-    where TSelf : IQueryableState<TSelf>
-{ }
 ```
