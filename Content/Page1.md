@@ -1,6 +1,6 @@
 ## Introduction
 
-Using the interfaces presented, below, one would be able to implement classes resembling:
+Using the framework presented, below, one could implement classes resembling:
 
 ```cs
 public class StoryChunk : ITree<StoryChunk>
