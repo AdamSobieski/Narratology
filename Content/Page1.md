@@ -5,6 +5,7 @@ Using the framework presented, below, one can implement classes resembling:
 ```cs
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using VDS.RDF;
 using VDS.RDF.Query;
 
@@ -42,12 +43,12 @@ public class ReaderState :
         get { ... }
     }
 
-    public IEnumerable<SparqlQuery> Questions
+    public ICollection<SparqlQuery> Questions
     {
         get { ... }
     }
 
-    public IEnumerable<SparqlPrediction> Predictions
+    public ICollection<SparqlPrediction> Predictions
     {
         get { ... }
     }
@@ -68,11 +69,17 @@ public class ReaderState :
 
     public async Task<ReaderState> Apply(Operation? difference) { ... }
 
-    public float GetAttention(SparqlQuery value) { ... }
+    public float GetAttention(SparqlQuery item) { ... }
 
-    public float GetAttention(SparqlPrediction value) { ... }
+    public float GetAttention(SparqlPrediction item) { ... }
 
-    public float GetConfidence(SparqlPrediction prediction) { ... }
+    public void SetAttention(SparqlQuery item, float value) { ... }
+
+    public void SetAttention(SparqlPrediction item, float value) { ... }
+
+    public float GetConfidence(SparqlPrediction item) { ... }
+
+    public void SetConfidence(SparqlPrediction item, float value) { ... }
 
     public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
 
@@ -176,20 +183,20 @@ public interface ISemanticState<TSelf, out TModel> : IDifferenceable<TSelf>
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf, out TQuestion> : IDifferenceable<TSelf>
+public interface ICuriousState<TSelf, TQuestion> : IDifferenceable<TSelf>
     where TSelf : ICuriousState<TSelf, TQuestion>
 {
-    public IEnumerable<TQuestion> Questions { get; }
+    public ICollection<TQuestion> Questions { get; }
 }
 ```
 
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf, out TPrediction> : IDifferenceable<TSelf>
+public interface IPredictiveState<TSelf, TPrediction> : IDifferenceable<TSelf>
     where TSelf : IPredictiveState<TSelf, TPrediction>
 {
-    public IEnumerable<TPrediction> Predictions { get; }
+    public ICollection<TPrediction> Predictions { get; }
 }
 ```
 
@@ -199,7 +206,8 @@ public interface IPredictiveState<TSelf, out TPrediction> : IDifferenceable<TSel
 public interface IConfidenceState<TSelf, in TElement> : IDifferenceable<TSelf>
     where TSelf : IConfidenceState<TSelf, TElement>
 {
-    public float GetConfidence(TElement value);
+    public float GetConfidence(TElement item);
+    public void SetConfidence(TElement item, float value);
 }
 ```
 
@@ -211,7 +219,8 @@ One could add capabilities for systems to simulate the distribution or allocatio
 public interface IAttentionalState<TSelf, in TElement> : IDifferenceable<TSelf>
     where TSelf : IAttentionalState<TSelf, TElement>
 {
-    public float GetAttention(TElement value);
+    public float GetAttention(TElement item);
+    public void SetAttention(TElement item, float value);
 }
 ```
 
