@@ -283,11 +283,19 @@ With respect to story threads in a narration, events from different story thread
 
 A system could have multiple incremental interpreters and comprehenders, one per cognitive executive task, and could task-switch between them when story threads switched in a narration.
 
-## Semantic Overlays
+## Overlays
 
-Instead of having to copy a semantic model for each interpretation of each input, a _semantic overlay_ framework could be developed where subsequent nodes could, internally, provide overlays atop their predecessors' datasets while implementing the `IInMemoryQueryableStore` interface.
+### Collection Overlays
 
-Semantic interpretation nodes could, then, manually or automatically, asynchronously migrate their predecessors' semantic datasets into themselves, deferring any needed copying processes until convenient to systems.
+Collections, e.g., of type `ICollection<>` and `IDictionary<,>`, could be developed to support an overlay pattern where overlaid collections would reference parent collections, noting additions and removals, to implement collection interfaces without having to copy all of the elements of their parent collections.
+
+In theory, an overlay-manager component could asynchronously schedule the copying of elements from collections to descendent collections with overlays, removing references to overlaid collections to enable memory storage efficiency.
+
+### Semantic Overlays
+
+Semantic models can be described as being collections of statements, triples or quads. Instead of having to copy a semantic model each time that a descendent interpretation state is created, a _semantic overlay_ system could be developed where subsequent nodes could, internally, provide overlays atop their predecessors' datasets while also, for example, implementing the `IInMemoryQueryableStore` interface.
+
+In theory, semantic interpretation states could, using an overlay-manager component, asynchronously migrate their predecessors' semantic datasets into their overlaid datasets, deferring any needed copying processes until times convenient to systems.
 
 ## Cognitive Workflow and Timelines
 
