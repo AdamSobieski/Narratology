@@ -164,7 +164,7 @@ public class LambdaExpressionOperation<TElement> : Operation<TElement>
 
     public override Task Execute(TElement arg)
     {
-        return Task.Run(() => Compiled.Invoke(arg));
+        return Task.Run(() => Compiled(arg));
     }
 }
 
