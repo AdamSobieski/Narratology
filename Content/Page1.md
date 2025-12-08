@@ -60,9 +60,9 @@ public class ReaderState :
 
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public async Task<Operation?> DifferenceFrom(ReaderState other) { ... }
+    public async Task<Operation<ReaderState>?> DifferenceFrom(ReaderState other) { ... }
 
-    public async Task<ReaderState> Apply(Operation? difference) { ... }
+    public async Task<ReaderState> Apply(Operation<ReaderState>? difference) { ... }
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -90,50 +90,67 @@ public class ReaderState :
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<Operation?> DifferenceFrom(TSelf other);
-    public Task<TSelf> Apply(Operation? difference);
+    public Task<Operation<TSelf>> DifferenceFrom(TSelf other);
+    public Task<TSelf> Apply(Operation<TSelf> difference);
 }
 ```
 
 ### Operations
 
 ```cs
-public abstract class Operation
+public interface IOperation
 {
     public abstract Task Execute(object arg);
 }
 
-public sealed class CompoundOperation : Operation
+public abstract class Operation<TElement> : IOperation
 {
-    public CompoundOperation(IEnumerable<Operation> operations)
+    Task IOperation.Execute(object arg)
+    {
+        if(arg is TElement element)
+        {
+            return Execute(element);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
+    }
+
+    public abstract Task Execute(TElement arg);
+}
+
+public sealed class CompoundOperation<TElement> : Operation<TElement>
+{
+    public CompoundOperation(IEnumerable<Operation<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<Operation> Operations { get; }
+    public IEnumerable<Operation<TElement>> Operations { get; }
 
-    public sealed override async Task Execute(object arg)
+    public sealed override async Task Execute(TElement arg)
     {
-        foreach(var operation in Operations)
+        foreach (var operation in Operations)
         {
             await operation.Execute(arg);
         }
     }
 }
 
-public class LambdaExpressionOperation : Operation
+public class LambdaExpressionOperation<TElement> : Operation<TElement>
 {
-    public LambdaExpressionOperation(LambdaExpression lambda)
+    public LambdaExpressionOperation(Expression<Action<TElement>> lambda)
     {
         LambdaExpression = lambda;
         m_delegate = null;
     }
 
-    public LambdaExpression LambdaExpression { get; }
-        
-    private Delegate? m_delegate;
+    public Expression<Action<TElement>> LambdaExpression { get; }
 
-    public Delegate Compiled
+    private Action<TElement>? m_delegate;
+
+    public Action<TElement> Compiled
     {
         get
         {
@@ -145,11 +162,12 @@ public class LambdaExpressionOperation : Operation
         }
     }
 
-    public override Task Execute(object arg)
+    public override Task Execute(TElement arg)
     {
-        return Task.Run(() => Compiled.DynamicInvoke(arg));
+        return Task.Run(() => Compiled.Invoke(arg));
     }
 }
+
 ```
 
 ### Extensions
@@ -160,9 +178,9 @@ public static partial class Extensions
     extension<TSelf>(IDifferenceable<TSelf> differenceable)
         where TSelf : IDifferenceable<TSelf>
     {
-        public Operation CreateOperation(Expression<Action<TSelf>> expression)
+        public Operation<TSelf> CreateOperation(Expression<Action<TSelf>> expression)
         {
-            return new LambdaExpressionOperation(expression);
+            return new LambdaExpressionOperation<TSelf>(expression);
         }
     }
 }
@@ -255,16 +273,16 @@ Approaches to incremental interpretation and comprehension can tackle concurrenc
 With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
 
 ```cs
-public sealed class ConcurrentOperation : Operation
+public sealed class ConcurrentOperation<TElement> : Operation<TElement>
 {
-    public ConcurrentOperation(IEnumerable<Operation> operations)
+    public ConcurrentOperation(IEnumerable<Operation<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<Operation> Operations { get; }
+    public IEnumerable<Operation<TElement>> Operations { get; }
 
-    public sealed override Task Execute(object arg)
+    public sealed override Task Execute(TElement arg)
     {
         return Task.WhenAll(Operations.Select(o => o.Execute(arg)));
     }
