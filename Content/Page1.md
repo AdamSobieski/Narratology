@@ -28,7 +28,7 @@ public class StoryChunk : ITree<StoryChunk>
 
 public class ReaderState :
     IInterpretationState<ReaderState, StoryChunk>,
-    IOperational<ReaderState>,
+    IOperational<ReaderState, ReaderState>,
     IDifferenceable<ReaderState>,
     ISemanticModelState<IInMemoryQueryableStore>,
     ICuriousState<SparqlQuery>,
@@ -101,9 +101,9 @@ public interface IDifferenceable<TSelf>
 ### Operations
 
 ```cs
-public interface IOperational<TSelf>
+public interface IOperational<T1, T2>
 {
-    public Operation<TSelf> CreateOperation(Expression<Action<TSelf>> expression);
+    public Operation<T1> CreateOperation(Expression<Action<T2>> expression);
 }
 
 public interface IOperation
