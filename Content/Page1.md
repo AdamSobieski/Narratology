@@ -68,8 +68,6 @@ public class ReaderState :
         return new ActionOperation<ReaderState>(action);
     }
 
-    Func<ReaderState, ReaderState> IOperational<ReaderState, ReaderState>.OperationalMap => x => x;
-
     public float GetAttention(SparqlQuery item) { ... }
 
     public float GetAttention(SparqlPrediction item) { ... }
@@ -106,7 +104,10 @@ public interface IDifferenceable<TSelf>
 public interface IOperational<TOperand, TAction>
 {
     public Operation<TOperand> CreateOperation(Action<TAction> action);
+}
 
+public interface IHasOperationalMap<TOperand, TAction>
+{
     public Func<TOperand, TAction> OperationalMap { get; }
 }
 
@@ -204,7 +205,7 @@ public static partial class Extensions
     }
 }
 
-class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>
+class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>, IHasOperationalMap<TOperand, TResult>
 {
     public Map(IOperational<TOperand, TAction> operational, Func<TAction, TResult> map)
     {
@@ -219,13 +220,33 @@ class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>
     {
         get
         {
-            return (TOperand o) => m_map(m_operational.OperationalMap(o));
+            if(m_operational is IHasOperationalMap<TOperand, TAction> m_operational_map)
+            {
+                return (TOperand o) => m_map(m_operational_map.OperationalMap(o));
+            }
+            else
+            {
+                return (TOperand o) => m_map((TAction)(object)o!);
+            }
         }
     }
 
     public Operation<TOperand> CreateOperation(Action<TResult> action)
     {
-        return new ActionOperation<TOperand>(o => action(m_map(m_operational.OperationalMap(o))));
+        if (m_operational is IHasOperationalMap<TOperand, TAction> m_operational_map)
+        {
+            return new ActionOperation<TOperand>((TOperand o) =>
+            {
+                action(m_map(m_operational_map.OperationalMap(o)));
+            });
+        }
+        else
+        {
+            return new ActionOperation<TOperand>((TOperand o) =>
+            {
+                action(m_map((TAction)(object)o!));
+            });
+        }
     }
 }
 ```
