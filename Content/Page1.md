@@ -28,6 +28,7 @@ public class StoryChunk : ITree<StoryChunk>
 
 public class ReaderState :
     IInterpretationState<ReaderState, StoryChunk>,
+    IOperational<ReaderState>,
     IDifferenceable<ReaderState>,
     ISemanticModelState<IInMemoryQueryableStore>,
     ICuriousState<SparqlQuery>,
@@ -62,7 +63,10 @@ public class ReaderState :
 
     public async Task<Operation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
 
-    public async Task<ReaderState> Apply(Operation<ReaderState> difference) { ... }
+    public Operation<ReaderState> CreateOperation(Expression<Action<ReaderState>> expression)
+    {
+        return new LambdaExpressionOperation<ReaderState>(expression);
+    }
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -91,13 +95,17 @@ public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
     public Task<Operation<TSelf>> DifferenceFrom(TSelf other);
-    public Task<TSelf> Apply(Operation<TSelf> difference);
 }
 ```
 
 ### Operations
 
 ```cs
+public interface IOperational<TSelf>
+{
+    public Operation<TSelf> CreateOperation(Expression<Action<TSelf>> expression);
+}
+
 public interface IOperation
 {
     public Task Execute(object arg);
@@ -168,22 +176,6 @@ public class LambdaExpressionOperation<TElement> : Operation<TElement>
     }
 }
 
-```
-
-### Extensions
-
-```cs
-public static partial class Extensions
-{
-    extension<TSelf>(IDifferenceable<TSelf> differenceable)
-        where TSelf : IDifferenceable<TSelf>
-    {
-        public Operation<TSelf> CreateOperation(Expression<Action<TSelf>> expression)
-        {
-            return new LambdaExpressionOperation<TSelf>(expression);
-        }
-    }
-}
 ```
 
 ## Incremental Interpretation and Comprehension
