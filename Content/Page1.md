@@ -101,9 +101,9 @@ public interface IDifferenceable<TSelf>
 ### Operations
 
 ```cs
-public interface IOperational<T1, T2>
+public interface IOperational<TOperand, TAction>
 {
-    public Operation<T1> CreateOperation(Expression<Action<T2>> expression);
+    public Operation<TOperand> CreateOperation(Expression<Action<TAction>> expression);
 }
 
 public interface IOperation
