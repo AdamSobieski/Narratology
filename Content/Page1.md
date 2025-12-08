@@ -27,17 +27,17 @@ public class StoryChunk : ITree<StoryChunk>
 }
 
 public class ReaderState :
-    IInterpretationState<ReaderState, StoryChunk>,
-    IOperational<ReaderState, ReaderState>,
+    IInterpreter<ReaderState, StoryChunk>,
     IDifferenceable<ReaderState>,
-    ISemanticModelState<IInMemoryQueryableStore>,
-    ICuriousState<SparqlQuery>,
-    IPredictiveState<SparqlPrediction>,
-    IBufferingState,
-    IAttentionalState<SparqlQuery>,
-    IAttentionalState<SparqlPrediction>,
-    IConfidenceState<SparqlPrediction>,
-    ICommunicatorState<ReaderState, SparqlQuery, SparqlResultSet>
+    IHasSemanticModel<IInMemoryQueryableStore>,
+    IHasQuestions<SparqlQuery>,
+    IHasPredictions<SparqlPrediction>,
+    IHasBuffers,
+    IHasAttention<SparqlQuery>,
+    IHasAttention<SparqlPrediction>,
+    IHasConfidence<SparqlPrediction>,
+    ICommunicator<ReaderState, SparqlQuery, SparqlResultSet>,
+    IOperational<ReaderState>
 {
     public IInMemoryQueryableStore Model
     {
@@ -105,6 +105,10 @@ public interface IOperational<TOperand, TAction>
 {
     public Operation<TOperand> CreateOperation(Action<TAction> action);
 }
+
+public interface IOperational<TElement> : IOperational<TElement, TElement>
+    where TElement : IOperational<TElement>
+{ }
 
 public interface IHasOperationalMap<TOperand, TAction>
 {
@@ -254,8 +258,8 @@ class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>, IHasOpe
 ## Incremental Interpretation and Comprehension
 
 ```cs
-public interface IInterpretationState<TSelf, in TInput>
-    where TSelf : IInterpretationState<TSelf, TInput>
+public interface IInterpreter<TSelf, in TInput>
+    where TSelf : IInterpreter<TSelf, TInput>
 {
     public IAsyncEnumerable<TSelf> Interpret(TInput input);
 }
@@ -264,7 +268,7 @@ public interface IInterpretationState<TSelf, in TInput>
 ## Semantic Modeling
 
 ```cs
-public interface ISemanticState<out TModel>
+public interface IHasSemanticModel<out TModel>
 {
     public TModel Model { get; }
 }
@@ -273,7 +277,7 @@ public interface ISemanticState<out TModel>
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TQuestion>
+public interface IHasQuestions<TQuestion>
 {
     public ICollection<TQuestion> Questions { get; }
 }
@@ -282,7 +286,7 @@ public interface ICuriousState<TQuestion>
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TPrediction>
+public interface IHasPredictions<TPrediction>
 {
     public ICollection<TPrediction> Predictions { get; }
 }
@@ -291,7 +295,7 @@ public interface IPredictiveState<TPrediction>
 ## Confidence
 
 ```cs
-public interface IConfidenceState<in TElement>
+public interface IHasConfidence<in TElement>
 {
     public float GetConfidence(TElement item);
     public void SetConfidence(TElement item, float value);
@@ -303,7 +307,7 @@ public interface IConfidenceState<in TElement>
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<in TElement>
+public interface IHasAttention<in TElement>
 {
     public float GetAttention(TElement item);
     public void SetAttention(TElement item, float value);
@@ -317,15 +321,17 @@ Depending upon the nature of the input, one could add capabilities for increment
 A buffer system could, then, might resemble:
 
 ```cs
-public interface IBuffer : ICollection
+public interface IBuffer :
+    ICollection
 {
     public Type ElementType { get; }
 }
 
-public interface IBufferSystem : IReadOnlyList<IBuffer>
+public interface IBufferSystem
+    : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingState
+public interface IHasBuffers
 {
     public IBufferSystem Buffers { get; }
 }
@@ -385,16 +391,16 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 While `ISemanticState<,>` provides a `Model` property which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
 
 ```cs
-public interface ICommunicatorState<TSelf, in TInput, TOutput>
-    where TSelf : ICommunicatorState<TSelf, TInput, TOutput>
+public interface ICommunicator<TSelf, in TInput, TOutput>
+    where TSelf : ICommunicator<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
 
     public bool TryGetContent([NotNullWhen(true)] out TOutput? content);
 }
 
-public interface ISequentialCommunicatorState<TSelf, in TInput, TOutput>
-    where TSelf : ISequentialCommunicatorState<TSelf, TInput, TOutput>
+public interface ISequentialCommunicator<TSelf, in TInput, TOutput>
+    where TSelf : ISequentialCommunicator<TSelf, TInput, TOutput>
 {
     public Task<TSelf> Prompt(TInput prompt);
 
