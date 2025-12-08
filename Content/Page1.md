@@ -100,7 +100,7 @@ public interface IDifferenceable<TSelf>
 ```cs
 public interface IOperation
 {
-    public abstract Task Execute(object arg);
+    public Task Execute(object arg);
 }
 
 public abstract class Operation<TElement> : IOperation
