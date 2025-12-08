@@ -170,7 +170,6 @@ public sealed class ActionOperation<TElement> : Operation<TElement>
     }
 }
 
-
 public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
 {
     public LambdaExpressionOperation(Expression<Action<TElement>> lambda)
@@ -183,21 +182,10 @@ public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
 
     Action<TElement>? m_delegate;
 
-    public Action<TElement> Compiled
-    {
-        get
-        {
-            if (m_delegate == null)
-            {
-                m_delegate = LambdaExpression.Compile();
-            }
-            return m_delegate;
-        }
-    }
-
     public sealed override Task Execute(TElement arg)
     {
-        return Task.Run(() => Compiled(arg));
+        m_delegate ??= LambdaExpression.Compile();
+        return Task.Run(() => m_delegate(arg));
     }
 }
 ```
