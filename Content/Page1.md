@@ -29,13 +29,13 @@ public class StoryChunk : ITree<StoryChunk>
 public class ReaderState :
     IInterpretationState<ReaderState, StoryChunk>,
     IDifferenceable<ReaderState>,
-    ISemanticModelState<ReaderState, IInMemoryQueryableStore>,
-    ICuriousState<ReaderState, SparqlQuery>,
-    IPredictiveState<ReaderState, SparqlPrediction>,
-    IBufferingState<ReaderState>,
-    IAttentionalState<ReaderState, SparqlQuery>,
-    IAttentionalState<ReaderState, SparqlPrediction>,
-    IConfidenceState<ReaderState, SparqlPrediction>,
+    ISemanticModelState<IInMemoryQueryableStore>,
+    ICuriousState<SparqlQuery>,
+    IPredictiveState<SparqlPrediction>,
+    IBufferingState,
+    IAttentionalState<SparqlQuery>,
+    IAttentionalState<SparqlPrediction>,
+    IConfidenceState<SparqlPrediction>,
     ICommunicatorState<ReaderState, SparqlQuery, SparqlResultSet>
 {
     public IInMemoryQueryableStore Model
@@ -181,8 +181,7 @@ public interface IInterpretationState<TSelf, in TInput>
 ## Semantic Modeling
 
 ```cs
-public interface ISemanticState<TSelf, out TModel>
-    where TSelf : ISemanticState<TSelf, TModel>
+public interface ISemanticState<out TModel>
 {
     public TModel Model { get; }
 }
@@ -191,8 +190,7 @@ public interface ISemanticState<TSelf, out TModel>
 ## Curiosity
 
 ```cs
-public interface ICuriousState<TSelf, TQuestion>
-    where TSelf : ICuriousState<TSelf, TQuestion>
+public interface ICuriousState<TQuestion>
 {
     public ICollection<TQuestion> Questions { get; }
 }
@@ -201,8 +199,7 @@ public interface ICuriousState<TSelf, TQuestion>
 ## Prediction
 
 ```cs
-public interface IPredictiveState<TSelf, TPrediction>
-    where TSelf : IPredictiveState<TSelf, TPrediction>
+public interface IPredictiveState<TPrediction>
 {
     public ICollection<TPrediction> Predictions { get; }
 }
@@ -211,8 +208,7 @@ public interface IPredictiveState<TSelf, TPrediction>
 ## Confidence
 
 ```cs
-public interface IConfidenceState<TSelf, in TElement>
-    where TSelf : IConfidenceState<TSelf, TElement>
+public interface IConfidenceState<in TElement>
 {
     public float GetConfidence(TElement item);
     public void SetConfidence(TElement item, float value);
@@ -224,8 +220,7 @@ public interface IConfidenceState<TSelf, in TElement>
 One could add capabilities for systems to simulate the distribution or allocation of attention to things, e.g., to their questions and predictions. This would be one means of prioritizing or sorting systems' questions and predictions.
 
 ```cs
-public interface IAttentionalState<TSelf, in TElement>
-    where TSelf : IAttentionalState<TSelf, TElement>
+public interface IAttentionalState<in TElement>
 {
     public float GetAttention(TElement item);
     public void SetAttention(TElement item, float value);
@@ -247,8 +242,7 @@ public interface IBuffer : ICollection
 public interface IBufferSystem : IReadOnlyList<IBuffer>
 { }
 
-public interface IBufferingState<TSelf>
-    where TSelf : IBufferingState<TSelf>
+public interface IBufferingState
 {
     public IBufferSystem Buffers { get; }
 }
