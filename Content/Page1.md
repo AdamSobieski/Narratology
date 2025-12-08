@@ -63,10 +63,12 @@ public class ReaderState :
 
     public async Task<Operation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
 
-    public Operation<ReaderState> CreateOperation(Expression<Action<ReaderState>> expression)
+    public Operation<ReaderState> CreateOperation(Action<ReaderState> action)
     {
-        return new LambdaExpressionOperation<ReaderState>(expression);
+        return new ActionOperation<ReaderState>(action);
     }
+
+    Func<ReaderState, ReaderState> IOperational<ReaderState, ReaderState>.OperationalMap => x => x;
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -103,7 +105,9 @@ public interface IDifferenceable<TSelf>
 ```cs
 public interface IOperational<TOperand, TAction>
 {
-    public Operation<TOperand> CreateOperation(Expression<Action<TAction>> expression);
+    public Operation<TOperand> CreateOperation(Action<TAction> action);
+
+    public Func<TOperand, TAction> OperationalMap { get; }
 }
 
 public interface IOperation
@@ -111,7 +115,12 @@ public interface IOperation
     public Task Execute(object arg);
 }
 
-public abstract class Operation<TElement> : IOperation
+public interface IOperation<in TElement> : IOperation
+{
+    public Task Execute(TElement arg);
+}
+
+public abstract class Operation<TElement> : IOperation<TElement>
 {
     Task IOperation.Execute(object arg)
     {
@@ -146,7 +155,23 @@ public sealed class CompoundOperation<TElement> : Operation<TElement>
     }
 }
 
-public class LambdaExpressionOperation<TElement> : Operation<TElement>
+public sealed class ActionOperation<TElement> : Operation<TElement>
+{
+    public ActionOperation(Action<TElement> action)
+    {
+        m_action = action;
+    }
+
+    Action<TElement> m_action;
+
+    public sealed override Task Execute(TElement arg)
+    {
+        return Task.Run(() => m_action(arg));
+    }
+}
+
+
+public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
 {
     public LambdaExpressionOperation(Expression<Action<TElement>> lambda)
     {
@@ -156,7 +181,7 @@ public class LambdaExpressionOperation<TElement> : Operation<TElement>
 
     public Expression<Action<TElement>> LambdaExpression { get; }
 
-    private Action<TElement>? m_delegate;
+    Action<TElement>? m_delegate;
 
     public Action<TElement> Compiled
     {
@@ -170,12 +195,51 @@ public class LambdaExpressionOperation<TElement> : Operation<TElement>
         }
     }
 
-    public override Task Execute(TElement arg)
+    public sealed override Task Execute(TElement arg)
     {
         return Task.Run(() => Compiled(arg));
     }
 }
+```
 
+### Extensions
+
+```cs
+public static partial class Extensions
+{
+    extension<TOperand, TAction>(IOperational<TOperand, TAction> operational)
+    {
+        public IOperational<TOperand, TResult> Map<TResult>(Func<TAction, TResult> map)
+        {
+            return new Map<TOperand, TAction, TResult>(operational, map);
+        }
+    }
+}
+
+class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>
+{
+    public Map(IOperational<TOperand, TAction> operational, Func<TAction, TResult> map)
+    {
+        m_operational = operational;
+        m_map = map;
+    }
+
+    IOperational<TOperand, TAction> m_operational;
+    Func<TAction, TResult> m_map;
+
+    public Func<TOperand, TResult> OperationalMap
+    {
+        get
+        {
+            return (TOperand o) => m_map(m_operational.OperationalMap(o));
+        }
+    }
+
+    public Operation<TOperand> CreateOperation(Action<TResult> action)
+    {
+        return new ActionOperation<TOperand>(o => action(m_map(m_operational.OperationalMap(o))));
+    }
+}
 ```
 
 ## Incremental Interpretation and Comprehension
