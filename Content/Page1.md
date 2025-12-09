@@ -215,15 +215,16 @@ public static partial class Extensions
 
         public IOperational<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if(operational is IHasOperationalMap<TOperand, TElement> hasmap)
+            if(operational is IHasOperationalMap<TOperand, TElement> hasMap)
             {
-                return new Map<TOperand, TElement, TResult>(hasmap.OperationalMap, map);
+                var operationalMap = hasMap.OperationalMap;
+                return new Map<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
             }
             else
             {
                 if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
                 {
-                    return new Map<TOperand, TElement, TResult>((TOperand o) => (TElement)(object)o!, map);
+                    return new Map<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
                 }
                 else
                 {
@@ -234,31 +235,29 @@ public static partial class Extensions
     }
 }
 
-class Map<TOperand, TElement, TResult> :
+class Map<TOperand, TResult> : 
     IOperational<TOperand, TResult>,
     ICustomCreateOperation<TOperand, TResult>,
     IHasOperationalMap<TOperand, TResult>
 {
-    public Map(Func<TOperand, TElement> operational_map, Func<TElement, TResult> map)
+    public Map(Func<TOperand, TResult> map)
     {
-        m_operational_map = operational_map;
         m_map = map;
     }
 
-    Func<TOperand, TElement> m_operational_map;
-    Func<TElement, TResult> m_map;
+    Func<TOperand, TResult> m_map;
 
     public Func<TOperand, TResult> OperationalMap
     {
         get
         {
-            return (TOperand o) => m_map(m_operational_map(o));
+            return m_map;
         }
     }
 
     public Operation<TOperand> CreateOperation(Action<TResult> action)
     {
-        return new ActionOperation<TOperand>((TOperand o) => action(m_map(m_operational_map(o))));
+        return new ActionOperation<TOperand>((TOperand o) => action(m_map(o)));
     }
 }
 ```
