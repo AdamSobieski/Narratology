@@ -61,7 +61,7 @@ public class ReaderState :
 
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public async Task<Operation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
+    public async Task<IOperation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
 
     public float GetAttention(SparqlQuery item) { ... }
 
