@@ -194,16 +194,16 @@ public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
 
 ```cs
 public static partial class Extensions
-{ 
+{
     extension<TOperand, TElement>(IOperational<TOperand, TElement> operational)
     {
         public Operation<TOperand> CreateOperation(Action<TElement> action)
         {
-            if(operational is ICustomCreateOperation<TOperand, TElement> custom)
+            if (operational is ICustomCreateOperation<TOperand, TElement> custom)
             {
                 return custom.CreateOperation(action);
             }
-            else if(typeof(TElement).IsAssignableFrom(typeof(TOperand)))
+            else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
                 return new ActionOperation<TOperand>((TOperand o) => action((TElement)(object)o!));
             }
@@ -215,21 +215,18 @@ public static partial class Extensions
 
         public IOperational<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if(operational is IHasOperationalMap<TOperand, TElement> hasMap)
+            if (operational is IHasOperationalMap<TOperand, TElement> hasMap)
             {
                 var operationalMap = hasMap.OperationalMap;
                 return new Map<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
             }
+            else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
+            {
+                return new Map<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
+            }
             else
             {
-                if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
-                {
-                    return new Map<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
+                throw new InvalidOperationException();
             }
         }
     }
