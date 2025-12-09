@@ -203,12 +203,16 @@ public static partial class Extensions
             {
                 return custom.CreateOperation(action);
             }
-            else
+            else if(typeof(TAction).IsAssignableFrom(typeof(TOperand)))
             {
                 return new ActionOperation<TOperand>((TOperand o) =>
                 {
                     action((TAction)(object)o!);
                 });
+            }
+            else
+            {
+                throw new InvalidOperationException();
             }
         }
 
@@ -241,9 +245,13 @@ class Map<TOperand, TAction, TResult> :
             {
                 return (TOperand o) => m_map(m_operational_map.OperationalMap(o));
             }
-            else
+            else if(typeof(TAction).IsAssignableFrom(typeof(TOperand)))
             {
                 return (TOperand o) => m_map((TAction)(object)o!);
+            }
+            else
+            {
+                throw new InvalidOperationException();
             }
         }
     }
@@ -257,12 +265,16 @@ class Map<TOperand, TAction, TResult> :
                 action(m_map(m_operational_map.OperationalMap(o)));
             });
         }
-        else
+        else if(typeof(TAction).IsAssignableFrom(typeof(TOperand)))
         {
             return new ActionOperation<TOperand>((TOperand o) =>
             {
                 action(m_map((TAction)(object)o!));
             });
+        }
+        else
+        {
+            throw new InvalidOperationException();
         }
     }
 }
