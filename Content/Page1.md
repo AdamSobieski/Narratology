@@ -205,10 +205,7 @@ public static partial class Extensions
             }
             else if(typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new ActionOperation<TOperand>((TOperand o) =>
-                {
-                    action((TElement)(object)o!);
-                });
+                return new ActionOperation<TOperand>((TOperand o) => action((TElement)(object)o!));
             }
             else
             {
