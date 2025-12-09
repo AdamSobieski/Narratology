@@ -83,6 +83,16 @@ public class ReaderState :
 }
 ```
 
+## Incremental Interpretation and Comprehension
+
+```cs
+public interface IInterpreter<TSelf, in TInput>
+    where TSelf : IInterpreter<TSelf, TInput>
+{
+    public IAsyncEnumerable<TSelf> Interpret(TInput input);
+}
+```
+
 ## Differencing
 
 ```cs
@@ -256,16 +266,6 @@ class Map<TOperand, TResult> :
     {
         return new ActionOperation<TOperand>((TOperand o) => action(m_map(o)));
     }
-}
-```
-
-## Incremental Interpretation and Comprehension
-
-```cs
-public interface IInterpreter<TSelf, in TInput>
-    where TSelf : IInterpreter<TSelf, TInput>
-{
-    public IAsyncEnumerable<TSelf> Interpret(TInput input);
 }
 ```
 
