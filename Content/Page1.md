@@ -63,11 +63,6 @@ public class ReaderState :
 
     public async Task<Operation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
 
-    public Operation<ReaderState> CreateOperation(Action<ReaderState> action)
-    {
-        return new ActionOperation<ReaderState>(action);
-    }
-
     public float GetAttention(SparqlQuery item) { ... }
 
     public float GetAttention(SparqlPrediction item) { ... }
@@ -101,14 +96,14 @@ public interface IDifferenceable<TSelf>
 ### Operations
 
 ```cs
-public interface IOperational<TOperand, TAction>
+public interface IOperational<TOperand, TAction> { }
+
+public interface IOperational<TOperand> : IOperational<TOperand, TOperand> { }
+
+public interface ICustomCreateOperation<TOperand, TAction>
 {
     public Operation<TOperand> CreateOperation(Action<TAction> action);
 }
-
-public interface IOperational<TElement> : IOperational<TElement, TElement>
-    where TElement : IOperational<TElement>
-{ }
 
 public interface IHasOperationalMap<TOperand, TAction>
 {
@@ -199,9 +194,24 @@ public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
 
 ```cs
 public static partial class Extensions
-{
+{ 
     extension<TOperand, TAction>(IOperational<TOperand, TAction> operational)
     {
+        public Operation<TOperand> CreateOperation(Action<TAction> action)
+        {
+            if(operational is ICustomCreateOperation<TOperand, TAction> custom)
+            {
+                return custom.CreateOperation(action);
+            }
+            else
+            {
+                return new ActionOperation<TOperand>((TOperand o) =>
+                {
+                    action((TAction)(object)o!);
+                });
+            }
+        }
+
         public IOperational<TOperand, TResult> Map<TResult>(Func<TAction, TResult> map)
         {
             return new Map<TOperand, TAction, TResult>(operational, map);
@@ -209,7 +219,10 @@ public static partial class Extensions
     }
 }
 
-class Map<TOperand, TAction, TResult> : IOperational<TOperand, TResult>, IHasOperationalMap<TOperand, TResult>
+class Map<TOperand, TAction, TResult> :
+    IOperational<TOperand, TResult>,
+    ICustomCreateOperation<TOperand, TResult>,
+    IHasOperationalMap<TOperand, TResult>
 {
     public Map(IOperational<TOperand, TAction> operational, Func<TAction, TResult> map)
     {
