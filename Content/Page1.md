@@ -137,24 +137,6 @@ public abstract class Operation<TElement> : IOperation<TElement>
     public abstract Task Execute(TElement arg);
 }
 
-public sealed class CompoundOperation<TElement> : Operation<TElement>
-{
-    public CompoundOperation(IEnumerable<Operation<TElement>> operations)
-    {
-        Operations = operations;
-    }
-
-    public IEnumerable<Operation<TElement>> Operations { get; }
-
-    public sealed override async Task Execute(TElement arg)
-    {
-        foreach (var operation in Operations)
-        {
-            await operation.Execute(arg);
-        }
-    }
-}
-
 public sealed class ActionOperation<TElement> : Operation<TElement>
 {
     public ActionOperation(Action<TElement> action)
@@ -186,6 +168,24 @@ public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
     {
         m_delegate ??= LambdaExpression.Compile();
         return Task.Run(() => m_delegate(arg));
+    }
+}
+
+public sealed class CompoundOperation<TElement> : Operation<TElement>
+{
+    public CompoundOperation(IEnumerable<Operation<TElement>> operations)
+    {
+        Operations = operations;
+    }
+
+    public IEnumerable<Operation<TElement>> Operations { get; }
+
+    public sealed override async Task Execute(TElement arg)
+    {
+        foreach (var operation in Operations)
+        {
+            await operation.Execute(arg);
+        }
     }
 }
 ```
