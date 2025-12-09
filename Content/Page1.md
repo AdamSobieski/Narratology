@@ -106,17 +106,17 @@ public interface IDifferenceable<TSelf>
 ### Operations
 
 ```cs
-public interface IOperational<TOperand, TElement> { }
+public interface IOperational<in TOperand, out TElement> { }
 
 public interface IOperational<TOperand> : IOperational<TOperand, TOperand> { }
 
-public interface ICustomCreateOperation<TOperand, TElement>
+public interface ICustomCreateOperation<in TOperand, out TElement>
 {
     public IOperation<TOperand> CreateOperation(Action<TElement> action);
     public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function);
 }
 
-public interface IHasMapping<TOperand, TElement>
+public interface IHasMapping<in TOperand, out TElement>
 {
     public Func<TOperand, TElement> Map { get; }
 }
