@@ -218,7 +218,21 @@ public static partial class Extensions
 
         public IOperational<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            return new Map<TOperand, TElement, TResult>(operational, map);
+            if(operational is IHasOperationalMap<TOperand, TElement> hasmap)
+            {
+                return new Map<TOperand, TElement, TResult>(hasmap.OperationalMap, map);
+            }
+            else
+            {
+                if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
+                {
+                    return new Map<TOperand, TElement, TResult>((TOperand o) => (TElement)(object)o!, map);
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
         }
     }
 }
@@ -228,56 +242,26 @@ class Map<TOperand, TElement, TResult> :
     ICustomCreateOperation<TOperand, TResult>,
     IHasOperationalMap<TOperand, TResult>
 {
-    public Map(IOperational<TOperand, TElement> operational, Func<TElement, TResult> map)
+    public Map(Func<TOperand, TElement> operational_map, Func<TElement, TResult> map)
     {
-        m_operational = operational;
+        m_operational_map = operational_map;
         m_map = map;
     }
 
-    IOperational<TOperand, TElement> m_operational;
+    Func<TOperand, TElement> m_operational_map;
     Func<TElement, TResult> m_map;
 
     public Func<TOperand, TResult> OperationalMap
     {
         get
         {
-            if(m_operational is IHasOperationalMap<TOperand, TElement> m_operational_map)
-            {
-                var operational_map = m_operational_map.OperationalMap;
-                return (TOperand o) => m_map(operational_map(o));
-            }
-            else if(typeof(TElement).IsAssignableFrom(typeof(TOperand)))
-            {
-                return (TOperand o) => m_map((TElement)(object)o!);
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+            return (TOperand o) => m_map(m_operational_map(o));
         }
     }
 
     public Operation<TOperand> CreateOperation(Action<TResult> action)
     {
-        if (m_operational is IHasOperationalMap<TOperand, TElement> m_operational_map)
-        {
-            var operational_map = m_operational_map.OperationalMap;
-            return new ActionOperation<TOperand>((TOperand o) =>
-            {
-                action(m_map(operational_map(o)));
-            });
-        }
-        else if(typeof(TElement).IsAssignableFrom(typeof(TOperand)))
-        {
-            return new ActionOperation<TOperand>((TOperand o) =>
-            {
-                action(m_map((TElement)(object)o!));
-            });
-        }
-        else
-        {
-            throw new InvalidOperationException();
-        }
+        return new ActionOperation<TOperand>((TOperand o) => action(m_map(m_operational_map(o))));
     }
 }
 ```
