@@ -99,7 +99,7 @@ public interface IInterpreter<TSelf, in TInput>
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<Operation<TSelf>> DifferenceFrom(TSelf other);
+    public Task<IOperation<TSelf>> DifferenceFrom(TSelf other);
 }
 ```
 
@@ -112,12 +112,13 @@ public interface IOperational<TOperand> : IOperational<TOperand, TOperand> { }
 
 public interface ICustomCreateOperation<TOperand, TElement>
 {
-    public Operation<TOperand> CreateOperation(Action<TElement> action);
+    public IOperation<TOperand> CreateOperation(Action<TElement> action);
+    public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function);
 }
 
-public interface IHasOperationalMap<TOperand, TElement>
+public interface IHasMapping<TOperand, TElement>
 {
-    public Func<TOperand, TElement> OperationalMap { get; }
+    public Func<TOperand, TElement> Map { get; }
 }
 
 public interface IOperation
@@ -130,8 +131,25 @@ public interface IOperation<in TElement> : IOperation
     public Task Execute(TElement arg);
 }
 
-public abstract class Operation<TElement> : IOperation<TElement>
+public interface IOperation<in TElement, TResult> : IOperation<TElement>
 {
+    public new Task<TResult> Execute(TElement arg);
+}
+
+public sealed class DelegateOperation<TElement> : IOperation<TElement>
+{
+    public DelegateOperation(Action<TElement> action)
+    {
+        m_action = action;
+    }
+
+    Action<TElement> m_action;
+
+    public Task Execute(TElement arg)
+    {
+        return Task.Run(() => m_action(arg));
+    }
+
     Task IOperation.Execute(object arg)
     {
         if(arg is TElement element)
@@ -143,58 +161,66 @@ public abstract class Operation<TElement> : IOperation<TElement>
             throw new ArgumentException();
         }
     }
-
-    public abstract Task Execute(TElement arg);
 }
 
-public sealed class ActionOperation<TElement> : Operation<TElement>
+public sealed class DelegateOperation<TElement, TResult> : IOperation<TElement, TResult>
 {
-    public ActionOperation(Action<TElement> action)
+    public DelegateOperation(Func<TElement, TResult> function)
     {
-        m_action = action;
+        m_function = function;
     }
 
-    Action<TElement> m_action;
+    Func<TElement, TResult> m_function;
 
-    public sealed override Task Execute(TElement arg)
+    public Task<TResult> Execute(TElement arg)
     {
-        return Task.Run(() => m_action(arg));
-    }
-}
-
-public sealed class LambdaExpressionOperation<TElement> : Operation<TElement>
-{
-    public LambdaExpressionOperation(Expression<Action<TElement>> lambda)
-    {
-        LambdaExpression = lambda;
-        m_delegate = null;
+        return Task<TResult>.Run(() => m_function(arg));
     }
 
-    public Expression<Action<TElement>> LambdaExpression { get; }
-
-    Action<TElement>? m_delegate;
-
-    public sealed override Task Execute(TElement arg)
+    Task IOperation<TElement>.Execute(TElement arg)
     {
-        m_delegate ??= LambdaExpression.Compile();
-        return Task.Run(() => m_delegate(arg));
+        return Execute(arg);
+    }
+
+    Task IOperation.Execute(object arg)
+    {
+        if (arg is TElement element)
+        {
+            return Execute(element);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
     }
 }
 
-public sealed class CompoundOperation<TElement> : Operation<TElement>
+public sealed class CompoundOperation<TElement> : IOperation<TElement>
 {
-    public CompoundOperation(IEnumerable<Operation<TElement>> operations)
+    public CompoundOperation(IEnumerable<IOperation<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<Operation<TElement>> Operations { get; }
+    public IEnumerable<IOperation<TElement>> Operations { get; }
 
-    public sealed override async Task Execute(TElement arg)
+    public async Task Execute(TElement arg)
     {
         foreach (var operation in Operations)
         {
             await operation.Execute(arg);
+        }
+    }
+
+    Task IOperation.Execute(object arg)
+    {
+        if (arg is TElement element)
+        {
+            return Execute(element);
+        }
+        else
+        {
+            throw new ArgumentException();
         }
     }
 }
@@ -207,7 +233,7 @@ public static partial class Extensions
 {
     extension<TOperand, TElement>(IOperational<TOperand, TElement> operational)
     {
-        public Operation<TOperand> CreateOperation(Action<TElement> action)
+        public IOperation<TOperand> CreateOperation(Action<TElement> action)
         {
             if (operational is ICustomCreateOperation<TOperand, TElement> custom)
             {
@@ -215,7 +241,23 @@ public static partial class Extensions
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new ActionOperation<TOperand>((TOperand o) => action((TElement)(object)o!));
+                return new DelegateOperation<TOperand>((TOperand o) => action((TElement)(object)o!));
+            }
+            else
+            { 
+                throw new InvalidOperationException();
+            }
+        }
+
+        public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function)
+        {
+            if(operational is ICustomCreateOperation<TOperand, TElement> custom)
+            {
+                return custom.CreateOperation<TResult>(function);
+            }
+            else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
+            {
+                return new DelegateOperation<TOperand, TResult>((TOperand o) => function((TElement)(object)o!));
             }
             else
             {
@@ -225,14 +267,14 @@ public static partial class Extensions
 
         public IOperational<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if (operational is IHasOperationalMap<TOperand, TElement> hasMap)
+            if (operational is IHasMapping<TOperand, TElement> hasMap)
             {
-                var operationalMap = hasMap.OperationalMap;
-                return new Map<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
+                var operationalMap = hasMap.Map;
+                return new Mapping<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new Map<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
+                return new Mapping<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
             }
             else
             {
@@ -242,19 +284,19 @@ public static partial class Extensions
     }
 }
 
-class Map<TOperand, TResult> : 
+class Mapping<TOperand, TResult> : 
     IOperational<TOperand, TResult>,
     ICustomCreateOperation<TOperand, TResult>,
-    IHasOperationalMap<TOperand, TResult>
+    IHasMapping<TOperand, TResult>
 {
-    public Map(Func<TOperand, TResult> map)
+    public Mapping(Func<TOperand, TResult> map)
     {
         m_map = map;
     }
 
     Func<TOperand, TResult> m_map;
 
-    public Func<TOperand, TResult> OperationalMap
+    public Func<TOperand, TResult> Map
     {
         get
         {
@@ -262,9 +304,14 @@ class Map<TOperand, TResult> :
         }
     }
 
-    public Operation<TOperand> CreateOperation(Action<TResult> action)
+    public IOperation<TOperand> CreateOperation(Action<TResult> action)
     {
-        return new ActionOperation<TOperand>((TOperand o) => action(m_map(o)));
+        return new DelegateOperation<TOperand>((TOperand o) => action(m_map(o)));
+    }
+
+    public IOperation<TOperand, TOutput> CreateOperation<TOutput>(Func<TResult, TOutput> function)
+    {
+        return new DelegateOperation<TOperand, TOutput>((TOperand o) => function(m_map(o)));
     }
 }
 ```
@@ -348,18 +395,30 @@ Approaches to incremental interpretation and comprehension can tackle concurrenc
 With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
 
 ```cs
-public sealed class ConcurrentOperation<TElement> : Operation<TElement>
+public sealed class ConcurrentOperation<TElement> : IOperation<TElement>
 {
-    public ConcurrentOperation(IEnumerable<Operation<TElement>> operations)
+    public ConcurrentOperation(IEnumerable<IOperation<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<Operation<TElement>> Operations { get; }
+    public IEnumerable<IOperation<TElement>> Operations { get; }
 
-    public sealed override Task Execute(TElement arg)
+    public Task Execute(TElement arg)
     {
         return Task.WhenAll(Operations.Select(o => o.Execute(arg)));
+    }
+
+    Task IOperation.Execute(object arg)
+    {
+        if (arg is TElement element)
+        {
+            return Execute(element);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
     }
 }
 ```
