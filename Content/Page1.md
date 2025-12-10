@@ -335,10 +335,15 @@ public static partial class Extensions
 
         public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if (procedural is IHasMapping<TOperand, TElement> hasMap)
+            if(procedural is IHasCancellableMapping<TOperand, TElement> hasMap)
             {
                 var pmap = hasMap.Map;
-                return new Mapping<TOperand, TResult>((TOperand o) => map(pmap(o)));
+                return new CancellableMapping<TOperand, TResult>((TOperand o, CancellationToken c) => map(pmap(o, c)));
+            }
+            else if (procedural is IHasMapping<TOperand, TElement> hasMap2)
+            {
+                var pmap2 = hasMap2.Map;
+                return new Mapping<TOperand, TResult>((TOperand o) => map(pmap2(o)));
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
