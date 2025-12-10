@@ -406,7 +406,7 @@ public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
 
     public Task Execute(TElement arg)
     {
-        return Task.WhenAll(Procedures.Select(o => o.Execute(arg)));
+        return Task.WhenAll(Procedures.Select(p => p.Execute(arg)));
     }
 
     Task IProcedure.Execute(object arg)
