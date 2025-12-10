@@ -392,7 +392,7 @@ public interface IHasBuffers
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
-With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `IProcedure<>` instances as occurring concurrently:
+With respect to concurrency regarding procedures affecting differencing, one could add the following to express a set of `IProcedure<>` instances as occurring concurrently:
 
 ```cs
 public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
