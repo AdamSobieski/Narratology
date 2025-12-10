@@ -269,8 +269,8 @@ public static partial class Extensions
         {
             if (procedural is IHasMapping<TOperand, TElement> hasMap)
             {
-                var operationalMap = hasMap.Map;
-                return new Mapping<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
+                var proceduralMap = hasMap.Map;
+                return new Mapping<TOperand, TResult>((TOperand o) => map(proceduralMap(o)));
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
