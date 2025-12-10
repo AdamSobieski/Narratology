@@ -59,9 +59,9 @@ public class ReaderState :
         get { ... }
     }
 
-    public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
+    public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input, CancellationToken token = default) { ... }
 
-    public async Task<IProcedure<ReaderState>> DifferenceFrom(ReaderState other) { ... }
+    public async Task<IProcedure<ReaderState>> DifferenceFrom(ReaderState other, CancellationToken token = default) { ... }
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -75,7 +75,7 @@ public class ReaderState :
 
     public void SetConfidence(SparqlPrediction item, float value) { ... }
 
-    public async Task<ReaderState> Prompt(SparqlQuery query) { ... }
+    public async Task<ReaderState> Prompt(SparqlQuery query, CancellationToken token = default) { ... }
 
     public bool TryGetContent([NotNullWhen(true)] out SparqlResultSet? result) { ... }
 
@@ -89,7 +89,7 @@ public class ReaderState :
 public interface IInterpreter<TSelf, in TInput>
     where TSelf : IInterpreter<TSelf, TInput>
 {
-    public IAsyncEnumerable<TSelf> Interpret(TInput input);
+    public IAsyncEnumerable<TSelf> Interpret(TInput input, CancellationToken cancellationToken = default);
 }
 ```
 
@@ -99,7 +99,7 @@ public interface IInterpreter<TSelf, in TInput>
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<IProcedure<TSelf>> DifferenceFrom(TSelf other);
+    public Task<IProcedure<TSelf>> DifferenceFrom(TSelf other, CancellationToken cancellationToken = default);
 }
 ```
 
@@ -114,6 +114,8 @@ public interface ICustomCreateProcedure<in TOperand, out TElement>
 {
     public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
     public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
+    public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
 }
 
 public interface IHasMapping<in TOperand, out TElement>
@@ -121,19 +123,24 @@ public interface IHasMapping<in TOperand, out TElement>
     public Func<TOperand, TElement> Map { get; }
 }
 
+public interface IHasCancellableMapping<in TOperand, out TElement>
+{
+    public Func<TOperand, CancellationToken, TElement> Map { get; }
+}
+
 public interface IProcedure
 {
-    public Task Execute(object arg);
+    public Task Execute(object arg, CancellationToken cancellationToken = default);
 }
 
 public interface IProcedure<in TElement> : IProcedure
 {
-    public Task Execute(TElement arg);
+    public Task Execute(TElement arg, CancellationToken cancellationToken = default);
 }
 
 public interface IProcedure<in TElement, TResult> : IProcedure<TElement>
 {
-    public new Task<TResult> Execute(TElement arg);
+    public new Task<TResult> Execute(TElement arg, CancellationToken cancellationToken = default);
 }
 
 public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
@@ -145,16 +152,16 @@ public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
 
     Action<TElement> m_action;
 
-    public Task Execute(TElement arg)
+    public Task Execute(TElement arg, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() => m_action(arg));
+        return Task.Run(() => m_action(arg), cancellationToken);
     }
 
-    Task IProcedure.Execute(object arg)
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
     {
         if(arg is TElement element)
         {
-            return Execute(element);
+            return Execute(element, cancellationToken);
         }
         else
         {
@@ -172,21 +179,80 @@ public sealed class DelegateProcedure<TElement, TResult> : IProcedure<TElement, 
 
     Func<TElement, TResult> m_function;
 
-    public Task<TResult> Execute(TElement arg)
+    public Task<TResult> Execute(TElement arg, CancellationToken cancellationToken = default)
     {
-        return Task<TResult>.Run(() => m_function(arg));
+        return Task<TResult>.Run(() => m_function(arg), cancellationToken);
     }
 
-    Task IProcedure<TElement>.Execute(TElement arg)
+    Task IProcedure<TElement>.Execute(TElement arg, CancellationToken cancellationToken)
     {
-        return Execute(arg);
+        return Execute(arg, cancellationToken);
     }
 
-    Task IProcedure.Execute(object arg)
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
     {
         if (arg is TElement element)
         {
-            return Execute(element);
+            return Execute(element, cancellationToken);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
+    }
+}
+
+public sealed class CancellableDelegateProcedure<TElement> : IProcedure<TElement>
+{
+    public CancellableDelegateProcedure(Action<TElement, CancellationToken> action)
+    {
+        m_action = action;
+    }
+
+    Action<TElement, CancellationToken> m_action;
+
+    public Task Execute(TElement arg, CancellationToken cancellationToken = default)
+    {
+        return Task.Run(() => m_action(arg, cancellationToken), cancellationToken);
+    }
+
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
+    {
+        if (arg is TElement element)
+        {
+            return Execute(element, cancellationToken);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
+    }
+}
+
+public sealed class CancellableDelegateProcedure<TElement, TResult> : IProcedure<TElement, TResult>
+{
+    public CancellableDelegateProcedure(Func<TElement, CancellationToken, TResult> function)
+    {
+        m_function = function;
+    }
+
+    Func<TElement, CancellationToken, TResult> m_function;
+
+    public Task<TResult> Execute(TElement arg, CancellationToken cancellationToken = default)
+    {
+        return Task<TResult>.Run(() => m_function(arg, cancellationToken), cancellationToken);
+    }
+
+    Task IProcedure<TElement>.Execute(TElement arg, CancellationToken cancellationToken)
+    {
+        return Execute(arg, cancellationToken);
+    }
+
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
+    {
+        if (arg is TElement element)
+        {
+            return Execute(element, cancellationToken);
         }
         else
         {
@@ -204,19 +270,21 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 
     public IEnumerable<IProcedure<TElement>> Procedures { get; }
 
-    public async Task Execute(TElement arg)
+    public async Task Execute(TElement arg, CancellationToken cancellationToken = default)
     {
         foreach (var procedure in Procedures)
         {
-            await procedure.Execute(arg);
+            await procedure.Execute(arg, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 
-    Task IProcedure.Execute(object arg)
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
     {
         if (arg is TElement element)
         {
-            return Execute(element);
+            return Execute(element, cancellationToken);
         }
         else
         {
@@ -269,12 +337,35 @@ public static partial class Extensions
         {
             if (procedural is IHasMapping<TOperand, TElement> hasMap)
             {
-                var proceduralMap = hasMap.Map;
-                return new Mapping<TOperand, TResult>((TOperand o) => map(proceduralMap(o)));
+                var pmap = hasMap.Map;
+                return new Mapping<TOperand, TResult>((TOperand o) => map(pmap(o)));
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
                 return new Mapping<TOperand, TResult>((TOperand o) => map((TElement)(object)o!));
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, CancellationToken, TResult> map)
+        {
+            if (procedural is IHasCancellableMapping<TOperand, TElement> hasMap)
+            {
+                var pmap = hasMap.Map;
+                return new CancellableMapping<TOperand, TResult>((TOperand o, CancellationToken c) => map(pmap(o, c), c));
+            }
+            else if(procedural is IHasMapping<TOperand, TElement> hasMap2)
+            {
+                var pmap2 = hasMap2.Map;
+                return new CancellableMapping<TOperand, TResult>((TOperand o, CancellationToken c) => map(pmap2(o), c));
+            }
+            else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
+            {
+                return new CancellableMapping<TOperand, TResult>((TOperand o, CancellationToken c) =>
+                    map((TElement)(object)o!, c));
             }
             else
             {
@@ -313,6 +404,65 @@ class Mapping<TOperand, TResult> :
     {
         return new DelegateProcedure<TOperand, TOutput>((TOperand o) => function(m_map(o)));
     }
+
+    public IProcedure<TOperand> CreateProcedure(Action<TResult, CancellationToken> action)
+    {
+        return new CancellableDelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o), c));
+    }
+
+    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, CancellationToken, TOutput> function)
+    {
+        return new CancellableDelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) => function(m_map(o), c));
+    }
+}
+
+class CancellableMapping<TOperand, TResult> :
+    IProcedural<TOperand, TResult>,
+    ICustomCreateProcedure<TOperand, TResult>,
+    IHasCancellableMapping<TOperand, TResult>,
+    IHasMapping<TOperand, TResult>
+{
+    public CancellableMapping(Func<TOperand, CancellationToken, TResult> map)
+    {
+        m_map = map;
+    }
+
+    Func<TOperand, CancellationToken, TResult> m_map;
+
+    public Func<TOperand, CancellationToken, TResult> Map
+    {
+        get
+        {
+            return m_map;
+        }
+    }
+    Func<TOperand, TResult> IHasMapping<TOperand, TResult>.Map
+    {
+        get
+        {
+            return (TOperand o) => m_map(o, CancellationToken.None);
+        }
+    }
+
+    public IProcedure<TOperand> CreateProcedure(Action<TResult> action)
+    {
+        return new DelegateProcedure<TOperand>((TOperand o) => action(m_map(o, CancellationToken.None)));
+    }
+
+    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
+    {
+        return new DelegateProcedure<TOperand, TOutput>((TOperand o) => function(m_map(o, CancellationToken.None)));
+    }
+
+    public IProcedure<TOperand> CreateProcedure(Action<TResult, CancellationToken> action)
+    {
+        return new CancellableDelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c), c));
+    }
+
+    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, CancellationToken, TOutput> function)
+    {
+        return new CancellableDelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) => function(m_map(o, c), c));
+    }
 }
 ```
 
@@ -327,7 +477,7 @@ public interface IHasSemanticModel<TSelf, out TModel>
 
 public interface IAskable<in TQuestion, TResponse>
 {
-    public Task<TResponse> Ask(TQuestion question);
+    public Task<TResponse> Ask(TQuestion question, CancellationToken cancellationToken = default);
 }
 ```
 
@@ -425,16 +575,16 @@ public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
 
     public IEnumerable<IProcedure<TElement>> Procedures { get; }
 
-    public Task Execute(TElement arg)
+    public async Task Execute(TElement arg, CancellationToken cancellationToken = default)
     {
-        return Task.WhenAll(Procedures.Select(p => p.Execute(arg)));
+        await Task.WhenAll(Procedures.Select(p => p.Execute(arg, cancellationToken)));
     }
 
-    Task IProcedure.Execute(object arg)
+    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
     {
         if (arg is TElement element)
         {
-            return Execute(element);
+            return Execute(element, cancellationToken);
         }
         else
         {
@@ -478,7 +628,7 @@ While `IHasSemanticModel<,>` provides a model which could be queried or otherwis
 public interface ICommunicator<TSelf, in TInput, TOutput>
     where TSelf : ICommunicator<TSelf, TInput, TOutput>
 {
-    public Task<TSelf> Prompt(TInput prompt);
+    public Task<TSelf> Prompt(TInput prompt, CancellationToken cancellationToken = default);
 
     public bool TryGetContent([NotNullWhen(true)] out TOutput? content);
 }
@@ -486,10 +636,10 @@ public interface ICommunicator<TSelf, in TInput, TOutput>
 public interface ISequentialCommunicator<TSelf, in TInput, TOutput>
     where TSelf : ISequentialCommunicator<TSelf, TInput, TOutput>
 {
-    public Task<TSelf> Prompt(TInput prompt);
+    public Task<TSelf> Prompt(TInput prompt, CancellationToken cancellationToken = default);
 
     public bool TryGetContent([NotNullWhen(true)] out TOutput? content);
 
-    public Task<TSelf> Continue();
+    public Task<TSelf> Continue(CancellationToken cancellationToken = default);
 }
 ```
