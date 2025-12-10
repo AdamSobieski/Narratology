@@ -208,6 +208,8 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 
     public async Task Execute(TElement arg, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         foreach (var procedure in Procedures)
         {
             cancellationToken.ThrowIfCancellationRequested();
