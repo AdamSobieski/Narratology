@@ -29,7 +29,7 @@ public class StoryChunk : ITree<StoryChunk>
 public class ReaderState :
     IInterpreter<ReaderState, StoryChunk>,
     IDifferenceable<ReaderState>,
-    IHasSemanticModel<IInMemoryQueryableStore>,
+    IHasSemanticModel<IAskable<SparqlQuery, SparqlResultSet>>,
     IHasQuestions<SparqlQuery>,
     IHasPredictions<SparqlPrediction>,
     IHasBuffers,
@@ -39,7 +39,7 @@ public class ReaderState :
     ICommunicator<ReaderState, SparqlQuery, SparqlResultSet>,
     IProcedural<ReaderState>
 {
-    public IInMemoryQueryableStore Model
+    public IAskable<SparqlQuery, SparqlResultSet> Model
     {
         get { ... }
     }
