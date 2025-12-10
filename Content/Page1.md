@@ -61,7 +61,7 @@ public class ReaderState :
 
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input) { ... }
 
-    public async Task<IOperation<ReaderState>> DifferenceFrom(ReaderState other) { ... }
+    public async Task<IProcedure<ReaderState>> DifferenceFrom(ReaderState other) { ... }
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -99,21 +99,21 @@ public interface IInterpreter<TSelf, in TInput>
 public interface IDifferenceable<TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<IOperation<TSelf>> DifferenceFrom(TSelf other);
+    public Task<IProcedure<TSelf>> DifferenceFrom(TSelf other);
 }
 ```
 
-### Operations
+### Procedures
 
 ```cs
-public interface IOperational<in TOperand, out TElement> { }
+public interface IProcedural<in TOperand, out TElement> { }
 
-public interface IOperational<TOperand> : IOperational<TOperand, TOperand> { }
+public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
 
-public interface ICustomCreateOperation<in TOperand, out TElement>
+public interface ICustomCreateProcedure<in TOperand, out TElement>
 {
-    public IOperation<TOperand> CreateOperation(Action<TElement> action);
-    public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function);
+    public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
+    public IOperation<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
 }
 
 public interface IHasMapping<in TOperand, out TElement>
@@ -121,24 +121,24 @@ public interface IHasMapping<in TOperand, out TElement>
     public Func<TOperand, TElement> Map { get; }
 }
 
-public interface IOperation
+public interface IProcedure
 {
     public Task Execute(object arg);
 }
 
-public interface IOperation<in TElement> : IOperation
+public interface IProcedure<in TElement> : IProcedure
 {
     public Task Execute(TElement arg);
 }
 
-public interface IOperation<in TElement, TResult> : IOperation<TElement>
+public interface IOperation<in TElement, TResult> : IProcedure<TElement>
 {
     public new Task<TResult> Execute(TElement arg);
 }
 
-public sealed class DelegateOperation<TElement> : IOperation<TElement>
+public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
 {
-    public DelegateOperation(Action<TElement> action)
+    public DelegateProcedure(Action<TElement> action)
     {
         m_action = action;
     }
@@ -150,7 +150,7 @@ public sealed class DelegateOperation<TElement> : IOperation<TElement>
         return Task.Run(() => m_action(arg));
     }
 
-    Task IOperation.Execute(object arg)
+    Task IProcedure.Execute(object arg)
     {
         if(arg is TElement element)
         {
@@ -163,9 +163,9 @@ public sealed class DelegateOperation<TElement> : IOperation<TElement>
     }
 }
 
-public sealed class DelegateOperation<TElement, TResult> : IOperation<TElement, TResult>
+public sealed class DelegateProcedure<TElement, TResult> : IOperation<TElement, TResult>
 {
-    public DelegateOperation(Func<TElement, TResult> function)
+    public DelegateProcedure(Func<TElement, TResult> function)
     {
         m_function = function;
     }
@@ -177,12 +177,12 @@ public sealed class DelegateOperation<TElement, TResult> : IOperation<TElement, 
         return Task<TResult>.Run(() => m_function(arg));
     }
 
-    Task IOperation<TElement>.Execute(TElement arg)
+    Task IProcedure<TElement>.Execute(TElement arg)
     {
         return Execute(arg);
     }
 
-    Task IOperation.Execute(object arg)
+    Task IProcedure.Execute(object arg)
     {
         if (arg is TElement element)
         {
@@ -195,14 +195,14 @@ public sealed class DelegateOperation<TElement, TResult> : IOperation<TElement, 
     }
 }
 
-public sealed class CompoundOperation<TElement> : IOperation<TElement>
+public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 {
-    public CompoundOperation(IEnumerable<IOperation<TElement>> operations)
+    public CompoundProcedure(IEnumerable<IProcedure<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<IOperation<TElement>> Operations { get; }
+    public IEnumerable<IProcedure<TElement>> Operations { get; }
 
     public async Task Execute(TElement arg)
     {
@@ -212,7 +212,7 @@ public sealed class CompoundOperation<TElement> : IOperation<TElement>
         }
     }
 
-    Task IOperation.Execute(object arg)
+    Task IProcedure.Execute(object arg)
     {
         if (arg is TElement element)
         {
@@ -231,33 +231,33 @@ public sealed class CompoundOperation<TElement> : IOperation<TElement>
 ```cs
 public static partial class Extensions
 {
-    extension<TOperand, TElement>(IOperational<TOperand, TElement> operational)
+    extension<TOperand, TElement>(IProcedural<TOperand, TElement> operational)
     {
-        public IOperation<TOperand> CreateOperation(Action<TElement> action)
+        public IProcedure<TOperand> CreateOperation(Action<TElement> action)
         {
-            if (operational is ICustomCreateOperation<TOperand, TElement> custom)
+            if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
             {
-                return custom.CreateOperation(action);
+                return custom.CreateProcedure(action);
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateOperation<TOperand>((TOperand o) => action((TElement)(object)o!));
+                return new DelegateProcedure<TOperand>((TOperand o) => action((TElement)(object)o!));
             }
             else
-            { 
+            {
                 throw new InvalidOperationException();
             }
         }
 
         public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function)
         {
-            if(operational is ICustomCreateOperation<TOperand, TElement> custom)
+            if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
             {
-                return custom.CreateOperation<TResult>(function);
+                return custom.CreateProcedure<TResult>(function);
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateOperation<TOperand, TResult>((TOperand o) => function((TElement)(object)o!));
+                return new DelegateProcedure<TOperand, TResult>((TOperand o) => function((TElement)(object)o!));
             }
             else
             {
@@ -265,7 +265,7 @@ public static partial class Extensions
             }
         }
 
-        public IOperational<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
+        public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
             if (operational is IHasMapping<TOperand, TElement> hasMap)
             {
@@ -284,9 +284,9 @@ public static partial class Extensions
     }
 }
 
-class Mapping<TOperand, TResult> : 
-    IOperational<TOperand, TResult>,
-    ICustomCreateOperation<TOperand, TResult>,
+class Mapping<TOperand, TResult> :
+    IProcedural<TOperand, TResult>,
+    ICustomCreateProcedure<TOperand, TResult>,
     IHasMapping<TOperand, TResult>
 {
     public Mapping(Func<TOperand, TResult> map)
@@ -304,14 +304,14 @@ class Mapping<TOperand, TResult> :
         }
     }
 
-    public IOperation<TOperand> CreateOperation(Action<TResult> action)
+    public IProcedure<TOperand> CreateProcedure(Action<TResult> action)
     {
-        return new DelegateOperation<TOperand>((TOperand o) => action(m_map(o)));
+        return new DelegateProcedure<TOperand>((TOperand o) => action(m_map(o)));
     }
 
-    public IOperation<TOperand, TOutput> CreateOperation<TOutput>(Func<TResult, TOutput> function)
+    public IOperation<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
     {
-        return new DelegateOperation<TOperand, TOutput>((TOperand o) => function(m_map(o)));
+        return new DelegateProcedure<TOperand, TOutput>((TOperand o) => function(m_map(o)));
     }
 }
 ```
@@ -392,24 +392,24 @@ public interface IHasBuffers
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
-With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `Operation` instances as occurring concurrently:
+With respect to concurrency regarding operations affecting differencing, one could add the following to express a set of `IProcedure<>` instances as occurring concurrently:
 
 ```cs
-public sealed class ConcurrentOperation<TElement> : IOperation<TElement>
+public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
 {
-    public ConcurrentOperation(IEnumerable<IOperation<TElement>> operations)
+    public ConcurrentProcedure(IEnumerable<IProcedure<TElement>> operations)
     {
         Operations = operations;
     }
 
-    public IEnumerable<IOperation<TElement>> Operations { get; }
+    public IEnumerable<IProcedure<TElement>> Operations { get; }
 
     public Task Execute(TElement arg)
     {
         return Task.WhenAll(Operations.Select(o => o.Execute(arg)));
     }
 
-    Task IOperation.Execute(object arg)
+    Task IProcedure.Execute(object arg)
     {
         if (arg is TElement element)
         {
@@ -445,7 +445,7 @@ In theory, semantic interpretation states could, using an overlay-manager compon
 
 ## Cognitive Workflow and Timelines
 
-The `IDifferenceable<>` and `Operation` pattern, sketched above, could be expanded into a fuller _cognitive workflow_ system for describing and visualizing modeled and simulated processes of cognition occurring as a result of the processing of inputs and sequences of inputs.
+The `IDifferenceable<>` and `IProcedure<>` pattern, sketched above, could be expanded into a fuller _cognitive workflow_ system for describing and visualizing modeled and simulated processes of cognition occurring as a result of the processing of inputs and sequences of inputs.
 
 Alternatively, a _cognitive timeline_ system could be explored to provide multiple concurrent tracks of activities for describing and visualizing modeled and simulated processes.
 
