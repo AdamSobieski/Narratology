@@ -230,33 +230,6 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
         }
     }
 }
-
-public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
-{
-    public ConcurrentProcedure(IEnumerable<IProcedure<TElement>> procedures)
-    {
-        Procedures = procedures;
-    }
-
-    public IEnumerable<IProcedure<TElement>> Procedures { get; }
-
-    public async Task Execute(TElement arg, CancellationToken cancellationToken = default)
-    {
-        await Task.WhenAll(Procedures.Select(p => p.Execute(arg, cancellationToken)));
-    }
-
-    Task IProcedure.Execute(object arg, CancellationToken cancellationToken)
-    {
-        if (arg is TElement element)
-        {
-            return Execute(element, cancellationToken);
-        }
-        else
-        {
-            throw new ArgumentException();
-        }
-    }
-}
 ```
 
 ### Extensions
