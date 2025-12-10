@@ -197,18 +197,18 @@ public sealed class DelegateProcedure<TElement, TResult> : IProcedure<TElement, 
 
 public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 {
-    public CompoundProcedure(IEnumerable<IProcedure<TElement>> operations)
+    public CompoundProcedure(IEnumerable<IProcedure<TElement>> procedures)
     {
-        Operations = operations;
+        Procedures = procedures;
     }
 
-    public IEnumerable<IProcedure<TElement>> Operations { get; }
+    public IEnumerable<IProcedure<TElement>> Procedures { get; }
 
     public async Task Execute(TElement arg)
     {
-        foreach (var operation in Operations)
+        foreach (var procedure in Procedures)
         {
-            await operation.Execute(arg);
+            await procedure.Execute(arg);
         }
     }
 
@@ -231,11 +231,11 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 ```cs
 public static partial class Extensions
 {
-    extension<TOperand, TElement>(IProcedural<TOperand, TElement> operational)
+    extension<TOperand, TElement>(IProcedural<TOperand, TElement> procedural)
     {
         public IProcedure<TOperand> CreateProcedure(Action<TElement> action)
         {
-            if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
+            if (procedural is ICustomCreateProcedure<TOperand, TElement> custom)
             {
                 return custom.CreateProcedure(action);
             }
@@ -251,7 +251,7 @@ public static partial class Extensions
 
         public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function)
         {
-            if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
+            if (procedural is ICustomCreateProcedure<TOperand, TElement> custom)
             {
                 return custom.CreateProcedure<TResult>(function);
             }
@@ -267,7 +267,7 @@ public static partial class Extensions
 
         public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if (operational is IHasMapping<TOperand, TElement> hasMap)
+            if (procedural is IHasMapping<TOperand, TElement> hasMap)
             {
                 var operationalMap = hasMap.Map;
                 return new Mapping<TOperand, TResult>((TOperand o) => map(operationalMap(o)));
@@ -397,16 +397,16 @@ With respect to concurrency regarding operations affecting differencing, one cou
 ```cs
 public sealed class ConcurrentProcedure<TElement> : IProcedure<TElement>
 {
-    public ConcurrentProcedure(IEnumerable<IProcedure<TElement>> operations)
+    public ConcurrentProcedure(IEnumerable<IProcedure<TElement>> procedures)
     {
-        Operations = operations;
+        Procedures = procedures;
     }
 
-    public IEnumerable<IProcedure<TElement>> Operations { get; }
+    public IEnumerable<IProcedure<TElement>> Procedures { get; }
 
     public Task Execute(TElement arg)
     {
-        return Task.WhenAll(Operations.Select(o => o.Execute(arg)));
+        return Task.WhenAll(Procedures.Select(o => o.Execute(arg)));
     }
 
     Task IProcedure.Execute(object arg)
