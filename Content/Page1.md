@@ -113,8 +113,8 @@ public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
 public interface ICustomCreateProcedure<in TOperand, out TElement>
 {
     public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
-    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
     public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
     public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
 }
 
