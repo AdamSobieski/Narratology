@@ -417,7 +417,8 @@ class Mapping<TOperand, TResult> :
 
     public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, CancellationToken, TOutput> function)
     {
-        return new CancellableDelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) => function(m_map(o), c));
+        return new CancellableDelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
+            function(m_map(o), c));
     }
 }
 
