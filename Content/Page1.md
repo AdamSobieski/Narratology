@@ -113,7 +113,7 @@ public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
 public interface ICustomCreateProcedure<in TOperand, out TElement>
 {
     public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
-    public IOperation<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
 }
 
 public interface IHasMapping<in TOperand, out TElement>
@@ -131,7 +131,7 @@ public interface IProcedure<in TElement> : IProcedure
     public Task Execute(TElement arg);
 }
 
-public interface IOperation<in TElement, TResult> : IProcedure<TElement>
+public interface IProcedure<in TElement, TResult> : IProcedure<TElement>
 {
     public new Task<TResult> Execute(TElement arg);
 }
@@ -163,7 +163,7 @@ public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
     }
 }
 
-public sealed class DelegateProcedure<TElement, TResult> : IOperation<TElement, TResult>
+public sealed class DelegateProcedure<TElement, TResult> : IProcedure<TElement, TResult>
 {
     public DelegateProcedure(Func<TElement, TResult> function)
     {
@@ -233,7 +233,7 @@ public static partial class Extensions
 {
     extension<TOperand, TElement>(IProcedural<TOperand, TElement> operational)
     {
-        public IProcedure<TOperand> CreateOperation(Action<TElement> action)
+        public IProcedure<TOperand> CreateProcedure(Action<TElement> action)
         {
             if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
             {
@@ -249,7 +249,7 @@ public static partial class Extensions
             }
         }
 
-        public IOperation<TOperand, TResult> CreateOperation<TResult>(Func<TElement, TResult> function)
+        public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function)
         {
             if (operational is ICustomCreateProcedure<TOperand, TElement> custom)
             {
@@ -309,7 +309,7 @@ class Mapping<TOperand, TResult> :
         return new DelegateProcedure<TOperand>((TOperand o) => action(m_map(o)));
     }
 
-    public IOperation<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
+    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
     {
         return new DelegateProcedure<TOperand, TOutput>((TOperand o) => function(m_map(o)));
     }
