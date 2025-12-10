@@ -328,16 +328,15 @@ public interface IHasSemanticModel<out TModel>
 ### Metadata
 
 ```cs
-public interface IMetadata<in TQuestion, out TResponse>
+public interface IAskable<in TQuestion, out TResponse>
 {
     public TResponse Ask(TQuestion question);
 }
 
-public interface IHasMetadata<out TId, in TQuestion, out TResponse>
+public interface IHasMetadata<out TId, out TMetadata>
 {
     public TId Id { get; }
-
-    IMetadata<TQuestion, TResponse> About { get; }
+    public TMetadata About { get; }
 }
 ```
 
