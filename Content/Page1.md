@@ -61,7 +61,7 @@ public class ReaderState :
 
     public async IAsyncEnumerable<ReaderState> Interpret(StoryChunk input, CancellationToken token = default) { ... }
 
-    public async Task<IProcedure<ReaderState>> DifferenceFrom(ReaderState other, CancellationToken token = default) { ... }
+    public IProcedure<ReaderState> DifferenceFrom(ReaderState other) { ... }
 
     public float GetAttention(SparqlQuery item) { ... }
 
@@ -96,10 +96,10 @@ public interface IInterpreter<TSelf, in TInput>
 ## Differencing
 
 ```cs
-public interface IDifferenceable<TSelf>
+public interface IDifferenceable<in TSelf>
     where TSelf : IDifferenceable<TSelf>
 {
-    public Task<IProcedure<TSelf>> DifferenceFrom(TSelf other, CancellationToken cancellationToken = default);
+    public IProcedure<TSelf> DifferenceFrom(TSelf other);
 }
 ```
 
