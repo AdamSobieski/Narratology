@@ -210,9 +210,9 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
     {
         foreach (var procedure in Procedures)
         {
-            await procedure.Execute(arg, cancellationToken);
-
             cancellationToken.ThrowIfCancellationRequested();
+
+            await procedure.Execute(arg, cancellationToken);
         }
     }
 
