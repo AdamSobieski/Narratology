@@ -396,15 +396,15 @@ class Mapping<TOperand, TResult> :
         return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c)));
     }
 
-    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
-    {
-        return new DelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
-        function(m_map(o, c)));
-    }
-
     public IProcedure<TOperand> CreateProcedure(Action<TResult, CancellationToken> action)
     {
         return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c), c));
+    }
+
+    public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
+    {
+        return new DelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
+            function(m_map(o, c)));
     }
 
     public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, CancellationToken, TOutput> function)
