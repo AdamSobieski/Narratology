@@ -37,7 +37,7 @@ public class ReaderState :
     IHasAttention<SparqlPrediction>,
     IHasConfidence<SparqlPrediction>,
     ICommunicator<ReaderState, SparqlQuery, SparqlResultSet>,
-    IOperational<ReaderState>
+    IProcedural<ReaderState>
 {
     public IInMemoryQueryableStore Model
     {
