@@ -472,7 +472,7 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 
 ## Communication and Question-answering
 
-While `ISemanticState<,>` provides a `Model` property which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
+While `IHasSemanticModel<,>` provides a model which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
 
 ```cs
 public interface ICommunicator<TSelf, in TInput, TOutput>
