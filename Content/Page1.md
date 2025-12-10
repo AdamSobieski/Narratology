@@ -529,14 +529,13 @@ A system could have multiple incremental interpreters and comprehenders, one per
 ### Overlayability
 
 ```cs
-public interface IOverlayable<out TSelf>
-    where TSelf : IOverlayable<TSelf>
+public interface IOverlayable<out TOverlay>
 {
-    public TSelf CreateOverlay();
+    public TOverlay CreateOverlay();
 }
 ```
 
-### Collection Overlays
+### Collections
 
 Collections, e.g., of type `ICollection<>` and `IDictionary<,>`, could be developed to support an overlay pattern where overlaid collections would reference parent collections, noting additions and removals, to implement collection interfaces without having to copy all of the elements of their parent collections.
 
