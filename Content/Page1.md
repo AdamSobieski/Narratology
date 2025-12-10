@@ -325,9 +325,9 @@ public interface IHasSemanticModel<TSelf, out TModel>
     public TModel Model { get; }
 }
 
-public interface IAskable<in TQuestion, out TResponse>
+public interface IAskable<in TQuestion, TResponse>
 {
-    public TResponse Ask(TQuestion question);
+    public Task<TResponse> Ask(TQuestion question);
 }
 ```
 
