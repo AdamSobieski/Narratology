@@ -106,23 +106,6 @@ public interface IDifferenceable<in TSelf>
 ### Procedures
 
 ```cs
-public interface IProcedural<in TOperand, out TElement> { }
-
-public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
-
-public interface ICustomCreateProcedure<in TOperand, out TElement>
-{
-    public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
-    public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
-    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
-    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
-}
-
-public interface IHasCancellableMapping<in TOperand, out TElement>
-{
-    public Func<TOperand, CancellationToken, TElement> Map { get; }
-}
-
 public interface IProcedure
 {
     public Task Execute(object arg, CancellationToken cancellationToken = default);
@@ -136,6 +119,23 @@ public interface IProcedure<in TElement> : IProcedure
 public interface IProcedure<in TElement, TResult> : IProcedure<TElement>
 {
     public new Task<TResult> Execute(TElement arg, CancellationToken cancellationToken = default);
+}
+
+public interface ICustomCreateProcedure<in TOperand, out TElement>
+{
+    public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
+    public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
+}
+
+public interface IProcedural<in TOperand, out TElement> { }
+
+public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
+
+public interface IHasCancellableMapping<in TOperand, out TElement>
+{
+    public Func<TOperand, CancellationToken, TElement> Map { get; }
 }
 
 public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
