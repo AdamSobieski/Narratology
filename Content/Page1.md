@@ -390,7 +390,7 @@ class Mapping<TOperand, TResult> :
 }
 ```
 
-## Semantic Modeling
+## Semantics
 
 ```cs
 public interface IHasSemanticModel<TSelf, out TModel>
