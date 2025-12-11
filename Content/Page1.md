@@ -404,12 +404,12 @@ public interface IAskable<in TQuestion>
     public Task<bool> Ask(TQuestion question, CancellationToken cancellationToken = default);
 }
 
-public interface ISelectable<in TQuestion, TResponse>
+public interface ISelectable<in TQuestion, out TResponse>
 {
     public IAsyncEnumerable<TResponse> Select(TQuestion question, CancellationToken cancellationToken = default);
 }
 
-public interface IConstructable<in TQuestion, TResponse>
+public interface IConstructable<in TQuestion, out TResponse>
 {
     public IAsyncEnumerable<TResponse> Construct(TQuestion question, CancellationToken cancellationToken = default);
 }
