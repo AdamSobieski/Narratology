@@ -508,7 +508,7 @@ public interface IHasBuffers
 }
 ```
 
-## Concurrency, Threads, and Multitasking
+## Concurrency
 
 Approaches to incremental interpretation and comprehension can tackle concurrency, threads, and multitasking in a number of ways.
 
