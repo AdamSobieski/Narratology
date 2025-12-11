@@ -43,7 +43,7 @@ public class ReaderState :
         IAskable<SparqlQuery>,
         ISelectable<SparqlQuery, SparqlResult>,
         IConstructable<SparqlQuery, IGraph>,
-        ITellable<Triple>,
+        ITellable<Quad>,
         IUpdateable<SparqlUpdateCommand>,
         IUpdateable<SparqlUpdateCommandSet>
     {
