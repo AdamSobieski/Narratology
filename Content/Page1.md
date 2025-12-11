@@ -42,7 +42,10 @@ public class ReaderState :
     public class SituationModel :
         IAskable<SparqlQuery>,
         ISelectable<SparqlQuery, SparqlResult>,
-        IConstructable<SparqlQuery, IGraph>
+        IConstructable<SparqlQuery, IGraph>,
+        ITellable<Triple>,
+        IUpdateable<SparqlUpdateCommand>,
+        IUpdateable<SparqlUpdateCommandSet>
     {
         ...
     }
