@@ -403,20 +403,31 @@ public interface IAskable<in TQuestion, TResponse>
 {
     public Task<TResponse> Ask(TQuestion question, CancellationToken cancellationToken = default);
 }
+
+public interface ITellable<in TStatement>
+{
+    public void Assert(TStatement statement);
+    public void Retract(TStatement statement);
+}
+
+public interface IUpdateable<in TUpdate>
+{
+    public void Update(TUpdate update);
+}
 ```
 
 ### Metadata
 
 ```cs
-public interface IHasMetadata<TSelf, out TMetadata>
-    where TSelf : IHasMetadata<TSelf, TMetadata>
-{
-    public TMetadata About { get; }
-}
-
 public interface IHasIdentifier<out TId>
 {
     public TId Id { get; }
+}
+
+public interface IHasAbout<TSelf, out TAbout>
+where TSelf : IHasAbout<TSelf, TAbout>
+{
+    public TAbout About { get; }
 }
 ```
 
