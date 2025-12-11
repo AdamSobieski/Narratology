@@ -431,6 +431,20 @@ where TSelf : IHasAbout<TSelf, TAbout>
 }
 ```
 
+### Extensiblity
+
+```cs
+public static partial class Extensions
+{
+    extension<TSelf, TAbout>(IHasAbout<TSelf, TAbout> self)
+        where TSelf : IHasAbout<TSelf, TAbout>, IHasIdentifier<INode>
+        where TAbout : IAskable<SparqlQuery, SparqlResultSet>, ITellable<Quad>
+    {
+        ...
+    }
+}
+```
+
 ## Curiosity
 
 ```cs
