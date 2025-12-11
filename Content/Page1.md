@@ -399,9 +399,19 @@ public interface IHasSemanticModel<TSelf, out TModel>
     public TModel Model { get; }
 }
 
-public interface IAskable<in TQuestion, TResponse>
+public interface IAskable<in TQuestion>
 {
-    public Task<TResponse> Ask(TQuestion question, CancellationToken cancellationToken = default);
+    public Task<bool> Ask(TQuestion question, CancellationToken cancellationToken = default);
+}
+
+public interface ISelectable<in TQuestion, TResponse>
+{
+    public IAsyncEnumerable<TResponse> Select(TQuestion question, CancellationToken cancellationToken = default);
+}
+
+public interface IConstructable<in TQuestion, TResponse>
+{
+    public IAsyncEnumerable<TResponse> Construct(TQuestion question, CancellationToken cancellationToken = default);
 }
 
 public interface ITellable<in TStatement>
@@ -425,10 +435,15 @@ public interface IHasIdentifier<out TId>
 }
 
 public interface IHasAbout<TSelf, out TAbout>
-where TSelf : IHasAbout<TSelf, TAbout>
+    where TSelf : IHasAbout<TSelf, TAbout>
 {
     public TAbout About { get; }
 }
+
+public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<TSelf, TAbout>
+    where TSelf : IHasAbout<TSelf, TAbout, TKey, TValue>
+    where TAbout : IReadOnlyMap<TKey, TValue>
+{ }
 ```
 
 ### Extensiblity
@@ -438,7 +453,7 @@ public static partial class Extensions
 {
     extension<TSelf, TAbout>(IHasAbout<TSelf, TAbout> self)
         where TSelf : IHasAbout<TSelf, TAbout>, IHasIdentifier<INode>
-        where TAbout : IAskable<SparqlQuery, SparqlResultSet>, ITellable<Quad>
+        where TAbout : IAskable<SparqlQuery>, ITellable<Triple>
     {
         ...
     }
