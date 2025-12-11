@@ -29,7 +29,7 @@ public class StoryChunk : ITree<StoryChunk>
 public class ReaderState :
     IInterpreter<ReaderState, StoryChunk>,
     IDifferenceable<ReaderState>,
-    IHasSemanticModel<ReaderState, IAskable<SparqlQuery, SparqlResultSet>>,
+    IHasModel<ReaderState, IAskable<SparqlQuery, SparqlResultSet>>,
     IHasQuestions<SparqlQuery>,
     IHasPredictions<SparqlPrediction>,
     IHasBuffers,
@@ -393,8 +393,8 @@ class Mapping<TOperand, TResult> :
 ## Semantics
 
 ```cs
-public interface IHasSemanticModel<TSelf, out TModel>
-    where TSelf : IHasSemanticModel<TSelf, TModel>
+public interface IHasModel<TSelf, out TModel>
+    where TSelf : IHasModel<TSelf, TModel>
 {
     public TModel Model { get; }
 }
