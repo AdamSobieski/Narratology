@@ -39,7 +39,10 @@ public class ReaderState :
     ICommunicator<ReaderState, SparqlQuery, SparqlResultSet>,
     IProcedural<ReaderState>
 {
-    public class SituationModel : IAskable<SparqlQuery>
+    public class SituationModel :
+        IAskable<SparqlQuery>,
+        ISelectable<SparqlQuery, SparqlResult>,
+        IConstructable<SparqlQuery, IGraph>
     {
         ...
     }
