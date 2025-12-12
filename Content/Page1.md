@@ -140,18 +140,14 @@ public interface ICustomCreateProcedure<in TOperand, out TElement>
     public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
 }
 
-public interface IProcedural<in TOperand, out TElement> { }
-
-public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
-
-public interface IHasCancellableMapping<in TOperand, out TElement>
+public interface IHasMapping<in TOperand, out TElement>
 {
     public Func<TOperand, CancellationToken, TElement> Map { get; }
 }
 
-public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
+public sealed class ActionProcedure<TElement> : IProcedure<TElement>
 {
-    public DelegateProcedure(Action<TElement, CancellationToken> action)
+    public ActionProcedure(Action<TElement, CancellationToken> action)
     {
         m_action = action;
     }
@@ -176,9 +172,9 @@ public sealed class DelegateProcedure<TElement> : IProcedure<TElement>
     }
 }
 
-public sealed class DelegateProcedure<TElement, TResult> : IProcedure<TElement, TResult>
+public sealed class FuncProcedure<TElement, TResult> : IProcedure<TElement, TResult>
 {
-    public DelegateProcedure(Func<TElement, CancellationToken, TResult> function)
+    public FuncProcedure(Func<TElement, CancellationToken, TResult> function)
     {
         m_function = function;
     }
@@ -246,6 +242,10 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 ### Extensions
 
 ```cs
+public interface IProcedural<in TOperand, out TElement> { }
+
+public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
+
 public static partial class Extensions
 {
     extension<TOperand, TElement>(IProcedural<TOperand, TElement> procedural)
@@ -258,7 +258,7 @@ public static partial class Extensions
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) =>
+                return new ActionProcedure<TOperand>((TOperand o, CancellationToken c) =>
                     action((TElement)(object)o!));
             }
             else
@@ -275,7 +275,7 @@ public static partial class Extensions
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateProcedure<TOperand, TResult>((TOperand o, CancellationToken c) =>
+                return new FuncProcedure<TOperand, TResult>((TOperand o, CancellationToken c) =>
                     function((TElement)(object)o!));
             }
             else
@@ -292,7 +292,7 @@ public static partial class Extensions
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) =>
+                return new ActionProcedure<TOperand>((TOperand o, CancellationToken c) =>
                     action((TElement)(object)o!, c));
             }
             else
@@ -309,7 +309,7 @@ public static partial class Extensions
             }
             else if (typeof(TElement).IsAssignableFrom(typeof(TOperand)))
             {
-                return new DelegateProcedure<TOperand, TResult>((TOperand o, CancellationToken c) =>
+                return new FuncProcedure<TOperand, TResult>((TOperand o, CancellationToken c) =>
                     function((TElement)(object)o!, c));
             }
             else
@@ -320,7 +320,7 @@ public static partial class Extensions
 
         public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, TResult> map)
         {
-            if(procedural is IHasCancellableMapping<TOperand, TElement> hasMap)
+            if(procedural is IHasMapping<TOperand, TElement> hasMap)
             {
                 var pmap = hasMap.Map;
                 return new Mapping<TOperand, TResult>((TOperand o, CancellationToken c) => map(pmap(o, c)));
@@ -338,7 +338,7 @@ public static partial class Extensions
 
         public IProcedural<TOperand, TResult> Map<TResult>(Func<TElement, CancellationToken, TResult> map)
         {
-            if (procedural is IHasCancellableMapping<TOperand, TElement> hasMap)
+            if (procedural is IHasMapping<TOperand, TElement> hasMap)
             {
                 var pmap = hasMap.Map;
                 return new Mapping<TOperand, TResult>((TOperand o, CancellationToken c) =>
@@ -360,7 +360,7 @@ public static partial class Extensions
 class Mapping<TOperand, TResult> :
     IProcedural<TOperand, TResult>,
     ICustomCreateProcedure<TOperand, TResult>,
-    IHasCancellableMapping<TOperand, TResult>
+    IHasMapping<TOperand, TResult>
 {
     public Mapping(Func<TOperand, CancellationToken, TResult> map)
     {
@@ -379,23 +379,23 @@ class Mapping<TOperand, TResult> :
 
     public IProcedure<TOperand> CreateProcedure(Action<TResult> action)
     {
-        return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c)));
+        return new ActionProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c)));
     }
 
     public IProcedure<TOperand> CreateProcedure(Action<TResult, CancellationToken> action)
     {
-        return new DelegateProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c), c));
+        return new ActionProcedure<TOperand>((TOperand o, CancellationToken c) => action(m_map(o, c), c));
     }
 
     public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, TOutput> function)
     {
-        return new DelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
+        return new FuncProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
             function(m_map(o, c)));
     }
 
     public IProcedure<TOperand, TOutput> CreateProcedure<TOutput>(Func<TResult, CancellationToken, TOutput> function)
     {
-        return new DelegateProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
+        return new FuncProcedure<TOperand, TOutput>((TOperand o, CancellationToken c) =>
             function(m_map(o, c), c));
     }
 }
