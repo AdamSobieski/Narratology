@@ -28,7 +28,7 @@ public class StoryChunk : ITree<StoryChunk>
 
 public class ReaderState :
     IInterpreter<ReaderState, StoryChunk>,
-    IDifferenceable<ReaderState>,
+    IProcedureDifferenceable<ReaderState>,
     IHasModel<ReaderState, ReaderState.SituationModel>,
     IHasQuestions<SparqlQuery>,
     IHasPredictions<SparqlPrediction>,
@@ -107,10 +107,16 @@ public interface IInterpreter<TSelf, in TInput>
 ## Differencing
 
 ```cs
-public interface IDifferenceable<in TSelf>
-    where TSelf : IDifferenceable<TSelf>
+public interface IProcedureDifferenceable<in TSelf>
+    where TSelf : IProcedureDifferenceable<TSelf>
 {
     public IProcedure<TSelf> DifferenceFrom(TSelf other);
+}
+
+public interface IEventDifferenceable<in TSelf>
+    where TSelf : IEventDifferenceable<TSelf>
+{
+    public IEnumerable<IEvent> DifferenceFrom(TSelf other);
 }
 ```
 
@@ -226,7 +232,7 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 }
 ```
 
-### Extensions
+### Procedure-related Extensions
 
 ```cs
 public interface IProcedural<in TOperand, out TElement> { }
