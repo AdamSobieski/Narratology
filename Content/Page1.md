@@ -113,10 +113,10 @@ public interface IProcedureDifferenceable<in TSelf>
     public IProcedure<TSelf> DifferenceFrom(TSelf other);
 }
 
-public interface IEventDifferenceable<in TSelf>
-    where TSelf : IEventDifferenceable<TSelf>
+public interface IEventDifferenceable<in TSelf, out TEvent>
+    where TSelf : IEventDifferenceable<TSelf, TEvent>
 {
-    public IEnumerable DifferenceFrom(TSelf other);
+    public IEnumerable<TEvent> DifferenceFrom(TSelf other);
 }
 ```
 
@@ -229,6 +229,20 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
             throw new ArgumentException();
         }
     }
+}
+```
+
+### Events
+
+```cs
+public interface IApply
+{
+    public void Apply(object @event);
+}
+
+public interface IApply<in TEvent> : IApply
+{
+    public void Apply(TEvent @event);
 }
 ```
 
