@@ -457,11 +457,36 @@ public interface IHasAbout<TSelf, out TAbout>
     public TAbout About { get; }
 }
 
-// Here, TAbout might be a dataset, TKey might be a IRefNode?, TValue might be a graph
+// Here, TAbout might be a dataset, TKey might be an IRefNode?, TValue might be a graph
 public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<TSelf, TAbout>
     where TSelf : IHasAbout<TSelf, TAbout, TKey, TValue>
     where TAbout : IReadOnlyMap<TKey, TValue>
 { }
+```
+
+### Extensibility Example
+
+```cs
+public static partial class Extensions
+{
+    extension<TSelf, TAbout, TKey, TValue>(IHasAbout<TSelf, TAbout, TKey, TValue> self)
+        where TSelf : IHasAbout<TSelf, TAbout, TKey, TValue>, IHasIdentifier<INode>
+        where TAbout : IReadOnlyMap<TKey, TValue>
+        where TValue : ITellable<Triple>
+    {
+        public void Assert(INode predicate, INode @object, TKey graphKey)
+        {
+            TSelf thing = (TSelf)self;
+            thing.About[graphKey].Assert(new Triple(thing.Id, predicate, @object));
+        }
+
+        public void Retract(INode predicate, INode @object, TKey graphKey)
+        {
+            TSelf thing = (TSelf)self;
+            thing.About[graphKey].Retract(new Triple(thing.Id, predicate, @object));
+        }
+    }
+}
 ```
 
 ### Related Collections
