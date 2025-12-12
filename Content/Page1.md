@@ -457,25 +457,11 @@ public interface IHasAbout<TSelf, out TAbout>
     public TAbout About { get; }
 }
 
-// Here, TAbout might be a dataset, TKey might be a Uri or IUriNode, TValue might be a graph
+// Here, TAbout might be a dataset, TKey might be a IRefNode?, TValue might be a graph
 public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<TSelf, TAbout>
     where TSelf : IHasAbout<TSelf, TAbout, TKey, TValue>
     where TAbout : IReadOnlyMap<TKey, TValue>
 { }
-```
-
-### Extensiblity
-
-```cs
-public static partial class Extensions
-{
-    extension<TSelf, TAbout>(IHasAbout<TSelf, TAbout> self)
-        where TSelf : IHasAbout<TSelf, TAbout>, IHasIdentifier<INode>
-        where TAbout : IAskable<SparqlQuery>, ITellable<Triple>
-    {
-        ...
-    }
-}
 ```
 
 ### Related Collections
