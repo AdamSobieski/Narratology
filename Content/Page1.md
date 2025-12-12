@@ -244,6 +244,18 @@ public interface IApply<in TEvent> : IApply
 {
     public void Apply(TEvent @event);
 }
+
+public interface ICloneable<out TSelf> : ICloneable
+    where TSelf : ICloneable<TSelf>
+{
+    public new TSelf Clone();
+}
+
+public interface ICloneable<out TSelf, in TEvent> : ICloneable<TSelf>
+    where TSelf : ICloneable<TSelf, TEvent>
+{
+    public TSelf Clone(IEnumerable<TEvent> events);
+}
 ```
 
 ### Procedure-related Extensions
