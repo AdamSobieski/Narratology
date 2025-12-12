@@ -476,6 +476,24 @@ public static partial class Extensions
 }
 ```
 
+### Related Collections
+
+```cs
+public interface IReadOnlyMap<in TKey, TValue>
+{
+    public TValue this[TKey key] { get; }
+
+    public bool ContainsKey(TKey key);
+    public bool TryGetValue(TKey key, [NotNullWhen(true)] out TValue? value);
+}
+
+public interface IReadOnlyDictionary<TKey, TValue> : IReadOnlyMap<TKey, TValue>
+{
+    public IEnumerable<TKey> Keys { get; }
+    public IEnumerable<TValue> Values { get; }
+}
+```
+
 ## Curiosity
 
 ```cs
