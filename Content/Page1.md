@@ -630,7 +630,7 @@ In theory, an overlay-manager component could asynchronously schedule the copyin
 
 ### Semantic Overlays
 
-Semantic models can be described as being collections of statements, triples or quads. Instead of having to copy a semantic model each time that a descendent interpretation state is created, a _semantic overlay_ system could be developed where subsequent nodes could, internally, provide overlays atop their predecessors' datasets while also, for example, implementing the `IInMemoryQueryableStore` interface.
+Semantic models can be described as being collections of statements, triples or quads. Instead of having to copy a semantic model each time that a descendent interpretation state is created, a _semantic overlay_ system could be developed where subsequent nodes could, internally, provide overlays atop their predecessors' datasets.
 
 In theory, semantic interpretation states could, using an overlay-manager component, asynchronously migrate their predecessors' semantic datasets into their overlaid datasets, deferring any needed copying processes until times convenient to systems.
 
@@ -642,7 +642,7 @@ Alternatively, a _cognitive timeline_ system could be explored to provide multip
 
 ## Communication and Question-answering
 
-While `IHasSemanticModel<,>` provides a model which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
+While `IHasModel<,>` provides a model which could be queried or otherwise inspected, an interface can be created for a second variety of presenting prompts or questions to systems, one where state changes are expected of systems when responding.
 
 ```cs
 public interface ICommunicator<TSelf, in TInput, TOutput>
