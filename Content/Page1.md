@@ -666,6 +666,11 @@ public interface IOverlayable<out TOverlay>
 {
     public TOverlay CreateOverlay();
 }
+
+public interface IOverlayable<out TOverlay, in TEvent> : IOverlayable<TOverlay>
+{
+    public TOverlay CreateOverlay(IEnumerable<TEvent> events);
+}
 ```
 
 ### Collections
