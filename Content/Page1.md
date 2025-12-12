@@ -450,12 +450,14 @@ public interface IHasIdentifier<out TId>
     public TId Id { get; }
 }
 
+// Here, TAbout might be a graph
 public interface IHasAbout<TSelf, out TAbout>
     where TSelf : IHasAbout<TSelf, TAbout>
 {
     public TAbout About { get; }
 }
 
+// Here, TAbout might be a dataset, TKey might be a Uri or IUriNode, TValue might be a graph
 public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<TSelf, TAbout>
     where TSelf : IHasAbout<TSelf, TAbout, TKey, TValue>
     where TAbout : IReadOnlyMap<TKey, TValue>
