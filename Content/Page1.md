@@ -496,7 +496,7 @@ public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<T
 { }
 ```
 
-### Contraints
+### Constraints
 
 ```cs
 public interface IConstraint<in TInput>
