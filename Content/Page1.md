@@ -1,6 +1,6 @@
 ## Introduction
 
-Using the framework presented, below, one can implement classes resembling:
+Using the framework presented, below, one could implement classes resembling:
 
 ```cs
 using System.Collections;
