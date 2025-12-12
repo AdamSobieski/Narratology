@@ -496,6 +496,20 @@ public interface IHasAbout<TSelf, out TAbout, in TKey, out TValue> : IHasAbout<T
 { }
 ```
 
+### Contraints
+
+```cs
+public interface IConstraint<in TInput>
+{
+    public bool Validate(TInput input);
+}
+
+public interface IConstraint<in TInput, TResult> : IConstraint<TInput>
+{
+    public bool Validate(TInput input, out TResult result);
+}
+```
+
 ### Extensibility Example
 
 ```cs
