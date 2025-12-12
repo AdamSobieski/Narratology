@@ -504,9 +504,9 @@ public interface IConstraint<in TInput>
     public bool Validate(TInput input);
 }
 
-public interface IConstraint<in TInput, TResult> : IConstraint<TInput>
+public interface IConstraint<in TInput, TReport> : IConstraint<TInput>
 {
-    public bool Validate(TInput input, out TResult result);
+    public bool Validate(TInput input, out TReport report);
 }
 ```
 
