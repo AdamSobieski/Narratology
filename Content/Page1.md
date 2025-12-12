@@ -97,7 +97,7 @@ public class ReaderState :
 ## Incremental Interpretation and Comprehension
 
 ```cs
-public interface IInterpreter<TSelf, in TInput>
+public interface IInterpreter<out TSelf, in TInput>
     where TSelf : IInterpreter<TSelf, TInput>
 {
     public IAsyncEnumerable<TSelf> Interpret(TInput input, CancellationToken cancellationToken = default);
