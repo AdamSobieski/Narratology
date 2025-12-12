@@ -132,19 +132,6 @@ public interface IProcedure<in TElement, TResult> : IProcedure<TElement>
     public new Task<TResult> Execute(TElement arg, CancellationToken cancellationToken = default);
 }
 
-public interface ICustomCreateProcedure<in TOperand, out TElement>
-{
-    public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
-    public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
-    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
-    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
-}
-
-public interface IHasMapping<in TOperand, out TElement>
-{
-    public Func<TOperand, CancellationToken, TElement> Map { get; }
-}
-
 public sealed class ActionProcedure<TElement> : IProcedure<TElement>
 {
     public ActionProcedure(Action<TElement, CancellationToken> action)
@@ -245,6 +232,19 @@ public sealed class CompoundProcedure<TElement> : IProcedure<TElement>
 public interface IProcedural<in TOperand, out TElement> { }
 
 public interface IProcedural<TOperand> : IProcedural<TOperand, TOperand> { }
+
+public interface ICustomCreateProcedure<in TOperand, out TElement>
+{
+    public IProcedure<TOperand> CreateProcedure(Action<TElement> action);
+    public IProcedure<TOperand> CreateProcedure(Action<TElement, CancellationToken> action);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, TResult> function);
+    public IProcedure<TOperand, TResult> CreateProcedure<TResult>(Func<TElement, CancellationToken, TResult> function);
+}
+
+public interface IHasMapping<in TOperand, out TElement>
+{
+    public Func<TOperand, CancellationToken, TElement> Map { get; }
+}
 
 public static partial class Extensions
 {
