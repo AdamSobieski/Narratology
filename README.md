@@ -8,8 +8,8 @@ Presented, [here](Content/Page1.md), is a computational narratology framework co
 
 How does processing and comprehending stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet), their chronologically-sorted sequences of events separable from their various possible narrations and tellings, relate to other techniques for processing sequences of chronologically-sorted streams and sequences of events?
 
-Coming soon.
+_Coming soon._
 
 ### Generative and Agentic Narratology
 
-Coming soon.
+_Coming soon._
