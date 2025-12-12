@@ -116,7 +116,7 @@ public interface IProcedureDifferenceable<in TSelf>
 public interface IEventDifferenceable<in TSelf>
     where TSelf : IEventDifferenceable<TSelf>
 {
-    public IEnumerable<IEvent> DifferenceFrom(TSelf other);
+    public IEnumerable DifferenceFrom(TSelf other);
 }
 ```
 
