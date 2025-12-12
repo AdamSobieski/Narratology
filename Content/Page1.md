@@ -410,6 +410,11 @@ public interface IHasModel<TSelf, out TModel>
     public TModel Model { get; }
 }
 
+public interface IHasModel<TSelf, out TAbout, in TKey, out TValue> : IHasModel<TSelf, TAbout>
+    where TSelf : IHasModel<TSelf, TAbout, TKey, TValue>
+    where TAbout : IReadOnlyMap<TKey, TValue>
+{ }
+
 public interface IAskable<in TQuestion>
 {
     public Task<bool> Ask(TQuestion question, CancellationToken cancellationToken = default);
