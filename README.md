@@ -6,7 +6,7 @@ Presented, [here](Content/Page1.md), is a computational narratology framework co
 
 ### Complex Event Processing
 
-How does the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet), their chronologically-sorted sequences of events separable from their various possible narrations and tellings, relate to other techniques for the processing of chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
+How does the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet), their chronologically-sorted sequences of events separable from their various possible narrations and tellings, relate to other techniques for processing chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
 
 _Coming soon._
 
