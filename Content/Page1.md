@@ -687,9 +687,9 @@ In theory, semantic interpretation states could, using an overlay-manager compon
 
 ## Cognitive Workflow and Timelines
 
-The differenceable patterns, sketched above, could be expanded into fuller _cognitive workflow_ systems for describing and visualizing processes of simulated cognition occurring as a result of the processing of inputs and sequences of inputs.
+The object differencing patterns, indicated above, could be expanded upon into fuller _cognitive workflow_ systems for describing and visualizing processes of simulated cognition occurring as a result of the processing of inputs and sequences of inputs.
 
-Alternatively, a _cognitive timeline_ system could be explored to provide multiple concurrent tracks of activities for describing and visualizing modeled and simulated processes.
+Additionally or alternatively, a _cognitive timeline_ system could be explored to provide multiple concurrent tracks of activities for describing and visualizing modeled and simulated processes, including those activities occurring between states.
 
 ## Communication and Question-answering
 
