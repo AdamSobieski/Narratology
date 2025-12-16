@@ -8,6 +8,8 @@ Presented, [here](Content/Page1.md), is a computational narratology framework co
 
 How might the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet) relate to other existing techniques for processing and analyzing various other kinds of chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
 
+In these regards, _Semantic Complex Event Processing_, processing streams of expressive and extensible semantic datasets and graphs, is of interest.
+
 _Coming soon._
 
 ### Generative and Agentic Narratology
