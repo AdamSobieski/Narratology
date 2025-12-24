@@ -8,11 +8,11 @@ In these regards, extensible [knowledge-graph](https://en.wikipedia.org/wiki/Kno
 
 ### Communicating Automata and Concurrency
 
-Whether represented using [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)), the concept of [state](https://en.wikipedia.org/wiki/State_(computer_science)) is fundamental and important to computer science.
+Whether represented using [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)), [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph), or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)), concepts of [state](https://en.wikipedia.org/wiki/State_(computer_science)) are both fundamental and important to computer science.
 
-Considered, here, are coupled, communicating sets of [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine), e.g., [automata](https://en.wikipedia.org/wiki/Automata_theory), and how these techniques can be brought to bear with respect to the challenges of computationally processing and comprehending stories.
+Considered, here, are coupled, communicating sets of stateful systems, e.g., [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine) and [automata](https://en.wikipedia.org/wiki/Automata_theory), and how these techniques can be brought to bear with respect to the challenges of computationally processing and comprehending stories.
 
-Will artificial-intelligence systems processing incrementally-arriving stories represent their state progressions as simple sequences of graphs' nodes or embedding vectors? Could complex systems' individual states, additionally or instead, be considered as being composite, each including multiple graphs' nodes or embedding vectors?
+Will artificial-intelligence systems processing incrementally-arriving stories represent their state progressions as simple sequences of graphs' nodes, knowledge graphs, or embedding vectors? Could complex systems' individual states, additionally or instead, be considered as being composite, each including multiple graphs' nodes, knowledge graphs, or embedding vectors?
 
 ### Artificial Neural Networks
 
