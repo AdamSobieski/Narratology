@@ -14,7 +14,7 @@ In these regards, semantic approaches to representing events and processing stre
 
 Whether represented using [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)), the concept of [state](https://en.wikipedia.org/wiki/State_(computer_science)) is fundamental and important to computer science.
 
-Considered, here, are coupled, communicating sets of [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine), e.g., [automata](https://en.wikipedia.org/wiki/Automata_theory), and how these techniques can be brought to bear to the challenges of computationally processing and comprehending stories.
+Considered, here, are coupled, communicating sets of [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine), e.g., [automata](https://en.wikipedia.org/wiki/Automata_theory), and how these techniques can be brought to bear with respect to the challenges of computationally processing and comprehending stories.
 
 Will artificial-intelligence systems processing incrementally-arriving stories represent their state progressions as simple sequences of graph nodes or embedding vectors? Could complex systems' individual states, additionally or instead, be considered as being composite, each including multiple graph nodes or embedding vectors?
 
