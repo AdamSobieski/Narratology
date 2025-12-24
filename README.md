@@ -12,9 +12,9 @@ In these regards, semantic approaches to complex event processing, processing st
 
 ### Communicating Automata and Concurrency
 
-Whether graph nodes or embedding vectors, the concept of state is fundamental to computer science. Considered, here, are coupled, communicating sets of state-machines, e.g., finite-state automata, and how these might pertain to approaches to computational situation models and story comprehension.
+Whether graph nodes or embedding vectors, the concept of state is fundamental throughout computer science. Considered, here, are coupled, communicating sets of state-machines, e.g., finite-state automata, and how these approaches might pertain to computationally modeling situation models and story comprehension.
 
-Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or of embedding vectors? Instead, can systems' states be considered as being composite, containing multiple such nodes or vectors?
+Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or embedding vectors? Can complex systems' states be considered as being composite, including multiple such nodes or vectors?
 
 ### Generative and Agentic Narratology
 
