@@ -12,9 +12,9 @@ In these regards, semantic approaches to complex event processing, processing st
 
 ### Communicating Automata and Concurrency
 
-Whether graph nodes or embedding vectors, the concept of [state](https://en.wikipedia.org/wiki/State_(computer_science)) is a fundamental one throughout computer science. Considered, here, are coupled, communicating sets of [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine), e.g., [automata](https://en.wikipedia.org/wiki/Automata_theory), and how such approaches might pertain to the computational processing and comprehension of stories.
+Whether [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)), the concept of [state](https://en.wikipedia.org/wiki/State_(computer_science)) is a fundamental one throughout computer science. Considered, here, are coupled, communicating sets of [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine), e.g., [automata](https://en.wikipedia.org/wiki/Automata_theory), and how such approaches might pertain to the computational processing and comprehension of stories.
 
-Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or sequences of [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning))? Can complex systems' states, additionally or instead, be considered as being composite, including multiple such nodes or vectors?
+Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or sequences of embedding vectors? Can complex systems' states, additionally or instead, be considered as being composite, including multiple such nodes or vectors?
 
 ### Artificial Neural Networks
 
