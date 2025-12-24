@@ -8,7 +8,7 @@ Presented, [here](Content/Page1.md), is a framework supporting: [incremental int
 
 How might the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet) relate to other existing techniques for processing and analyzing various other kinds of chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
 
-In these regards, semantic approaches to complex event processing, processing streams of expressive and extensible semantic graphs or datasets, are of interest.
+In these regards, semantic approaches to representing events and processing streams of such events are of interest.
 
 ### Communicating Automata and Concurrency
 
