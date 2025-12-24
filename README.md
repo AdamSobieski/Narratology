@@ -10,7 +10,11 @@ How might the processing and comprehension of stories' [fabulae](https://en.wiki
 
 In these regards, semantic approaches to complex event processing, processing streams of expressive and extensible semantic graphs or datasets, are of interest.
 
-_Coming soon._
+### Communicating Automata and Concurrency
+
+Whether graph nodes or embedding vectors, the concept of state is fundamental to computer science. Considered, here, are coupled, communicating sets of state-machines, e.g., finite-state automata, and how these might pertain to approaches to computational situation models and story comprehension.
+
+Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or of embedding vectors? Instead, can systems' states be considered as being composite, containing multiple such nodes or vectors?
 
 ### Generative and Agentic Narratology
 
