@@ -2,7 +2,7 @@
 
 ### Introduction
 
-Presented, [here](Content/Page1.md), is a computational narratology framework covering: [incremental interpretation and comprehension](Content/Page1.md#incremental-interpretation-and-comprehension), [differencing](Content/Page1.md#differencing), [semantics](Content/Page1.md#semantics), [curiosity](Content/Page1.md#curiosity), [prediction](Content/Page1.md#prediction), [confidence](Content/Page1.md#confidence), [attention](Content/Page1.md#attention), [working memory and buffers](Content/Page1.md#working-memory-and-buffers), [concurrency](Content/Page1.md#concurrency), [overlays](Content/Page1.md#overlays), [cognitive workflow and timelines](Content/Page1.md#cognitive-workflow-and-timelines), and [communication and question-answering](Content/Page1.md#communication-and-question-answering).
+Presented, [here](Content/Page1.md), is a framework supporting: [incremental interpretation and comprehension](Content/Page1.md#incremental-interpretation-and-comprehension), [differencing](Content/Page1.md#differencing), [semantics](Content/Page1.md#semantics), [curiosity](Content/Page1.md#curiosity), [prediction](Content/Page1.md#prediction), [confidence](Content/Page1.md#confidence), [attention](Content/Page1.md#attention), [working memory and buffers](Content/Page1.md#working-memory-and-buffers), [concurrency](Content/Page1.md#concurrency), [overlays](Content/Page1.md#overlays), [cognitive workflow and timelines](Content/Page1.md#cognitive-workflow-and-timelines), and [communication and question-answering](Content/Page1.md#communication-and-question-answering).
 
 ### Complex Event Processing
 
@@ -12,9 +12,13 @@ In these regards, semantic approaches to complex event processing, processing st
 
 ### Communicating Automata and Concurrency
 
-Whether graph nodes or embedding vectors, the concept of state is fundamental throughout computer science. Considered, here, are coupled, communicating sets of state-machines, e.g., finite-state automata, and how these approaches might pertain to computationally modeling situation models and story comprehension.
+Whether graph nodes or embedding vectors, the concept of state is a fundamental one throughout computer science. Considered, here, are coupled, communicating sets of state-machines, e.g., finite-state automata, and how such approaches might pertain to the computational modeling of situation models and story comprehension.
 
-Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or embedding vectors? Can complex systems' states be considered as being composite, including multiple such nodes or vectors?
+Will artificial-intelligence systems map incrementally-arriving stories to sequences of graph nodes or embedding vectors? Can complex systems' states, additionally or instead, be considered as being composite, including multiple such nodes or vectors?
+
+### Artificial Neural Networks
+
+_Coming soon._
 
 ### Generative and Agentic Narratology
 
