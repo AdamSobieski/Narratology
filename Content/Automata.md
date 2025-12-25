@@ -14,17 +14,7 @@ public interface IAutomaton
     public IEnumerable Start { get; }
 }
 
-public interface ITransducer : IAutomaton
-{
-    public Type OutputType { get; }
-}
-
 public interface IAutomaton<in TInput> : IAutomaton
-{
-
-}
-
-public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer
 {
 
 }
@@ -34,6 +24,19 @@ public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInpu
     where TEdge : IHasTarget<TState>
 {
     public new IEnumerable<TState> Start { get; }
+}
+```
+
+Here are some sketches of interfaces for transducers.
+```cs
+public interface ITransducer : IAutomaton
+{
+    public Type OutputType { get; }
+}
+
+public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer
+{
+
 }
 
 public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
