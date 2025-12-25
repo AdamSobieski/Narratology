@@ -22,11 +22,11 @@ public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> : IAu
 
 As considered, extension methods would provide functionalities for determining whether an automaton accepts an enumerable of type `TInput`, transducing from such an input sequence to an output sequence of type `TOutput`, and so forth.
 
-Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` type; this type constraint is checked for and utilized by many of the provided extension methods.
+Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` type; this type constraint is checked for and utilized by many of the provided extension methods. Transducers, similarly, would implement `IProducer<TInput, TOutput>` on their `TEdge` type.
 
-Automata instances could also implement interfaces to provide their own customized functionalities for extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`, in these regards. These interfaces would be checked for on instances in provided extension methods.
+Automata instances can also implement interfaces to provide their own customized implementations for those functionalities otherwise provided by extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for upon instances in provided extension methods.
 
-A vision is that an `IAutomatonBuilder` interface or an `AutomatonBuilder` (static) class would enable developers to simply and programmatically build automata. Automata builders could configurably optimize described automata and/or utilize runtime code generation and compiling-related features to maximize performance.
+A vision is that an `IAutomatonBuilder` interface or an `AutomatonBuilder` (static) class would enable developers to simply and programmatically build various kinds of automata. Automata builders could configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
 
 ### Tree Automata
 
