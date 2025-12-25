@@ -75,6 +75,8 @@ A vision is that `IAutomatonBuilder` interfaces or `AutomatonBuilder` (static) c
 
 This vision entails that multiple levels of genericity be provided, as shown above. Automata loaders and builders, then, might return automata instances cast to `IAutomata<TInput>` or `ITransducer<TInput, TOutput>`, encapsulating over types for states and edges.
 
+Upcoming, I will explore adding a method, e.g., `GetTraverser()`, to acceptors and transducers which will return objects implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and some other interfaces from the `System.Reactive` project.
+
 ### Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree automata.
