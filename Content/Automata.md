@@ -5,14 +5,29 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton<out TState, out TEdge, in TInput>
+public interface IAutomaton<in TInput>
+{
+    public Type InputType { get; }
+    public Type StateType { get; }
+    public Type EdgeType { get; }
+
+    public IEnumerable Start { get; }
+}
+
+public interface IAutomaton<in TInput, out TOutput> : IAutomaton<TInput>
+{
+    public Type OutputType { get; }
+}
+
+public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
-    IEnumerable<TState> Start { get; }
+    public new IEnumerable<TState> Start { get; }
 }
 
-public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> : IAutomaton<TState, TEdge, TInput>
+public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> :
+    IAutomaton<TState, TEdge, TInput>, IAutomaton<TInput, TOutput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
