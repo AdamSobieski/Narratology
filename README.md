@@ -8,7 +8,7 @@ In these regards, extensible [knowledge-graph](https://en.wikipedia.org/wiki/Kno
 
 ### Complex Stateful Systems
 
-Representing systems' [states](https://en.wikipedia.org/wiki/State_(computer_science)) is of fundamental importance to computer science. Contemporary possibilities, in these regards, include uses of [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)), [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph), or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
+Representing systems' [states](https://en.wikipedia.org/wiki/State_(computer_science)) is of fundamental importance to computer science. Contemporary possibilities, in these regards, include uses of [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)), [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph), and [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
 
 Considered, here, are sets of communicating stateful systems, e.g., [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine) and [automata](https://en.wikipedia.org/wiki/Automata_theory), and how these techniques, involving concurrency, can be brought to bear to address the challenges of computationally processing and comprehending stories.
 
