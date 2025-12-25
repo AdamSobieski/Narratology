@@ -69,11 +69,11 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 }
 ```
 
-Automata instances can also implement interfaces to provide their own customized implementations for those functionalities otherwise provided by extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for upon instances in provided extension methods.
+As considered, functionalities for automata, acceptors, and transducers can be supplied via extension methods. Automata instances could also implement interfaces to provide their own customized implementations for various functionalities, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for in provided extension methods.
 
 A vision is that `IAutomatonBuilder` interfaces or `AutomatonBuilder` (static) classes would enable developers to simply and programmatically build various kinds of automata. Automata builders might configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
 
-This vision entails that multiple levels of genericity be provided. Automata loaders and builders, then, might return automata instances cast to `IAutomata<TInput>` or `ITransducer<TInput, TOutput>`, encapsulating over types for states and edges.
+This vision entails that multiple levels of genericity be provided, as shown above. Automata loaders and builders, then, might return automata instances cast to `IAutomata<TInput>` or `ITransducer<TInput, TOutput>`, encapsulating over types for states and edges.
 
 ### Tree Automata
 
