@@ -22,7 +22,7 @@ public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> : IAu
 
 As considered, extension methods would provide functionalities for determining whether an automaton accepts an enumerable of type `TInput`, transducing from such an input sequence to an output sequence of type `TOutput`, and so forth.
 
-Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` type; this type constraint is checked for and utilized by many of the provided extension methods. Transducers, similarly, would implement `IProducer<TInput, TOutput>` on their `TEdge` type.
+Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` type; this type constraint is checked for and utilized by many of the provided extension methods. Transducers would, similarly, additionally implement `IProducer<TInput, TOutput>` on their `TEdge` type.
 
 Automata instances can also implement interfaces to provide their own customized implementations for those functionalities otherwise provided by extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for upon instances in provided extension methods.
 
