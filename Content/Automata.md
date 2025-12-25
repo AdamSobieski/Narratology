@@ -53,6 +53,8 @@ Automata instances can also implement interfaces to provide their own customized
 
 A vision is that `IAutomatonBuilder` interfaces or `AutomatonBuilder` (static) classes would enable developers to simply and programmatically build various kinds of automata. Automata builders might configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
 
+This vision entails that multiple levels of genericity be provided. Automata loaders and builders, then, might return automata instances cast to `IAutomata<TInput>` or `ITransducer<TInput, TOutput>`, encapsulating over types for states and edges.
+
 ### Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree automata.
