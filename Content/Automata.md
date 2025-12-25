@@ -21,6 +21,7 @@ public interface ITransducer : IAutomaton
 
 public interface IAutomaton<in TInput> : IAutomaton
 {
+
 }
 
 public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer
