@@ -103,7 +103,6 @@ public interface ITopDownTreeAutomaton<TRule, TState, TTree> : ITopDownTreeAutom
     where TTree : IHasChildren<TTree>
 {
     public new IReadOnlyDictionary<TState, IEnumerable<TRule>> Rules { get; }
-
     public new IEnumerable<TState> Start { get; }
 }
 
