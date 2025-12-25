@@ -14,6 +14,10 @@ Considered, here, are sets of intercommunicating stateful systems, e.g., [finite
 
 Will artificial-intelligence systems processing incrementally-arriving story events represent their state progressions as simple sequences of graph nodes, knowledge graphs, or embedding vectors? Might, instead, systems' states be composite, each state containing multiple graph nodes, knowledge graphs, or embedding vectors? Regardless of whether systems' states are simple or composite, as systems' states are progressed through as a result of processing incoming story events, how might deltas or [differences](https://en.wikipedia.org/wiki/Data_differencing) between consecutive states be obtained and analyzed?
 
+### Automata Learning and Grammar Induction
+
+_Coming soon._
+
 ### Artificial Neural Networks
 
 #### Recurrent Neural Networks
