@@ -60,12 +60,29 @@ Here are some sketches of interfaces for top-down and bottom-up tree automata.
 #### Top-down
 
 ```cs
-public interface ITopDownTreeAutomaton<TRule, TState, TTree>
+public interface ITopDownTreeAutomaton
+{
+    public Type TreeType { get; }
+    public Type StateType { get; }
+    public Type RuleType { get; }
+
+    public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
+    public IEnumerable Start { get; }
+}
+
+public interface ITopDownTreeAutomaton<TTree> : ITopDownTreeAutomaton
+    where TTree : IHasChildren<TTree>
+{
+
+}
+
+public interface ITopDownTreeAutomaton<TRule, TState, TTree> : ITopDownTreeAutomaton<TTree>
     where TRule : ITopDownTreeAutomatonRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
-    public IReadOnlyDictionary<TState, IEnumerable<TRule>> Rules { get; }
-    public IEnumerable<TState> Start { get; }
+    public new IReadOnlyDictionary<TState, IEnumerable<TRule>> Rules { get; }
+
+    public new IEnumerable<TState> Start { get; }
 }
 
 public interface ITopDownTreeAutomatonRule<out TState, in TTree> : IMatcher<TTree>
@@ -78,12 +95,27 @@ public interface ITopDownTreeAutomatonRule<out TState, in TTree> : IMatcher<TTre
 #### Bottom-up
 
 ```cs
-public interface IBottomUpTreeAutomaton<TRule, TState, TTree>
+public interface IBottomUpTreeAutomaton
+{
+    public Type TreeType { get; }
+    public Type StateType { get; }
+    public Type RuleType { get; }
+
+    public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
+    public Func<object, object> KeySelector { get; }
+}
+
+public interface IBottomUpTreeAutomaton<TTree> : IBottomUpTreeAutomaton
+    where TTree : IHasChildren<TTree>
+{
+    public new Func<TTree, object> KeySelector { get; }
+}
+
+public interface IBottomUpTreeAutomaton<TRule, TState, TTree> : IBottomUpTreeAutomaton<TTree>
     where TRule : IBottomUpTreeAutomatonRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
-    public IReadOnlyDictionary<object, IEnumerable<TRule>> Rules { get; }
-    public Func<TTree, object> KeySelector { get; }
+    public new IReadOnlyDictionary<object, IEnumerable<TRule>> Rules { get; }
 }
 
 public interface IBottomUpTreeAutomatonRule<out TState, in TTree> : IMatcher<TTree>
