@@ -12,7 +12,7 @@ public interface IAutomaton<out TState, out TEdge, in TInput>
     IEnumerable<TState> Start { get; }
 }
 
-public interface IAutomaton<out TState, out TEdge, in TInput, TOutput> : IAutomaton<TState, TEdge, TInput>
+public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> : IAutomaton<TState, TEdge, TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
@@ -22,11 +22,11 @@ public interface IAutomaton<out TState, out TEdge, in TInput, TOutput> : IAutoma
 
 As considered, extension methods would provide functionalities for determining whether an automaton accepts an enumerable of type `TInput`, transducing from such an input sequence to an output sequence of type `TOutput`, and so forth.
 
-Most automata would implement `IMatcher<TInput>` for their `TEdge` type; this is utilized in the type constraints upon many of the provided extension methods.
+Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` type; this type constraint is checked for and utilized by many of the provided extension methods.
 
 Automata instances could also implement interfaces to provide their own customized functionalities for extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`, in these regards. These interfaces would be checked for on instances in provided extension methods.
 
-A vision is that an `IAutomatonBuilder` interface would enable developers to build automata. Automata builders might be able to configurably optimize automata and/or utilize runtime code generation and compiling features for maximizing performance.
+A vision is that an `IAutomatonBuilder` interface or an `AutomataBuilder` (static) class would enable developers to simply and programmatically build automata. Automata builders could configurably optimize described automata and/or utilize runtime code generation and compiling-related features to maximize performance.
 
 ### Tree Automata
 
