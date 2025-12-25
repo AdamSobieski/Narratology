@@ -16,6 +16,8 @@ Will artificial-intelligence systems processing incrementally-arriving story eve
 
 ### Artificial Neural Networks
 
+#### Recurrent Neural Networks
+
 _Coming soon._
 
 ### Generative and Agentic Narratology
