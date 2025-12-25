@@ -26,7 +26,7 @@ Many automata would additionally implement `IMatcher<TInput>` for their `TEdge` 
 
 Automata instances can also implement interfaces to provide their own customized implementations for those functionalities otherwise provided by extension methods, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for upon instances in provided extension methods.
 
-A vision is that an `IAutomatonBuilder` interface or an `AutomatonBuilder` (static) class would enable developers to simply and programmatically build various kinds of automata. Automata builders could configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
+A vision is that `IAutomatonBuilder` interfaces or `AutomatonBuilder` (static) classes would enable developers to simply and programmatically build various kinds of automata. Automata builders might configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
 
 ### Tree Automata
 
