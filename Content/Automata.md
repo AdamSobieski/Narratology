@@ -5,7 +5,7 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton<in TInput>
+public interface IAutomaton
 {
     public Type InputType { get; }
     public Type StateType { get; }
@@ -14,9 +14,18 @@ public interface IAutomaton<in TInput>
     public IEnumerable Start { get; }
 }
 
-public interface IAutomaton<in TInput, out TOutput> : IAutomaton<TInput>
+public interface ITransducer : IAutomaton
 {
     public Type OutputType { get; }
+}
+
+public interface IAutomaton<in TInput> : IAutomaton
+{
+}
+
+public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer
+{
+
 }
 
 public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>
@@ -26,8 +35,8 @@ public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInpu
     public new IEnumerable<TState> Start { get; }
 }
 
-public interface IAutomaton<out TState, out TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, IAutomaton<TInput, TOutput>
+public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
+    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
