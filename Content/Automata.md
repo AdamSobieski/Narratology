@@ -5,10 +5,6 @@ Here are some sketches of interfaces for automata.
 ```cs
 public interface IAutomaton
 {
-    public Type InputType { get; }
-    public Type StateType { get; }
-    public Type EdgeType { get; }
-
     public IEnumerable Start { get; }
 }
 
@@ -50,8 +46,6 @@ Here are some sketches of interfaces for transducers.
 ```cs
 public interface ITransducer : IAutomaton
 {
-    public Type OutputType { get; }
-
     public IEnumerable Transduce(IEnumerable sequence);
 }
 
@@ -88,10 +82,6 @@ Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
 ```cs
 public interface ITopDownTreeAcceptor
 {
-    public Type TreeType { get; }
-    public Type StateType { get; }
-    public Type RuleType { get; }
-
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
     public IEnumerable Start { get; }
 
@@ -124,10 +114,6 @@ public interface ITopDownTreeAcceptorRule<out TState, in TTree> : IMatcher<TTree
 ```cs
 public interface IBottomUpTreeAcceptor
 {
-    public Type TreeType { get; }
-    public Type StateType { get; }
-    public Type RuleType { get; }
-
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
     public Func<object, object> KeySelector { get; }
 
