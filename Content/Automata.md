@@ -71,7 +71,7 @@ An automata builder could be provided which might, additionally, configurably, o
 
 ## Reactive Programming
 
-Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
+Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns objects for traversing their automata, ones implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>`, for interoperability with the `System.Reactive` library.
 
 Additionally, `IAcceptor<TState, TEdge, TInput>` and `ITransducer<TState, TEdge, TInput, TOutput>` could provide secondary traversers implementing interfaces extending something like `ISubject<TInput, (int Step, TState Source, TEdge Edge, TState Target)>`, providing observability with respect to state transitions occurring during traversals. The `int` step counter could be of use for grouping state transitions for non-deterministic implementations.
 
