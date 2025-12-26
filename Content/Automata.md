@@ -94,12 +94,14 @@ public interface ITopDownTreeAcceptor
 
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
     public IEnumerable Start { get; }
+
+    public bool Accepts(object tree);
 }
 
 public interface ITopDownTreeAcceptor<TTree> : ITopDownTreeAcceptor
     where TTree : IHasChildren<TTree>
 {
-
+    public bool Accepts(TTree tree);
 }
 
 public interface ITopDownTreeAcceptor<TRule, TState, TTree> : ITopDownTreeAcceptor<TTree>
@@ -128,12 +130,16 @@ public interface IBottomUpTreeAcceptor
 
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
     public Func<object, object> KeySelector { get; }
+
+    public bool Accepts(object tree);
 }
 
 public interface IBottomUpTreeAcceptor<TTree> : IBottomUpTreeAcceptor
     where TTree : IHasChildren<TTree>
 {
     public new Func<TTree, object> KeySelector { get; }
+
+    public bool Accepts(TTree tree);
 }
 
 
