@@ -81,12 +81,12 @@ Interfaces for acceptors and, in particular, transducers could provide a method,
 
 ## Tree Automata
 
-Here are some sketches of interfaces for top-down and bottom-up tree automata.
+Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
 
 ### Top-down
 
 ```cs
-public interface ITopDownTreeAutomaton
+public interface ITopDownTreeAcceptor
 {
     public Type TreeType { get; }
     public Type StateType { get; }
@@ -96,21 +96,21 @@ public interface ITopDownTreeAutomaton
     public IEnumerable Start { get; }
 }
 
-public interface ITopDownTreeAutomaton<TTree> : ITopDownTreeAutomaton
+public interface ITopDownTreeAcceptor<TTree> : ITopDownTreeAcceptor
     where TTree : IHasChildren<TTree>
 {
 
 }
 
-public interface ITopDownTreeAutomaton<TRule, TState, TTree> : ITopDownTreeAutomaton<TTree>
-    where TRule : ITopDownTreeAutomatonRule<TState, TTree>
+public interface ITopDownTreeAcceptor<TRule, TState, TTree> : ITopDownTreeAcceptor<TTree>
+    where TRule : ITopDownTreeAcceptorRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
     public new IReadOnlyDictionary<TState, IEnumerable<TRule>> Rules { get; }
     public new IEnumerable<TState> Start { get; }
 }
 
-public interface ITopDownTreeAutomatonRule<out TState, in TTree> : IMatcher<TTree>
+public interface ITopDownTreeAcceptorRule<out TState, in TTree> : IMatcher<TTree>
 {
     public TState Input { get; }
     public IReadOnlyList<TState> Output { get; }
@@ -120,7 +120,7 @@ public interface ITopDownTreeAutomatonRule<out TState, in TTree> : IMatcher<TTre
 ### Bottom-up
 
 ```cs
-public interface IBottomUpTreeAutomaton
+public interface IBottomUpTreeAcceptor
 {
     public Type TreeType { get; }
     public Type StateType { get; }
@@ -130,20 +130,21 @@ public interface IBottomUpTreeAutomaton
     public Func<object, object> KeySelector { get; }
 }
 
-public interface IBottomUpTreeAutomaton<TTree> : IBottomUpTreeAutomaton
+public interface IBottomUpTreeAcceptor<TTree> : IBottomUpTreeAcceptor
     where TTree : IHasChildren<TTree>
 {
     public new Func<TTree, object> KeySelector { get; }
 }
 
-public interface IBottomUpTreeAutomaton<TRule, TState, TTree> : IBottomUpTreeAutomaton<TTree>
-    where TRule : IBottomUpTreeAutomatonRule<TState, TTree>
+
+public interface IBottomUpTreeAcceptor<TRule, TState, TTree> : IBottomUpTreeAcceptor<TTree>
+    where TRule : IBottomUpTreeAcceptorRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
     public new IReadOnlyDictionary<object, IEnumerable<TRule>> Rules { get; }
 }
 
-public interface IBottomUpTreeAutomatonRule<out TState, in TTree> : IMatcher<TTree>
+public interface IBottomUpTreeAcceptorRule<out TState, in TTree> : IMatcher<TTree>
 {
     public IReadOnlyList<TState> Input { get; }
     public TState Output { get; }
