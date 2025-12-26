@@ -1,6 +1,4 @@
-## Introduction
-
-### Automata
+## Automata
 
 Here are some sketches of interfaces for automata.
 
@@ -73,15 +71,15 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` could be provided as static methods.
 
-### Reactive Programming
+## Reactive Programming
 
 Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
-### Tree Automata
+## Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree automata.
 
-#### Top-down
+### Top-down
 
 ```cs
 public interface ITopDownTreeAutomaton
@@ -115,7 +113,7 @@ public interface ITopDownTreeAutomatonRule<out TState, in TTree> : IMatcher<TTre
 }
 ```
 
-#### Bottom-up
+### Bottom-up
 
 ```cs
 public interface IBottomUpTreeAutomaton
