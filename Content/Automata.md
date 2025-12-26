@@ -32,12 +32,12 @@ Here are some sketches of interfaces for acceptors.
 ```cs
 public interface IAcceptor : IAutomaton
 {
-
+    public bool Accepts(IEnumerable sequence);
 }
 
 public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptor
 {
-
+    public bool Accepts(IEnumerable<TInput> sequence);
 }
 
 public interface IAcceptor<out TState, out TEdge, in TInput> : IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>
@@ -53,29 +53,29 @@ Here are some sketches of interfaces for transducers.
 public interface ITransducer : IAutomaton
 {
     public Type OutputType { get; }
+
+    public IEnumerable Transduce(IEnumerable sequence);
 }
 
 public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer
 {
-
+    public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
 
 public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
     IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>
-    where TState : IHasOutgoingEdges<TEdge>
-    where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
+        where TState : IHasOutgoingEdges<TEdge>
+        where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 {
 
 }
 ```
 
-As considered, functionalities for automata, acceptors, and transducers can be supplied via extension methods. Automata instances could also implement interfaces to provide their own customized implementations for various functionalities, e.g., `ICustomAccepts` and `ICustomTransduce`. Such interfaces can be checked for in provided extension methods.
+While implementers might choose to utilize those types, above, with generic type parameters including `TState` and `TEdge`, automata loaders and builders would return automata cast to `IAutomata<TInput>`, `IAcceptor<TInput>`, or `ITransducer<TInput, TOutput>`.
 
-A vision is that `IAutomatonBuilder` interfaces or `AutomatonBuilder` (static) classes would enable developers to simply and programmatically build various kinds of automata. Automata builders might configurably optimize developers' described automata and/or utilize runtime code-generation and compiling-related features to maximize performance.
+### Traversing Automata
 
-This vision entails that multiple levels of genericity be provided, as shown above. Automata loaders and builders, then, might return automata instances cast to `IAutomata<TInput>` or `ITransducer<TInput, TOutput>`, encapsulating over types for states and edges.
-
-Upcoming, I will explore creating additional methods, e.g., `GetTraverser()`, for acceptors and transducers which will return objects that implement interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and some other interfaces from the `System.Reactive` library.
+Acceptors and, in particular, transducers could implement a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces like `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
 ### Tree Automata
 
