@@ -73,9 +73,9 @@ An automata builder could be provided which might, additionally, configurably, o
 
 Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
-Additionally, `IAcceptor<TState, TEdge, TInput>` and `ITransducer<TState, TEdge, TInput, TOutput>` could provide secondary traversers implementing interfaces extending something like `ISubject<TInput, (int Step, TState From, TEdge Edge, TState To)>`, providing observability with respect to state transitions occurring during traversals. The `int` step counter could be of use for grouping state transitions for non-deterministic implementations.
+Additionally, `IAcceptor<TState, TEdge, TInput>` and `ITransducer<TState, TEdge, TInput, TOutput>` could provide secondary traversers implementing interfaces extending something like `ISubject<TInput, (int Step, TState Source, TEdge Edge, TState Target)>`, providing observability with respect to state transitions occurring during traversals. The `int` step counter could be of use for grouping state transitions for non-deterministic implementations.
 
-Also, when `TState` is `IDifferenceable<TState, TDifference>`, an automaton could provide a tertiary traverser implementing interfaces extending something like `ISubject<TInput, TDifference>`, where the output stream would be differences between states.
+Also, when `TState` is `IDifferenceable<TState, TDifference>`, an automaton could provide a tertiary traverser implementing interfaces extending something like `ISubject<TInput, (int Step, TState Source, TEdge Edge, TState Target, TDifference Difference)>`, where the output stream could include differences between states.
 
 ## Tree Automata
 
