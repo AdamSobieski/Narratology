@@ -113,7 +113,7 @@ public interface IObserver
 
 public interface ITraverser : IObserver
 {
-    public IDisposable Subscribe(IObserver<(int Step, object Source, object Edge, object Target)> observer);
+    public IDisposable Subscribe(IObserver<IEnumerable<(object Source, object Edge, object Target)>> observer);
 }
 
 public interface ITraverser<in TInput> : ITraverser, IObserver<TInput> { }
@@ -122,7 +122,7 @@ public interface ITraverser<in TInput, out TOutput> : ITraverser<TInput>, ISubje
 
 public interface ITraverser<TState, TEdge, in TInput> : ITraverser<TInput>
 {
-    public IDisposable Subscribe(IObserver<(int Step, TState Source, TEdge Edge, TState Target)> observer);
+    public IDisposable Subscribe(IObserver<IEnumerable<(TState Source, TEdge Edge, TState Target)>> observer);
 }
 
 public interface ITraverser<TState, TEdge, in TInput, out TOutput> :
