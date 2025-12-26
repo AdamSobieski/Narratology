@@ -71,11 +71,11 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 }
 ```
 
-While implementers might choose to utilize those types, above, with generic type parameters including `TState` and `TEdge`, automata loaders and builders would return automata cast to `IAutomata<TInput>`, `IAcceptor<TInput>`, or `ITransducer<TInput, TOutput>`.
+For developer convenience, default implementations of `Accept()` and `Transduce()` could be provided as static methods.
 
 ### Traversing Automata
 
-Acceptors and, in particular, transducers could implement a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces like `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
+Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
 ### Tree Automata
 
