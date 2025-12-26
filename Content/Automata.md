@@ -75,6 +75,8 @@ Interfaces for acceptors and, in particular, transducers could provide a method,
 
 Additionally, `IAcceptor<TState, TEdge, TInput>` and `ITransducer<TState, TEdge, TInput, TOutput>` could provide secondary traversers implementing interfaces extending something like `ISubject<TInput, (int Step, TState From, TEdge Edge, TState To)>`, providing observability with respect to state transitions occurring during traversals. The `int` step counter could be of use for grouping state transitions for non-deterministic implementations.
 
+Also, when `TState` is `IDifferenceable<TState, TDifference>`, an automaton could provide a tertiary traverser implementing interfaces extending something like `ISubject<TInput, TDifference>`, where the output stream would be differences between states.
+
 ## Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
