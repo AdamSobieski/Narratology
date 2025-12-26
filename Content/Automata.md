@@ -67,7 +67,7 @@ For developer convenience, default implementations of `Accepts()` and `Transduce
 
 ## Learning, Building, and Optimizing Automata
 
-An automata builder could be provided which might, additionally, configurably, optimize described automata.
+_Coming soon._
 
 ## Reactive Programming
 
