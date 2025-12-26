@@ -71,7 +71,7 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 }
 ```
 
-For developer convenience, default implementations of `Accept()` and `Transduce()` could be provided as static methods.
+For developer convenience, default implementations of `Accepts()` and `Transduce()` could be provided as static methods.
 
 ### Traversing Automata
 
