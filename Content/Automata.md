@@ -73,7 +73,7 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` could be provided as static methods.
 
-### Traversing Automata
+### Reactive Programming
 
 Interfaces for acceptors and, in particular, transducers could provide a method, `GetTraverser()`, which returns an object for traversing the automata, one implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
