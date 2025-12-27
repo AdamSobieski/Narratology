@@ -72,7 +72,7 @@ For developer convenience, default implementations of `Accepts()` and `Transduce
 
 Resembling how collections can be enumerated with `IEnumerable` and `IEnumerator`, automata could be traversed.
 
-Interfaces for automata, and, thus, acceptors and transducers could provide a method, `GetTraverser()`, which returns objects for traversing them, objects implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
+Interfaces for automata, and, thus, acceptors and transducers could provide a method, `GetTraverser()`, which returns objects for traversing them, objects implementing interfaces for interoperability with the `System.Reactive` library.
 
 Here are some sketches of a set of `ITraversable`-related and `ITraverser`-related interfaces.
 
