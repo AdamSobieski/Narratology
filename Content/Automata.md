@@ -19,8 +19,7 @@ public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, INav
 Here are some sketches of interfaces for acceptors.
 
 ```cs
-public interface IAcceptor<in TInput> :
-    IAutomaton<TInput>, IAcceptorNavigable<TInput>
+public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptorNavigable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
