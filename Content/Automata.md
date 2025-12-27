@@ -116,19 +116,19 @@ public static IEnumerable<TInput> Where<TState, TInput>
     Func<IEnumerable<TState>, TInput, bool> functor
 )
 {
-    var traverser = navigable.GetNavigator();
+    var navigator = navigable.GetNavigator();
 
     foreach (var element in source)
     {
-        traverser.OnNext(element);
+        navigator.OnNext(element);
 
-        if (functor(traverser.Current, element))
+        if (functor(navigator.Current, element))
         {
             yield return element;
         }
     }
 
-    traverser.OnCompleted();
+    navigator.OnCompleted();
 }
 ```
 
@@ -140,15 +140,15 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
     Func<IEnumerable<TState>, TInput, TResult> selector
 )
 {
-    var traverser = navigable.GetNavigator();
+    var navigator = navigable.GetNavigator();
 
     foreach (var element in source)
     {
-        traverser.OnNext(element);
-        yield return (selector(traverser.Current, element));
+        navigator.OnNext(element);
+        yield return (selector(navigator.Current, element));
     }
 
-    traverser.OnCompleted();
+    navigator.OnCompleted();
 }
 ```
 
@@ -160,15 +160,15 @@ public static void Do<TState, TInput>
     Action<IEnumerable<TState>, TInput> action
 )
 {
-    var traverser = navigable.GetNavigator();
+    var navigator = navigable.GetNavigator();
 
     foreach (var element in source)
     {
-        traverser.OnNext(element);
-        action(traverser.Current, element);
+        navigator.OnNext(element);
+        action(navigator.Current, element);
     }
 
-    traverser.OnCompleted();
+    navigator.OnCompleted();
 }
 ```
 
