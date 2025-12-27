@@ -153,7 +153,7 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
 ```
 
 ```cs
-public static void Do<TState, TInput, TResult>
+public static void Do<TState, TInput>
 (
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
