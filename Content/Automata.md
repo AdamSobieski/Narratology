@@ -114,6 +114,10 @@ public interface ITransducerTraversable<TState, TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of automata traversers can be provided.
 
+## Language Integrated Query (LINQ)
+
+_Coming soon._
+
 ## Learning, Building, and Optimizing Automata
 
 _Coming soon._
