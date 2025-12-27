@@ -45,65 +45,65 @@ public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
 
-## Navigating Automata, Cursors, and Reactive Programming
+## Navigating Automata and Reactive Programming
 
-Interfaces for automata could provide a method, `GetCursor()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library.
+Interfaces for automata could provide a method, `GetNavigator()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library.
 
-Here are some sketches of a set of `INavigable`-related and `ICursor`-related interfaces.
+Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
 
 ```cs
-public interface ICursor<in TInput> : IObserver<TInput>
+public interface INavigator<in TInput> : IObserver<TInput>
 {
-    public void OnNext(TInput value, out IEnumerable edges);
+    //public void OnNext(TInput value, out IEnumerable edges);
     public IEnumerable Current { get; }
 }
-public interface ICursor<TState, TEdge, in TInput> : ICursor<TInput>
+public interface INavigator<TState, TEdge, in TInput> : INavigator<TInput>
 {
-    public void OnNext(TInput value, out IEnumerable<TEdge> edges);
+    //public void OnNext(TInput value, out IEnumerable<TEdge> edges);
     public new IEnumerable<TState> Current { get; }
 }
 
 public interface INavigable<in TInput>
 {
-    public ICursor<TInput> GetCursor();
+    public INavigator<TInput> GetNavigator();
 }
 public interface INavigable<TState, TEdge, in TInput> : INavigable<TInput>
 {
-    public new ICursor<TState, TEdge, TInput> GetCursor();
+    public new INavigator<TState, TEdge, TInput> GetNavigator();
 }
 
 
 
-public interface IAcceptorCursor<in TInput> : ICursor<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorCursor<TState, TEdge, in TInput> : ICursor<TState, TEdge, TInput>, IAcceptorCursor<TInput> { }
+public interface IAcceptorNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, bool> { }
+public interface IAcceptorNavigator<TState, TEdge, in TInput> : INavigator<TState, TEdge, TInput>, IAcceptorNavigator<TInput> { }
 
 public interface IAcceptorNavigable<in TInput> : INavigable<TInput>
 {
-    public new IAcceptorCursor<TInput> GetCursor();
+    public new IAcceptorNavigator<TInput> GetNavigator();
 }
 public interface IAcceptorNavigable<TState, TEdge, in TInput> : INavigable<TState, TEdge, TInput>, IAcceptorNavigable<TInput>
 {
-    public new IAcceptorCursor<TState, TEdge, TInput> GetCursor();
+    public new IAcceptorNavigator<TState, TEdge, TInput> GetNavigator();
 }
 
 
 
-public interface ITransducerCursor<in TInput, out TOutput> : ICursor<TInput>, ISubject<TInput, TOutput> { }
-public interface ITransducerCursor<TState, TEdge, in TInput, out TOutput> :
-    ICursor<TState, TEdge, TInput>, ITransducerCursor<TInput, TOutput> { }
+public interface ITransducerNavigator<in TInput, out TOutput> : INavigator<TInput>, ISubject<TInput, TOutput> { }
+public interface ITransducerNavigator<TState, TEdge, in TInput, out TOutput> :
+    INavigator<TState, TEdge, TInput>, ITransducerNavigator<TInput, TOutput> { }
 
 public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
 {
-    public new ITransducerCursor<TInput, TOutput> GetCursor();
+    public new ITransducerNavigator<TInput, TOutput> GetNavigator();
 }
 public interface ITransducerNavigable<TState, TEdge, in TInput, out TOutput> :
     INavigable<TState, TEdge, TInput>, ITransducerNavigable<TInput, TOutput>
 {
-    public new ITransducerCursor<TState, TEdge, TInput, TOutput> GetCursor();
+    public new ITransducerNavigator<TState, TEdge, TInput, TOutput> GetNavigator();
 }
 ```
 
-For developer convenience, default implementations of automaton cursors can be provided.
+For developer convenience, default implementations of automaton navigators can be provided.
 
 ## Language Integrated Query (LINQ)
 
