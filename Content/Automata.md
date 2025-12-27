@@ -75,7 +75,8 @@ public interface INavigable<TState, TEdge, in TInput> : INavigable<TInput>
 
 
 public interface IAcceptorNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorNavigator<TState, TEdge, in TInput> : INavigator<TState, TEdge, TInput>, IAcceptorNavigator<TInput> { }
+public interface IAcceptorNavigator<TState, TEdge, in TInput> :
+    INavigator<TState, TEdge, TInput>, IAcceptorNavigator<TInput> { }
 
 public interface IAcceptorNavigable<in TInput> : INavigable<TInput>
 {
