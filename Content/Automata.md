@@ -152,6 +152,26 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
 }
 ```
 
+```cs
+public static void Do<TState, TInput, TResult>
+(
+    this IEnumerable<TInput> source,
+    INavigable<TState, TInput> navigable,
+    Action<IEnumerable<TState>, TInput> action
+)
+{
+    var traverser = navigable.GetNavigator();
+
+    foreach (var element in source)
+    {
+        traverser.OnNext(element);
+        action(traverser.Current, element);
+    }
+
+    traverser.OnCompleted();
+}
+```
+
 ## Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
