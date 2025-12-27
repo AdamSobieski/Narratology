@@ -109,7 +109,8 @@ For developer convenience, default implementations of automaton navigators can b
 Method chaining can utilize the contextual states of automata navigators. As `TState` would be defined by developers, navigators' states could provide either acontextual or contextual methods for filtering or transforming elements in enumerables or streams.
 
 ```cs
-public static IEnumerable<TInput> Where<TState, TInput>(
+public static IEnumerable<TInput> Where<TState, TInput>
+(
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
     Func<IEnumerable<TState>, TInput, bool> functor
@@ -132,7 +133,8 @@ public static IEnumerable<TInput> Where<TState, TInput>(
 ```
 
 ```cs
-public static IEnumerable<TResult> Select<TState, TInput, TResult>(
+public static IEnumerable<TResult> Select<TState, TInput, TResult>
+(
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
     Func<IEnumerable<TState>, TInput, TResult> selector
