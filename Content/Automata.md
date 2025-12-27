@@ -61,13 +61,13 @@ Here are some sketches of a set of `ITraversable`-related and `ITraverser`-relat
 ```cs
 public interface ITraverser<in TInput> : IObserver<TInput>
 {
-    public void OnNext(TInput value, out IEnumerable edges, out IEnumerable state);
+    public void OnNext(TInput value, out IEnumerable edges);
+    public IEnumerable Current { get; }
 }
 public interface ITraverser<TState, TEdge, in TInput> : ITraverser<TInput>
 {
     public void OnNext(TInput value, out IEnumerable<TEdge> edges);
-    public void OnNext(TInput value, out IEnumerable<TState> state);
-    public void OnNext(TInput value, out IEnumerable<TEdge> edges, out IEnumerable<TState> state);
+    public new IEnumerable<TState> Current { get; }
 }
 
 public interface ITraversable<in TInput>
