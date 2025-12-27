@@ -77,8 +77,14 @@ Interfaces for automata, and, thus, acceptors and transducers could provide a me
 Here are some sketches of a set of `ITraversable`-related and `ITraverser`-related interfaces.
 
 ```cs
-public interface ITraverser<in TInput> : IObserver<TInput, IEnumerable>, IObserver<TInput> { }
-public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>, IObserver<TInput, IEnumerable<TEdge>> { }
+public interface ITraverser<in TInput> : IObserver<TInput>
+{
+    public void OnNext(TInput value, out IEnumerable traversal);
+}
+public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>
+{
+    public void OnNext(TInput value, out IEnumerable<TEdge> traversal);
+}
 
 public interface ITraversable<in TInput>
 {
