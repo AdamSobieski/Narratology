@@ -8,7 +8,7 @@ public interface IAutomaton<in TInput> : ITraversable<TInput>
     public IEnumerable Start { get; }
 }
 
-public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TEdge, TInput>
+public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TState, TEdge, TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
@@ -19,13 +19,14 @@ public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITra
 Here are some sketches of interfaces for acceptors.
 
 ```cs
-public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptorTraversable<TInput>
+public interface IAcceptor<in TInput> :
+    IAutomaton<TInput>, IAcceptorTraversable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
 
 public interface IAcceptor<TState, TEdge, in TInput> :
-    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorTraversable<TEdge, TInput>
+    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorTraversable<TState, TEdge, TInput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>
 {
@@ -41,7 +42,7 @@ public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITran
 }
 
 public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerTraversable<TEdge, TInput, TOutput>
+    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerTraversable<TState, TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 {
@@ -62,50 +63,52 @@ Here are some sketches of a set of `ITraversable`-related and `ITraverser`-relat
 ```cs
 public interface ITraverser<in TInput> : IObserver<TInput>
 {
-    public void OnNext(TInput value, out IEnumerable traversal);
+    public void OnNext(TInput value, out IEnumerable edges, out IEnumerable state);
 }
-public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>
+public interface ITraverser<TState, TEdge, in TInput> : ITraverser<TInput>
 {
-    public void OnNext(TInput value, out IEnumerable<TEdge> traversal);
+    public void OnNext(TInput value, out IEnumerable<TEdge> edges);
+    public void OnNext(TInput value, out IEnumerable<TState> state);
+    public void OnNext(TInput value, out IEnumerable<TEdge> edges, out IEnumerable<TState> state);
 }
 
 public interface ITraversable<in TInput>
 {
     public ITraverser<TInput> GetTraverser();
 }
-public interface ITraversable<TEdge, in TInput> : ITraversable<TInput>
+public interface ITraversable<TState, TEdge, in TInput> : ITraversable<TInput>
 {
-    public new ITraverser<TEdge, TInput> GetTraverser();
+    public new ITraverser<TState, TEdge, TInput> GetTraverser();
 }
 
 
 
 public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorTraverser<TEdge, in TInput> : ITraverser<TEdge, TInput>, IAcceptorTraverser<TInput> { }
+public interface IAcceptorTraverser<TState, TEdge, in TInput> : ITraverser<TState, TEdge, TInput>, IAcceptorTraverser<TInput> { }
 
 public interface IAcceptorTraversable<in TInput> : ITraversable<TInput>
 {
     public new IAcceptorTraverser<TInput> GetTraverser();
 }
-public interface IAcceptorTraversable<TEdge, in TInput> : ITraversable<TEdge, TInput>, IAcceptorTraversable<TInput>
+public interface IAcceptorTraversable<TState, TEdge, in TInput> : ITraversable<TState, TEdge, TInput>, IAcceptorTraversable<TInput>
 {
-    public new IAcceptorTraverser<TEdge, TInput> GetTraverser();
+    public new IAcceptorTraverser<TState, TEdge, TInput> GetTraverser();
 }
 
 
 
 public interface ITransducerTraverser<in TInput, out TOutput> : ITraverser<TInput>, ISubject<TInput, TOutput> { }
-public interface ITransducerTraverser<TEdge, in TInput, out TOutput> :
-    ITraverser<TEdge, TInput>, ITransducerTraverser<TInput, TOutput> { }
+public interface ITransducerTraverser<TState, TEdge, in TInput, out TOutput> :
+    ITraverser<TState, TEdge, TInput>, ITransducerTraverser<TInput, TOutput> { }
     
 public interface ITransducerTraversable<in TInput, out TOutput> : ITraversable<TInput>
 {
     public new ITransducerTraverser<TInput, TOutput> GetTraverser();
 }
-public interface ITransducerTraversable<TEdge, in TInput, out TOutput> :
-    ITraversable<TEdge, TInput>, ITransducerTraversable<TInput, TOutput>
+public interface ITransducerTraversable<TState, TEdge, in TInput, out TOutput> :
+    ITraversable<TState, TEdge, TInput>, ITransducerTraversable<TInput, TOutput>
 {
-    public new ITransducerTraverser<TEdge, TInput, TOutput> GetTraverser();
+    public new ITransducerTraverser<TState, TEdge, TInput, TOutput> GetTraverser();
 }
 ```
 
