@@ -27,10 +27,7 @@ public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptorNavigable<T
 public interface IAcceptor<TState, TEdge, in TInput> :
     IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TEdge, TInput>
         where TState : IHasOutgoingEdges<TEdge>
-        where TEdge : IHasTarget<TState>, IMatcher<TInput>
-{
-
-}
+        where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
 
 Here are some sketches of interfaces for transducers.
@@ -43,10 +40,7 @@ public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITran
 public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
     IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
-        where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
-{
-
-}
+        where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput> { }
 ```
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
@@ -96,10 +90,7 @@ public interface IAcceptorNavigable<TState, TEdge, in TInput> : INavigable<TStat
 
 public interface ITransducerCursor<in TInput, out TOutput> : ICursor<TInput>, ISubject<TInput, TOutput> { }
 public interface ITransducerCursor<TState, TEdge, in TInput, out TOutput> :
-    ICursor<TState, TEdge, TInput>, ITransducerCursor<TInput, TOutput>
-{
-
-}
+    ICursor<TState, TEdge, TInput>, ITransducerCursor<TInput, TOutput> { }
 
 public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
 {
