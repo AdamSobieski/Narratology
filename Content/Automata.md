@@ -106,7 +106,7 @@ For developer convenience, default implementations of automaton navigators can b
 
 ## Language Integrated Query (LINQ)
 
-Method chaining can utilize the contextual states of automata navigators. As `TState` would be defined by developers, navigators' states could provide either acontextual or contextual methods for filtering or transforming elements in enumerables or streams.
+Method chaining can utilize the contextual states of automata navigators. As `TState` would be defined by developers, navigators' states could provide either acontextual or contextual methods for filtering, transforming, or performing actions upon elements in enumerables or streams.
 
 ```cs
 public static IEnumerable<TInput> Where<TState, TInput>
