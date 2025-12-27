@@ -8,7 +8,7 @@ public interface IAutomaton<in TInput> : INavigable<TInput>
     public IEnumerable Start { get; }
 }
 
-public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TEdge, TInput>
+public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
@@ -19,13 +19,14 @@ public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, INav
 Here are some sketches of interfaces for acceptors.
 
 ```cs
-public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptorNavigable<TInput>
+public interface IAcceptor<in TInput> :
+    IAutomaton<TInput>, IAcceptorNavigable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
 
-public interface IAcceptor<TState, TEdge, in TInput> :
-    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TEdge, TInput>
+public interface IAcceptor<out TState, out TEdge, in TInput> :
+    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TInput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
@@ -38,7 +39,7 @@ public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITran
 }
 
 public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
+    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerNavigable<TState, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput> { }
 ```
@@ -54,12 +55,10 @@ Here are some sketches of a set of `INavigable`-related and `INavigator`-related
 ```cs
 public interface INavigator<in TInput> : IObserver<TInput>
 {
-    //public void OnNext(TInput value, out IEnumerable edges);
     public IEnumerable Current { get; }
 }
-public interface INavigator<TState, TEdge, in TInput> : INavigator<TInput>
+public interface INavigator<out TState, in TInput> : INavigator<TInput>
 {
-    //public void OnNext(TInput value, out IEnumerable<TEdge> edges);
     public new IEnumerable<TState> Current { get; }
 }
 
@@ -67,40 +66,39 @@ public interface INavigable<in TInput>
 {
     public INavigator<TInput> GetNavigator();
 }
-public interface INavigable<TState, TEdge, in TInput> : INavigable<TInput>
+public interface INavigable<out TState, in TInput> : INavigable<TInput>
 {
-    public new INavigator<TState, TEdge, TInput> GetNavigator();
+    public new INavigator<TState, TInput> GetNavigator();
 }
 
 
 
 public interface IAcceptorNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorNavigator<TState, TEdge, in TInput> :
-    INavigator<TState, TEdge, TInput>, IAcceptorNavigator<TInput> { }
+public interface IAcceptorNavigator<out TState, in TInput> : INavigator<TState, TInput>, IAcceptorNavigator<TInput> { }
 
 public interface IAcceptorNavigable<in TInput> : INavigable<TInput>
 {
     public new IAcceptorNavigator<TInput> GetNavigator();
 }
-public interface IAcceptorNavigable<TState, TEdge, in TInput> : INavigable<TState, TEdge, TInput>, IAcceptorNavigable<TInput>
+public interface IAcceptorNavigable<out TState, in TInput> : INavigable<TState, TInput>, IAcceptorNavigable<TInput>
 {
-    public new IAcceptorNavigator<TState, TEdge, TInput> GetNavigator();
+    public new IAcceptorNavigator<TState, TInput> GetNavigator();
 }
 
 
 
 public interface ITransducerNavigator<in TInput, out TOutput> : INavigator<TInput>, ISubject<TInput, TOutput> { }
-public interface ITransducerNavigator<TState, TEdge, in TInput, out TOutput> :
-    INavigator<TState, TEdge, TInput>, ITransducerNavigator<TInput, TOutput> { }
+public interface ITransducerNavigator<out TState, in TInput, out TOutput> :
+    INavigator<TState, TInput>, ITransducerNavigator<TInput, TOutput> { }
 
 public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
 {
     public new ITransducerNavigator<TInput, TOutput> GetNavigator();
 }
-public interface ITransducerNavigable<TState, TEdge, in TInput, out TOutput> :
-    INavigable<TState, TEdge, TInput>, ITransducerNavigable<TInput, TOutput>
+public interface ITransducerNavigable<out TState, in TInput, out TOutput> :
+    INavigable<TState, TInput>, ITransducerNavigable<TInput, TOutput>
 {
-    public new ITransducerNavigator<TState, TEdge, TInput, TOutput> GetNavigator();
+    public new ITransducerNavigator<TState, TInput, TOutput> GetNavigator();
 }
 ```
 
