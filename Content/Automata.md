@@ -106,11 +106,49 @@ For developer convenience, default implementations of automaton navigators can b
 
 ## Language Integrated Query (LINQ)
 
-_Coming soon._
+Method chaining can utilize the contextual states of automata navigators. As `TState` would be defined by developers, navigator states could provide either acontextual or contextual methods for filtering or transforming elements in enumerables or streams.
 
-## Learning, Building, and Optimizing Automata
+```cs
+public static IEnumerable<TInput> Where<TState, TInput>(
+    this IEnumerable<TInput> source,
+    INavigable<TState, TInput> navigable,
+    Func<IEnumerable<TState>, TInput, bool> functor
+)
+{
+    var traverser = navigable.GetNavigator();
 
-_Coming soon._
+    foreach (var element in source)
+    {
+        traverser.OnNext(element);
+
+        if (functor(traverser.Current, element))
+        {
+            yield return element;
+        }
+    }
+
+    traverser.OnCompleted();
+}
+```
+
+```cs
+public static IEnumerable<TResult> Select<TState, TInput, TResult>(
+    this IEnumerable<TInput> source,
+    INavigable<TState, TInput> navigable,
+    Func<IEnumerable<TState>, TInput, TResult> selector
+)
+{
+    var traverser = navigable.GetNavigator();
+
+    foreach (var element in source)
+    {
+        traverser.OnNext(element);
+        yield return (selector(traverser.Current, element));
+    }
+
+    traverser.OnCompleted();
+}
+```
 
 ## Tree Automata
 
@@ -168,3 +206,7 @@ public interface IBottomUpTreeAcceptorRule<out TState, in TTree> : IMatcher<TTre
     public TState Output { get; }
 }
 ```
+
+## Learning, Building, and Optimizing Automata
+
+_Coming soon._
