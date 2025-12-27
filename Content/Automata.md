@@ -3,7 +3,7 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton : ITraversable
+public interface IAutomaton
 {
     public IEnumerable Start { get; }
 }
@@ -13,7 +13,7 @@ public interface IAutomaton<in TInput> : IAutomaton, ITraversable<TInput>
 
 }
 
-public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TState, TEdge, TInput>
+public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TEdge, TInput>
 where TState : IHasOutgoingEdges<TEdge>
 where TEdge : IHasTarget<TState>
 {
@@ -29,14 +29,16 @@ public interface IAcceptor : IAutomaton
     public bool Accepts(IEnumerable sequence);
 }
 
-public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptor
+public interface IAcceptor<in TInput> :
+    IAutomaton<TInput>, IAcceptor, IAcceptorTraversable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
 
-public interface IAcceptor<TState, TEdge, in TInput> : IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>
-    where TState : IHasOutgoingEdges<TEdge>
-    where TEdge : IHasTarget<TState>, IMatcher<TInput>
+public interface IAcceptor<TState, TEdge, in TInput> :
+    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorTraversable<TEdge, TInput>
+        where TState : IHasOutgoingEdges<TEdge>
+        where TEdge : IHasTarget<TState>, IMatcher<TInput>
 {
 
 }
@@ -49,13 +51,14 @@ public interface ITransducer : IAutomaton
     public IEnumerable Transduce(IEnumerable sequence);
 }
 
-public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducer, ITraversable<TInput, TOutput>
+public interface ITransducer<in TInput, out TOutput> :
+    IAutomaton<TInput>, ITransducer, ITransducerTraversable<TInput, TOutput>
 {
     public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
 
 public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITraversable<TState, TEdge, TInput, TOutput>
+    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerTraversable<TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 {
@@ -71,62 +74,61 @@ Resembling how collections can be enumerated with `IEnumerable` and `IEnumerator
 
 Interfaces for automata, and, thus, acceptors and transducers could provide a method, `GetTraverser()`, which returns objects for traversing them, objects implementing interfaces extending `IObserver<TInput>`, `IObservable<TOutput>`, and `ISubject<TInput, TOutput>` for interoperability with the `System.Reactive` library.
 
-Here are some sketches of a set of `ITraversable` interfaces.
+Here are some sketches of a set of `ITraversable`-related and `ITraverser`-related interfaces.
 
 ```cs
-public interface ITraversable
+public interface ITraverser<in TInput> : IObserver<TInput, IEnumerable>, IObserver<TInput>
 {
-    public ITraverser GetTraverser();
+        
+}
+public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>, IObserver<TInput, IEnumerable<TEdge>>
+{
+        
+}
+public interface ITraversable<in TInput>
+{
+    public ITraverser<TInput> GetTraverser();
+}
+public interface ITraversable<TEdge, in TInput> : ITraversable<TInput>
+{
+    public new ITraverser<TEdge, TInput> GetTraverser();
 }
 
-public interface ITraversable<in TInput> : ITraversable
+public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool>
 {
-    public new ITraverser<TInput> GetTraverser();
+
+}
+public interface IAcceptorTraverser<TEdge, in TInput> : ITraverser<TEdge, TInput>, IAcceptorTraverser<TInput>
+{
+
+}
+public interface IAcceptorTraversable<in TInput> : ITraversable<TInput>
+{
+    public new IAcceptorTraverser<TInput> GetTraverser();
+}
+public interface IAcceptorTraversable<TEdge, in TInput> : ITraversable<TEdge, TInput>, IAcceptorTraversable<TInput>
+{
+    public new IAcceptorTraverser<TEdge, TInput> GetTraverser();
 }
 
-public interface ITraversable<in TInput, out TOutput> : ITraversable<TInput>
+public interface ITransducerTraverser<in TInput, out TOutput> : ISubject<TInput, TOutput>
 {
-    public new ITraverser<TInput, TOutput> GetTraverser();
-}
 
-public interface ITraversable<TState, TEdge, in TInput> : ITraversable<TInput>
+}
+public interface ITransducerTraverser<TEdge, in TInput, out TOutput> :
+    ITraverser<TEdge, TInput>, ITransducerTraverser<TInput, TOutput>
 {
-    public new ITraverser<TState, TEdge, TInput> GetTraverser();
-}
 
-public interface ITraversable<TState, TEdge, in TInput, out TOutput> :
-    ITraversable<TInput, TOutput>, ITraversable<TState, TEdge, TInput>
+}
+public interface ITransducerTraversable<in TInput, out TOutput> : ITraversable<TInput>
 {
-    public new ITraverser<TState, TEdge, TInput, TOutput> GetTraverser();
+    public new ITransducerTraverser<TInput, TOutput> GetTraverser();
 }
-```
-
-Here are some sketches of automata traversers.
-
-```cs
-public interface IObserver
+public interface ITransducerTraversable<TEdge, in TInput, out TOutput> :
+    ITraversable<TEdge, TInput>, ITransducerTraversable<TInput, TOutput>
 {
-    void OnNext(object value);
-    void OnError(Exception error);
-    void OnCompleted();
+    public new ITransducerTraverser<TEdge, TInput, TOutput> GetTraverser();
 }
-
-public interface ITraverser : IObserver
-{
-    public IDisposable Subscribe(IObserver<IEnumerable<(object Source, object Edge, object Target)>> observer);
-}
-
-public interface ITraverser<in TInput> : ITraverser, IObserver<TInput> { }
-
-public interface ITraverser<in TInput, out TOutput> : ITraverser<TInput>, ISubject<TInput, TOutput> { }
-
-public interface ITraverser<TState, TEdge, in TInput> : ITraverser<TInput>
-{
-    public IDisposable Subscribe(IObserver<IEnumerable<(TState Source, TEdge Edge, TState Target)>> observer);
-}
-
-public interface ITraverser<TState, TEdge, in TInput, out TOutput> :
-    ITraverser<TInput, TOutput>, ITraverser<TState, TEdge, TInput> { }
 ```
 
 For developer convenience, default implementations of automata traversers can be provided.
