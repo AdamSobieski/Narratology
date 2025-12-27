@@ -3,19 +3,14 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton
+public interface IAutomaton<in TInput> : ITraversable<TInput>
 {
     public IEnumerable Start { get; }
 }
 
-public interface IAutomaton<in TInput> : IAutomaton, ITraversable<TInput>
-{
-
-}
-
 public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TEdge, TInput>
-where TState : IHasOutgoingEdges<TEdge>
-where TEdge : IHasTarget<TState>
+    where TState : IHasOutgoingEdges<TEdge>
+    where TEdge : IHasTarget<TState>
 {
     public new IEnumerable<TState> Start { get; }
 }
@@ -24,13 +19,7 @@ where TEdge : IHasTarget<TState>
 Here are some sketches of interfaces for acceptors.
 
 ```cs
-public interface IAcceptor : IAutomaton
-{
-    public bool Accepts(IEnumerable sequence);
-}
-
-public interface IAcceptor<in TInput> :
-    IAutomaton<TInput>, IAcceptor, IAcceptorTraversable<TInput>
+public interface IAcceptor<in TInput> : IAutomaton<TInput>, IAcceptorTraversable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
@@ -46,13 +35,7 @@ public interface IAcceptor<TState, TEdge, in TInput> :
 
 Here are some sketches of interfaces for transducers.
 ```cs
-public interface ITransducer : IAutomaton
-{
-    public IEnumerable Transduce(IEnumerable sequence);
-}
-
-public interface ITransducer<in TInput, out TOutput> :
-    IAutomaton<TInput>, ITransducer, ITransducerTraversable<TInput, TOutput>
+public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducerTraversable<TInput, TOutput>
 {
     public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
