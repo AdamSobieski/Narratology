@@ -26,7 +26,7 @@ Giles, C. Lee, Clifford B. Miller, Dong Chen, Hsing-Hen Chen, Guo-Zheng Sun, and
 
 ### Automata and Large Language Models
 
-Another interesting scenario to consider is one where, beyond performing symbol-matching or object-processing on automata edges, some edges could consult LLMs, e.g., with Boolean questions about complex inputs.
+Another interesting scenario to consider is one where, beyond performing symbol-matching or object-processing on automata edges, some edges could consult LLMs, e.g., with Boolean natural-language questions about complex inputs.
 
 ### Generative and Agentic Narratology
 
