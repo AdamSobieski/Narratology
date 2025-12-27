@@ -51,7 +51,7 @@ public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
 
-## Automata Navigability, Cursors, and Reactive Programming
+## Navigating Automata, Cursors, and Reactive Programming
 
 Interfaces for automata could provide a method, `GetCursor()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library.
 
@@ -97,7 +97,9 @@ public interface IAcceptorNavigable<TState, TEdge, in TInput> : INavigable<TStat
 public interface ITransducerCursor<in TInput, out TOutput> : ICursor<TInput>, ISubject<TInput, TOutput> { }
 public interface ITransducerCursor<TState, TEdge, in TInput, out TOutput> :
     ICursor<TState, TEdge, TInput>, ITransducerCursor<TInput, TOutput>
-{ }
+{
+
+}
 
 public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
 {
