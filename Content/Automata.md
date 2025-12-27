@@ -103,7 +103,7 @@ public interface ITransducerNavigable<TState, TEdge, in TInput, out TOutput> :
 }
 ```
 
-For developer convenience, default implementations of automata traversers can be provided.
+For developer convenience, default implementations of automaton cursors can be provided.
 
 ## Language Integrated Query (LINQ)
 
