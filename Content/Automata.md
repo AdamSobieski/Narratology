@@ -77,14 +77,9 @@ Interfaces for automata, and, thus, acceptors and transducers could provide a me
 Here are some sketches of a set of `ITraversable`-related and `ITraverser`-related interfaces.
 
 ```cs
-public interface ITraverser<in TInput> : IObserver<TInput, IEnumerable>, IObserver<TInput>
-{
-        
-}
-public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>, IObserver<TInput, IEnumerable<TEdge>>
-{
-        
-}
+public interface ITraverser<in TInput> : IObserver<TInput, IEnumerable>, IObserver<TInput> { }
+public interface ITraverser<TEdge, in TInput> : ITraverser<TInput>, IObserver<TInput, IEnumerable<TEdge>> { }
+
 public interface ITraversable<in TInput>
 {
     public ITraverser<TInput> GetTraverser();
@@ -94,14 +89,11 @@ public interface ITraversable<TEdge, in TInput> : ITraversable<TInput>
     public new ITraverser<TEdge, TInput> GetTraverser();
 }
 
-public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool>
-{
 
-}
-public interface IAcceptorTraverser<TEdge, in TInput> : ITraverser<TEdge, TInput>, IAcceptorTraverser<TInput>
-{
 
-}
+public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool> { }
+public interface IAcceptorTraverser<TEdge, in TInput> : ITraverser<TEdge, TInput>, IAcceptorTraverser<TInput> { }
+
 public interface IAcceptorTraversable<in TInput> : ITraversable<TInput>
 {
     public new IAcceptorTraverser<TInput> GetTraverser();
@@ -111,15 +103,12 @@ public interface IAcceptorTraversable<TEdge, in TInput> : ITraversable<TEdge, TI
     public new IAcceptorTraverser<TEdge, TInput> GetTraverser();
 }
 
-public interface ITransducerTraverser<in TInput, out TOutput> : ISubject<TInput, TOutput>
-{
 
-}
+
+public interface ITransducerTraverser<in TInput, out TOutput> : ITraverser<TInput>, ISubject<TInput, TOutput> { }
 public interface ITransducerTraverser<TEdge, in TInput, out TOutput> :
-    ITraverser<TEdge, TInput>, ITransducerTraverser<TInput, TOutput>
-{
-
-}
+    ITraverser<TEdge, TInput>, ITransducerTraverser<TInput, TOutput> { }
+    
 public interface ITransducerTraversable<in TInput, out TOutput> : ITraversable<TInput>
 {
     public new ITransducerTraverser<TInput, TOutput> GetTraverser();
