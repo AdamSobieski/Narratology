@@ -84,13 +84,15 @@ public interface ITraversable<TState, TEdge, in TInput> : ITraversable<TInput>
 
 
 public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorTraverser<TState, TEdge, in TInput> : ITraverser<TState, TEdge, TInput>, IAcceptorTraverser<TInput> { }
+public interface IAcceptorTraverser<TState, TEdge, in TInput> :
+    ITraverser<TState, TEdge, TInput>, IAcceptorTraverser<TInput> { }
 
 public interface IAcceptorTraversable<in TInput> : ITraversable<TInput>
 {
     public new IAcceptorTraverser<TInput> GetTraverser();
 }
-public interface IAcceptorTraversable<TState, TEdge, in TInput> : ITraversable<TState, TEdge, TInput>, IAcceptorTraversable<TInput>
+public interface IAcceptorTraversable<TState, TEdge, in TInput> :
+    ITraversable<TState, TEdge, TInput>, IAcceptorTraversable<TInput>
 {
     public new IAcceptorTraverser<TState, TEdge, TInput> GetTraverser();
 }
