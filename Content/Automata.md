@@ -3,12 +3,12 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton<in TInput> : ITraversable<TInput>
+public interface IAutomaton<in TInput> : INavigable<TInput>
 {
     public IEnumerable Start { get; }
 }
 
-public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, ITraversable<TState, TEdge, TInput>
+public interface IAutomaton<TState, TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TEdge, TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>
 {
@@ -20,13 +20,13 @@ Here are some sketches of interfaces for acceptors.
 
 ```cs
 public interface IAcceptor<in TInput> :
-    IAutomaton<TInput>, IAcceptorTraversable<TInput>
+    IAutomaton<TInput>, IAcceptorNavigable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
 
 public interface IAcceptor<TState, TEdge, in TInput> :
-    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorTraversable<TState, TEdge, TInput>
+    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TEdge, TInput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>
 {
@@ -36,13 +36,13 @@ public interface IAcceptor<TState, TEdge, in TInput> :
 
 Here are some sketches of interfaces for transducers.
 ```cs
-public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducerTraversable<TInput, TOutput>
+public interface ITransducer<in TInput, out TOutput> : IAutomaton<TInput>, ITransducerNavigable<TInput, TOutput>
 {
     public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
 
 public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerTraversable<TState, TEdge, TInput, TOutput>
+    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 {
@@ -52,63 +52,62 @@ public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
 
-## Automata Traversal and Reactive Programming
+## Automata Navigability, Cursors, and Reactive Programming
 
-Interfaces for automata could provide a method, `GetTraverser()`, which returns objects for traversing them, objects implementing interfaces for interoperability with the `System.Reactive` library.
+Interfaces for automata could provide a method, `GetCursor()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library.
 
-Here are some sketches of a set of `ITraversable`-related and `ITraverser`-related interfaces.
+Here are some sketches of a set of `INavigable`-related and `ICursor`-related interfaces.
 
 ```cs
-public interface ITraverser<in TInput> : IObserver<TInput>
+public interface ICursor<in TInput> : IObserver<TInput>
 {
     public void OnNext(TInput value, out IEnumerable edges);
     public IEnumerable Current { get; }
 }
-public interface ITraverser<TState, TEdge, in TInput> : ITraverser<TInput>
+public interface ICursor<TState, TEdge, in TInput> : ICursor<TInput>
 {
     public void OnNext(TInput value, out IEnumerable<TEdge> edges);
     public new IEnumerable<TState> Current { get; }
 }
 
-public interface ITraversable<in TInput>
+public interface INavigable<in TInput>
 {
-    public ITraverser<TInput> GetTraverser();
+    public ICursor<TInput> GetCursor();
 }
-public interface ITraversable<TState, TEdge, in TInput> : ITraversable<TInput>
+public interface INavigable<TState, TEdge, in TInput> : INavigable<TInput>
 {
-    public new ITraverser<TState, TEdge, TInput> GetTraverser();
-}
-
-
-
-public interface IAcceptorTraverser<in TInput> : ITraverser<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorTraverser<TState, TEdge, in TInput> :
-    ITraverser<TState, TEdge, TInput>, IAcceptorTraverser<TInput> { }
-
-public interface IAcceptorTraversable<in TInput> : ITraversable<TInput>
-{
-    public new IAcceptorTraverser<TInput> GetTraverser();
-}
-public interface IAcceptorTraversable<TState, TEdge, in TInput> :
-    ITraversable<TState, TEdge, TInput>, IAcceptorTraversable<TInput>
-{
-    public new IAcceptorTraverser<TState, TEdge, TInput> GetTraverser();
+    public new ICursor<TState, TEdge, TInput> GetCursor();
 }
 
 
 
-public interface ITransducerTraverser<in TInput, out TOutput> : ITraverser<TInput>, ISubject<TInput, TOutput> { }
-public interface ITransducerTraverser<TState, TEdge, in TInput, out TOutput> :
-    ITraverser<TState, TEdge, TInput>, ITransducerTraverser<TInput, TOutput> { }
-    
-public interface ITransducerTraversable<in TInput, out TOutput> : ITraversable<TInput>
+public interface IAcceptorCursor<in TInput> : ICursor<TInput>, ISubject<TInput, bool> { }
+public interface IAcceptorCursor<TState, TEdge, in TInput> : ICursor<TState, TEdge, TInput>, IAcceptorCursor<TInput> { }
+
+public interface IAcceptorNavigable<in TInput> : INavigable<TInput>
 {
-    public new ITransducerTraverser<TInput, TOutput> GetTraverser();
+    public new IAcceptorCursor<TInput> GetCursor();
 }
-public interface ITransducerTraversable<TState, TEdge, in TInput, out TOutput> :
-    ITraversable<TState, TEdge, TInput>, ITransducerTraversable<TInput, TOutput>
+public interface IAcceptorNavigable<TState, TEdge, in TInput> : INavigable<TState, TEdge, TInput>, IAcceptorNavigable<TInput>
 {
-    public new ITransducerTraverser<TState, TEdge, TInput, TOutput> GetTraverser();
+    public new IAcceptorCursor<TState, TEdge, TInput> GetCursor();
+}
+
+
+
+public interface ITransducerCursor<in TInput, out TOutput> : ICursor<TInput>, ISubject<TInput, TOutput> { }
+public interface ITransducerCursor<TState, TEdge, in TInput, out TOutput> :
+    ICursor<TState, TEdge, TInput>, ITransducerCursor<TInput, TOutput>
+{ }
+
+public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
+{
+    public new ITransducerCursor<TInput, TOutput> GetCursor();
+}
+public interface ITransducerNavigable<TState, TEdge, in TInput, out TOutput> :
+    INavigable<TState, TEdge, TInput>, ITransducerNavigable<TInput, TOutput>
+{
+    public new ITransducerCursor<TState, TEdge, TInput, TOutput> GetCursor();
 }
 ```
 
