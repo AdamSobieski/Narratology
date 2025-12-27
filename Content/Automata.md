@@ -127,17 +127,12 @@ Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
 ### Top-down
 
 ```cs
-public interface ITopDownTreeAcceptor
+public interface ITopDownTreeAcceptor<TTree>
+    where TTree : IHasChildren<TTree>
 {
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
     public IEnumerable Start { get; }
 
-    public bool Accepts(object tree);
-}
-
-public interface ITopDownTreeAcceptor<TTree> : ITopDownTreeAcceptor
-    where TTree : IHasChildren<TTree>
-{
     public bool Accepts(TTree tree);
 }
 
@@ -159,22 +154,14 @@ public interface ITopDownTreeAcceptorRule<out TState, in TTree> : IMatcher<TTree
 ### Bottom-up
 
 ```cs
-public interface IBottomUpTreeAcceptor
-{
-    public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
-    public Func<object, object> KeySelector { get; }
-
-    public bool Accepts(object tree);
-}
-
-public interface IBottomUpTreeAcceptor<TTree> : IBottomUpTreeAcceptor
+public interface IBottomUpTreeAcceptor<TTree>
     where TTree : IHasChildren<TTree>
 {
-    public new Func<TTree, object> KeySelector { get; }
+    public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
+    public Func<TTree, object> KeySelector { get; }
 
     public bool Accepts(TTree tree);
 }
-
 
 public interface IBottomUpTreeAcceptor<TRule, TState, TTree> : IBottomUpTreeAcceptor<TTree>
     where TRule : IBottomUpTreeAcceptorRule<TState, TTree>
