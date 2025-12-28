@@ -1,6 +1,6 @@
 ## States
 
-Systems' state nodes could refer to tools which are intended to be made instantaneously available to large language models or agents. One could union over one or more nodes representing systems' states to gather those tools to be made instantaneously available to an LLM or agent.
+Systems' state nodes could refer to tools which are intended to be made instantaneously available to large language models or agents. One could then union over one or more such nodes representing systems' states to gather together those tools to be made instantaneously available to an LLM or agent.
 
 ## Tools
 
@@ -57,7 +57,7 @@ public interface ITemplate<out TOutput>
 }
 ```
 
-Discussed here is something referenced on state nodes like `ITemplate<ToolDescription>`, where state nodes could use locally-available data to instantiate their templates to obtain described tools for LLMs or agents.
+Considered, here, is something referenced on state nodes like `ITemplate<ToolDescription>`, where state nodes could use locally-available data to instantiate these templates to obtain described tools for LLMs or agents.
 
 ## Partial Application
 
