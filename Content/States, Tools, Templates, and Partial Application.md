@@ -70,7 +70,7 @@ Perhaps, then, useful extension methods for `ITemplate<>`, above, would include:
 ```cs
 extension<TOutput>(ITemplate<TOutput> template)
 {
-    public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<TParameter, object?>> arguments);
+    public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<ParameterInfo, object?>> arguments);
 
     public ITemplate<TOutput> EnqueueInitialization(Func<TOutput, TOutput> function);
 }
