@@ -64,3 +64,14 @@ Considered, here, is something referenced on state nodes like `ITemplate<ToolDes
 One could expand on the template interface, above, or define extension methods to enable [partial application](https://en.wikipedia.org/wiki/Partial_application) on templates to create tools.
 
 One could also use the concept of partial application upon resultant tool descriptions to provide LLMs or agents with described tools having fewer parameters.
+
+Perhaps, then, useful extension methods for `ITemplate<>`, above, would include:
+
+```cs
+extension<TOutput>(ITemplate<TOutput> template)
+{
+    public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<TParameter, object?>> arguments);
+
+    public ITemplate<TOutput> EnqueueInitialization(Func<TOutput, TOutput> function);
+}
+```
