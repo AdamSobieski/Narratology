@@ -4,8 +4,6 @@
 
 How might the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet) relate to other existing techniques for processing and analyzing various other kinds of chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
 
-In these regards, extensible [knowledge-graph](https://en.wikipedia.org/wiki/Knowledge_graph) approaches to representing events and processing such streams of events are of interest.
-
 ### Complex Stateful Systems
 
 Representing systems' [states](https://en.wikipedia.org/wiki/State_(computer_science)) is of fundamental importance to computer science. Contemporary possibilities, in these regards, include uses of [graph nodes](https://en.wikipedia.org/wiki/Vertex_(graph_theory)), [knowledge graphs](https://en.wikipedia.org/wiki/Knowledge_graph), and [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
