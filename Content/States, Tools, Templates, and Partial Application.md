@@ -53,7 +53,7 @@ public interface ITemplate<out TOutput>
 {
     public ParameterInfo[] GetParameters();
 
-    public TOutput Invoke(object[] arguments);
+    public TOutput Invoke(IEnumerable<KeyValuePair<ParameterInfo, object>> arguments);
 }
 ```
 
