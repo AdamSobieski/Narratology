@@ -68,10 +68,19 @@ One could also use the concept of partial application upon resultant tool descri
 Perhaps, then, useful extension methods for `ITemplate<>`, above, would include:
 
 ```cs
-extension<TOutput>(ITemplate<TOutput> template)
+public static partial class Extensions
 {
-    public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<ParameterInfo, object?>> arguments);
+    extension<TOutput>(ITemplate<TOutput> template)
+    {
+        public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<ParameterInfo, object?>> arguments)
+        {
+            ...
+        }
 
-    public ITemplate<TOutput> EnqueueInitialization(Func<TOutput, TOutput> function);
+        public ITemplate<TOutput> EnqueueInitialization(Func<TOutput, TOutput> function)
+        {
+            ...
+        }
+    }
 }
 ```
