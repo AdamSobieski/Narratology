@@ -20,9 +20,9 @@ Will artificial-intelligence systems processing incrementally-arriving story eve
 
 _Coming soon._
 
-Aichernig, Bernhard K., Sandra König, Cristinel Mateis, Andrea Pferscher, and Martin Tappler. "Learning minimal automata with recurrent neural networks." _Software and Systems Modeling_ 23, no. 3 (2024): 625-655.
+* Aichernig, Bernhard K., Sandra König, Cristinel Mateis, Andrea Pferscher, and Martin Tappler. "Learning minimal automata with recurrent neural networks." _Software and Systems Modeling_ 23, no. 3 (2024): 625-655.
 
-Giles, C. Lee, Clifford B. Miller, Dong Chen, Hsing-Hen Chen, Guo-Zheng Sun, and Yee-Chun Lee. "Learning and extracting finite state automata with second-order recurrent neural networks." _Neural Computation_ 4, no. 3 (1992): 393-405.
+* Giles, C. Lee, Clifford B. Miller, Dong Chen, Hsing-Hen Chen, Guo-Zheng Sun, and Yee-Chun Lee. "Learning and extracting finite state automata with second-order recurrent neural networks." _Neural Computation_ 4, no. 3 (1992): 393-405.
 
 ### Automata and Large Language Models
 
