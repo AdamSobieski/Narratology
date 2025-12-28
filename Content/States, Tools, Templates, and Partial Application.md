@@ -65,7 +65,7 @@ One could expand on the template interface, above, or define extension methods t
 
 One could also use the concept of partial application upon resultant tool descriptions to provide LLMs or agents with described tools having fewer parameters.
 
-Perhaps, then, useful extension methods for `ITemplate<>`, above, would include:
+Some useful extension methods for `ITemplate<>`, above, would include:
 
 ```cs
 public static partial class Extensions
@@ -77,7 +77,7 @@ public static partial class Extensions
             ...
         }
 
-        public ITemplate<TOutput> EnqueueInitialization(Func<TOutput, TOutput> function)
+        public ITemplate<TResult> Select<TResult>(Func<TOutput, TResult> function)
         {
             ...
         }
