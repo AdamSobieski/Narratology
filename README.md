@@ -28,7 +28,7 @@ _Coming soon._
 
 Beyond performing symbol-matching or object-processing on automata edges, that some edges could consult LLMs, e.g., with (e.g., Boolean) natural-language questions about complex inputs.
 
-State-based approaches could simplify managing those tools instantaneously available to LLMs. The tools available instantaneously to an LLM could be those tools referenced by the one or more nodes together representing applications' or systems' states.
+State-based approaches could simplify managing those tools instantaneously available to LLMs. The tools available instantaneously to an LLM could be those tools referenced by the one or more nodes representing applications' or systems' states.
 
 ### Generative and Agentic Narratology
 
