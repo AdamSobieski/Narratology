@@ -4,7 +4,7 @@ Systems' state nodes could refer to tools which are intended to be made instanta
 
 ## Tools
 
-Here is an example of a contemporary tool definition, using JSON for MCP:
+Here is an example of a contemporary tool definition, using JSON, for MCP:
 
 ```json
 {
@@ -53,7 +53,7 @@ public interface ITemplate<out TOutput>
 {
     public ParameterInfo[] GetParameters();
 
-    public TOutput Invoke(IEnumerable<KeyValuePair<ParameterInfo, object?>> arguments);
+    public TOutput Invoke(IEnumerable<KeyValuePair<string, object?>> arguments);
 }
 ```
 
@@ -72,7 +72,7 @@ public static partial class Extensions
 {
     extension<TOutput>(ITemplate<TOutput> template)
     {
-        public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<ParameterInfo, object?>> arguments)
+        public ITemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<string, object?>> arguments)
         {
             ...
         }
