@@ -13,7 +13,7 @@ The above concept is generally useful in combination with reactive programming, 
 
 Developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
 
-A new variety of [automaton navigator](/Content/Automata.md#navigating-automata), perhaps one extending [data navigators](/Content/Automata.md#navigating-automata-and-data), could be developed for these scenarios.
+A variety of [automaton navigator](/Content/Automata.md#navigating-automata), perhaps [data navigators](/Content/Automata.md#navigating-automata-and-data), could be utilized for these scenarios.
 
 Related interfaces include those with which to enable objects to process such differences, either to be modified in-place or into cloned copies.
 
