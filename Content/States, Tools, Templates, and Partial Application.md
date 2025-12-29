@@ -65,7 +65,7 @@ One could expand on the template interface, above, or define extension methods t
 
 One could also use the concept of partial application upon resultant tool descriptions to provide LLMs or agents with described tools having fewer parameters.
 
-Some useful extension methods for `ITemplate<>`, above, would include:
+Some useful extension methods for `ITemplate<>`, above, then, would include:
 
 ```cs
 public static partial class Extensions
