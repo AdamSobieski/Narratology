@@ -107,30 +107,20 @@ For developer convenience, default implementations of automaton navigators can b
 Automaton navigators can carry data. This data could be cloned and processed by edges. This processed data could be consumed by states to produce other data. For non-deterministic cases, implementations would need merging or aggregation algorithms for when multiple edges converge onto states.
 
 ```cs
-public interface IDataNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, IEnumerable>
+public interface IDataNavigator<in TInput, TValue> : INavigator<TInput>, ISubject<TInput, IEnumerable<TValue>>
 {
-    public IReadOnlyDictionary<object, object> Data { get; }
+    public IReadOnlyDictionary<object, TValue> Data { get; }
 }
-public interface
-IDataNavigator<TState, in TInput> : IDataNavigator<TInput>, INavigator<TState, TInput>
-{
-    public new IReadOnlyDictionary<TState, object> Data { get; }
-}
-public interface
-IDataNavigator<TState, in TInput, TValue> : IDataNavigator<TState, TInput>, ISubject<TInput, IEnumerable<TValue>>
+public interface IDataNavigator<TState, in TInput, TValue> : INavigator<TState, TInput>, IDataNavigator<TInput, TValue>
 {
     public new IReadOnlyDictionary<TState, TValue> Data { get; }
 }
 
-public interface IDataNavigable<in TInput> : INavigable<TInput>
+public interface IDataNavigable<in TInput, TValue> : INavigable<TInput>
 {
-    public new IDataNavigator<TInput> GetNavigator();
+    public new IDataNavigator<TInput, TValue> GetNavigator();
 }
-public interface IDataNavigable<TState, in TInput> : IDataNavigable<TInput>, INavigable<TState, TInput>
-{
-    public new IDataNavigator<TState, TInput> GetNavigator();
-}
-public interface IDataNavigable<TState, in TInput, TValue> : IDataNavigable<TState, TInput>
+public interface IDataNavigable<TState, in TInput, TValue> : INavigable<TState, TInput>, IDataNavigable<TInput, TValue>
 {
     public new IDataNavigator<TState, TInput, TValue> GetNavigator();
 }
