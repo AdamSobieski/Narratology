@@ -9,7 +9,9 @@ public interface IDifferenceable<in T, out TDifference>
 }
 ```
 
-While generally useful in combination with reactive programming, e.g., `System.Reactive`, developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
+The above concept is generally useful in combination with reactive programming, e.g., the `System.Reactive` library. One could, for example, use it with enumerable differences, `IDifferenceable<T, IEnumerable<Event>>`.
+
+Developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
 
 A new variety of [automaton navigator](/Content/Automata.md#navigating-automata), perhaps one extending [data navigators](/Content/Automata.md#navigating-automata-and-data), could be developed for these scenarios.
 
