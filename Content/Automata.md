@@ -48,9 +48,9 @@ public interface ITransducer<TState, TEdge, in TInput, out TOutput> :
 
 For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
 
-## Navigating Automata and Reactive Programming
+## Navigating Automata
 
-Interfaces for automata could provide a method, `GetNavigator()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library.
+Interfaces for automata could provide a method, `GetNavigator()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library, with reactive programming.
 
 Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
 
