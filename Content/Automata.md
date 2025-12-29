@@ -107,12 +107,12 @@ For developer convenience, default implementations of automaton navigators can b
 Automaton navigators can carry data. This data could be cloned and processed by edges. This processed data could be consumed by states to produce other data. For non-deterministic cases, implementations would need merging or aggregation algorithms for when multiple edges converge onto states.
 
 ```cs
-public interface IDataNavigator<in TInput> : INavigator<TInput>
+public interface IDataNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, IEnumerable>
 {
     public IReadOnlyDictionary<object, object> Data { get; }
 }
 public interface
-IDataNavigator<TState, in TInput> : IDataNavigator<TInput>, INavigator<TState, TInput>, ISubject<TInput, IEnumerable>
+IDataNavigator<TState, in TInput> : IDataNavigator<TInput>, INavigator<TState, TInput>
 {
     public new IReadOnlyDictionary<TState, object> Data { get; }
 }
