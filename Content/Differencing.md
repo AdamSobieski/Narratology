@@ -9,9 +9,11 @@ public interface IDifferenceable<in T, out TDifference>
 }
 ```
 
-Developers and end-users could explore differences between states or state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
+While generally useful in combination with reactive programming, e.g., `System.Reactive`, developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
 
-Related interfaces include those to enable objects to process such differences, either to be modified in-place or into cloned copies.
+A new variety of [automaton navigator](/Content/Automata.md#navigating-automata), perhaps one extending [data navigators](/Content/Automata.md#navigating-automata-and-data), could be developed for these scenarios.
+
+Related interfaces include those with which to enable objects to process such differences, either to be modified in-place or into cloned copies.
 
 ```cs
 public interface IApplyDifference<in TDifference>
@@ -24,5 +26,3 @@ public interface ICloneable<in TDifference> : ICloneable
     public object Clone(TDifference difference);
 }
 ```
-
-A new variety of [automaton navigator](/Content/Automata.md#navigating-automata), perhaps one extending [data navigators](/Content/Automata.md#navigating-automata-and-data), could be developed for these scenarios.
