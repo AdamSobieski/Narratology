@@ -1,4 +1,6 @@
-## Automata
+# Automata
+
+## Automata, Acceptors, and Transducers
 
 Here are some sketches of interfaces for automata.
 
@@ -219,11 +221,11 @@ public static void Do<TState, TInput>
 }
 ```
 
-## Tree Automata
+# Tree Automata
 
 Here are some sketches of interfaces for top-down and bottom-up tree acceptors.
 
-### Top-down
+## Top-down
 
 ```cs
 public interface ITopDownTreeAcceptor<in TTree>
@@ -250,7 +252,7 @@ public interface ITopDownTreeAcceptorRule<out TState, in TTree> : IMatcher<TTree
 }
 ```
 
-### Bottom-up
+## Bottom-up
 
 ```cs
 public interface IBottomUpTreeAcceptor<in TTree>
