@@ -136,7 +136,7 @@ public interface IDataNavigable<TState, in TInput, TValue> : IDataNavigable<TSta
 }
 ```
 
-Interesting possibilities for `TValue` include: `ExpandoObject`, `IReadOnlyDictionary<string, object?>`, and knowledge graphs.
+Interesting possibilities for data to be carried by automaton navigators (i.e., `TValue`) include: `ExpandoObject`, `IReadOnlyDictionary<string, object?>`, and knowledge graphs.
 
 ## Language Integrated Query (LINQ)
 
