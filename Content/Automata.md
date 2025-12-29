@@ -126,11 +126,11 @@ public interface IDataNavigable<TState, in TInput, TValue> : INavigable<TState, 
 }
 ```
 
-Interesting possibilities for data to be carried by automaton navigators (i.e., `TValue`) include: `ExpandoObject`, `IReadOnlyDictionary<string, object?>`, and knowledge graphs.
+Possibilities for data to be carried by automaton navigators (i.e., `TValue`) include: `ExpandoObject`, `IReadOnlyDictionary<string, object?>`, and knowledge graphs.
 
 ## Language Integrated Query (LINQ)
 
-Method chaining could utilize automata navigators.
+Method chaining via extension methods could utilize automata navigators.
 
 ```cs
 public static IEnumerable<TInput> Where<TState, TInput>
@@ -144,14 +144,20 @@ public static IEnumerable<TInput> Where<TState, TInput>
     {
         foreach (var element in source)
         {
-            navigator.OnNext(element);
+            bool b = false;
 
-            if (functor(navigator, element))
+            try
             {
-                yield return element;
+                navigator.OnNext(element);
+                b = functor(navigator, element);
             }
+            catch (Exception ex)
+            {
+                navigator.OnError(ex);
+                break;
+            }
+            if (b) yield return element;
         }
-
         navigator.OnCompleted();
     }
 }
@@ -168,10 +174,19 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
     {
         foreach (var element in source)
         {
-            navigator.OnNext(element);
-            yield return (selector(navigator, element));
+            TResult result;
+            try
+            {
+                navigator.OnNext(element);
+                result = selector(navigator, element);
+            }
+            catch (Exception ex)
+            {
+                navigator.OnError(ex);
+                break;
+            }
+            yield return result;
         }
-
         navigator.OnCompleted();
     }
 }
@@ -188,10 +203,17 @@ public static void Do<TState, TInput>
     {
         foreach (var element in source)
         {
-            navigator.OnNext(element);
-            action(navigator, element);
+            try
+            {
+                navigator.OnNext(element);
+                action(navigator, element);
+            }
+            catch (Exception ex)
+            {
+                navigator.OnError(ex);
+                break;
+            }
         }
-
         navigator.OnCompleted();
     }
 }
