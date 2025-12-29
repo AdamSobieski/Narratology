@@ -53,7 +53,7 @@ Interfaces for automata could provide a method, `GetNavigator()`, which returns 
 Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
 
 ```cs
-public interface INavigator<in TInput> : IObserver<TInput>
+public interface INavigator<in TInput> : IObserver<TInput>, IDisposable
 {
     public IEnumerable Current { get; }
 }
@@ -140,19 +140,20 @@ public static IEnumerable<TInput> Where<TState, TInput>
     Func<INavigator<TState, TInput>, TInput, bool> functor
 )
 {
-    var navigator = navigable.GetNavigator();
-
-    foreach (var element in source)
+    using (var navigator = navigable.GetNavigator())
     {
-        navigator.OnNext(element);
-
-        if (functor(navigator, element))
+        foreach (var element in source)
         {
-            yield return element;
-        }
-    }
+            navigator.OnNext(element);
 
-    navigator.OnCompleted();
+            if (functor(navigator, element))
+            {
+                yield return element;
+            }
+        }
+
+        navigator.OnCompleted();
+    }
 }
 ```
 ```cs
@@ -163,15 +164,16 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
     Func<INavigator<TState, TInput>, TInput, TResult> selector
 )
 {
-    var navigator = navigable.GetNavigator();
-
-    foreach (var element in source)
+    using (var navigator = navigable.GetNavigator())
     {
-        navigator.OnNext(element);
-        yield return (selector(navigator, element));
-    }
+        foreach (var element in source)
+        {
+            navigator.OnNext(element);
+            yield return (selector(navigator, element));
+        }
 
-    navigator.OnCompleted();
+        navigator.OnCompleted();
+    }
 }
 ```
 ```cs
@@ -182,15 +184,16 @@ public static void Do<TState, TInput>
     Action<INavigator<TState, TInput>, TInput> action
 )
 {
-    var navigator = navigable.GetNavigator();
-
-    foreach (var element in source)
+    using (var navigator = navigable.GetNavigator())
     {
-        navigator.OnNext(element);
-        action(navigator, element);
-    }
+        foreach (var element in source)
+        {
+            navigator.OnNext(element);
+            action(navigator, element);
+        }
 
-    navigator.OnCompleted();
+        navigator.OnCompleted();
+    }
 }
 ```
 
