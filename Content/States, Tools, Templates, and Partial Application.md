@@ -1,3 +1,5 @@
+# States, Tools, Templates, and Partial Application
+
 ## States
 
 Systems' state nodes could refer to tools which are intended to be made instantaneously available to large language models or agents. One could then union over one or more such nodes representing systems' states to gather together those tools to be made instantaneously available to an LLM or agent.
