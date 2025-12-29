@@ -130,7 +130,7 @@ Possibilities for data to be carried by automaton navigators (i.e., `TValue`) in
 
 ## Language Integrated Query (LINQ)
 
-Method chaining via extension methods could utilize automata navigators.
+Method chaining via extension methods could utilize automata and their navigators.
 
 ```cs
 public static IEnumerable<TInput> Where<TState, TInput>
