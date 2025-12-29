@@ -70,9 +70,8 @@ public interface INavigable<out TState, in TInput> : INavigable<TInput>
 {
     public new INavigator<TState, TInput> GetNavigator();
 }
-
-
-
+```
+```cs
 public interface IAcceptorNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, bool> { }
 public interface IAcceptorNavigator<out TState, in TInput> : INavigator<TState, TInput>, IAcceptorNavigator<TInput> { }
 
@@ -84,9 +83,8 @@ public interface IAcceptorNavigable<out TState, in TInput> : INavigable<TState, 
 {
     public new IAcceptorNavigator<TState, TInput> GetNavigator();
 }
-
-
-
+```
+```cs
 public interface ITransducerNavigator<in TInput, out TOutput> : INavigator<TInput>, ISubject<TInput, TOutput> { }
 public interface ITransducerNavigator<out TState, in TInput, out TOutput> :
     INavigator<TState, TInput>, ITransducerNavigator<TInput, TOutput> { }
@@ -104,16 +102,52 @@ public interface ITransducerNavigable<out TState, in TInput, out TOutput> :
 
 For developer convenience, default implementations of automaton navigators can be provided.
 
+## Navigating Automata and Data
+
+Automaton navigators can carry data. This data could be cloned and processed by edges. This processed data could be consumed by states to produce other data. For non-deterministic cases, implementations would need merging or aggregation algorithms for when multiple edges converge onto states.
+
+```cs
+public interface IDataNavigator<in TInput> : INavigator<TInput>
+{
+    public IReadOnlyDictionary<object, object> Data { get; }
+}
+public interface
+IDataNavigator<TState, in TInput> : IDataNavigator<TInput>, INavigator<TState, TInput>, ISubject<TInput, IEnumerable>
+{
+    public new IReadOnlyDictionary<TState, object> Data { get; }
+}
+public interface
+IDataNavigator<TState, in TInput, TValue> : IDataNavigator<TState, TInput>, ISubject<TInput, IEnumerable<TValue>>
+{
+    public new IReadOnlyDictionary<TState, TValue> Data { get; }
+}
+
+public interface IDataNavigable<in TInput> : INavigable<TInput>
+{
+    public new IDataNavigator<TInput> GetNavigator();
+}
+public interface IDataNavigable<TState, in TInput> : IDataNavigable<TInput>, INavigable<TState, TInput>
+{
+    public new IDataNavigator<TState, TInput> GetNavigator();
+}
+public interface IDataNavigable<TState, in TInput, TValue> : IDataNavigable<TState, TInput>
+{
+    public new IDataNavigator<TState, TInput, TValue> GetNavigator();
+}
+```
+
+Interesting possibilities for `TValue` include: `ExpandoObject`, `IReadOnlyDictionary<string, object?>`, and knowledge graphs.
+
 ## Language Integrated Query (LINQ)
 
-Method chaining can utilize the contextual states of automata navigators. As `TState` would be defined by developers, navigators' states could provide either acontextual or contextual methods for filtering, transforming, or performing actions upon elements in enumerables or streams.
+Method chaining could utilize automata navigators.
 
 ```cs
 public static IEnumerable<TInput> Where<TState, TInput>
 (
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
-    Func<IEnumerable<TState>, TInput, bool> functor
+    Func<INavigator<TState, TInput>, TInput, bool> functor
 )
 {
     var navigator = navigable.GetNavigator();
@@ -122,7 +156,7 @@ public static IEnumerable<TInput> Where<TState, TInput>
     {
         navigator.OnNext(element);
 
-        if (functor(navigator.Current, element))
+        if (functor(navigator, element))
         {
             yield return element;
         }
@@ -131,13 +165,12 @@ public static IEnumerable<TInput> Where<TState, TInput>
     navigator.OnCompleted();
 }
 ```
-
 ```cs
 public static IEnumerable<TResult> Select<TState, TInput, TResult>
 (
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
-    Func<IEnumerable<TState>, TInput, TResult> selector
+    Func<INavigator<TState, TInput>, TInput, TResult> selector
 )
 {
     var navigator = navigable.GetNavigator();
@@ -145,19 +178,18 @@ public static IEnumerable<TResult> Select<TState, TInput, TResult>
     foreach (var element in source)
     {
         navigator.OnNext(element);
-        yield return (selector(navigator.Current, element));
+        yield return (selector(navigator, element));
     }
 
     navigator.OnCompleted();
 }
 ```
-
 ```cs
 public static void Do<TState, TInput>
 (
     this IEnumerable<TInput> source,
     INavigable<TState, TInput> navigable,
-    Action<IEnumerable<TState>, TInput> action
+    Action<INavigator<TState, TInput>, TInput> action
 )
 {
     var navigator = navigable.GetNavigator();
@@ -165,7 +197,7 @@ public static void Do<TState, TInput>
     foreach (var element in source)
     {
         navigator.OnNext(element);
-        action(navigator.Current, element);
+        action(navigator, element);
     }
 
     navigator.OnCompleted();
