@@ -10,7 +10,7 @@ public interface IAutomaton<in TInput> : INavigable<TInput>
 
 public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TInput>
     where TState : IHasOutgoingEdges<TEdge>
-    where TEdge : IHasTarget<TState>
+    where TEdge : IHasTarget<TState>, IMatcher<TInput>
 {
     public new IEnumerable<TState> Start { get; }
 }
@@ -27,7 +27,7 @@ public interface IAcceptor<in TInput> :
 
 public interface IAcceptor<out TState, out TEdge, in TInput> :
     IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TInput>
-        where TState : IHasOutgoingEdges<TEdge>
+        where TState : IHasOutgoingEdges<TEdge>, IHasIsValid
         where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
 
