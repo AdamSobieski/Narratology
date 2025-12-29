@@ -25,4 +25,4 @@ public interface ICloneable<in TDifference> : ICloneable
 }
 ```
 
-A new variety of [automaton navigator](/Content/Automata.md) could be developed for these scenarios.
+A new variety of [automaton navigator](/Content/Automata.md#navigating-automata) could be developed for these scenarios.
