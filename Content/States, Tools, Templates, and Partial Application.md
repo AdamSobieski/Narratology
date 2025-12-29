@@ -57,6 +57,15 @@ public interface ITemplate<out TOutput>
 }
 ```
 
+For inspectability, to be able to examine whether and when templates were created from extension methods upon other templates, one could:
+
+```cs
+public interface IInspectableTemplate<out TOutput> : ITemplate<TOutput>
+{
+    public Expression Expression { get; }
+}
+```
+
 Considered, here, is something referenced on state nodes like `ITemplate<ToolDescription>`, where state nodes could use locally-available data to instantiate these templates to obtain described tools for LLMs or agents.
 
 ## Partial Application
@@ -78,6 +87,19 @@ public static partial class Extensions
         }
 
         public ITemplate<TResult> Select<TResult>(Func<TOutput, TResult> function)
+        {
+            ...
+        }
+    }
+
+    extension<TOutput>(IInspectableTemplate<TOutput> template)
+    {
+        public IInspectableTemplate<TOutput> PartialApplication(IEnumerable<KeyValuePair<string, object?>> arguments)
+        {
+            ...
+        }
+
+        public IInspectableTemplate<TResult> Select<TResult>(Expression<Func<TOutput, TResult>> function)
         {
             ...
         }
