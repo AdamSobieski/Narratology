@@ -50,7 +50,7 @@ For developer convenience, default implementations of `Accepts()` and `Transduce
 
 ## Navigating Automata
 
-Interfaces for automata could provide a method, `GetNavigator()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library, with reactive programming.
+Interfaces for automata could provide a method, `GetNavigator()`, which returns objects for navigating them, objects implementing interfaces including for interoperability with the `System.Reactive` library, for interoperability with reactive programming.
 
 Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
 
