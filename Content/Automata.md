@@ -260,7 +260,3 @@ public interface IBottomUpTreeAcceptorRule<out TState, in TTree> : IMatcher<TTre
     public TState Output { get; }
 }
 ```
-
-## Learning, Building, and Optimizing Automata
-
-_Coming soon._
