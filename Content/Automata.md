@@ -72,6 +72,8 @@ public interface INavigator : IDisposable
 
     public IEnumerable Current { get; }
     public IEnumerable Edges { get; }
+
+    // public IReadOnlyDictionary<object, object?> Data { get; }
 }
 
 public interface INavigator<in TInput> : INavigator, IObserver<TInput>
