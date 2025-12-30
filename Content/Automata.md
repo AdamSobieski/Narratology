@@ -309,4 +309,4 @@ public static void Do<TState, TEdge, TInput>
 
 ## Casting Navigables to Different Types
 
-Extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed using wrappers.
+A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed using wrappers.
