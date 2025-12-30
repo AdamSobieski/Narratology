@@ -277,7 +277,7 @@ public static void Do<TState, TEdge, TInput>
 
 ## Type Casting
 
-Extension methods for casting navigators to different types can be developed using wrappers.
+Extension methods for casting automata navigators to different types can be developed using wrappers.
 
 # Tree Automata
 
