@@ -201,7 +201,10 @@ public interface IOutputtingDataNavigator<in TInput, out TValue, out TOutput> :
 public interface IOutputtingDataNavigator<TState, out TEdge, in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigator<TInput, TValue, TOutput>, IDataNavigator<TState, TEdge, TInput, TValue> { }
 
-public interface IOutputtingDataNavigable : IDataNavigable { }
+public interface IOutputtingDataNavigable : IDataNavigable
+{
+    public new IOutputtingDataNavigator GetNavigator();
+}
 
 public interface IOutputtingDataNavigable<in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigable, IDataNavigable<TInput, TValue>
