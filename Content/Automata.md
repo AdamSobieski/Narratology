@@ -2,7 +2,7 @@
 
 ## Automata, Acceptors, and Transducers
 
-Here are some sketches of interfaces for automata.
+Here are some interfaces for automata.
 
 ```cs
 public interface IAutomaton : INavigable
@@ -20,7 +20,7 @@ public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInpu
 }
 ```
 
-Here are some sketches of interfaces for acceptors.
+Here are some interfaces for acceptors.
 
 ```cs
 public interface IAcceptor : IAutomaton
@@ -40,7 +40,7 @@ public interface IAcceptor<out TState, out TEdge, in TInput> :
         where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
 
-Here are some sketches of interfaces for transducers.
+Here are some interfaces for transducers.
 ```cs
 public interface ITransducer : IAutomaton
 {
@@ -63,9 +63,7 @@ For developer convenience, default implementations of `Accepts()` and `Transduce
 
 ## Navigating Automata
 
-Automaton interfaces extend `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method return an object for navigating the automaton. Automaton navigators, extending `INavigator`-related interfaces, are interoperable with the `System.Reactive` library and reactive programming.
-
-Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
+Automaton interfaces extend a set of `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method return an object for navigating the automaton. Automaton navigators, extending a set of `INavigator`-related interfaces, are interoperable with the `System.Reactive` library for reactive programming.
 
 ```cs
 public interface INavigator : IDisposable
@@ -319,6 +317,6 @@ public static void Do<TState, TEdge, TInput>
 }
 ```
 
-## Casting Navigables to Different Types
+## Casting Automata and Other Navigables to Different Types
 
-A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed using wrappers.
+A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, some involving wrappers.
