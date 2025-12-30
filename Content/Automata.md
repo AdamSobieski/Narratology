@@ -56,20 +56,25 @@ Automaton interfaces extend `INavigable`-related interfaces to provide a method,
 Here are some sketches of a set of `INavigable`-related and `INavigator`-related interfaces.
 
 ```cs
-public interface INavigator<in TInput> : IObserver<TInput>, IDisposable
+public interface INavigator : IDisposable
 {
     public IEnumerable Current { get; }
     public IEnumerable Edges { get; }
 }
+public interface INavigator<in TInput> : INavigator, IObserver<TInput> { }
 public interface INavigator<out TState, out TEdge, in TInput> : INavigator<TInput>
 {
     public new IEnumerable<TState> Current { get; }
     public new IEnumerable<TEdge> Edges { get; }
 }
 
-public interface INavigable<in TInput>
+public interface INavigable
 {
-    public INavigator<TInput> GetNavigator();
+    public INavigator GetNavigator();
+}
+public interface INavigable<in TInput> : INavigable
+{
+    public new INavigator<TInput> GetNavigator();
 }
 public interface INavigable<out TState, out TEdge, in TInput> : INavigable<TInput>
 {
