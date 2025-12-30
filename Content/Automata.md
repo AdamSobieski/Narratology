@@ -72,8 +72,6 @@ public interface INavigator : IDisposable
 
     public IEnumerable Current { get; }
     public IEnumerable Edges { get; }
-
-    // public IReadOnlyDictionary<object, object?> Data { get; }
 }
 
 public interface INavigator<in TInput> : INavigator, IObserver<TInput>
@@ -157,96 +155,40 @@ public interface ITransducerNavigable<out TState, out TEdge, in TInput, out TOut
 
 For developer convenience, default implementations of automaton navigators can be provided.
 
-## Language Integrated Query (LINQ)
+## Navigators Carrying Data
 
-Method chaining via extension methods could utilize automata and their navigators.
+Automaton navigators could carry data or objects. For example: stacks, queues, expando objects, and knowledge graphs.
+
+Towards delivering these capabilities, firstly, `INavigator` could provide a dictionary to return a nullable object for each current state.
 
 ```cs
-public static IEnumerable<TInput> Where<TState, TEdge, TInput>
-(
-    this IEnumerable<TInput> source,
-    INavigable<TState, TEdge, TInput> navigable,
-    Func<INavigator<TState, TEdge, TInput>, TInput, bool> functor
-)
+public interface INavigator : IDisposable
 {
-    using (var navigator = navigable.GetNavigator())
-    {
-        foreach (var element in source)
-        {
-            bool b = false;
+    public void OnNext(object value);
+    public void OnError(Exception error);
+    public void OnCompleted();
 
-            try
-            {
-                navigator.OnNext(element);
-                b = functor(navigator, element);
-            }
-            catch (Exception ex)
-            {
-                navigator.OnError(ex);
-                break;
-            }
-            if (b) yield return element;
-        }
-        navigator.OnCompleted();
-    }
+    public IEnumerable Current { get; }
+    public IEnumerable Edges { get; }
+
+    public IReadOnlyDictionary<object, object?> Data { get; }
 }
 ```
+
+A second possibility is that `IHasContextualData` interfaces could be utilized by those implementing state objects and available as a type constraint on `TState` for extension methods.
+
 ```cs
-public static IEnumerable<TResult> Select<TState, TEdge, TInput, TResult>
-(
-    this IEnumerable<TInput> source,
-    INavigable<TState, TEdge, TInput> navigable,
-    Func<INavigator<TState, TEdge, TInput>, TInput, TResult> selector
-)
+public interface IHasContextualData
 {
-    using (var navigator = navigable.GetNavigator())
-    {
-        foreach (var element in source)
-        {
-            TResult result;
-            try
-            {
-                navigator.OnNext(element);
-                result = selector(navigator, element);
-            }
-            catch (Exception ex)
-            {
-                navigator.OnError(ex);
-                break;
-            }
-            yield return result;
-        }
-        navigator.OnCompleted();
-    }
+    public object? GetData(INavigator context);
+}
+public interface IHasContextualData<out TData> : IHasContextualData
+{
+    public new TData GetData(INavigator context);
 }
 ```
-```cs
-public static void Do<TState, TEdge, TInput>
-(
-    this IEnumerable<TInput> source,
-    INavigable<TState, TEdge, TInput> navigable,
-    Action<INavigator<TState, TEdge, TInput>, TInput> action
-)
-{
-    using (var navigator = navigable.GetNavigator())
-    {
-        foreach (var element in source)
-        {
-            try
-            {
-                navigator.OnNext(element);
-                action(navigator, element);
-            }
-            catch (Exception ex)
-            {
-                navigator.OnError(ex);
-                break;
-            }
-        }
-        navigator.OnCompleted();
-    }
-}
-```
+
+However, with wrappers utilized by type casting (see below), it may be the case that original, navigable-provided navigator objects would be inaccessible to state objects. So, as needed, one could provide an `UnderlyingNavigator` property on `INavigator` to return an underlying, or wrapped, object.
 
 ## Casting Automata and Other Navigables to Different Types
 
