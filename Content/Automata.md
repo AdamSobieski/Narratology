@@ -135,14 +135,14 @@ Possibilities for data to be carried by automaton navigators (i.e., `TValue`) in
 Automaton navigators carrying data could also stream outputs of a specified type, `TOutput`.
 
 ```cs
-public interface IOuputtingDataNavigator<in TInput, out TOutput, TValue> :
+public interface IOutputtingDataNavigator<in TInput, out TOutput, TValue> :
     IDataNavigator<TInput, TValue>, ISubject<TInput, TOutput> { } 
 public interface IOutputtingDataNavigator<TState, in TInput, out TOutput, TValue> :
-    IDataNavigator<TState, TInput, TValue>, IOuputtingDataNavigator<TInput, TOutput, TValue> { }
+    IDataNavigator<TState, TInput, TValue>, IOutputtingDataNavigator<TInput, TOutput, TValue> { }
 
 public interface IOutputtingDataNavigable<in TInput, out TOutput, TValue> : IDataNavigable<TInput, TValue>
 {
-    public new IOuputtingDataNavigator<TInput, TOutput, TValue> GetNavigator();
+    public new IOutputtingDataNavigator<TInput, TOutput, TValue> GetNavigator();
 }
 public interface IOutputtingDataNavigable<TState, in TInput, out TOutput, TValue> :
     IDataNavigable<TState, TInput, TValue>, IOutputtingDataNavigable<TInput, TOutput, TValue>
