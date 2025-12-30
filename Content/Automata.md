@@ -283,7 +283,6 @@ public interface IBottomUpTreeAcceptor<in TTree>
     where TTree : IHasChildren<TTree>
 {
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
-
     public Func<TTree, object> KeySelector { get; }
 
     public bool Accepts(TTree tree);
