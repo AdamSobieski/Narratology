@@ -159,7 +159,7 @@ For developer convenience, default implementations of automaton navigators can b
 
 Automaton navigators could carry objects or data. For example, they could provide readonly interfaces for stacks, queues, expando objects, or knowledge graphs.
 
-Towards delivering these capabilities, firstly, `INavigator` could provide a method, `GetData()`, to return an object for each current state.
+Towards delivering these capabilities, `INavigator` could provide a method, `GetData()`, to return an object for each current state.
 
 ```cs
 public interface INavigator : IDisposable
@@ -191,21 +191,6 @@ public interface INavigator<TState, out TEdge, in TInput, out TData> : INavigato
     public TData GetData(TState state);
 }
 ```
-
-A second possibility is that `IHasContextualData` interfaces could be utilized by developers implementing state objects and available as a type constraint on `TState` for extension methods.
-
-```cs
-public interface IHasContextualData
-{
-    public object? GetData(INavigator context);
-}
-public interface IHasContextualData<out TData> : IHasContextualData
-{
-    public new TData GetData(INavigator context);
-}
-```
-
-However, with wrappers utilized by type casting (see below), it may be the case that original, navigable-provided navigator objects would be inaccessible to state objects. So, as needed, one could provide an `UnderlyingNavigator` property on `INavigator` to return an underlying, or wrapped, object.
 
 ## Casting Automata and Other Navigables to Different Types
 
