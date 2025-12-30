@@ -155,9 +155,9 @@ public interface ITransducerNavigable<out TState, out TEdge, in TInput, out TOut
 
 For developer convenience, default implementations of automaton navigators can be provided.
 
-## Navigators Carrying Data
+## Navigators Carrying Objects or Data
 
-Automaton navigators could carry data or objects. For example, they could provide readonly interfaces for stacks, queues, expando objects, or knowledge graphs.
+Automaton navigators could carry objects or data. For example, they could provide readonly interfaces for stacks, queues, expando objects, or knowledge graphs.
 
 Towards delivering these capabilities, firstly, `INavigator` could provide a dictionary to return an object for each current state.
 
