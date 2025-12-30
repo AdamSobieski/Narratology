@@ -157,18 +157,18 @@ Automaton navigators can carry data. This data could be cloned to be processed b
 ```cs
 public interface IDataNavigator : INavigator
 {
-    public IReadOnlyDictionary<object, object> Data { get; }
+    public object GetData(object state);
 }
 
-public interface IDataNavigator<in TInput, TValue> : IDataNavigator, INavigator<TInput>
+public interface IDataNavigator<in TInput, out TValue> : IDataNavigator, INavigator<TInput>
 {
-    public new IReadOnlyDictionary<object, TValue> Data { get; }
+    public new TValue GetData(object state);
 }
 
-public interface IDataNavigator<TState, out TEdge, in TInput, TValue> :
+public interface IDataNavigator<TState, out TEdge, in TInput, out TValue> :
     IDataNavigator<TInput, TValue>, INavigator<TState, TEdge, TInput>
 {
-    public new IReadOnlyDictionary<TState, TValue> Data { get; }
+    public TValue GetData(TState state);
 }
 
 public interface IDataNavigable : INavigable
@@ -176,12 +176,12 @@ public interface IDataNavigable : INavigable
     public new IDataNavigator GetNavigator();
 }
 
-public interface IDataNavigable<in TInput, TValue> : IDataNavigable, INavigable<TInput>
+public interface IDataNavigable<in TInput, out TValue> : IDataNavigable, INavigable<TInput>
 {
     public new IDataNavigator<TInput, TValue> GetNavigator();
 }
 
-public interface IDataNavigable<TState, out TEdge, in TInput, TValue> :
+public interface IDataNavigable<TState, out TEdge, in TInput, out TValue> :
     IDataNavigable<TInput, TValue>, INavigable<TState, TEdge, TInput>
 {
     public new IDataNavigator<TState, TEdge, TInput, TValue> GetNavigator();
@@ -195,21 +195,21 @@ Automaton navigators carrying data could also stream outputs of a specified type
 ```cs
 public interface IOutputtingDataNavigator : IDataNavigator { }
 
-public interface IOutputtingDataNavigator<in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigator<in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigator, IDataNavigator<TInput, TValue>, ISubject<TInput, TOutput> { } 
 
-public interface IOutputtingDataNavigator<TState, out TEdge, in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigator<TState, out TEdge, in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigator<TInput, TValue, TOutput>, IDataNavigator<TState, TEdge, TInput, TValue> { }
 
 public interface IOutputtingDataNavigable : IDataNavigable { }
 
-public interface IOutputtingDataNavigable<in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigable<in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigable, IDataNavigable<TInput, TValue>
 {
     public new IOutputtingDataNavigator<TInput, TValue, TOutput> GetNavigator();
 }
 
-public interface IOutputtingDataNavigable<TState, out TEdge, in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigable<TState, out TEdge, in TInput, out TValue, out TOutput> :
     IOutputtingDataNavigable<TInput, TValue, TOutput>, IDataNavigable<TState, TEdge, TInput, TValue>
 {
     public new IOutputtingDataNavigator<TState, TEdge, TInput, TValue, TOutput> GetNavigator();
