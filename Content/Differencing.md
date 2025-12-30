@@ -13,8 +13,6 @@ The above concept is generally useful in combination with reactive programming, 
 
 Developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
 
-Perhaps [outputting data navigables](/Content/Automata.md#navigating-automata-and-data) could be utilized for these purposes.
-
 Related interfaces include those with which to enable objects to process such differences, either to be modified in-place or into cloned copies.
 
 ```cs
