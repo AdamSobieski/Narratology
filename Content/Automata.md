@@ -83,8 +83,10 @@ public interface INavigable<out TState, out TEdge, in TInput> : INavigable<TInpu
 ```
 ```cs
 public interface IAcceptorNavigator : INavigator { }
-public interface IAcceptorNavigator<in TInput> : IAcceptorNavigator, INavigator<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorNavigator<out TState, out TEdge, in TInput> : IAcceptorNavigator<TInput>, INavigator<TState, TEdge, TInput> { }
+public interface IAcceptorNavigator<in TInput> :
+    IAcceptorNavigator, INavigator<TInput>, ISubject<TInput, bool> { }
+public interface IAcceptorNavigator<out TState, out TEdge, in TInput> :
+    IAcceptorNavigator<TInput>, INavigator<TState, TEdge, TInput> { }
 
 public interface IAcceptorNavigable : INavigable
 {
