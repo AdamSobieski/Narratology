@@ -118,7 +118,7 @@ public interface IDataNavigator<in TInput, TValue> : INavigator<TInput>
 {
     public IReadOnlyDictionary<object, TValue> Data { get; }
 }
-public interface IDataNavigator<TState, TEdge, in TInput, TValue> :
+public interface IDataNavigator<TState, out TEdge, in TInput, TValue> :
     INavigator<TState, TEdge, TInput>, IDataNavigator<TInput, TValue>
 {
     public new IReadOnlyDictionary<TState, TValue> Data { get; }
@@ -128,7 +128,7 @@ public interface IDataNavigable<in TInput, TValue> : INavigable<TInput>
 {
     public new IDataNavigator<TInput, TValue> GetNavigator();
 }
-public interface IDataNavigable<TState, TEdge, in TInput, TValue> :
+public interface IDataNavigable<TState, out TEdge, in TInput, TValue> :
     INavigable<TState, TEdge, TInput>, IDataNavigable<TInput, TValue>
 {
     public new IDataNavigator<TState, TEdge, TInput, TValue> GetNavigator();
@@ -142,14 +142,14 @@ Automaton navigators carrying data could also stream outputs of a specified type
 ```cs
 public interface IOutputtingDataNavigator<in TInput, TValue, out TOutput> :
     IDataNavigator<TInput, TValue>, ISubject<TInput, TOutput> { } 
-public interface IOutputtingDataNavigator<TState, TEdge, in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigator<TState, out TEdge, in TInput, TValue, out TOutput> :
     IDataNavigator<TState, TEdge, TInput, TValue>, IOutputtingDataNavigator<TInput, TValue, TOutput> { }
 
 public interface IOutputtingDataNavigable<in TInput, TValue, out TOutput> : IDataNavigable<TInput, TValue>
 {
     public new IOutputtingDataNavigator<TInput, TValue, TOutput> GetNavigator();
 }
-public interface IOutputtingDataNavigable<TState, TEdge, in TInput, TValue, out TOutput> :
+public interface IOutputtingDataNavigable<TState, out TEdge, in TInput, TValue, out TOutput> :
     IDataNavigable<TState, TEdge, TInput, TValue>, IOutputtingDataNavigable<TInput, TValue, TOutput>
 {
     public new IOutputtingDataNavigator<TState, TEdge, TInput, TValue, TOutput> GetNavigator();
