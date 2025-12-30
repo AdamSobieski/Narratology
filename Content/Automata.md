@@ -103,16 +103,22 @@ public interface IAcceptorNavigable<out TState, out TEdge, in TInput> :
 }
 ```
 ```cs
-public interface ITransducerNavigator<in TInput, out TOutput> : INavigator<TInput>, ISubject<TInput, TOutput> { }
+public interface ITransducerNavigator : INavigator { }
+public interface ITransducerNavigator<in TInput, out TOutput> :
+    ITransducerNavigator, INavigator<TInput>, ISubject<TInput, TOutput> { }
 public interface ITransducerNavigator<out TState, out TEdge, in TInput, out TOutput> :
-    INavigator<TState, TEdge, TInput>, ITransducerNavigator<TInput, TOutput> { }
+    ITransducerNavigator<TInput, TOutput>, INavigator<TState, TEdge, TInput> { }
 
-public interface ITransducerNavigable<in TInput, out TOutput> : INavigable<TInput>
+public interface ITransducerNavigable : INavigable
+{
+    public new ITransducerNavigator GetNavigator();
+}
+public interface ITransducerNavigable<in TInput, out TOutput> : ITransducerNavigable, INavigable<TInput>
 {
     public new ITransducerNavigator<TInput, TOutput> GetNavigator();
 }
 public interface ITransducerNavigable<out TState, out TEdge, in TInput, out TOutput> :
-    INavigable<TState, TEdge, TInput>, ITransducerNavigable<TInput, TOutput>
+    ITransducerNavigable<TInput, TOutput>, INavigable<TState, TEdge, TInput>
 {
     public new ITransducerNavigator<TState, TEdge, TInput, TOutput> GetNavigator();
 }
