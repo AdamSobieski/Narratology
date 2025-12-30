@@ -59,8 +59,6 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput> { }
 ```
 
-For developer convenience, default implementations of `Accepts()` and `Transduce()` could be provided as static methods.
-
 ## Navigating Automata
 
 Automaton interfaces extend a set of `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method return an object for navigating the automaton. Automaton navigators, extending a set of `INavigator`-related interfaces, are interoperable with the `System.Reactive` library for reactive programming.
