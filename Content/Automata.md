@@ -82,16 +82,19 @@ public interface INavigable<out TState, out TEdge, in TInput> : INavigable<TInpu
 }
 ```
 ```cs
-public interface IAcceptorNavigator<in TInput> : INavigator<TInput>, ISubject<TInput, bool> { }
-public interface IAcceptorNavigator<out TState, out TEdge, in TInput> :
-    INavigator<TState, TEdge, TInput>, IAcceptorNavigator<TInput> { }
+public interface IAcceptorNavigator : INavigator { }
+public interface IAcceptorNavigator<in TInput> : IAcceptorNavigator, INavigator<TInput>, ISubject<TInput, bool> { }
+public interface IAcceptorNavigator<out TState, out TEdge, in TInput> : IAcceptorNavigator<TInput>, INavigator<TState, TEdge, TInput> { }
 
-public interface IAcceptorNavigable<in TInput> : INavigable<TInput>
+public interface IAcceptorNavigable : INavigable
+{
+    public new IAcceptorNavigator GetNavigator();
+}
+public interface IAcceptorNavigable<in TInput> : IAcceptorNavigable, INavigable<TInput>
 {
     public new IAcceptorNavigator<TInput> GetNavigator();
 }
-public interface IAcceptorNavigable<out TState, out TEdge, in TInput> :
-    INavigable<TState, TEdge, TInput>, IAcceptorNavigable<TInput>
+public interface IAcceptorNavigable<out TState, out TEdge, in TInput> : IAcceptorNavigable<TInput>, INavigable<TState, TEdge, TInput>
 {
     public new IAcceptorNavigator<TState, TEdge, TInput> GetNavigator();
 }
