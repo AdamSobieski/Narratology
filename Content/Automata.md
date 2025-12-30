@@ -317,4 +317,4 @@ public static void Do<TState, TEdge, TInput>
 
 ## Casting Automata and Other Navigables to Different Types
 
-A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, some involving wrappers.
+A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
