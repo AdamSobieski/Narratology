@@ -10,7 +10,6 @@ public interface IAutomaton : INavigable
     public IEnumerable Start { get; }
 }
 public interface IAutomaton<in TInput> : IAutomaton, INavigable<TInput> { }
-
 public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TEdge, TInput>
     where TState : IHasOutgoingEdges<TEdge>
     where TEdge : IHasTarget<TState>, IMatcher<TInput>
@@ -26,13 +25,11 @@ public interface IAcceptor : IAutomaton
 {
     public bool Accepts(IEnumerable sequence);
 }
-
 public interface IAcceptor<in TInput> : 
     IAcceptor, IAutomaton<TInput>, IAcceptorNavigable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
-
 public interface IAcceptor<out TState, out TEdge, in TInput> :
     IAcceptor<TInput>, IAutomaton<TState, TEdge, TInput>, IAcceptorNavigable<TState, TEdge, TInput>
         where TState : IHasOutgoingEdges<TEdge>, IHasIsValid
@@ -50,7 +47,6 @@ public interface ITransducer<in TInput, out TOutput> :
 {
     public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
-
 public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
     ITransducer<TInput, TOutput>, IAutomaton<TState, TEdge, TInput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
