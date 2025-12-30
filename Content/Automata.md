@@ -175,7 +175,7 @@ public interface INavigator : IDisposable
 }
 ```
 
-A second possibility is that `IHasContextualData` interfaces could be utilized by those implementing state objects and available as a type constraint on `TState` for extension methods.
+A second possibility is that `IHasContextualData` interfaces could be utilized by developers implementing state objects and available as a type constraint on `TState` for extension methods.
 
 ```cs
 public interface IHasContextualData
