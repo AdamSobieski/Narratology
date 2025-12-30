@@ -70,11 +70,20 @@ Here are some sketches of a set of `INavigable`-related and `INavigator`-related
 ```cs
 public interface INavigator : IDisposable
 {
+    public void OnNext(object value);
+    public void OnError(Exception error);
+    public void OnCompleted();
+
     public IEnumerable Current { get; }
     public IEnumerable Edges { get; }
 }
 
-public interface INavigator<in TInput> : INavigator, IObserver<TInput> { }
+public interface INavigator<in TInput> : INavigator, IObserver<TInput>
+{
+    public new void OnNext(TInput value);
+    public new void OnError(Exception error);
+    public new void OnCompleted();
+}
 
 public interface INavigator<out TState, out TEdge, in TInput> : INavigator<TInput>
 {
