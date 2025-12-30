@@ -165,17 +165,20 @@ Possibilities for data to be carried by automaton navigators (i.e., `TValue`) in
 Automaton navigators carrying data could also stream outputs of a specified type, `TOutput`.
 
 ```cs
+public interface IOutputtingDataNavigator : IDataNavigator { }
 public interface IOutputtingDataNavigator<in TInput, TValue, out TOutput> :
-    IDataNavigator<TInput, TValue>, ISubject<TInput, TOutput> { } 
+    IOutputtingDataNavigator, IDataNavigator<TInput, TValue>, ISubject<TInput, TOutput> { } 
 public interface IOutputtingDataNavigator<TState, out TEdge, in TInput, TValue, out TOutput> :
-    IDataNavigator<TState, TEdge, TInput, TValue>, IOutputtingDataNavigator<TInput, TValue, TOutput> { }
+    IOutputtingDataNavigator<TInput, TValue, TOutput>, IDataNavigator<TState, TEdge, TInput, TValue> { }
 
-public interface IOutputtingDataNavigable<in TInput, TValue, out TOutput> : IDataNavigable<TInput, TValue>
+public interface IOutputtingDataNavigable : IDataNavigable { }
+public interface IOutputtingDataNavigable<in TInput, TValue, out TOutput> :
+    IOutputtingDataNavigable, IDataNavigable<TInput, TValue>
 {
     public new IOutputtingDataNavigator<TInput, TValue, TOutput> GetNavigator();
 }
 public interface IOutputtingDataNavigable<TState, out TEdge, in TInput, TValue, out TOutput> :
-    IDataNavigable<TState, TEdge, TInput, TValue>, IOutputtingDataNavigable<TInput, TValue, TOutput>
+    IOutputtingDataNavigable<TInput, TValue, TOutput>, IDataNavigable<TState, TEdge, TInput, TValue>
 {
     public new IOutputtingDataNavigator<TState, TEdge, TInput, TValue, TOutput> GetNavigator();
 }
@@ -271,6 +274,10 @@ public static void Do<TState, TEdge, TInput>
     }
 }
 ```
+
+## Type Casting
+
+Extension methods for casting navigators to different types can be developed using wrappers.
 
 # Tree Automata
 
