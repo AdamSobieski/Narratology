@@ -157,9 +157,9 @@ For developer convenience, default implementations of automaton navigators can b
 
 ## Navigators Carrying Data
 
-Automaton navigators could carry data or objects. For example: stacks, queues, expando objects, and knowledge graphs.
+Automaton navigators could carry data or objects. For example, they could provide readonly interfaces for stacks, queues, expando objects, or knowledge graphs.
 
-Towards delivering these capabilities, firstly, `INavigator` could provide a dictionary to return a nullable object for each current state.
+Towards delivering these capabilities, firstly, `INavigator` could provide a dictionary to return an object for each current state.
 
 ```cs
 public interface INavigator : IDisposable
