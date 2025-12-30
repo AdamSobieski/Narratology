@@ -96,7 +96,8 @@ public interface IAcceptorNavigable<in TInput> : IAcceptorNavigable, INavigable<
 {
     public new IAcceptorNavigator<TInput> GetNavigator();
 }
-public interface IAcceptorNavigable<out TState, out TEdge, in TInput> : IAcceptorNavigable<TInput>, INavigable<TState, TEdge, TInput>
+public interface IAcceptorNavigable<out TState, out TEdge, in TInput> :
+    IAcceptorNavigable<TInput>, INavigable<TState, TEdge, TInput>
 {
     public new IAcceptorNavigator<TState, TEdge, TInput> GetNavigator();
 }
