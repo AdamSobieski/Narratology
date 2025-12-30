@@ -261,7 +261,7 @@ public interface ITopDownTreeAcceptor<in TTree>
     public bool Accepts(TTree tree);
 }
 
-public interface ITopDownTreeAcceptor<TRule, TState, in TTree> : ITopDownTreeAcceptor<TTree>
+public interface ITopDownTreeAcceptor<TState, TRule, in TTree> : ITopDownTreeAcceptor<TTree>
     where TRule : ITopDownTreeAcceptorRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
@@ -283,12 +283,13 @@ public interface IBottomUpTreeAcceptor<in TTree>
     where TTree : IHasChildren<TTree>
 {
     public IReadOnlyDictionary<object, IEnumerable> Rules { get; }
+
     public Func<TTree, object> KeySelector { get; }
 
     public bool Accepts(TTree tree);
 }
 
-public interface IBottomUpTreeAcceptor<TRule, TState, in TTree> : IBottomUpTreeAcceptor<TTree>
+public interface IBottomUpTreeAcceptor<out TState, TRule, in TTree> : IBottomUpTreeAcceptor<TTree>
     where TRule : IBottomUpTreeAcceptorRule<TState, TTree>
     where TTree : IHasChildren<TTree>
 {
