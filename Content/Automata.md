@@ -5,10 +5,11 @@
 Here are some sketches of interfaces for automata.
 
 ```cs
-public interface IAutomaton<in TInput> : INavigable<TInput>
+public interface IAutomaton : INavigable
 {
     public IEnumerable Start { get; }
 }
+public interface IAutomaton<in TInput> : IAutomaton, INavigable<TInput> { }
 
 public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TEdge, TInput>
     where TState : IHasOutgoingEdges<TEdge>
@@ -21,33 +22,42 @@ public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInpu
 Here are some sketches of interfaces for acceptors.
 
 ```cs
-public interface IAcceptor<in TInput> :
-    IAutomaton<TInput>, IAcceptorNavigable<TInput>
+public interface IAcceptor : IAutomaton
+{
+    public bool Accepts(IEnumerable sequence);
+}
+
+public interface IAcceptor<in TInput> : 
+    IAcceptor, IAutomaton<TInput>, IAcceptorNavigable<TInput>
 {
     public bool Accepts(IEnumerable<TInput> sequence);
 }
 
 public interface IAcceptor<out TState, out TEdge, in TInput> :
-    IAutomaton<TState, TEdge, TInput>, IAcceptor<TInput>, IAcceptorNavigable<TState, TEdge, TInput>
+    IAcceptor<TInput>, , IAutomaton<TState, TEdge, TInput>, IAcceptorNavigable<TState, TEdge, TInput>
         where TState : IHasOutgoingEdges<TEdge>, IHasIsValid
         where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
 
 Here are some sketches of interfaces for transducers.
 ```cs
+public interface ITransducer : IAutomaton
+{
+    public IEnumerable Transduce(IEnumerable sequence);
+}
 public interface ITransducer<in TInput, out TOutput> :
-    IAutomaton<TInput>, ITransducerNavigable<TInput, TOutput>
+    ITransducer, IAutomaton<TInput>, ITransducerNavigable<TInput, TOutput>
 {
     public IEnumerable<TOutput> Transduce(IEnumerable<TInput> sequence);
 }
 
 public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
-    IAutomaton<TState, TEdge, TInput>, ITransducer<TInput, TOutput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
+    ITransducer<TInput, TOutput>, IAutomaton<TState, TEdge, TInput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
         where TState : IHasOutgoingEdges<TEdge>
         where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput> { }
 ```
 
-For developer convenience, default implementations of `Accepts()` and `Transduce()` can be provided as static methods.
+For developer convenience, default implementations of `Accepts()` and `Transduce()` could be provided as static methods.
 
 ## Navigating Automata
 
