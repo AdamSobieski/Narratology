@@ -59,10 +59,12 @@ Here are some sketches of a set of `INavigable`-related and `INavigator`-related
 public interface INavigator<in TInput> : IObserver<TInput>, IDisposable
 {
     public IEnumerable Current { get; }
+    public IEnumerable Edges { get; }
 }
 public interface INavigator<out TState, out TEdge, in TInput> : INavigator<TInput>
 {
     public new IEnumerable<TState> Current { get; }
+    public new IEnumerable<TEdge> Edges { get; }
 }
 
 public interface INavigable<in TInput>
