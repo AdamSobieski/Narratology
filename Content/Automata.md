@@ -64,7 +64,7 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 Automaton interfaces extend a set of `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method return an object for navigating the automaton. Automaton navigators, extending a set of `INavigator`-related interfaces, are interoperable with the `System.Reactive` library for reactive programming.
 
 ```cs
-public interface INavigator : IDisposable
+public interface INavigator : IDisposable, IHasConstraints
 {
     public void OnNext(object value);
     public void OnError(Exception error);
@@ -87,7 +87,7 @@ public interface INavigator<out TState, out TEdge, in TInput> : INavigator<TInpu
     public new IEnumerable<TEdge> Edges { get; }
 }
 
-public interface INavigable
+public interface INavigable : IHasConstraints
 {
     public INavigator GetNavigator();
 }
@@ -162,7 +162,7 @@ Automaton navigators could carry objects or data. For examples, they could provi
 Towards delivering developers with capabilities to inspect and utilize navigators' carried objects or data, `INavigator` could provide a method, `GetData()`, to obtain such objects, one for each current state.
 
 ```cs
-public interface INavigator : IDisposable
+public interface INavigator : IDisposable, IHasConstraints
 {
     public void OnNext(object value);
     public void OnError(Exception error);
@@ -197,6 +197,7 @@ public interface INavigator<TState, out TEdge, in TInput, out TData> : INavigato
 A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
 
 ## An Inspectable Constraints System
+See Also: _[Constraints](Constraints.md)_
 
 An inspectable constraints system, utilizing the abstract syntax tree from the `System.Linq.Expressions` namespace, will allow developers to easily declare logical constraints, or invariants, which are to hold upon objects, e.g., navigables and their navigators during navigation.
 
