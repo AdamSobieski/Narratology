@@ -10,16 +10,15 @@ public interface IConstraintCollection : IEnumerable<IConstraint>
 {
     public void Check(object value);
 
-    public IEnumerable<LambdaExpression> Keys { get; }
-    public IEnumerable<IConstraintCollection> Values { get; }
+    public IEnumerable<LambdaExpression> Declarations { get; }
 
-    public IConstraintCollection GetValue(LambdaExpression key);
+    public IConstraintCollection GetCollection(LambdaExpression declaration);
 }
 
 public interface IConstraint
 {
-    public LambdaExpression Expression { get; }
-
     public void Check(object value);
+
+    public LambdaExpression Expression { get; }
 }
 ```
