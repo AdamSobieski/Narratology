@@ -195,3 +195,7 @@ public interface INavigator<TState, out TEdge, in TInput, out TData> : INavigato
 ## Casting Automata and Other Navigables to Different Types
 
 A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
+
+## Lambda Expressions and a Constraints System
+
+_Coming soon._
