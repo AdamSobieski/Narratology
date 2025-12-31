@@ -36,7 +36,7 @@ public interface IAcceptor<in TInput> :
 
 public interface IAcceptor<out TState, out TEdge, in TInput> :
     IAcceptor<TInput>, IAutomaton<TState, TEdge, TInput>, IAcceptorNavigable<TState, TEdge, TInput>
-        where TState : IHasOutgoingEdges<TEdge>, IHasIsValid
+        where TState : IHasOutgoingEdges<TEdge>, IAccepts
         where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
 ```
 
