@@ -19,6 +19,7 @@ public interface IConstraintCollection : IEnumerable<IConstraint>
 public interface IConstraint
 {
     public LambdaExpression Expression { get; }
+
     public void Check(object value);
 }
 ```
