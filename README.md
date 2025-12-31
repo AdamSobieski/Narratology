@@ -24,9 +24,9 @@ _Coming soon._
 
 ## Automata and Large Language Models
 
-Beyond performing symbol-matching or object-processing on automata edges, some edges could consult LLMs, e.g., with natural-language questions about complex inputs.
+Beyond performing symbol-matching or other object-processing on automata edges, some edges might consult LLMs, e.g., with natural-language questions about complex inputs such as story events.
 
-State-based approaches could simplify managing those tools instantaneously available to LLMs. The tools available instantaneously to an LLM could be those tools referenced by the one or more nodes representing applications' or systems' states.
+State-based approaches can simplify managing those tools instantaneously available to LLMs. The tools available instantaneously to an LLM could be those tools referenced by the one or more nodes representing applications' or systems' states.
 
 ## Generative and Agentic Narratology
 
