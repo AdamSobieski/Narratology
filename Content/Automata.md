@@ -196,7 +196,7 @@ public interface INavigator<TState, out TEdge, in TInput, out TData> : INavigato
 
 A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
 
-## An Inspectable Constraints System
+## Constraints
 See Also: _[Constraints](Constraints.md)_
 
 An inspectable constraints system, utilizing the abstract syntax tree model from the `System.Linq.Expressions` namespace, will allow developers to easily declare logical constraints, or invariants, which are to hold upon objects, e.g., navigables and their navigators, and to easily declare logical constraints involving progressions through states and edges during navigations.
