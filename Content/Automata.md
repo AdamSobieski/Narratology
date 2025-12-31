@@ -199,6 +199,6 @@ A variety of extension methods for casting navigables to different types, i.e., 
 ## An Inspectable Constraints System
 See Also: _[Constraints](Constraints.md)_
 
-An inspectable constraints system, utilizing the abstract syntax tree from the `System.Linq.Expressions` namespace, will allow developers to easily declare logical constraints, or invariants, which are to hold upon objects, e.g., navigables and their navigators during navigation.
+An inspectable constraints system, utilizing the abstract syntax tree from the `System.Linq.Expressions` namespace, will allow developers to easily declare logical constraints, or invariants, which are to hold upon objects, e.g., navigables and their navigators, as well as constraints upon progressions through states and edges during navigations.
 
 An inspectable constraints system will enable many useful features, simplify debugging scenarios, and enable descriptive extension members like `bool IsDeterministic { get; }`.
