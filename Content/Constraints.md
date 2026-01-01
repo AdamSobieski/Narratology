@@ -39,6 +39,6 @@ public interface IConstraint<T> : IConstraint
 {
     public void Check(T value);
 
-    public new Expression<Func<Action<T>>> Expression { get; }
+    public new Expression<Action<T>> Expression { get; }
 }
 ```
