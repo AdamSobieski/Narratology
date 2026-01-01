@@ -8,7 +8,7 @@ public interface IHasConstraints
 
 public interface IConstraintCollection : IEnumerable
 {
-    public Type ElementType { get; }
+    public Type ParameterType { get; }
 
     public void Check(object value);
 
