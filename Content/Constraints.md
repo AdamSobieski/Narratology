@@ -22,3 +22,23 @@ public interface IConstraint
     public LambdaExpression Expression { get; }
 }
 ```
+```cs
+public interface IHasConstraints<T> : IHasConstraints
+{
+    public new IConstraintCollection<T> Constraints { get; }
+}
+
+public interface IConstraintCollection<T> : IConstraintCollection, IEnumerable<IConstraint<T>>
+{
+    public void Check(T value);
+
+    public IConstraintCollection<R> GetCollection<R>(Expression<Func<T, R>> declaration);
+}
+
+public interface IConstraint<T> : IConstraint
+{
+    public void Check(T value);
+
+    public new Expression<Func<Action<T>>> Expression { get; }
+}
+```
