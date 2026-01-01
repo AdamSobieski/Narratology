@@ -61,7 +61,7 @@ public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
 
 ## Navigating Automata
 
-Automaton interfaces extend a set of `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method returns an object for navigating the automaton. Automaton navigators, extending a set of `INavigator`-related interfaces, are interoperable with the `System.Reactive` library for reactive programming.
+Automaton interfaces extend a set of `INavigable`-related interfaces to provide a method, `GetNavigator()`. This method returns objects for navigating automata. Automaton navigators are interoperable with the `System.Reactive` library for reactive programming.
 
 ```cs
 public interface INavigator : IHasConstraints, IDisposable
