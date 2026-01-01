@@ -22,6 +22,10 @@ _Coming soon._
 
 * Giles, C. Lee, Clifford B. Miller, Dong Chen, Hsing-Hen Chen, Guo-Zheng Sun, and Yee-Chun Lee. "Learning and extracting finite state automata with second-order recurrent neural networks." _Neural Computation_ 4, no. 3 (1992): 393-405.
 
+* Weiss, Gail, Yoav Goldberg, and Eran Yahav. "Extracting automata from recurrent neural networks using queries and counterexamples (extended version)." _Machine Learning_ 113, no. 5 (2024): 2877-2919.
+
+* Zhang, Xiyue, Xiaoning Du, Xiaofei Xie, Lei Ma, Yang Liu, and Meng Sun. "Decision-guided weighted automata extraction from recurrent neural networks." In _Proceedings of the AAAI Conference on Artificial Intelligence_, vol. 35, no. 13, pp. 11699-11707. 2021.
+
 ## Automata and Large Language Models
 
 Beyond performing symbol-matching or other object-processing on automata edges, some edges might consult LLMs, e.g., with natural-language questions about complex inputs such as story events.
