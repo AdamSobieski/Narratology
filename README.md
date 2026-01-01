@@ -6,7 +6,7 @@ How might the processing and comprehension of stories' [fabulae](https://en.wiki
 
 ## Stateful Systems
 
-Considered, here, are sets of intercommunicating stateful systems, e.g., [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine) and [automata](https://en.wikipedia.org/wiki/Automata_theory), and how such concurrent systems can be brought to bear to address the challenges of processing and comprehending stories.
+Stateful systems, e.g., sets of intercommunicating [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine) and [automata](https://en.wikipedia.org/wiki/Automata_theory), can be of use for addressing the challenges of processing and comprehending stories.
 
 ## Automata Learning and Grammar Induction
 
