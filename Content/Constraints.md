@@ -6,7 +6,7 @@ public interface IHasConstraints
     public IConstraintCollection Constraints { get; }
 }
 
-public interface IConstraintCollection : IEnumerable<IConstraint>
+public interface IConstraintCollection : IEnumerable
 {
     public void Check(object value);
 
