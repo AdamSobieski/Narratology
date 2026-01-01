@@ -16,7 +16,9 @@ Will artificial-intelligence systems processing incrementally-arriving story eve
 
 ### Recurrent Neural Networks
 
-This project will explore extracting automata from [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange) [RNNs](https://en.wikipedia.org/wiki/Recurrent_neural_network) using [ML.NET](https://github.com/dotnet/machinelearning).
+This project will explore various approaches, e.g., pedagogical (black-box), compositional (white-box), and decision-guided, to extract automata from [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange) [RNNs](https://en.wikipedia.org/wiki/Recurrent_neural_network) using the [ML.NET](https://github.com/dotnet/machinelearning) software libraries.
+
+#### Bibliography
 
 * Aichernig, Bernhard K., Sandra König, Cristinel Mateis, Andrea Pferscher, and Martin Tappler. "Learning minimal automata with recurrent neural networks." _Software and Systems Modeling_ 23, no. 3 (2024): 625-655.
 
