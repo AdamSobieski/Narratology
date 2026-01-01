@@ -28,9 +28,11 @@ This project will explore extracting automata from [ONNX](https://en.wikipedia.o
 
 ## Automata and Large Language Models
 
-Beyond performing symbol-matching or other object-processing on automata edges, some edges might consult LLMs, e.g., with natural-language questions about complex inputs such as story events.
+Firstly, systems can be considered where automata states map with or route to different LLMs or agents. Edges or transitions would have prioritized rules for determining which LLM to invoke next. As described in [(Petit, Pachot, Conan-Vrinat, and Dubarry, 2024)](https://arxiv.org/abs/2409.13693), different LLMs or agents mapped with automaton states could share conversation histories or sessions.
 
-State-based approaches can simplify managing those tools instantaneously available to LLMs. The tools available instantaneously to an LLM could be those tools referenced by the one or more nodes representing applications' or systems' states.
+Secondly, beyond performing symbol-matching, object-processing, or rule-processing upon automata edges, some edges might consult LLMs, e.g., with natural-language questions about complex inputs such as dialogue content or story events.
+
+Thirdly, state-based approaches can simplify managing those tools instantaneously available to LLMs or agents. Those tools to be made instantaneously available could be those referenced by the one or more nodes representing applications' or systems' states.
 
 ## Generative and Agentic Narratology
 
