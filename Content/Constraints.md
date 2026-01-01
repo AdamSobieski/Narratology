@@ -8,6 +8,8 @@ public interface IHasConstraints
 
 public interface IConstraintCollection : IEnumerable
 {
+    public Type ElementType { get; }
+
     public void Check(object value);
 
     public IEnumerable<LambdaExpression> Declarations { get; }
