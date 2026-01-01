@@ -4,7 +4,7 @@
 
 How might the processing and comprehension of stories' [fabulae](https://en.wikipedia.org/wiki/Fabula_and_syuzhet) relate to other existing techniques for processing and analyzing various other kinds of chronologically-sorted sequences of events, e.g., [complex event processing](https://en.wikipedia.org/wiki/Complex_event_processing)?
 
-## State-based Systems
+## Stateful Systems
 
 Considered, here, are sets of intercommunicating stateful systems, e.g., [finite-state machines](https://en.wikipedia.org/wiki/Finite-state_machine) and [automata](https://en.wikipedia.org/wiki/Automata_theory), and how such concurrent systems can be brought to bear to address the challenges of processing and comprehending stories.
 
