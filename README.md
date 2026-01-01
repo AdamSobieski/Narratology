@@ -16,7 +16,7 @@ Will artificial-intelligence systems processing incrementally-arriving story eve
 
 ### Recurrent Neural Networks
 
-This project will explore various approaches, e.g., pedagogical (black-box), compositional (white-box), and decision-guided, to extract automata from [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange) [RNNs](https://en.wikipedia.org/wiki/Recurrent_neural_network) using the [ML.NET](https://github.com/dotnet/machinelearning) software libraries.
+This project will explore various approaches, e.g., pedagogical (black-box), compositional (white-box), and decision-guided, to extracting automata from [ONNX](https://en.wikipedia.org/wiki/Open_Neural_Network_Exchange) [RNNs](https://en.wikipedia.org/wiki/Recurrent_neural_network) using the [ML.NET](https://github.com/dotnet/machinelearning) software libraries.
 
 #### Bibliography
 
