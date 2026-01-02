@@ -2,6 +2,8 @@
 
 ## A Constraints System
 
+Here are some interfaces for a constraints system using `System.Linq.Expressions` lambda expressions.
+
 ```cs
 public interface IHasConstraints
 {
