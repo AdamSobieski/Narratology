@@ -9,10 +9,6 @@ public interface IDifferenceable<in T, out TDifference>
 }
 ```
 
-The above concept is generally useful in combination with reactive programming, e.g., the `System.Reactive` library. One could also use it with enumerable differences, `IDifferenceable<T, IEnumerable<Event>>`.
-
-Developers and end-users could use the above interface to explore differences or deltas between states or their state-related data, e.g., for consecutive states, as input sequences were incrementally presented to systems.
-
 Related interfaces include those with which to enable objects to process such differences, either to be modified in-place or into cloned copies.
 
 ```cs
