@@ -1,5 +1,7 @@
 # Constraints
 
+By utilizing static methods from the `System.Diagnostics.Contracts.Contract` static class, or from a new static class drawing inspiration from it, developers can create lambda expressions with logical meanings and use these expressions as constraints on objects, e.g., describing invariants, constraints on collections, or constraints on sequences or progressions.
+
 ```cs
 public interface IHasConstraints
 {
