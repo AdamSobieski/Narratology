@@ -155,9 +155,30 @@ public interface ITransducerNavigable<out TState, out TEdge, in TInput, out TOut
 
 For developer convenience, default implementations of automaton navigators can be provided.
 
-## Casting Automata and Other Navigables to Different Types
+## Extension Methods
 
-A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
+Some extension methods for automata will use type constraints like:
+
+```cs
+where TState : IHasOutgoingEdges<TEdge>
+where TEdge : IHasTarget<TState>, IMatcher<TInput>
+```
+
+Some for acceptors:
+```cs
+where TState : IHasOutgoingEdges<TEdge>, IAccepts
+where TEdge : IHasTarget<TState>, IMatcher<TInput>
+```
+
+Some for transducers:
+```cs
+where TState : IHasOutgoingEdges<TEdge>
+where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
+```
+
+## Casting
+
+A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be provided.
 
 ## Constraints
 See Also: _[Constraints](Constraints.md)_
