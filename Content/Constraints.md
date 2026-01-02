@@ -85,8 +85,11 @@ A prototype has been developed to enable developers to easily create constraints
 
 An automaton could provide inspectable constraints about itself, cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
 
-Here is an example of how that can be expressed using a fluent syntax:
+Here are some examples of how those constraints can be expressed using a fluent syntax:
 
 ```cs
 var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1), b2 => b2.Invariant(x => x.Edges.Count() == 1)).Build();
+```
+```cs
+var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1, x => x.Edges.Count() == 1)).Build();
 ```
