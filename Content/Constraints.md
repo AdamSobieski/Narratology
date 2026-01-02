@@ -75,9 +75,9 @@ public static class Constraint
 }
 ```
 
-Lambda expressions using meaningful static methods can be processed and reasoned upon as sets of constraints containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
+Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
 
-Invariants and declarations, together, enable expressiveness for extension members like `bool IsDeterministic { get; }` and other verifiable properties of automata.
+Invariants and declarations, together, enable the expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
 
 ## Constraints on Collections
 
