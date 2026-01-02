@@ -55,8 +55,6 @@ Invariants are constraints which must apply to their objects in all cases. Decla
 
 Invariants and declarations can both be represented using `System.Linq.Expressions` expression trees, more specifically as method-call expressions. When compiled, invariants throw exceptions when they are not applicable to checked objects; declarations, on the other hand, do nothing when compiled, but can be extracted from lambda expressions to become invariants for other objects.
 
-For example, an automaton can provide inspectable constraints about itself, e.g., cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, e.g., cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
-
 Lambda expressions can express method calls to static methods including:
 
 ```cs
@@ -80,6 +78,18 @@ public static class Constraint
 Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
 
 Invariants and declarations, together, enable the expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
+
+## Method Chaining, Fluent Interfaces, and Constraints
+
+A prototype has been developed to enable developers to easily create constraints for objects using method chaining on fluent interfaces.
+
+An automaton could provide inspectable constraints about itself, cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
+
+Here is an example of how that can be expressed using a fluent syntax:
+
+```cs
+Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1), b2 => b2.Invariant(x => x.Edges.Count() == 1)).Build();
+```
 
 ## Constraints on Collections
 
