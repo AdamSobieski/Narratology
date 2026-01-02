@@ -66,7 +66,7 @@ public static class Constraint
     }
     public static void Invariant<T>(T on, Func<T, bool> predicate)
     {
-        if (!predicate(on)) throw new Exception("Assertion failed.");
+        if (!predicate(on)) throw new Exception("Invariant condition check failed.");
     }
     public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
     {
