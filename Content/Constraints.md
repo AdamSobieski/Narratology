@@ -2,8 +2,6 @@
 
 ## A Constraints System
 
-By using static methods from the `System.Diagnostics.Contracts.Contract` static class, or static methods from a new static class drawing inspiration from it, developers could easily create `System.Linq.Expressions` expressions describing invariants, constraints on collections, and constraints on sequences or progressions.
-
 ```cs
 public interface IHasConstraints
 {
