@@ -178,7 +178,7 @@ where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 
 ## Casting
 
-A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be provided.
+A variety of extension methods for casting automata and navigables, in general, to different types, i.e., `Cast<...>()`, can be provided.
 
 ## Constraints
 See Also: _[Constraints](Constraints.md)_
