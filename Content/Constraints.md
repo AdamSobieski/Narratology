@@ -49,7 +49,7 @@ public interface IConstraint<T> : IConstraint
 }
 ```
 
-## Representing Invariants and Declarations using Lambda Expressions
+## Representing Invariants and Declarations
 
 Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects.
 
