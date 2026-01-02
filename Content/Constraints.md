@@ -90,11 +90,3 @@ Here is an example of how that can be expressed using a fluent syntax:
 ```cs
 var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1), b2 => b2.Invariant(x => x.Edges.Count() == 1)).Build();
 ```
-
-## Constraints on Collections
-
-_Coming soon._
-
-## Constraints on Navigations and Progressions
-
-_Coming soon._
