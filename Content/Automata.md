@@ -155,43 +155,6 @@ public interface ITransducerNavigable<out TState, out TEdge, in TInput, out TOut
 
 For developer convenience, default implementations of automaton navigators can be provided.
 
-## Navigators Carrying Objects or Data
-
-Automaton navigators could carry objects or data. For examples, they could provide readonly interfaces for stacks, queues, expando objects, or knowledge graphs.
-
-Towards delivering developers with capabilities to inspect and utilize navigators' carried objects or data, `INavigator` could provide a method, `GetData()`, to obtain such objects, one for each current state.
-
-```cs
-public interface INavigator : IHasConstraints, IDisposable
-{
-    public void OnNext(object value);
-    public void OnError(Exception error);
-    public void OnCompleted();
-
-    public IEnumerable Current { get; }
-    public IEnumerable Edges { get; }
-
-    public object? GetData(object state);
-}
-
-public interface INavigator<in TInput, out TData> : INavigator, IObserver<TInput>
-{
-    public new void OnNext(TInput value);
-    public new void OnError(Exception error);
-    public new void OnCompleted();
-
-    public new TData GetData(object state);
-}
-
-public interface INavigator<TState, out TEdge, in TInput, out TData> : INavigator<TInput, TValue>
-{
-    public new IEnumerable<TState> Current { get; }
-    public new IEnumerable<TEdge> Edges { get; }
-
-    public TData GetData(TState state);
-}
-```
-
 ## Casting Automata and Other Navigables to Different Types
 
 A variety of extension methods for casting navigables to different types, i.e., `Cast<...>()`, can be developed, many involving wrappers.
