@@ -16,7 +16,7 @@ public interface IConstraintCollection : IEnumerable
 
     public IEnumerable<LambdaExpression> Declarations { get; }
 
-    public IConstraintCollection GetCollection(LambdaExpression declaration);
+    public IConstraintCollection GetCollection(LambdaExpression map);
 }
 
 public interface IConstraint
@@ -36,7 +36,7 @@ public interface IConstraintCollection<T> : IConstraintCollection, IEnumerable<I
 {
     public void Check(T value);
 
-    public IConstraintCollection<R> GetCollection<R>(Expression<Func<T, R>> declaration);
+    public IConstraintCollection<R> GetCollection<R>(Expression<Func<T, R>> map);
 }
 
 public interface IConstraint<T> : IConstraint
@@ -46,3 +46,35 @@ public interface IConstraint<T> : IConstraint
     public new Expression<Action<T>> Expression { get; }
 }
 ```
+
+## Representing Invariants and Declarations using Lambda Expressions
+
+Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects.
+
+Invariants and declarations can both be represented using `System.Linq.Expressions` expression trees, more specifically as method-call expressions. When compiled, invariants throw exceptions when they are not applicable to checked objects; declarations, on the other hand, do nothing when compiled, but can be extracted from lambda expressions to become invariants for other objects.
+
+For example, an automaton can provide inspectable constraints about itself, e.g., cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, e.g., cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
+
+Lambda expressions can express method calls to static methods including:
+
+```cs
+public static class Constraint
+{
+    public static void Declare<T, R>(T on, Func<T, R> map, Action<R> action)
+    {
+        
+    }
+    public static void Invariant<T>(T on, Func<T, bool> predicate)
+    {
+        if (!predicate(on)) throw new Exception("Assertion failed.");
+    }
+    public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
+    {
+        if (!predicate(on)) throw new Exception(message);
+    }
+}
+```
+
+Lambda expressions using meaningful static methods can be processed and reasoned upon as sets of constraints containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
+
+Invariants and declarations, together, enable expressiveness for extension members like `bool IsDeterministic { get; }` and other verifiable properties of automata.
