@@ -13,8 +13,6 @@ public interface IAutomaton : INavigable
 public interface IAutomaton<in TInput> : IAutomaton, INavigable<TInput> { }
 
 public interface IAutomaton<out TState, out TEdge, in TInput> : IAutomaton<TInput>, INavigable<TState, TEdge, TInput>
-    where TState : IHasOutgoingEdges<TEdge>
-    where TEdge : IHasTarget<TState>, IMatcher<TInput>
 {
     public new IEnumerable<TState> Start { get; }
 }
@@ -36,8 +34,9 @@ public interface IAcceptor<in TInput> :
 
 public interface IAcceptor<out TState, out TEdge, in TInput> :
     IAcceptor<TInput>, IAutomaton<TState, TEdge, TInput>, IAcceptorNavigable<TState, TEdge, TInput>
-        where TState : IHasOutgoingEdges<TEdge>, IAccepts
-        where TEdge : IHasTarget<TState>, IMatcher<TInput> { }
+{
+
+}
 ```
 
 Here are some interfaces for transducers.
@@ -55,8 +54,9 @@ public interface ITransducer<in TInput, out TOutput> :
 
 public interface ITransducer<out TState, out TEdge, in TInput, out TOutput> :
     ITransducer<TInput, TOutput>, IAutomaton<TState, TEdge, TInput>, ITransducerNavigable<TState, TEdge, TInput, TOutput>
-        where TState : IHasOutgoingEdges<TEdge>
-        where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput> { }
+{
+
+}
 ```
 
 ## Navigating Automata
