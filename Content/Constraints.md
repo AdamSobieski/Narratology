@@ -62,31 +62,50 @@ public static class Constraint
 {
     public static void Declare<T, R>(T on, Func<T, R> map, Action<R> action)
     {
-        
+
     }
 
     public static void Invariant<T>(T on, Func<T, bool> predicate)
     {
-        if (!predicate(on)) throw new Exception("Invariant condition check failed.");
+        if (!predicate(on)) throw new ConstraintException("Invariant condition check failed.");
     }
     public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
     {
-        if (!predicate(on)) throw new Exception(message);
+        if (!predicate(on)) throw new ConstraintException(message);
     }
 
     public static void Assert<T>(T on, Func<T, bool> predicate)
     {
-        if (!predicate(on)) throw new Exception("Assertion failed.");
+        if (!predicate(on)) throw new ConstraintException("Assertion failed.");
     }
     public static void Assert<T>(T on, Func<T, bool> predicate, string message)
     {
-        if (!predicate(on)) throw new Exception(message);
+        if (!predicate(on)) throw new ConstraintException(message);
     }
 
     public static void When<T>(T on, Func<T, bool> condition, Action<T> action)
     {
-        if (!condition(on)) return;
-        action(on);
+        try
+        {
+            if (!condition(on)) return;
+            action(on);
+        }
+        catch (ConstraintException e)
+        {
+            throw new ConstraintException("Conditional assertion failed.", e);
+        }
+    }
+    public static void When<T>(T on, Func<T, bool> condition, Action<T> action, string message)
+    {
+        try
+        {
+            if (!condition(on)) return;
+            action(on);
+        }
+        catch (ConstraintException e)
+        {
+            throw new ConstraintException(message, e);
+        }
     }
 }
 ```
