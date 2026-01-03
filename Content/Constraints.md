@@ -115,15 +115,13 @@ Here is a preliminary fluent interface for building constraints, `IConstraintCol
 ```cs
 public interface IConstraintCollectionBuilder<T>
 {
-    public IConstraintCollectionBuilder<T> Declare<R>(Expression<Func<T, R>> map, params Expression<Action<IConstraintCollectionBuilder<R>>>[] actions);
+    public IConstraintCollectionBuilder<T> Declare<R>(Expression<Func<T, R>> map, Expression<Action<IConstraintCollectionBuilder<R>>> action);
 
-    public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string message);
-    public IConstraintCollectionBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string message);
-    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintCollectionBuilder<T>>> action, string message);
+    public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
 
-    public IConstraintCollectionBuilder<T> Assert(params Expression<Func<T, bool>>[] assertions);
-    public IConstraintCollectionBuilder<T> Invariant(params Expression<Func<T, bool>>[] predicates);
-    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, params Expression<Action<IConstraintCollectionBuilder<T>>>[] actions);
+    public IConstraintCollectionBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string? message = null);
+
+    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintCollectionBuilder<T>>> action, string? message = null);
 
     public IConstraintCollection<T> Build();
 
@@ -133,20 +131,14 @@ public interface IConstraintCollectionBuilder<T>
 
 Using such a constraints builder, automaton implementations could easily provide inspectable constraints about themselves, e.g., cardinality constraints regarding their sets of initial states, and declare constraints about all navigators which they might provide via their `GetNavigator()` methods, e.g., cardinality constraints on the sets of their current states and on the numbers of edges traversed to reach these.
 
-Here is a first example of how those constraints could be expressed using a fluent syntax:
+Here is an example of how constraints can be built using a fluent syntax enabled by `IConstraintCollectionBuilder<T>`:
 
 ```cs
-var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1)).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Edges.Count() == 1)).Build();
-```
-
-Here is a second, more succint, example:
-```cs
-var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1), b2 => b2.Invariant(x => x.Edges.Count() == 1)).Build();
-```
-
-Here is a third, yet more succinct, example:
-```cs
-var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1, x => x.Edges.Count() == 1)).Build();
+var constraints = Constraint.Builder<DeterministicAcceptor>()
+    .Invariant(x => x.Start.Count() == 1)
+    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Current.Count() == 1))
+    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Edges.Count() == 1))
+    .Build();
 ```
 
 Invariants and declarations, together, enable expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
