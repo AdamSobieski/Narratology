@@ -108,8 +108,6 @@ public static class Constraint
 }
 ```
 
-Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also potentially containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
-
 ## Method Chaining, Fluent Interfaces, and Constraints
 
 An automaton could provide inspectable constraints about itself, cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
