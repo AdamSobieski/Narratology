@@ -64,6 +64,7 @@ public static class Constraint
     {
         
     }
+
     public static void Invariant<T>(T on, Func<T, bool> predicate)
     {
         if (!predicate(on)) throw new Exception("Invariant condition check failed.");
@@ -72,16 +73,31 @@ public static class Constraint
     {
         if (!predicate(on)) throw new Exception(message);
     }
+
+    public static void Assert<T>(T on, Func<T, bool> predicate)
+    {
+        if (!predicate(on)) throw new Exception("Assertion failed.");
+    }
+    public static void Assert<T>(T on, Func<T, bool> predicate, string message)
+    {
+        if (!predicate(on)) throw new Exception(message);
+    }
+
+    public static void When<T>(T on, Func<T, bool> condition, Action<T> action)
+    {
+        if (!condition(on)) return;
+        action(on);
+    }
 }
 ```
 
 Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
 
-Invariants and declarations, together, enable the expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
-
 ## Method Chaining, Fluent Interfaces, and Constraints
 
 An automaton could provide inspectable constraints about itself, cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
+
+Invariants and declarations, together, enable the expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
 
 Here is a first example of how those constraints can be expressed using a fluent syntax:
 
