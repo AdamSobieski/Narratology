@@ -63,20 +63,20 @@ public static class Constraint
 
     }
 
-    public static void Invariant<T>(T on, Func<T, bool> predicate)
-    {
-        if (!predicate(on)) throw new ConstraintException("Invariant condition check failed.");
-    }
-    public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
-    {
-        if (!predicate(on)) throw new ConstraintException(message);
-    }
-
     public static void Assert<T>(T on, Func<T, bool> predicate)
     {
         if (!predicate(on)) throw new ConstraintException("Assertion failed.");
     }
     public static void Assert<T>(T on, Func<T, bool> predicate, string message)
+    {
+        if (!predicate(on)) throw new ConstraintException(message);
+    }
+
+    public static void Invariant<T>(T on, Func<T, bool> predicate)
+    {
+        if (!predicate(on)) throw new ConstraintException("Invariant condition check failed.");
+    }
+    public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
     {
         if (!predicate(on)) throw new ConstraintException(message);
     }
@@ -110,9 +110,30 @@ public static class Constraint
 
 ## Method Chaining, Fluent Interfaces, and Constraints
 
-An automaton could provide inspectable constraints about itself, cardinality constraints regarding its set of initial states, and declare constraints about all navigators that it might provide via its `GetNavigator()` method, cardinality constraints on the sets of current states and on the numbers of edges traversed to reach them.
+Here is a preliminary fluent interface for building constraints, `IConstraintCollectionBuilder<T>`:
 
-Here is a first example of how those constraints can be expressed using a fluent syntax:
+```cs
+public interface IConstraintCollectionBuilder<T>
+{
+    public IConstraintCollectionBuilder<T> Declare<R>(Expression<Func<T, R>> map, params Expression<Action<IConstraintCollectionBuilder<R>>>[] actions);
+
+    public IConstraintCollectionBuilder<T> Assert(params Expression<Func<T, bool>>[] assertions);
+    public IConstraintCollectionBuilder<T> Invariant(params Expression<Func<T, bool>>[] predicates);
+    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, params Expression<Action<IConstraintCollectionBuilder<T>>>[] actions);
+
+    public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string message);
+    public IConstraintCollectionBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string message);
+    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintCollectionBuilder<T>>> action, string message);
+
+    public IConstraintCollection<T> Build();
+
+    public Expression<Action<T>> GetLambdaExpression();
+}
+```
+
+Using such a constraints builder, automaton implementations could easily provide inspectable constraints about themselves, e.g., cardinality constraints regarding their sets of initial states, and declare constraints about all navigators which they might provide via their `GetNavigator()` methods, e.g., cardinality constraints on the sets of their current states and on the numbers of edges traversed to reach these.
+
+Here is a first example of how those constraints could be expressed using a fluent syntax:
 
 ```cs
 var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1)).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Edges.Count() == 1)).Build();
@@ -128,6 +149,6 @@ Here is a third, yet more succinct, example:
 var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.Start.Count() == 1).Declare(x => x.GetNavigator(), b1 => b1.Invariant(x => x.Current.Count() == 1, x => x.Edges.Count() == 1)).Build();
 ```
 
-Invariants and declarations, together, enable the expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
+Invariants and declarations, together, enable expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
 
 These concepts have been successfully prototyped.
