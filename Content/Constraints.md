@@ -108,7 +108,7 @@ public static class Constraint
 }
 ```
 
-## Method Chaining, Fluent Interfaces, and Constraints
+## Method Chaining, Fluent Interfaces, and Constraint Building
 
 Here is a preliminary fluent interface for building constraints, `IConstraintCollectionBuilder<T>`:
 
