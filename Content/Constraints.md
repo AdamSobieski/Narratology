@@ -51,11 +51,9 @@ public interface IConstraint<T> : IConstraint
 
 ## Representing Invariants and Declarations
 
-Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects.
+Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects. Invariants and declarations can both be represented using `System.Linq.Expressions` expression trees, more specifically method-call expressions.
 
-Invariants and declarations can both be represented using `System.Linq.Expressions` expression trees, more specifically as method-call expressions. When compiled, invariants throw exceptions when they are not applicable to checked objects; declarations, on the other hand, do nothing when compiled, but can be extracted from lambda expressions to become invariants for other objects.
-
-Lambda expressions can express method calls to static methods including:
+As envisioned, lambda expressions can express method calls to special static methods including:
 
 ```cs
 public static class Constraint
@@ -110,7 +108,7 @@ public static class Constraint
 }
 ```
 
-Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
+Lambda expressions representing sequences of calls to meaningful static methods can be processed and reasoned upon as being sets of constraints, sets also potentially containing declarations about objects related to those objects, e.g., automata describing conditions which hold for all of their navigators.
 
 ## Method Chaining, Fluent Interfaces, and Constraints
 
