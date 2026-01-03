@@ -100,7 +100,3 @@ var constraints = Constraint.Builder<DeterministicAcceptor>().Invariant(x => x.S
 ```
 
 These concepts have been successfully prototyped.
-
-## Constraints on Navigation Sequences and Progressions
-
-_Coming soon._
