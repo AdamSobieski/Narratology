@@ -117,13 +117,13 @@ public interface IConstraintCollectionBuilder<T>
 {
     public IConstraintCollectionBuilder<T> Declare<R>(Expression<Func<T, R>> map, params Expression<Action<IConstraintCollectionBuilder<R>>>[] actions);
 
-    public IConstraintCollectionBuilder<T> Assert(params Expression<Func<T, bool>>[] assertions);
-    public IConstraintCollectionBuilder<T> Invariant(params Expression<Func<T, bool>>[] predicates);
-    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, params Expression<Action<IConstraintCollectionBuilder<T>>>[] actions);
-
     public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string message);
     public IConstraintCollectionBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string message);
     public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintCollectionBuilder<T>>> action, string message);
+
+    public IConstraintCollectionBuilder<T> Assert(params Expression<Func<T, bool>>[] assertions);
+    public IConstraintCollectionBuilder<T> Invariant(params Expression<Func<T, bool>>[] predicates);
+    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, params Expression<Action<IConstraintCollectionBuilder<T>>>[] actions);
 
     public IConstraintCollection<T> Build();
 
