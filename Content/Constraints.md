@@ -2,7 +2,7 @@
 
 ## A Constraints System
 
-Here are some interfaces for a constraints system using `System.Linq.Expressions` lambda expressions.
+Here are some interfaces for a new constraints system using the `System.Linq.Expressions` model for lambda expressions.
 
 ```cs
 public interface IHasConstraints
@@ -10,22 +10,48 @@ public interface IHasConstraints
     public IConstraintCollection Constraints { get; }
 }
 
-public interface IConstraintCollection : IEnumerable
+public interface IConstraintCollection
 {
     public Type ParameterType { get; }
 
     public void Check(object value);
 
-    public IEnumerable<LambdaExpression> Declarations { get; }
+    public IEnumerable<(LambdaExpression Map, LambdaExpression Create)> GetSubcollectionKeys();
 
-    public IConstraintCollection GetCollection(LambdaExpression map);
+    public IEnumerable<IAssertion> Assertions { get; }
+
+    public IEnumerable<IConditionalAssertion> ConditionalAssertions { get; }
+
+    public IEnumerable<IDeclaration> Declarations { get; }
+
+    public IConstraintCollection GetSubcollection(object? value, LambdaExpression map);
+
+    public IConstraintCollection GetSubcollection(object? value, LambdaExpression map, LambdaExpression create);
 }
 
-public interface IConstraint
+public interface IAssertion
 {
-    public void Check(object value);
-
     public LambdaExpression Expression { get; }
+
+    public void Check(object value);
+}
+
+public interface IConditionalAssertion : IAssertion
+{
+    public LambdaExpression Condition { get; }
+
+    public LambdaExpression Assertion { get; }
+}
+
+public interface IDeclaration
+{
+    public Expression Expression { get; }
+
+    public LambdaExpression Map { get; }
+
+    public LambdaExpression Create { get; }
+
+    public object Promote(object? value);
 }
 ```
 ```cs
@@ -34,26 +60,46 @@ public interface IHasConstraints<T> : IHasConstraints
     public new IConstraintCollection<T> Constraints { get; }
 }
 
-public interface IConstraintCollection<T> : IConstraintCollection, IEnumerable<IConstraint<T>>
+public interface IConstraintCollection<T> : IConstraintCollection
 {
     public void Check(T value);
 
-    public IConstraintCollection<R> GetCollection<R>(Expression<Func<T, R>> map);
+    public new IEnumerable<IAssertion<T>> Assertions { get; }
+
+    public new IEnumerable<IConditionalAssertion<T>> ConditionalAssertions { get; }
+
+    public new IEnumerable<IDeclaration<T>> Declarations { get; }
+
+    public IConstraintCollection<U> GetSubcollection<U>(T value, Expression<Func<T, U>> map);
+
+    public IConstraintCollection<V> GetSubcollection<U, V>(T value, Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 
-public interface IConstraint<T> : IConstraint
+public interface IAssertion<T> : IAssertion
 {
     public void Check(T value);
 
     public new Expression<Action<T>> Expression { get; }
 }
+
+public interface IConditionalAssertion<T> : IConditionalAssertion, IAssertion<T>
+{
+    public new Expression<Func<T, bool>> Condition { get; }
+
+    public new Expression<Action<T>> Assertion { get; }
+}
+
+public interface IDeclaration<T> : IDeclaration
+{
+    public object Promote(T value);
+}
 ```
 
 ## Representing Invariants and Declarations
 
-Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects. Invariants and declarations can both be represented using `System.Linq.Expressions` expression trees, more specifically method-call expressions.
+Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects.
 
-As envisioned, lambda expressions can express method calls to special static methods including:
+As envisioned, lambda expressions can express method calls to special static methods such as:
 
 ```cs
 public static class Constraint
@@ -149,4 +195,4 @@ var constraints = Constraint.Builder<DeterministicAcceptor>()
 
 Invariants and declarations, together, enable expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
 
-These concepts have been successfully prototyped.
+A first version of these concepts was successfully prototyped; a second version is actively being development.
