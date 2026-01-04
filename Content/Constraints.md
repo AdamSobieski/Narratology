@@ -7,10 +7,10 @@ Here are some interfaces for a new constraints system using the `System.Linq.Exp
 ```cs
 public interface IHasConstraints
 {
-    public IConstraintCollection Constraints { get; }
+    public IConstraints Constraints { get; }
 }
 
-public interface IConstraintCollection
+public interface IConstraints
 {
     public Type ParameterType { get; }
 
@@ -24,9 +24,9 @@ public interface IConstraintCollection
 
     public IEnumerable<IDeclaration> Declarations { get; }
 
-    public IConstraintCollection GetSubcollection(object? value, LambdaExpression map);
+    public IConstraints GetSubcollection(object? value, LambdaExpression map);
 
-    public IConstraintCollection GetSubcollection(object? value, LambdaExpression map, LambdaExpression create);
+    public IConstraints GetSubcollection(object? value, LambdaExpression map, LambdaExpression create);
 }
 
 public interface IAssertion
@@ -57,10 +57,10 @@ public interface IDeclaration
 ```cs
 public interface IHasConstraints<T> : IHasConstraints
 {
-    public new IConstraintCollection<T> Constraints { get; }
+    public new IConstraints<T> Constraints { get; }
 }
 
-public interface IConstraintCollection<T> : IConstraintCollection
+public interface IConstraints<T> : IConstraints
 {
     public void Check(T value);
 
@@ -70,9 +70,9 @@ public interface IConstraintCollection<T> : IConstraintCollection
 
     public new IEnumerable<IDeclaration<T>> Declarations { get; }
 
-    public IConstraintCollection<U> GetSubcollection<U>(T value, Expression<Func<T, U>> map);
+    public IConstraints<U> GetSubcollection<U>(T value, Expression<Func<T, U>> map);
 
-    public IConstraintCollection<V> GetSubcollection<U, V>(T value, Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
+    public IConstraints<V> GetSubcollection<U, V>(T value, Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 
 public interface IAssertion<T> : IAssertion
@@ -160,22 +160,22 @@ public static class Constraint
 
 ## Method Chaining, Fluent Interfaces, and Constraint Building
 
-Here is a preliminary fluent interface for building constraints, `IConstraintCollectionBuilder<T>`:
+Here is a preliminary fluent interface for building constraints, `IConstraintsBuilder<T>`:
 
 ```cs
-public interface IConstraintCollectionBuilder<T>
+public interface IConstraintsBuilder<T>
 {
-    public IConstraintCollectionBuilder<T> Declare<U>(Expression<Func<T, U>> map, Expression<Action<IConstraintCollectionBuilder<U>>> action);
+    public IConstraintsBuilder<T> Declare<U>(Expression<Func<T, U>> map, Expression<Action<IConstraintsBuilder<U>>> action);
 
-    public IConstraintCollectionBuilder<T> Declare<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create, Expression<Action<IConstraintCollectionBuilder<V>>> action);
+    public IConstraintsBuilder<T> Declare<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create, Expression<Action<IConstraintsBuilder<V>>> action);
 
-    public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
+    public IConstraintsBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
 
-    public IConstraintCollectionBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string? message = null);
+    public IConstraintsBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string? message = null);
 
-    public IConstraintCollectionBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintCollectionBuilder<T>>> action, string? message = null);
+    public IConstraintsBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
 
-    public IConstraintCollection<T> Build();
+    public IConstraints<T> Build();
 
     public Expression<Action<T>> GetLambdaExpression();
 }
@@ -183,7 +183,7 @@ public interface IConstraintCollectionBuilder<T>
 
 Using such a constraints builder, automaton implementations could easily provide inspectable constraints about themselves, e.g., cardinality constraints regarding their sets of initial states, and declare constraints about all navigators which they might provide via their `GetNavigator()` methods, e.g., cardinality constraints on the sets of their current states and on the numbers of edges traversed to reach these.
 
-Here is an example of how constraints can be built using a fluent syntax enabled by `IConstraintCollectionBuilder<T>`:
+Here is an example of how constraints can be built using a fluent syntax enabled by `IConstraintsBuilder<T>`:
 
 ```cs
 var constraints = Constraint.Builder<DeterministicAcceptor>()
