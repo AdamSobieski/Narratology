@@ -58,18 +58,13 @@ As envisioned, lambda expressions can express method calls to special static met
 ```cs
 public static class Constraint
 {
-    public static void Declare<T, R>(T on, Func<T, R> map, Action<R> action)
+    public static void Declare<T, U>(T on, Func<T, U> map, Action<U> action)
     {
 
     }
+    public static void Declare<T, U, V>(T on, Func<T, U> map, Func<T, U, V> create, Action<V> action)
+    {
 
-    public static void Assert<T>(T on, Func<T, bool> predicate)
-    {
-        if (!predicate(on)) throw new ConstraintException("Assertion failed.");
-    }
-    public static void Assert<T>(T on, Func<T, bool> predicate, string message)
-    {
-        if (!predicate(on)) throw new ConstraintException(message);
     }
 
     public static void Invariant<T>(T on, Func<T, bool> predicate)
@@ -77,6 +72,15 @@ public static class Constraint
         if (!predicate(on)) throw new ConstraintException("Invariant condition check failed.");
     }
     public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
+    {
+        if (!predicate(on)) throw new ConstraintException(message);
+    }
+
+    public static void Assert<T>(T on, Func<T, bool> predicate)
+    {
+        if (!predicate(on)) throw new ConstraintException("Assertion failed.");
+    }
+    public static void Assert<T>(T on, Func<T, bool> predicate, string message)
     {
         if (!predicate(on)) throw new ConstraintException(message);
     }
@@ -115,7 +119,9 @@ Here is a preliminary fluent interface for building constraints, `IConstraintCol
 ```cs
 public interface IConstraintCollectionBuilder<T>
 {
-    public IConstraintCollectionBuilder<T> Declare<R>(Expression<Func<T, R>> map, Expression<Action<IConstraintCollectionBuilder<R>>> action);
+    public IConstraintCollectionBuilder<T> Declare<U>(Expression<Func<T, U>> map, Expression<Action<IConstraintCollectionBuilder<U>>> action);
+
+    public IConstraintCollectionBuilder<T> Declare<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create, Expression<Action<IConstraintCollectionBuilder<V>>> action);
 
     public IConstraintCollectionBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
 
