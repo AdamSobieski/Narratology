@@ -24,7 +24,7 @@ public static partial class ExampleModule
 }
 ```
 
-## Rule Building Interfaces
+## Rule-building Interfaces
 
 ```cs
 public interface IRuleBuilder
@@ -42,7 +42,7 @@ public interface IRuleBuilder<X>
 }
 ```
 
-## Rule Building Syntax Example
+## Rule-building Syntax Example
 
 ```cs
 var rule = rb.ForAll<(Person a, Person b, Person c)>(b => b.Rule((kb, v) => kb.FatherOf(v.a, v.c) && kb.BrotherOf(v.a, v.b), (kb, v) => kb.UncleOf(v.b, v.c))).Build();
