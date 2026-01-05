@@ -45,7 +45,7 @@ public interface IRuleBuilder<X>
 ## Rule-building Syntax Example
 
 ```cs
-var rule = rb.ForAll<(Person a, Person b, Person c)>(b => b.Rule((kb, v) => kb.FatherOf(v.a, v.c) && kb.BrotherOf(v.a, v.b), (kb, v) => kb.UncleOf(v.b, v.c))).Build();
+var rule = rb.ForAll<(Person a, Person b, Person c)>(b => b.Rule((kb, v) => kb.FatherOf(v.a, v.c) & kb.BrotherOf(v.a, v.b), (kb, v) => kb.UncleOf(v.b, v.c))).Build();
 ```
 
 ## Second-order Logic and Recursive Expressiveness
