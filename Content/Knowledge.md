@@ -93,6 +93,6 @@ public interface IKnowledge
 
     public void Retract(LambdaExpression rule);
 
-    public IEnumerable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
+    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 }
 ```
