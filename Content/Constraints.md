@@ -163,7 +163,7 @@ public static class Constraint
 }
 ```
 
-Note that `Invariant()` is not present as a static method. For our purposes, constraint builders can transform these kinds of assertions into `When` method calls with always true conditions.
+Note that `Invariant()` is not present as a static method. Constraint builders can transform these kinds of assertions into `When` method calls with always true conditions.
 
 ## Method Chaining, Fluent Interfaces, and Constraint Building
 
@@ -190,7 +190,7 @@ public interface IConstraintsBuilder<T>
 
 Using such a constraints builder, automaton implementations could easily provide inspectable constraints about themselves, e.g., cardinality constraints regarding their sets of initial states, and declare constraints about all navigators which they might provide via their `GetNavigator()` methods, e.g., cardinality constraints on the sets of their current states and on the numbers of edges traversed to reach these.
 
-Here is an example of how constraints can be built using a fluent syntax enabled by `IConstraintsBuilder<T>`:
+Here, again, is an example of how constraints can be built using a fluent syntax enabled by `IConstraintsBuilder<T>`:
 
 ```cs
 var constraints = Constraint.Builder<DeterministicAcceptor>()
