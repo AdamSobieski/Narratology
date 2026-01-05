@@ -163,7 +163,7 @@ public static class Constraint
 }
 ```
 
-Note that `Invariant()` is not present as a static method. For our purposes, constraint builders transform these into `When` method calls with always true conditions.
+Note that `Invariant()` is not present as a static method. For our purposes, constraint builders can transform these kinds of assertions into `When` method calls with always true conditions.
 
 ## Method Chaining, Fluent Interfaces, and Constraint Building
 
