@@ -66,9 +66,10 @@ var rule2 = rb.ForAll<(Func<IKnowledge, Person, Person, bool> P, Person x, Perso
 
 Here is an example of a predicate which could receive expressions as arguments:
 ```cs
-public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x1, Expression<Func<IKnowledge, bool>> x2)
+[Predicate]
+public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x, Expression<Func<IKnowledge, bool>> y)
 {
-    return kb.Entails(MethodBase.GetCurrentMethod()!, [x1, x2]);
+    return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
 }
 ```
 
