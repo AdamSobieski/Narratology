@@ -64,6 +64,8 @@ public interface IDeclaration : IConstraint
 
     public LambdaExpression Create { get; }
 
+    public LambdaExpression Declaration { get; }
+
     public IConstraint? Promote(LambdaExpression map);
 
     public IConstraint? Promote(LambdaExpression map, LambdaExpression create);
