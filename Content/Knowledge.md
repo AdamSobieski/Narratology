@@ -50,7 +50,9 @@ var rule = rb.ForAll<(Person a, Person b, Person c)>(b => b.Rule((kb, v) => kb.F
 
 ## Second-order Logic and Recursive Expressiveness
 
-In the considered system, special types might include certain delegate types, which, as variable types, could enable second-order expressions, and `Expression<Func<IKnowledge, bool>>` which, when used as predicates' parameters, could enable recursive expressiveness.
+If the above is analogous to a Datalog-level of expressiveness, the following would be steps towards enabling a Prolog-level of expressiveness.
+
+In the system considered above, special types could include delegate types, which, as variable types, could enable second-order expressions, and lambda expressions, e.g., `Expression<Func<IKnowledge, bool>>`, which, when used as predicates' parameters, would enable a recursive expressiveness.
 
 Here is an example of a second-order expression, a rule with a quantified variable of a delegate type:
 ```cs
