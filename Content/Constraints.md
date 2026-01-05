@@ -1,6 +1,18 @@
 # Constraints
 
-## A Constraints System
+## Introduction
+
+Here is an example of a usage of the constraint system described below, a fluent interface for building constraints for objects:
+
+```cs
+var constraints = Constraint.Builder<DeterministicAcceptor>()
+    .Invariant(x => x.Start.Count() == 1)
+    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Current.Count() == 1))
+    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Edges.Count() == 1))
+    .Build();
+```
+
+## Interfaces
 
 Here are some interfaces for a new constraints system using the `System.Linq.Expressions` model for lambda expressions.
 
@@ -150,6 +162,8 @@ public static class Constraint
     }
 }
 ```
+
+Note that `Invariant()` is not present as a static method. For our purposes, constraint builders transform these into `When` method calls with always true conditions.
 
 ## Method Chaining, Fluent Interfaces, and Constraint Building
 
