@@ -74,7 +74,7 @@ public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x
 
 ## Knowledgebase API
 
-Here is an initial knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods.
+Here is an initial knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods, e.g., `Search`.
 
 ```cs
 public interface IKnowledge
