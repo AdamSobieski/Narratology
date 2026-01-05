@@ -4,19 +4,24 @@ Here are some approaches for representing strongly-typed structured knowledge, p
 
 ## Predicates as Extension Methods of Knowledgebases
 
-The following example shows how predicates can be represented as simple extension methods that extend a knowledgebase type.
+The following example shows how predicates can be represented as simple extension methods which extend a knowledgebase type.
 
 ```cs
 public static partial class ExampleModule
 {
+    [Predicate]
     public static bool FatherOf(this IKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
+
+    [Predicate]
     public static bool BrotherOf(this IKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
+
+    [Predicate]
     public static bool UncleOf(this IKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
@@ -64,5 +69,30 @@ Here is an example of a predicate which could receive expressions as arguments:
 public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x1, Expression<Func<IKnowledge, bool>> x2)
 {
     return kb.Entails(MethodBase.GetCurrentMethod()!, [x1, x2]);
+}
+```
+
+## Knowledgebase API
+
+Here is an initial knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods.
+
+```cs
+public interface IKnowledge
+{
+    public void Assert(MethodBase predicate, object?[] arguments);
+
+    public bool Contains(MethodBase predicate, object?[] arguments);
+
+    public bool Entails(MethodBase predicate, object?[] arguments);
+
+    public void Retract(MethodBase predicate, object?[] arguments);
+
+    public void Assert(LambdaExpression rule);
+
+    public bool Contains(LambdaExpression rule);
+
+    public void Retract(LambdaExpression rule);
+
+    public IEnumerable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 }
 ```
