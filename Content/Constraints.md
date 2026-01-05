@@ -19,10 +19,10 @@ Here are some interfaces for a new constraints system using the `System.Linq.Exp
 ```cs
 public interface IHasConstraints
 {
-    public IConstraints Constraints { get; }
+    public IConstraintCollection Constraints { get; }
 }
 
-public interface IConstraints
+public interface IConstraintCollection
 {
     public Type ParameterType { get; }
 
@@ -36,15 +36,18 @@ public interface IConstraints
 
     public IEnumerable<IDeclaration> Declarations { get; }
 
-    public IConstraints PromoteMatchingDeclarations(LambdaExpression map);
+    public IConstraintCollection PromoteMatchingDeclarations(LambdaExpression map);
 
-    public IConstraints PromoteMatchingDeclarations(LambdaExpression map, LambdaExpression create);
+    public IConstraintCollection PromoteMatchingDeclarations(LambdaExpression map, LambdaExpression create);
 }
 
-public interface IAssertion
+public interface IConstraint
 {
     public LambdaExpression Expression { get; }
+}
 
+public interface IAssertion : IConstraint
+{
     public void Check(object value);
 }
 
@@ -55,24 +58,24 @@ public interface IConditionalAssertion : IAssertion
     public LambdaExpression Assertion { get; }
 }
 
-public interface IDeclaration
+public interface IDeclaration : IConstraint
 {
-    public LambdaExpression Expression { get; }
-
     public LambdaExpression Map { get; }
 
     public LambdaExpression Create { get; }
 
-    public object? Promote(LambdaExpression map, LambdaExpression create);
+    public IConstraint? Promote(LambdaExpression map);
+
+    public IConstraint? Promote(LambdaExpression map, LambdaExpression create);
 }
 ```
 ```cs
 public interface IHasConstraints<T> : IHasConstraints
 {
-    public new IConstraints<T> Constraints { get; }
+    public new IConstraintCollection<T> Constraints { get; }
 }
 
-public interface IConstraints<T> : IConstraints
+public interface IConstraintCollection<T> : IConstraintCollection
 {
     public void Check(T value);
 
@@ -82,16 +85,19 @@ public interface IConstraints<T> : IConstraints
 
     public new IEnumerable<IDeclaration<T>> Declarations { get; }
 
-    public IConstraints<U> PromoteMatchingDeclarations<U>(Expression<Func<T, U>> map);
+    public IConstraintCollection<U> PromoteMatchingDeclarations<U>(Expression<Func<T, U>> map);
 
-    public IConstraints<V> PromoteMatchingDeclarations<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
+    public IConstraintCollection<V> PromoteMatchingDeclarations<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 
-public interface IAssertion<T> : IAssertion
+public interface IConstraint<T> : IConstraint
+{
+    public new Expression<Action<T>> Expression { get; }
+}
+
+public interface IAssertion<T> : IConstraint<T>, IAssertion
 {
     public void Check(T value);
-
-    public new Expression<Action<T>> Expression { get; }
 }
 
 public interface IConditionalAssertion<T> : IConditionalAssertion, IAssertion<T>
@@ -101,11 +107,11 @@ public interface IConditionalAssertion<T> : IConditionalAssertion, IAssertion<T>
     public new Expression<Action<T>> Assertion { get; }
 }
 
-public interface IDeclaration<T> : IDeclaration
+public interface IDeclaration<T> : IConstraint<T>, IDeclaration
 {
-    public new Expression<Action<T>> Expression { get; }
+    public IConstraint<U>? Promote<U>(Expression<Func<T, U>> map);
 
-    public object? Promote<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
+    public IConstraint<V>? Promote<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 ```
 
@@ -182,7 +188,7 @@ public interface IConstraintsBuilder<T>
 
     public IConstraintsBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
 
-    public IConstraints<T> Build();
+    public IConstraintsCollection<T> Build();
 
     public Expression<Action<T>> GetLambdaExpression();
 }
