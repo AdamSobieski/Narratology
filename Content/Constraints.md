@@ -16,7 +16,7 @@ public interface IConstraints
 
     public void Check(object value);
 
-    public IEnumerable<(LambdaExpression Map, LambdaExpression Create)> GetSubcollectionKeys();
+    public IEnumerable<(LambdaExpression Map, LambdaExpression Create)> GetPromotionKeys();
 
     public IEnumerable<IAssertion> Assertions { get; }
 
@@ -24,9 +24,9 @@ public interface IConstraints
 
     public IEnumerable<IDeclaration> Declarations { get; }
 
-    public IConstraints GetSubcollection(object? value, LambdaExpression map);
+    public IConstraints PromoteMatchingDeclarations(LambdaExpression map);
 
-    public IConstraints GetSubcollection(object? value, LambdaExpression map, LambdaExpression create);
+    public IConstraints PromoteMatchingDeclarations(LambdaExpression map, LambdaExpression create);
 }
 
 public interface IAssertion
@@ -45,13 +45,13 @@ public interface IConditionalAssertion : IAssertion
 
 public interface IDeclaration
 {
-    public Expression Expression { get; }
+    public LambdaExpression Expression { get; }
 
     public LambdaExpression Map { get; }
 
     public LambdaExpression Create { get; }
 
-    public object Promote(object? value);
+    public object? Promote(LambdaExpression map, LambdaExpression create);
 }
 ```
 ```cs
@@ -70,9 +70,9 @@ public interface IConstraints<T> : IConstraints
 
     public new IEnumerable<IDeclaration<T>> Declarations { get; }
 
-    public IConstraints<U> GetSubcollection<U>(T value, Expression<Func<T, U>> map);
+    public IConstraints<U> PromoteMatchingDeclarations<U>(Expression<Func<T, U>> map);
 
-    public IConstraints<V> GetSubcollection<U, V>(T value, Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
+    public IConstraints<V> PromoteMatchingDeclarations<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 
 public interface IAssertion<T> : IAssertion
@@ -91,7 +91,9 @@ public interface IConditionalAssertion<T> : IConditionalAssertion, IAssertion<T>
 
 public interface IDeclaration<T> : IDeclaration
 {
-    public object Promote(T value);
+    public new Expression<Action<T>> Expression { get; }
+
+    public object? Promote<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
 }
 ```
 
@@ -111,15 +113,6 @@ public static class Constraint
     public static void Declare<T, U, V>(T on, Func<T, U> map, Func<T, U, V> create, Action<V> action)
     {
 
-    }
-
-    public static void Invariant<T>(T on, Func<T, bool> predicate)
-    {
-        if (!predicate(on)) throw new ConstraintException("Invariant condition check failed.");
-    }
-    public static void Invariant<T>(T on, Func<T, bool> predicate, string message)
-    {
-        if (!predicate(on)) throw new ConstraintException(message);
     }
 
     public static void Assert<T>(T on, Func<T, bool> predicate)
@@ -195,4 +188,4 @@ var constraints = Constraint.Builder<DeterministicAcceptor>()
 
 Invariants and declarations, together, enable expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
 
-A first version of these concepts was successfully prototyped; a second version is actively being development.
+A first version of these concepts was successfully prototyped. A second version is actively being developed.
