@@ -94,8 +94,6 @@ public interface IKnowledge
 
     public void Retract(LambdaExpression rule);
 
-    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search();
-
     public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 
     public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
