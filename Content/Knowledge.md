@@ -75,7 +75,7 @@ public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x
 
 ## Knowledgebase API
 
-Here is a knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods, e.g., `Search()`.
+Here is a knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`.
 
 ```cs
 public interface IKnowledge
@@ -94,7 +94,7 @@ public interface IKnowledge
 
     public void Retract(LambdaExpression rule);
 
-    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
+    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Match(object predicate, object?[] arguments);
 
     public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
 }
