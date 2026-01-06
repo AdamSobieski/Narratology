@@ -29,28 +29,45 @@ public static partial class ExampleModule
 }
 ```
 
-## Rule-building Interfaces
+## Knowledgebases
+
+Here is a knowledgebase interface. `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`. This interface is a work in progress; it will, eventually, include a means of loading data and rules from stored resources.
 
 ```cs
-public interface IRuleBuilder
+public interface IKnowledge
 {
-    public IRuleBuilder ForAll<X>(Expression<Action<IRuleBuilder<X>>> action);
-    
-    LambdaExpression Build();
-}
+    public void Assert(MethodBase predicate, object?[] arguments);
 
-public interface IRuleBuilder<X>
-{
-    public void Rule(Expression<Func<IKnowledge, X, bool>> antecedent, Expression<Func<IKnowledge, X, bool>> consequent);
+    public bool Contains(MethodBase predicate, object?[] arguments);
 
-    Expression<Action<X>> GetLambdaExpression();
+    public bool Entails(MethodBase predicate, object?[] arguments);
+
+    public void Retract(MethodBase predicate, object?[] arguments);
+
+    public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
+
+    public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
+
+    public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
+
+    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
+
+    public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
 }
 ```
 
-## Rule-building Syntax Example
+### Rule-assertion Example
 
 ```cs
-var rule = rb.ForAll<(Person a, Person b, Person c)>(b => b.Rule((kb, v) => kb.FatherOf(v.a, v.c) & kb.BrotherOf(v.a, v.b), (kb, v) => kb.UncleOf(v.b, v.c))).Build();
+kb.Assert<(Person a, Person b, Person c)>((kb, v) => kb.UncleOf(v.b, v.c), (kb, v) => kb.FatherOf(v.a, v.c), (kb, v) => kb.BrotherOf(v.a, v.b));
+```
+
+### Query Example
+
+```cs
+Person alex = new Person("Alex Smith");
+
+kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 ```
 
 ## Second-order Logic and Recursive Expressiveness
@@ -71,39 +88,4 @@ public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x
 {
     return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
 }
-```
-
-## Knowledgebase API
-
-Here is a knowledgebase interface. Note that `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`.
-
-```cs
-public interface IKnowledge
-{
-    public void Assert(MethodBase predicate, object?[] arguments);
-
-    public bool Contains(MethodBase predicate, object?[] arguments);
-
-    public bool Entails(MethodBase predicate, object?[] arguments);
-
-    public void Retract(MethodBase predicate, object?[] arguments);
-
-    public void Assert(LambdaExpression rule);
-
-    public bool Contains(LambdaExpression rule);
-
-    public void Retract(LambdaExpression rule);
-
-    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Match(object predicate, object?[] arguments);
-
-    public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
-}
-```
-
-### Query Example
-
-```cs
-Person alex = new Person("Alex Smith");
-
-kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 ```
