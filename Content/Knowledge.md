@@ -31,7 +31,7 @@ public static partial class ExampleModule
 
 ## Knowledgebases
 
-Here is a knowledgebase interface. `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`. This interface is a work in progress; it will, eventually, include a means of loading data and rules from stored resources.
+Here is a knowledgebase interface. `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`. This interface is a work in progress; it will, eventually, include a means of loading data and rules from stored resources. Some of the features indicated, below, may, instead, be made available as extension methods on the `IKnowledge` interface.
 
 ```cs
 public interface IKnowledge
@@ -44,13 +44,13 @@ public interface IKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
+    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
+
     public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
 
     public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
 
     public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
-
-    public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 
     public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
 }
