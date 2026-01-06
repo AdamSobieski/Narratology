@@ -8,7 +8,7 @@ A collection of documents presenting ideas supporting computational narratology 
 * [Constraints](Content/Constraints.md) &ndash; constraint-logic system with a fluent constraint-builder.
 * [Knowledge](Content/Knowledge.md) &ndash; knowledgebase system, rule-building, and inference.
 
-## Project Research Topics
+## Research Topics
 
 This project will explore:
 
