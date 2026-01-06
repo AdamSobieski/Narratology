@@ -94,6 +94,8 @@ public interface IKnowledge
 
     public void Retract(LambdaExpression rule);
 
+    public IQueryable<MethodCallExpression> Search();
+
     public IQueryable<MethodCallExpression> Search(object predicate, object?[] arguments);
 }
 ```
