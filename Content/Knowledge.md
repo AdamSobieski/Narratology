@@ -99,3 +99,7 @@ public interface IKnowledge
     public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 }
 ```
+
+## Query-building Interfaces
+
+_Coming soon._
