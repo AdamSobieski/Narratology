@@ -101,3 +101,9 @@ public interface IKnowledge
     public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
 }
 ```
+
+### Query Example
+
+```cs
+kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(Alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
+```
