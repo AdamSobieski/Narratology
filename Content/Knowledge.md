@@ -31,7 +31,7 @@ public static partial class ExampleModule
 
 ## Knowledgebase API
 
-This knowledgebase interface, a work in progress, is designed to be general-purpose, enabling developers to work with rules and queries programmatically, using a convenient and approachable C# syntax, while being simultaneously scalable for developers to load and parse collections of rules from resources.
+These knowledgebase interfaces, a work in progress, are designed to be general-purpose, enabling developers to work with rules and queries programmatically, using convenient and approachable C# techniques, while being simultaneously scalable for developers to be able to load and parse collections of rules from resources.
 
 ```cs
 public interface IReadOnlyKnowledge
