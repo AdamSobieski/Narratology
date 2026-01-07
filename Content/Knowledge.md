@@ -110,14 +110,14 @@ public static partial class Builtin
 }
 ```
 
-### Rule Syntax Example
+### Example: Expressing a Rule in C#
 
 > [!NOTE]
 > ```cs
 > kb.Assert<(Person x, Person y, Person z)>((kb, v) => kb.UncleOf(v.y, v.z), (kb, v) => kb.FatherOf(v.x, v.z), (kb, v) => kb.BrotherOf(v.x, v.y));
 > ```
 
-### Query Syntax Example
+### Example: Expressing a Query in C#
 
 > [!NOTE]
 > ```cs
