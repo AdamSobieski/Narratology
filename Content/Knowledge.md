@@ -135,9 +135,9 @@ Here is an sketch of such a second-order expression, a rule with a predicate var
 kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
 ```
 
-## Recursive Expressiveness
+## Reification, Quoting, and Recursive Expressiveness
 
-A number of approaches are presently being explored to allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+A number of approaches are being explored involving: (1) reifying expressions, (2) quoting expressions, (3) allowing expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
 ## Attributes and Predicate Definitions
 
