@@ -129,7 +129,7 @@ kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>(...).B
 Here is an example of a predicate which could receive expressions as arguments:
 ```cs
 [Predicate]
-public static bool Meta(this IKnowledge kb, Expression<Func<IKnowledge, bool>> x, Expression<Func<IKnowledge, bool>> y)
+public static bool Meta(this IKnowledge kb, Expression<Func<bool>> x, Expression<Func<bool>> y)
 {
     return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
 }
