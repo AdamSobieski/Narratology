@@ -10,19 +10,19 @@ The following example shows how predicates can be represented as simple extensio
 public static partial class ExampleModule
 {
     [Predicate]
-    public static bool FatherOf(this IKnowledge kb, Person x, Person y)
+    public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
 
     [Predicate]
-    public static bool BrotherOf(this IKnowledge kb, Person x, Person y)
+    public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
 
     [Predicate]
-    public static bool UncleOf(this IKnowledge kb, Person x, Person y)
+    public static bool UncleOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
@@ -34,23 +34,28 @@ public static partial class ExampleModule
 This knowledgebase interface, a work in progress, is designed to be general-purpose, enabling developers to work with rules and queries programmatically, using a convenient and approachable C# syntax, while being simultaneously scalable for developers to load and parse collections of rules from resources.
 
 ```cs
-public interface IKnowledge
+public interface IReadOnlyKnowledge
 {
-    public void Assert(MethodBase predicate, object?[] arguments);
-
     public bool Contains(MethodBase predicate, object?[] arguments);
 
     public bool Entails(MethodBase predicate, object?[] arguments);
+
+    public bool Contains(Expression rule);
+
+    public IQueryable Query(Expression query);
+}
+```
+
+```cs
+public interface IKnowledge : IReadOnlyKnowledge
+{
+    public void Assert(MethodBase predicate, object?[] arguments);
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
     public void Assert(Expression rule);
 
-    public bool Contains(Expression rule);
-
     public void Retract(Expression rule);
-
-    public IQueryable Query(Expression query);
 }
 ```
 
@@ -66,36 +71,40 @@ public static partial class Builtin
     static MethodInfo _Rule = typeof(Builtin).GetMethod(nameof(Builtin.Rule), BindingFlags.Public | BindingFlags.Static)!;
     static MethodInfo _Query = typeof(Builtin).GetMethod(nameof(Builtin.Query), BindingFlags.Public | BindingFlags.Static)!;
 
-    public static void Rule<X>(Func<IKnowledge, X, bool> consequent, params Func<IKnowledge, X, bool>[] antecedent)
+    public static void Rule<X>(Func<IReadOnlyKnowledge, X, bool> consequent, params Func<IReadOnlyKnowledge, X, bool>[] antecedent)
     {
 
     }
-    public static void Query<X>(params Func<IKnowledge, X, bool>[] antecedent)
+    public static void Query<X>(params Func<IReadOnlyKnowledge, X, bool>[] antecedent)
     {
 
     }
 
-    extension(IKnowledge kb)
+    extension(IReadOnlyKnowledge kb)
     {
-        public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
-        {
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.Assert(rule);
-        }
-        public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
+        public bool Contains<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             return kb.Contains(rule);
         }
-        public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
-        {
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.Retract(rule);
-        }
-        public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query)
+        public IQueryable<X> Query<X>(params Expression<Func<IReadOnlyKnowledge, X, bool>>[] query)
         {
             var _query = Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query);
             return kb.Query(_query).Cast<X>();
+        }
+    }
+
+    extension(IKnowledge kb)
+    {
+        public void Assert<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
+        {
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
+            kb.Assert(rule);
+        }
+        public void Retract<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
+        {
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
+            kb.Retract(rule);
         }
     }
 }
@@ -123,9 +132,36 @@ In addition to the system considered, above, variables could be delegate types; 
 
 Here is an sketch of such a second-order expression, a rule with a predicate variable:
 ```cs
-kb.Assert<(Func<IKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
+kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
 ```
 
 ## Recursive Expressiveness
 
-A number of approaches are being explored to allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+A number of approaches are presently being explored to allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+
+## Attributes and Predicate Definitions
+
+Predicates could use attributes to reference types having parameterless constructors and implementing an interface resembling:
+
+```cs
+public interface IPredicateDefinition
+{
+    public IReadOnlyKnowledge GetDefinition(IReadOnlyKnowledge caller, MethodBase predicate);
+}
+```
+
+Symmetric binary predicates, for example, could refer to a reusable type, e.g., `SymmetricPredicate`, which might use a "knowledgebase template" to instantiate a small, concrete, read-only knowledgebase when provided with that specific `MethodBase` having components of its definition requested. This small, concrete knowledgebase might contain only one expression, a unary expression indicating that the requested predicate was symmetric.
+
+```cs
+public static partial class ExampleModule
+{
+    [Predicate]
+    [Definition(typeof(SymmetricPredicate))]
+    public static bool BrotherOf(this IKnowledge kb, Person x, Person y)
+    {
+        return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
+    }
+}
+```
+
+When a knowledgebase encounters an unrecognized predicate, for instance `BrotherOf`, it could, configurably, choose to examine the predicate's method for one or more `DefinitionAttribute` attributes to use to create referenced types to request read-only knowledgebases containing components of the unrecognized predicate's definition.
