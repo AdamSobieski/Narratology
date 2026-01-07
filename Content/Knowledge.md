@@ -54,6 +54,8 @@ public interface IKnowledge
 }
 ```
 
+Other functionalities to be considered include providing developers with means to provide `IEqualityComparer<T>` instances for types.
+
 ### Builtins and Extension Methods for Working with Rules and Queries
 
 The following builtins and extension methods intend to provide developers with a convenient and approachable syntax for working with rules and queries.
@@ -144,9 +146,9 @@ public static partial class Builtin
 
 In the system considered above, special types for variables would include delegate types, which would enable second-order expressions, and lambda expressions, e.g., `Expression<Func<IKnowledge, bool>>`, which would enable a recursive expressiveness.
 
-Here is an example of a second-order expression, a rule with a quantified variable of a delegate type:
+Here is an example of a second-order expression, a rule with a variable of a delegate type, a predicate:
 ```cs
-var rule2 = rb.ForAll<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>(...).Build();
+kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>(...).Build();
 ```
 
 Here is an example of a predicate which could receive expressions as arguments:
