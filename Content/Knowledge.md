@@ -1,6 +1,6 @@
 # Knowledge
 
-Here are some approaches for representing strongly-typed structured knowledge, propositional-logical expressions, and logical rules.
+Here are some considered approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
 ## Predicates as Extension Methods of Knowledgebases
 
@@ -31,7 +31,7 @@ public static partial class ExampleModule
 
 ## Knowledgebases
 
-Here is a knowledgebase interface. `ParameterExpression` instances could be used as variables with some methods, e.g., `Match()`. This interface is a work in progress; it will, eventually, include a means of loading data and rules from stored resources. Some of the features indicated, below, may, instead, be made available as extension methods on the `IKnowledge` interface.
+This interface, a work in progress, is designed to be general-purpose, enabling developers to work with rules and queries programmatically, using a convenient and approachable C# syntax, while being scalable for developers to load and parse rule collections from resources.
 
 ```cs
 public interface IKnowledge
@@ -44,37 +44,109 @@ public interface IKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
+    public void Assert(LambdaExpression rule);
+
+    public bool Contains(LambdaExpression rule);
+
+    public void Retract(LambdaExpression rule);
+
     public IQueryable<(MethodBase Predicate, object?[] Arguments)> Search(object predicate, object?[] arguments);
 
-    public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
-
-    public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
-
-    public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent);
-
-    public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query);
+    public IQueryable Query(LambdaExpression query);
 }
 ```
 
-### Rule-assertion Example
+As envisioned, `ParameterExpression` instances could be used as variables with `Match()`.
+
+### Builtins and Extension Methods for Working with Rules and Queries
+
+The following builtins and extension methods intend to provide developers with a convenient and approachable syntax for working with rules and queries.
 
 ```cs
-kb.Assert<(Person a, Person b, Person c)>((kb, v) => kb.UncleOf(v.b, v.c), (kb, v) => kb.FatherOf(v.a, v.c), (kb, v) => kb.BrotherOf(v.a, v.b));
+public static partial class Builtin
+{
+    static MethodInfo _Rule = typeof(Builtin).GetMethod(nameof(Builtin.Rule), BindingFlags.Public | BindingFlags.Static)!;
+    static MethodInfo _Query = typeof(Builtin).GetMethod(nameof(Builtin.Query), BindingFlags.Public | BindingFlags.Static)!;
+
+    public static void Rule<X>(Func<IKnowledge, X, bool> consequent, params Func<IKnowledge, X, bool>[] antecedent)
+    {
+
+    }
+    public static void Query<X>(params Func<IKnowledge, X, bool>[] antecedent)
+    {
+
+    }
+
+    extension(IKnowledge kb)
+    {
+        public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
+        {
+            List<Expression> parts = new List<Expression>();
+            parts.Add(consequent);
+            foreach (var part in antecedent)
+            {
+                parts.Add(part);
+            }
+
+            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+
+            kb.Assert(rule);
+        }
+        public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
+        {
+            List<Expression> parts = new List<Expression>();
+            parts.Add(consequent);
+            foreach (var part in antecedent)
+            {
+                parts.Add(part);
+            }
+
+            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+
+            return kb.Contains(rule);
+        }
+        public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
+        {
+            List<Expression> parts = new List<Expression>();
+            parts.Add(consequent);
+            foreach (var part in antecedent)
+            {
+                parts.Add(part);
+            }
+
+            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+
+            kb.Retract(rule);
+        }
+        public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query)
+        {
+            var _query = Expression.Lambda(Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query));
+
+            return kb.Query(_query).Cast<X>();
+        }
+    }
+}
 ```
 
-### Query Example
+### Rule Syntax Example
 
-```cs
-Person alex = new Person("Alex Smith");
+> [!NOTE]
+> ```cs
+> kb.Assert<(Person a, Person b, Person c)>((kb, v) => kb.UncleOf(v.b, v.c), (kb, v) => kb.FatherOf(v.a, v.c), (kb, v) => kb.BrotherOf(v.a, v.b));
+> ```
 
-kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
-```
+### Query Syntax Example
+
+> [!NOTE]
+> ```cs
+> Person alex = new Person("Alex Smith");
+>
+> kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
+> ```
 
 ## Second-order Logic and Recursive Expressiveness
 
-If the above is analogous to a Datalog level of expressiveness, the following would be steps to enable Prolog expressiveness, and beyond.
-
-In the system considered above, special types could include delegate types, which, as variable types, could enable second-order expressions, and lambda expressions, e.g., `Expression<Func<IKnowledge, bool>>`, which, when used as predicates' parameters, would enable a recursive expressiveness.
+In the system considered above, special types for variables would include delegate types, which would enable second-order expressions, and lambda expressions, e.g., `Expression<Func<IKnowledge, bool>>`, which would enable a recursive expressiveness.
 
 Here is an example of a second-order expression, a rule with a quantified variable of a delegate type:
 ```cs
