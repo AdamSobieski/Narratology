@@ -44,13 +44,13 @@ public interface IKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
-    public void Assert(LambdaExpression rule);
+    public void Assert(Expression rule);
 
-    public bool Contains(LambdaExpression rule);
+    public bool Contains(Expression rule);
 
-    public void Retract(LambdaExpression rule);
+    public void Retract(Expression rule);
 
-    public IQueryable Query(LambdaExpression query);
+    public IQueryable Query(Expression query);
 }
 ```
 
@@ -86,7 +86,7 @@ public static partial class Builtin
                 parts.Add(part);
             }
 
-            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
             kb.Assert(rule);
         }
@@ -99,7 +99,7 @@ public static partial class Builtin
                 parts.Add(part);
             }
 
-            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
             return kb.Contains(rule);
         }
@@ -112,13 +112,13 @@ public static partial class Builtin
                 parts.Add(part);
             }
 
-            var rule = Expression.Lambda(Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts));
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
             kb.Retract(rule);
         }
         public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query)
         {
-            var _query = Expression.Lambda(Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query));
+            var _query = Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query);
 
             return kb.Query(_query).Cast<X>();
         }
