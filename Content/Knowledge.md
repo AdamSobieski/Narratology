@@ -121,9 +121,9 @@ public static partial class Builtin
 
 In addition to the system considered, above, variables could be delegate types; this would enable second-order expressions.
 
-Here is an example of a second-order expression, a rule with a variable of a delegate type, a predicate variable:
+Here is an example of a second-order expression, a rule with a predicate variable:
 ```cs
-kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>((kb, v) => ...).Build();
+kb.Assert<(Func<IKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
 ```
 
 ## Recursive Expressiveness
