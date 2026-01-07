@@ -79,32 +79,22 @@ public static partial class Builtin
     {
         public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = [consequent, .. antecedent];
-
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
-
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             kb.Assert(rule);
         }
         public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = [consequent, .. antecedent];
-
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
-
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             return kb.Contains(rule);
         }
         public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = [consequent, .. antecedent];
-
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
-
+            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             kb.Retract(rule);
         }
         public IQueryable<X> Query<X>(params Expression<Func<IKnowledge, X, bool>>[] query)
         {
             var _query = Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query);
-
             return kb.Query(_query).Cast<X>();
         }
     }
