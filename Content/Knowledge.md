@@ -117,20 +117,15 @@ public static partial class Builtin
 > kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
-## Second-order Logic and Recursive Expressiveness
+## Second-order Logic
 
-In the system considered above, special types for variables would include delegate types, which would enable second-order expressions, and lambda expressions, e.g., `Expression<Func<IKnowledge, bool>>`, which would enable a recursive expressiveness.
+In the system considered above, special types for variables would include delegate types, which would enable second-order expressions.
 
 Here is an example of a second-order expression, a rule with a variable of a delegate type, a predicate:
 ```cs
 kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>(...).Build();
 ```
 
-Here is an example of a predicate which could receive expressions as arguments:
-```cs
-[Predicate]
-public static bool Meta(this IKnowledge kb, Expression<Func<bool>> x, Expression<Func<bool>> y)
-{
-    return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
-}
-```
+## Recursive Expressiveness
+
+_Coming soon._
