@@ -128,6 +128,4 @@ kb.Assert<(Func<IKnowledge, object, object, bool> P, object x, object y)>((kb, v
 
 ## Recursive Expressiveness
 
-A number of possibilities are being explored for enabling clauses to be arguments in clauses.
-
-_Coming soon._
+A number of approaches are being explored to allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
