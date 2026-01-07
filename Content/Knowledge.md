@@ -146,7 +146,7 @@ Predicates could use attributes to reference types having parameterless construc
 ```cs
 public interface IPredicateDefinition
 {
-    public IReadOnlyKnowledge GetDefinition(IReadOnlyKnowledge caller, MethodBase predicate);
+    public IReadOnlyKnowledge GetDefinition(MethodBase predicate, IReadOnlyKnowledge? callerMetadata = null);
 }
 ```
 
