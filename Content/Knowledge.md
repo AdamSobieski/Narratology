@@ -54,7 +54,7 @@ public interface IKnowledge
 }
 ```
 
-Other functionalities to be considered include providing developers with means to provide `IEqualityComparer` instances for types.
+Other functionalities to be considered include: (1) providing developers with the means to provide `IEqualityComparer` instances for types, and (2) formatting expressions to strings.
 
 ### Builtins and Extension Methods for Working with Rules and Queries
 
