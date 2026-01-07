@@ -157,7 +157,7 @@ public static partial class ExampleModule
 {
     [Predicate]
     [Definition(typeof(SymmetricPredicate))]
-    public static bool BrotherOf(this IKnowledge kb, Person x, Person y)
+    public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
         return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
     }
