@@ -119,11 +119,11 @@ public static partial class Builtin
 
 ## Second-order Logic
 
-In the system considered above, special types for variables would include delegate types, which would enable second-order expressions.
+In addition to the system considered, above, variables could be delegate types; this would enable second-order expressions.
 
-Here is an example of a second-order expression, a rule with a variable of a delegate type, a predicate:
+Here is an example of a second-order expression, a rule with a variable of a delegate type, a predicate variable:
 ```cs
-kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>(...).Build();
+kb.Assert<(Func<IKnowledge, Person, Person, bool> P, Person x, Person y)>((kb, v) => ...).Build();
 ```
 
 ## Recursive Expressiveness
