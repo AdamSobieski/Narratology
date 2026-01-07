@@ -79,12 +79,7 @@ public static partial class Builtin
     {
         public void Assert<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = new List<Expression>();
-            parts.Add(consequent);
-            foreach (var part in antecedent)
-            {
-                parts.Add(part);
-            }
+            List<Expression> parts = [consequent, .. antecedent];
 
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
@@ -92,12 +87,7 @@ public static partial class Builtin
         }
         public bool Contains<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = new List<Expression>();
-            parts.Add(consequent);
-            foreach (var part in antecedent)
-            {
-                parts.Add(part);
-            }
+            List<Expression> parts = [consequent, .. antecedent];
 
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
@@ -105,12 +95,7 @@ public static partial class Builtin
         }
         public void Retract<X>(Expression<Func<IKnowledge, X, bool>> consequent, params Expression<Func<IKnowledge, X, bool>>[] antecedent)
         {
-            List<Expression> parts = new List<Expression>();
-            parts.Add(consequent);
-            foreach (var part in antecedent)
-            {
-                parts.Add(part);
-            }
+            List<Expression> parts = [consequent, .. antecedent];
 
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), parts);
 
