@@ -31,7 +31,7 @@ public static partial class ExampleModule
 
 ## Knowledgebases
 
-This interface, a work in progress, is designed to be general-purpose, enabling developers to work with rules and queries programmatically, using a convenient and approachable C# syntax, while being scalable for developers to load and parse rule collections from resources.
+This knowledgebase interface, a work in progress, is designed to be general-purpose, enabling developers to work with rules and queries programmatically, using a convenient and approachable C# syntax, while being simultaneously scalable for developers to load and parse collections of rules from resources.
 
 ```cs
 public interface IKnowledge
@@ -132,7 +132,7 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert<(Person a, Person b, Person c)>((kb, v) => kb.UncleOf(v.b, v.c), (kb, v) => kb.FatherOf(v.a, v.c), (kb, v) => kb.BrotherOf(v.a, v.b));
+> kb.Assert<(Person x, Person y, Person z)>((kb, v) => kb.UncleOf(v.y, v.z), (kb, v) => kb.FatherOf(v.x, v.z), (kb, v) => kb.BrotherOf(v.x, v.y));
 > ```
 
 ### Query Syntax Example
