@@ -128,6 +128,6 @@ kb.Assert<(Func<IKnowledge, object, object, bool> P, object x, object y)>((kb, v
 
 ## Recursive Expressiveness
 
-A number of possibilities are being explore to elegantly enable clauses to be arguments in clauses.
+A number of possibilities are being explored for enabling clauses to be arguments in clauses.
 
 _Coming soon._
