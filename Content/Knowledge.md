@@ -313,14 +313,16 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 ## Questions
 
-1. Should `IKnowledge` provide developers with a means to provide `IEqualityComparer` instances for types?
+1. Should `IReadOnlyKnowledge` be enumerable or provide an `AsEnumerable()` and/or `AsQueryable()` method?
 
-2. Should rules be implemented using a special (builtin) predicate that receives expressions as its arguments?
+2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
+   1. If not, might developers be able to provide these using an argument to the `Query()` method?
 
-3. If so, rules could have consquent expressions using the special predicate. Should rules be able to express rule consequents?
+3. Should the API for rules use a special (builtin) predicate that receives expressions as its arguments?
+   1. If so, rules could have consquent expressions using the special predicate. Should rules be able to express rule consequents?
 
 4. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
 
 5. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
 
-6. Are "shapes", constraints, and/or other validation features desired for knowledgebases?
+6. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
