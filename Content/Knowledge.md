@@ -330,8 +330,8 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
 8. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions.
-   1. In the approach, above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
-   2. In the approach, below, sets of rules can process input expression sets to produce output expression sets.
+   1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
+   2. Below, sets of rules can process input expression sets to produce output expression sets.
 
 ```cs
 public interface IReadOnlyKnowledge
