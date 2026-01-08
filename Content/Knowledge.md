@@ -333,6 +333,10 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
    2. Below, sets of rules can process input expression sets to produce output expression sets.
 
+<details>
+<summary>Click here to toggle view of an alternative set of interfaces.</summary>
+<br>
+
 ```cs
 public interface IReadOnlyKnowledge
 {
@@ -366,3 +370,4 @@ public interface IRuleSet : IReadOnlyRuleSet
     public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 }
 ```
+</details>
