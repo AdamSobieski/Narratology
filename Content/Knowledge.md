@@ -164,9 +164,9 @@ var content = kb.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, ch
 kb.Assert(() => kb.AccordingTo(content, bob));
 ```
 
-## Variables Over Sets of Expressions
+## Variables for Sets of Expressions
 
-In addition to creating rules and expressions about specific sets of expressions, `kb` above, one might want to use variables over sets of expressions, variables of the type `IReadOnlyKnowledge`.
+In addition to creating rules and expressions about specific sets of expressions, `kb` above, one might want to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
 
 ```cs
 kb.Assert<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
