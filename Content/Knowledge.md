@@ -84,6 +84,15 @@ public static partial class Builtin
 
     extension(IReadOnlyKnowledge kb)
     {
+        public void Contains(Expression<Func<bool>> lambda)
+        {
+            ...
+        }
+        public void Entails(Expression<Func<bool>> lambda)
+        {
+            ...
+        }
+
         public bool Contains<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
