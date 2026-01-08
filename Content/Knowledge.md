@@ -61,8 +61,6 @@ public interface IKnowledge : IReadOnlyKnowledge
 }
 ```
 
-Other functionalities to be considered include: (1) providing developers with the means to provide `IEqualityComparer` instances for types, and (2) formatting expressions to strings.
-
 ### Builtin Extension Methods
 
 The following builtins and extension methods are to provide developers with convenient and approachable syntax options for working with expressions, rules, and queries.
@@ -271,7 +269,7 @@ public interface IPredicateDefinition
 Using a new attribute:
 
 ```cs
-[AttributeUsage(AttributeTargets.Method,  AllowMultiple = true)]
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
 public sealed class DefinitionAttribute : Attribute
 {
     public DefinitionAttribute(Type type, params object?[] args)
@@ -312,3 +310,17 @@ public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
 ```
 
 When a knowledgebase encounters an unrecognized predicate, it could opt to examine that predicate's `MethodInfo`'s custom attributes for one or more `DefinitionAttribute` attributes to make use of to create the referenced types, using their parameterless constructors, and then to provide arguments to these instances' `GetDefinition()` methods to request read-only knowledgebases containing aspects of the unrecognized predicate's definition.
+
+## Questions
+
+1. Should `IKnowledge` provide developers with a means to provide `IEqualityComparer` instances for types?
+
+2. Should rules be implemented using a special (builtin) predicate that receives expressions as its arguments?
+
+3. If so, rules could have consquent expressions using the special predicate. Should rules be able to express rule consequents?
+
+4. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
+
+5. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
+
+6. Are "shapes", constraints, and/or other validation features desired for knowledgebases?
