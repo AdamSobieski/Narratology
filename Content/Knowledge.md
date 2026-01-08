@@ -4,7 +4,7 @@ Here are some considered approaches for representing strongly-typed structured k
 
 ## Predicates as Extension Methods of Knowledgebases
 
-The following example shows how predicates can be represented as simple extension methods which extend a knowledgebase interface. This technique provides numerous benefits including simplifying organizing collections of predicates, using namespaces, in .NET assemblies. Developers could access their desired predicates, including with IntelliSense features, by using namespaces in source-code files.
+Predicates can be represented as simple extension methods which extend a knowledgebase interface. This technique provides numerous benefits including simplifying organizing collections of predicates, using namespaces, in .NET assemblies. Developers could access their desired predicates, including with IntelliSense features, by using namespaces in source-code files.
 
 ```cs
 public static partial class ExampleModule
