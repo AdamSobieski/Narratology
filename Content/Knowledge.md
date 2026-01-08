@@ -126,23 +126,71 @@ public static partial class Builtin
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             kb.RetractRule(rule);
         }
+
+        public static void Assert<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
+        {
+            kb.Assert(predicate.Method, [arg1]);
+        }
+        public static void Assert<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
+        {
+            kb.Assert(predicate.Method, [arg1, arg2]);
+        }
+        public static void Assert<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
+        {
+            kb.Assert(predicate.Method, [arg1, arg2, arg3]);
+        }
+        public static void Assert<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            kb.Assert(predicate.Method, [arg1, arg2, arg3, arg4]);
+        }
+        // ...
+
+        public static void Retract<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
+        {
+            kb.Retract(predicate.Method, [arg1]);
+        }
+        public static void Retract<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
+        {
+            kb.Retract(predicate.Method, [arg1, arg2]);
+        }
+        public static void Retract<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
+        {
+            kb.Retract(predicate.Method, [arg1, arg2, arg3]);
+        }
+        public static void Retract<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        {
+            kb.Retract(predicate.Method, [arg1, arg2, arg3, arg4]);
+        }
+        // ...
     }
 }
 ```
 
-### Example: Expressing a Rule in C#
+### Example: Asserting an Expression (Technique #1)
+
+> [!NOTE]
+> ```cs
+> kb.Assert(ExampleModule.BrotherOf, alex, bob);
+> ```
+
+### Example: Asserting an Expression (Technique #2)
+
+> [!NOTE]
+> ```cs
+> kb.Assert(() => kb.BrotherOf(alex, bob));
+> ```
+
+### Example: Asserting a Rule in C#
 
 > [!NOTE]
 > ```cs
 > kb.AssertRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
 > ```
 
-### Example: Expressing a Query in C#
+### Example: Querying in C#
 
 > [!NOTE]
 > ```cs
-> Person alex = new Person("Alex Smith");
->
 > kb.Query<(Person x, Person y)>(v => kb.BrotherOf(alex, v.x), v => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
