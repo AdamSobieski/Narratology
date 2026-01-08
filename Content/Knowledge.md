@@ -127,28 +127,28 @@ public static partial class Builtin
             kb.RetractRule(rule);
         }
 
-        public static void Assert<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
+        public static void Assert<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Assert(predicate.Method, [arg1]);
         }
-        public static void Assert<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
+        public static void Assert<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Assert(predicate.Method, [arg1, arg2]);
         }
-        public static void Assert<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
+        public static void Assert<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Assert(predicate.Method, [arg1, arg2, arg3]);
         }
-        public static void Assert<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void Assert<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
@@ -157,28 +157,28 @@ public static partial class Builtin
         }
         // ...
 
-        public static void Retract<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
+        public static void Retract<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Retract(predicate.Method, [arg1]);
         }
-        public static void Retract<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
+        public static void Retract<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Retract(predicate.Method, [arg1, arg2]);
         }
-        public static void Retract<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
+        public static void Retract<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
             kb.Retract(predicate.Method, [arg1, arg2, arg3]);
         }
-        public static void Retract<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+        public static void Retract<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
