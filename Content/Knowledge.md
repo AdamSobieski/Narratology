@@ -12,19 +12,19 @@ public static partial class ExampleModule
     [Predicate]
     public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
     }
 
     [Predicate]
     public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
     }
 
     [Predicate]
     public static bool UncleOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
     }
 }
 ```
@@ -116,28 +116,28 @@ public static partial class Builtin
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Assert(predicate.Method, [arg1]);
+            kb.Assert(predicate.Method, [kb, arg1]);
         }
         public void Assert<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Assert(predicate.Method, [arg1, arg2]);
+            kb.Assert(predicate.Method, [kb, arg1, arg2]);
         }
         public void Assert<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Assert(predicate.Method, [arg1, arg2, arg3]);
+            kb.Assert(predicate.Method, [kb, arg1, arg2, arg3]);
         }
         public void Assert<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Assert(predicate.Method, [arg1, arg2, arg3, arg4]);
+            kb.Assert(predicate.Method, [kb, arg1, arg2, arg3, arg4]);
         }
         // ...
 
@@ -146,28 +146,28 @@ public static partial class Builtin
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Retract(predicate.Method, [arg1]);
+            kb.Retract(predicate.Method, [kb, arg1]);
         }
         public void Retract<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Retract(predicate.Method, [arg1, arg2]);
+            kb.Retract(predicate.Method, [kb, arg1, arg2]);
         }
         public void Retract<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Retract(predicate.Method, [arg1, arg2, arg3]);
+            kb.Retract(predicate.Method, [kb, arg1, arg2, arg3]);
         }
         public void Retract<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             if (predicate.Target != null) throw new ArgumentException();
             if (!predicate.Method.IsStatic) throw new ArgumentException();
 
-            kb.Retract(predicate.Method, [arg1, arg2, arg3, arg4]);
+            kb.Retract(predicate.Method, [kb, arg1, arg2, arg3, arg4]);
         }
         // ...
     }
@@ -230,7 +230,7 @@ One approach involves that a `Quote()` method on `IReadOnlyKnowledge` could rece
 [Predicate]
 public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge content, Person person)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [content, person]);
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, content, person]);
 }
 ```
 ```cs
@@ -291,21 +291,21 @@ one could express the example predicates in a manner resembling:
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
 public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
 }
 
 [Predicate]
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
 public static bool SonOf(this IReadOnlyKnowledge kb, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
 }
 
 [Predicate]
 [Definition(typeof(SymmetricDefinition))]
 public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
 }
 ```
 
