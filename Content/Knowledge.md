@@ -161,7 +161,7 @@ public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression expression
 and a special builtin `Quote()` extension method on `IReadOnlyKnowledge`, the C# for quoting-related scenarios might resemble:
 
 ```cs
-kb.Assert(k1 => k1.AccordingTo(k1.Quote(k2 => k2.BrotherOf(bob, alex)), bob));
+kb.Assert(k1 => k1.AccordingTo(k1.Quote(() => k1.BrotherOf(bob, alex)), bob));
 ```
 
 ## Attributes and Predicate Definitions
