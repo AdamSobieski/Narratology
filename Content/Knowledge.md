@@ -1,6 +1,6 @@
 # Knowledge
 
-Here are some considered approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
+Here are some approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
 ## Predicates as Extension Methods of Knowledgebases
 
@@ -29,7 +29,7 @@ public static partial class ExampleModule
 }
 ```
 
-## Knowledgebase API
+## Knowledgebase Interfaces
 
 These knowledgebase interfaces, a work in progress, are designed to be general-purpose, enabling developers to work with rules and queries programmatically, using convenient and approachable C# techniques, while being simultaneously scalable for developers to be able to load and parse collections of rules from resources.
 
@@ -40,9 +40,9 @@ public interface IReadOnlyKnowledge
 
     public bool Entails(MethodBase predicate, object?[] arguments);
 
-    public bool ContainsRule(Expression rule);
+    public bool ContainsRule(MethodCallExpression rule);
 
-    public IQueryable Query(Expression query);
+    public IQueryable Query(MethodCallExpression query);
 
     public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] content);
 }
@@ -55,9 +55,9 @@ public interface IKnowledge : IReadOnlyKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
-    public void AssertRule(Expression rule);
+    public void AssertRule(MethodCallExpression rule);
 
-    public void RetractRule(Expression rule);
+    public void RetractRule(MethodCallExpression rule);
 }
 ```
 
@@ -77,23 +77,23 @@ public static partial class Builtin
     {
 
     }
-    public static void Query<X>(params Func<X, bool>[] antecedent)
+    public static void Query<X>(params Func<X, bool>[] query)
     {
 
     }
 
     extension(IReadOnlyKnowledge kb)
     {
-        public void Contains(Expression<Func<bool>> lambda)
+        public void Contains(Expression<Func<bool>> expression)
         {
             ...
         }
-        public void Entails(Expression<Func<bool>> lambda)
+        public void Entails(Expression<Func<bool>> expression)
         {
             ...
         }
 
-        public bool Contains<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+        public bool ContainsRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             return kb.ContainsRule(rule);
