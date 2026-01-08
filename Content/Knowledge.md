@@ -65,7 +65,7 @@ Other functionalities to be considered include: (1) providing developers with th
 
 ### Builtins and Extension Methods
 
-The following builtins and extension methods intend to provide developers with a convenient and approachable syntax for working with rules and queries.
+The following builtins and extension methods are to provide developers with convenient and approachable syntax options for working with expressions, rules, and queries.
 
 ```cs
 public static partial class Builtin
@@ -129,36 +129,60 @@ public static partial class Builtin
 
         public static void Assert<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Assert(predicate.Method, [arg1]);
         }
         public static void Assert<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Assert(predicate.Method, [arg1, arg2]);
         }
         public static void Assert<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Assert(predicate.Method, [arg1, arg2, arg3]);
         }
         public static void Assert<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Assert(predicate.Method, [arg1, arg2, arg3, arg4]);
         }
         // ...
 
         public static void Retract<T1>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Retract(predicate.Method, [arg1]);
         }
         public static void Retract<T1, T2>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Retract(predicate.Method, [arg1, arg2]);
         }
         public static void Retract<T1, T2, T3>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Retract(predicate.Method, [arg1, arg2, arg3]);
         }
         public static void Retract<T1, T2, T3, T4>(this IKnowledge kb, Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
+            if (predicate.Target != null) throw new ArgumentException();
+            if (!predicate.Method.IsStatic) throw new ArgumentException();
+
             kb.Retract(predicate.Method, [arg1, arg2, arg3, arg4]);
         }
         // ...
@@ -180,14 +204,14 @@ public static partial class Builtin
 > kb.Assert(() => kb.BrotherOf(alex, bob));
 > ```
 
-### Example: Asserting a Rule in C#
+### Example: Asserting a Rule
 
 > [!NOTE]
 > ```cs
 > kb.AssertRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
 > ```
 
-### Example: Querying in C#
+### Example: Querying
 
 > [!NOTE]
 > ```cs
