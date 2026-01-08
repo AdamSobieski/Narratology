@@ -144,11 +144,11 @@ Here is an sketch of such a second-order expression, a rule with a predicate var
 kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
 ```
 
-## Reification, Quoting Expressions, and Recursion
+## Reification, Quoting, and Recursion
 
-A number of approaches are being explored involving: (1) reifying expressions, (2) quoting expressions, and (3) allowing expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+A number of approaches are being explored to: (1) reify expressions, (2) quote expressions, and (3) allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
-With an `AccordingTo()` predicate resembling:
+With respect to quoting, one approach involves that, with an `AccordingTo()` predicate resembling:
 
 ```cs
 [Predicate]
@@ -158,10 +158,23 @@ public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression expression
 }
 ```
 
-and a special builtin `Quote()` method, the C# for quoting-related scenarios might resemble:
+and a builtin `Quote()` method, C# for quoting-related scenarios would resemble:
 
 ```cs
 kb.Assert(k1 => k1.AccordingTo(Builtin.Quote(() => k1.BrotherOf(bob, alex)), bob));
+```
+
+A second approach involves that a builtin `Quote()` method could receive a variable-length array of arguments of type `Expression<Func<bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
+
+```cs
+[Predicate]
+public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge expressions, Person person)
+{
+    return kb.Entails(MethodBase.GetCurrentMethod()!, [expression, person]);
+}
+```
+```cs
+kb.Assert(k1 => k1.AccordingTo(Builtin.Quote(() => k1.BrotherOf(bob, alex), () => k1.BrotherOf(bob, charlie)), bob));
 ```
 
 ## Attributes and Predicate Definitions
