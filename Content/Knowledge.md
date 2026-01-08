@@ -40,9 +40,9 @@ public interface IReadOnlyKnowledge
 
     public bool Entails(MethodInfo predicate, object?[] arguments);
 
-    public bool ContainsRule(MethodInfo rule, LambdaExpression[] arguments);
+    public bool ContainsRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 
-    public IQueryable Query(MethodInfo query, LambdaExpression[] arguments);
+    public IQueryable Query(LambdaExpression[] query);
 
     public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
 }
@@ -55,9 +55,9 @@ public interface IKnowledge : IReadOnlyKnowledge
 
     public void Retract(MethodInfo predicate, object?[] arguments);
 
-    public void AssertRule(MethodInfo rule, LambdaExpression[] arguments);
+    public void AssertRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 
-    public void RetractRule(MethodInfo rule, LambdaExpression[] arguments);
+    public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 }
 ```
 
@@ -70,18 +70,6 @@ The following builtins and extension methods are to provide developers with conv
 ```cs
 public static partial class Builtin
 {
-    static MethodInfo _Rule = typeof(Builtin).GetMethod(nameof(Builtin.Rule), BindingFlags.Public | BindingFlags.Static)!;
-    static MethodInfo _Query = typeof(Builtin).GetMethod(nameof(Builtin.Query), BindingFlags.Public | BindingFlags.Static)!;
-
-    public static void Rule<X>(Func<X, bool> consequent, params Func<X, bool>[] antecedent)
-    {
-
-    }
-    public static void Query<X>(params Func<X, bool>[] query)
-    {
-
-    }
-
     extension(IReadOnlyKnowledge kb)
     {
         public void Contains(Expression<Func<bool>> expression)
@@ -95,11 +83,11 @@ public static partial class Builtin
 
         public bool ContainsRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            return kb.ContainsRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
+            return kb.ContainsRule(consequent, antecedent);
         }
         public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
         {
-            return kb.Query(_Query.MakeGenericMethod(typeof(X)), [.. query]).Cast<X>();
+            return kb.Query(query).Cast<X>();
         }
     }
 
@@ -116,11 +104,11 @@ public static partial class Builtin
 
         public void AssertRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            kb.AssertRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
+            kb.AssertRule(consequent, antecedent);
         }
         public void RetractRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            kb.RetractRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
+            kb.RetractRule(consequent, antecedent);
         }
 
         public void Assert<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
