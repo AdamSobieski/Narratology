@@ -40,11 +40,11 @@ public interface IReadOnlyKnowledge
 
     public bool Entails(MethodBase predicate, object?[] arguments);
 
-    public bool ContainsRule(MethodCallExpression rule);
+    public bool ContainsRule(MethodBase rule, LambdaExpression[] arguments);
 
-    public IQueryable Query(MethodCallExpression query);
+    public IQueryable Query(MethodBase query, LambdaExpression[] arguments);
 
-    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] content);
+    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
 }
 ```
 
@@ -55,9 +55,9 @@ public interface IKnowledge : IReadOnlyKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
-    public void AssertRule(MethodCallExpression rule);
+    public void AssertRule(MethodBase rule, LambdaExpression[] arguments);
 
-    public void RetractRule(MethodCallExpression rule);
+    public void RetractRule(MethodBase rule, LambdaExpression[] arguments);
 }
 ```
 
@@ -95,13 +95,11 @@ public static partial class Builtin
 
         public bool ContainsRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            return kb.ContainsRule(rule);
+            return kb.ContainsRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
         }
         public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
         {
-            var _query = Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query);
-            return kb.Query(_query).Cast<X>();
+            return kb.Query(_Query.MakeGenericMethod(typeof(X)), [.. query]).Cast<X>();
         }
     }
 
@@ -118,13 +116,11 @@ public static partial class Builtin
 
         public void AssertRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.AssertRule(rule);
+            kb.AssertRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
         }
         public void RetractRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
-            var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.RetractRule(rule);
+            kb.RetractRule(_Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
         }
 
         public void Assert<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
