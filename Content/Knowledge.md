@@ -158,10 +158,10 @@ public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression expression
 }
 ```
 
-and a builtin `Quote()` method, C# for quoting-related scenarios would resemble:
+and with an extension method `Assert()`, and with a builtin `Quote()` method, C# for quoting-related scenarios would resemble:
 
 ```cs
-kb.Assert(k1 => k1.AccordingTo(Builtin.Quote(() => k1.BrotherOf(bob, alex)), bob));
+kb.Assert(() => kb.AccordingTo(Builtin.Quote(() => kb.BrotherOf(bob, alex)), bob));
 ```
 
 A second approach involves that a builtin `Quote()` method could receive a variable-length array of arguments of type `Expression<Func<bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
@@ -174,7 +174,14 @@ public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge ex
 }
 ```
 ```cs
-kb.Assert(k1 => k1.AccordingTo(Builtin.Quote(() => k1.BrotherOf(bob, alex), () => k1.BrotherOf(bob, charlie)), bob));
+kb.Assert(() => kb.AccordingTo(Builtin.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie)), bob));
+```
+
+However, this builtin approach would suggest a runtime generator for small local knowledgebases, a builtin implementation. So, perhaps, instead, each knowledgebase instance could provide a `Quote()` method to create new knowledgebases from collections of quoted expressions...
+
+```cs
+var content = kb.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie));
+kb.Assert(() => kb.AccordingTo(content, bob));
 ```
 
 ## Attributes and Predicate Definitions
