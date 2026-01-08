@@ -172,24 +172,6 @@ In addition to creating rules and expressions about specific sets of expressions
 kb.Assert<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
 ```
 
-## Templates for Sets of Rules
-
-Which knowledgebase, which set of expressions, is a loaded set of rules for? Templates for sets of rules may prove useful when parsing or loading sets of rules from resources. A set of parsed or loaded rules can be said to be a template for a set of expressions, awaiting instantiation to produce a concrete set of rules. A `IReadOnlyKnowledge` knowledgebase could provide itself as an argument to a parsed template to receive a set of rules instantiated for it.
-
-```cs
-public interface IRuleSetParser
-{
-    public IRuleSetTemplate Parse(Stream stream);
-}
-
-public interface IRuleSetTemplate
-{
-    IReadOnlyKnowledge Generate(IReadOnlyKnowledge kb);
-}
-```
-
-Additionally or alternatively, `IKnowledge` could provide a method for parsing and loading rules from external resources.
-
 ## Attributes and Predicate Definitions
 
 Predicates could use attributes to reference types having parameterless constructors and implementing an interface resembling:
