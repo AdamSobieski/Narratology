@@ -259,27 +259,56 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v
 
 ## Attributes and Predicate Definitions
 
-Predicates could use attributes to reference types having parameterless constructors and implementing an interface resembling:
+Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions.
 
 ```cs
 public interface IPredicateDefinition
 {
-    public IReadOnlyKnowledge GetDefinition(MethodInfo predicate, IReadOnlyKnowledge? callerMetadata = null);
+    public IReadOnlyKnowledge GetDefinition(MethodInfo predicate, object?[] args, IReadOnlyKnowledge? callerMetadata = null);
 }
 ```
 
-Symmetric binary predicates, for example, could refer to a reusable type, e.g., `SymmetricPredicate`, which might use a "knowledgebase template" to instantiate a small, concrete, read-only knowledgebase when provided with that specific `MethodBase` having components of its definition requested. This small, concrete knowledgebase might contain only one expression, a unary expression indicating that the requested predicate was symmetric.
+Using a new attribute:
 
 ```cs
-public static partial class ExampleModule
+[AttributeUsage(AttributeTargets.Method,  AllowMultiple = true)]
+public sealed class DefinitionAttribute : Attribute
 {
-    [Predicate]
-    [Definition(typeof(SymmetricPredicate))]
-    public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+    public DefinitionAttribute(Type type, params object?[] args)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+        Type = type;
+        Arguments = args;
     }
+
+    public Type Type { get; }
+
+    public object?[] Arguments { get; }
 }
 ```
 
-When a knowledgebase encounters an unrecognized predicate, for instance `BrotherOf`, it could, configurably, choose to examine the predicate's method for one or more `DefinitionAttribute` attributes to use to create referenced types to request read-only knowledgebases containing components of the unrecognized predicate's definition.
+one could declare the example predicates in a manner resembling:
+
+```cs
+[Predicate]
+[Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
+public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+{
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+}
+
+[Predicate]
+[Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
+public static bool SonOf(this IReadOnlyKnowledge kb, Person x, Person y)
+{
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+}
+
+[Predicate]
+[Definition(typeof(SymmetricDefinition))]
+public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+{
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
+}
+```
+
+When a knowledgebase encounters an unrecognized predicate, it could opt to examine that predicate's `MethodInfo`'s custom attributes for one or more `DefinitionAttribute` attributes to make use of to create the referenced types, using their parameterless constructors, and then to provide arguments to these instances' `GetDefinition()` methods to request read-only knowledgebases containing aspects of the unrecognized predicate's definition.
