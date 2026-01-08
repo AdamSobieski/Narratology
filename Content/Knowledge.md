@@ -137,15 +137,6 @@ public static partial class Builtin
 > kb.Query<(Person x, Person y)>(v => kb.BrotherOf(alex, v.x), v => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
-## Second-order Logic
-
-In addition to the system considered, above, variables could be delegate types; this would enable second-order expressions.
-
-Here is an sketch of such a second-order expression, a rule with a predicate variable:
-```cs
-kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
-```
-
 ## Reification, Quoting, and Recursion
 
 A number of approaches are being explored to: (1) reify expressions, (2) quote expressions, and (3) allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
@@ -162,6 +153,15 @@ public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge co
 ```cs
 var content = kb.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie));
 kb.Assert(() => kb.AccordingTo(content, bob));
+```
+
+## Variables for Predicates
+
+In addition to the system considered, above, variables could be delegate types; this would enable second-order logical expressions.
+
+Here is an sketch of such a second-order expression, a rule with a predicate variable:
+```cs
+kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
