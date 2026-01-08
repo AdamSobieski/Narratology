@@ -176,28 +176,46 @@ public static partial class Builtin
 }
 ```
 
-### Example: Asserting an Expression (Technique #1)
+### Working with Expressions (Technique #1)
 
 > [!NOTE]
 > ```cs
 > kb.Assert(ExampleModule.BrotherOf, alex, bob);
 > ```
+> ```cs
+> kb.Entails(ExampleModule.BrotherOf, alex, bob);
+> ```
+> ```cs
+> kb.Retract(ExampleModule.BrotherOf, alex, bob);
+> ```
 
-### Example: Asserting an Expression (Technique #2)
+### Working with Expressions (Technique #2)
 
 > [!NOTE]
 > ```cs
 > kb.Assert(() => kb.BrotherOf(alex, bob));
 > ```
+> ```cs
+> kb.Entails(() => kb.BrotherOf(alex, bob));
+> ```
+> ```cs
+> kb.Retract(() => kb.BrotherOf(alex, bob));
+> ```
 
-### Example: Asserting a Rule
+### Working with Rules
 
 > [!NOTE]
 > ```cs
 > kb.AssertRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
 > ```
+> ```cs
+> kb.ContainsRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> ```
+> ```cs
+> kb.RetractRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> ```
 
-### Example: Querying
+### Querying
 
 > [!NOTE]
 > ```cs
@@ -226,7 +244,7 @@ kb.Assert(() => kb.AccordingTo(content, bob));
 
 In addition to the system considered, above, variables could be delegate types; this would enable second-order logical expressions.
 
-Here is an sketch of such a second-order expression, a rule with a predicate variable:
+Here is an sketch of such a second-order logical expression, a rule with a predicate variable:
 ```cs
 kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
