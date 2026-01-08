@@ -96,6 +96,15 @@ public static partial class Builtin
 
     extension(IKnowledge kb)
     {
+        public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> lambda)
+        {
+            ...
+        }
+        public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> lambda)
+        {
+            ...
+        }
+
         public void Assert<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
@@ -135,9 +144,25 @@ Here is an sketch of such a second-order expression, a rule with a predicate var
 kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
 ```
 
-## Reification, Quoting, and Recursive Expressiveness
+## Reification, Quoting Expressions, and Recursion
 
-A number of approaches are being explored involving: (1) reifying expressions, (2) quoting expressions, (3) allowing expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+A number of approaches are being explored involving: (1) reifying expressions, (2) quoting expressions, and (3) allowing expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+
+With an `AccordingTo()` predicate:
+
+```cs
+[Predicate]
+public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression<Func<bool>> expression, Person person)
+{
+    return kb.Entails(MethodBase.GetCurrentMethod()!, [expression, person]);
+}
+```
+
+and, using a special builtin `Quote()` extension method on `IReadOnlyKnowledge`, the C# for quoting-related scenarios might resemble:
+
+```cs
+kb.Assert(k1 => k1.AccordingTo(k1.Quote(k2 => k2.BrotherOf(bob, alex)), bob));
+```
 
 ## Attributes and Predicate Definitions
 
