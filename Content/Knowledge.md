@@ -87,6 +87,8 @@ public static partial class Builtin
         }
         public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
         {
+            if (query.Length == 0) return Enumerable.Empty<X>().AsQueryable();
+
             return kb.Query(query).Cast<X>();
         }
     }
