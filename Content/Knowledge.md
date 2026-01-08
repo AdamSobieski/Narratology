@@ -63,7 +63,7 @@ public interface IKnowledge : IReadOnlyKnowledge
 
 Other functionalities to be considered include: (1) providing developers with the means to provide `IEqualityComparer` instances for types, and (2) formatting expressions to strings.
 
-### Builtins and Extension Methods for Working with Rules and Queries
+### Builtins and Extension Methods
 
 The following builtins and extension methods intend to provide developers with a convenient and approachable syntax for working with rules and queries.
 
