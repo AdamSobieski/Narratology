@@ -270,7 +270,7 @@ Using a new attribute:
 
 ```cs
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public sealed class DefinitionAttribute : Attribute
+public class DefinitionAttribute : Attribute
 {
     public DefinitionAttribute(Type type, params object?[] args)
     {
@@ -284,7 +284,7 @@ public sealed class DefinitionAttribute : Attribute
 }
 ```
 
-one could declare the example predicates in a manner resembling:
+one could express the example predicates in a manner resembling:
 
 ```cs
 [Predicate]
