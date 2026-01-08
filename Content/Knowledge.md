@@ -12,19 +12,19 @@ public static partial class ExampleModule
     [Predicate]
     public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
     }
 
     [Predicate]
     public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
     }
 
     [Predicate]
     public static bool UncleOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
     }
 }
 ```
@@ -36,13 +36,13 @@ These knowledgebase interfaces, a work in progress, are designed to be general-p
 ```cs
 public interface IReadOnlyKnowledge
 {
-    public bool Contains(MethodBase predicate, object?[] arguments);
+    public bool Contains(MethodInfo predicate, object?[] arguments);
 
-    public bool Entails(MethodBase predicate, object?[] arguments);
+    public bool Entails(MethodInfo predicate, object?[] arguments);
 
-    public bool ContainsRule(MethodBase rule, LambdaExpression[] arguments);
+    public bool ContainsRule(MethodInfo rule, LambdaExpression[] arguments);
 
-    public IQueryable Query(MethodBase query, LambdaExpression[] arguments);
+    public IQueryable Query(MethodInfo query, LambdaExpression[] arguments);
 
     public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
 }
@@ -51,13 +51,13 @@ public interface IReadOnlyKnowledge
 ```cs
 public interface IKnowledge : IReadOnlyKnowledge
 {
-    public void Assert(MethodBase predicate, object?[] arguments);
+    public void Assert(MethodInfo predicate, object?[] arguments);
 
-    public void Retract(MethodBase predicate, object?[] arguments);
+    public void Retract(MethodInfo predicate, object?[] arguments);
 
-    public void AssertRule(MethodBase rule, LambdaExpression[] arguments);
+    public void AssertRule(MethodInfo rule, LambdaExpression[] arguments);
 
-    public void RetractRule(MethodBase rule, LambdaExpression[] arguments);
+    public void RetractRule(MethodInfo rule, LambdaExpression[] arguments);
 }
 ```
 
@@ -224,7 +224,7 @@ One approach involves that a `Quote()` method on `IReadOnlyKnowledge` could rece
 [Predicate]
 public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge content, Person person)
 {
-    return kb.Entails(MethodBase.GetCurrentMethod()!, [content, person]);
+    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [content, person]);
 }
 ```
 ```cs
@@ -269,7 +269,7 @@ public static partial class ExampleModule
     [Definition(typeof(SymmetricPredicate))]
     public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
     {
-        return kb.Entails(MethodBase.GetCurrentMethod()!, [x, y]);
+        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [x, y]);
     }
 }
 ```
