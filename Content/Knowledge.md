@@ -326,3 +326,43 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 5. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
 
 6. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
+
+7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+
+8. How should the knowledgebase interfaces, above, be compared and constrasted to other approaches, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions.
+   1. In the approach, above, rules can be added and subtracted from collections which can contain both expressions and rules, on the fly.
+   2. In the approach, below, sets of rules can output expression sets from input expression sets.
+
+```cs
+public interface IReadOnlyKnowledge
+{
+    public bool Contains(MethodInfo predicate, object?[] arguments);
+
+    public bool Entails(MethodInfo predicate, object?[] arguments);
+
+    public IQueryable Query(LambdaExpression[] query);
+
+    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
+}
+
+public interface IKnowledge : IReadOnlyKnowledge
+{
+    public void Assert(MethodInfo predicate, object?[] arguments);
+
+    public void Retract(MethodInfo predicate, object?[] arguments);
+}
+
+public interface IReadOnlyRuleSet
+{
+    public bool ContainsRule(LambdaExpression consequent, LambdaExpression[] antecedent);
+
+    public IReadOnlyKnowledge Process(IReadOnlyKnowledge input);
+}
+
+public interface IRuleSet : IReadOnlyRuleSet
+{
+    public void AssertRule(LambdaExpression consequent, LambdaExpression[] antecedent);
+
+    public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
+}
+```
