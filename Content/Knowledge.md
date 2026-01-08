@@ -43,6 +43,8 @@ public interface IReadOnlyKnowledge
     public bool Contains(Expression rule);
 
     public IQueryable Query(Expression query);
+
+    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] content);
 }
 ```
 
@@ -71,23 +73,23 @@ public static partial class Builtin
     static MethodInfo _Rule = typeof(Builtin).GetMethod(nameof(Builtin.Rule), BindingFlags.Public | BindingFlags.Static)!;
     static MethodInfo _Query = typeof(Builtin).GetMethod(nameof(Builtin.Query), BindingFlags.Public | BindingFlags.Static)!;
 
-    public static void Rule<X>(Func<IReadOnlyKnowledge, X, bool> consequent, params Func<IReadOnlyKnowledge, X, bool>[] antecedent)
+    public static void Rule<X>(Func<X, bool> consequent, params Func<X, bool>[] antecedent)
     {
 
     }
-    public static void Query<X>(params Func<IReadOnlyKnowledge, X, bool>[] antecedent)
+    public static void Query<X>(params Func<X, bool>[] antecedent)
     {
 
     }
 
     extension(IReadOnlyKnowledge kb)
     {
-        public bool Contains<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
+        public bool Contains<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             return kb.Contains(rule);
         }
-        public IQueryable<X> Query<X>(params Expression<Func<IReadOnlyKnowledge, X, bool>>[] query)
+        public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
         {
             var _query = Expression.Call(null, _Query.MakeGenericMethod(typeof(X)), query);
             return kb.Query(_query).Cast<X>();
@@ -96,21 +98,21 @@ public static partial class Builtin
 
     extension(IKnowledge kb)
     {
-        public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> lambda)
+        public void Assert(Expression<Func<bool>> lambda)
         {
             ...
         }
-        public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> lambda)
+        public void Retract(Expression<Func<bool>> lambda)
         {
             ...
         }
 
-        public void Assert<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
+        public void Assert<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             kb.Assert(rule);
         }
-        public void Retract<X>(Expression<Func<IReadOnlyKnowledge, X, bool>> consequent, params Expression<Func<IReadOnlyKnowledge, X, bool>>[] antecedent)
+        public void Retract<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
             kb.Retract(rule);
@@ -123,7 +125,7 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert<(Person x, Person y, Person z)>((kb, v) => kb.UncleOf(v.y, v.z), (kb, v) => kb.FatherOf(v.x, v.z), (kb, v) => kb.BrotherOf(v.x, v.y));
+> kb.Assert<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
 > ```
 
 ### Example: Expressing a Query in C#
@@ -132,7 +134,7 @@ public static partial class Builtin
 > ```cs
 > Person alex = new Person("Alex Smith");
 >
-> kb.Query<(Person x, Person y)>((kb, v) => kb.BrotherOf(alex, v.x), (kb, v) => kb.FatherOf(v.x, v.y)).Select(v => v.y);
+> kb.Query<(Person x, Person y)>(v => kb.BrotherOf(alex, v.x), v => kb.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
 ## Second-order Logic
@@ -141,44 +143,22 @@ In addition to the system considered, above, variables could be delegate types; 
 
 Here is an sketch of such a second-order expression, a rule with a predicate variable:
 ```cs
-kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>((kb, v) => v.P(kb, v.y, v.x), (kb, v) => kb.IsSymmetric(v.P), (kb, v) => v.P(kb, v.x, v.y));
+kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
 
 ## Reification, Quoting, and Recursion
 
 A number of approaches are being explored to: (1) reify expressions, (2) quote expressions, and (3) allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
-With respect to quoting, one approach involves that, with an `AccordingTo()` predicate resembling:
+One approach involves that a `Quote()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
 
 ```cs
 [Predicate]
-public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression expression, Person person)
+public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge content, Person person)
 {
-    return kb.Entails(MethodBase.GetCurrentMethod()!, [expression, person]);
+    return kb.Entails(MethodBase.GetCurrentMethod()!, [content, person]);
 }
 ```
-
-and with an extension method `Assert()`, and with a builtin `Quote()` method, C# for quoting-related scenarios would resemble:
-
-```cs
-kb.Assert(() => kb.AccordingTo(Builtin.Quote(() => kb.BrotherOf(bob, alex)), bob));
-```
-
-A second approach involves that a builtin `Quote()` method could receive a variable-length array of arguments of type `Expression<Func<bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
-
-```cs
-[Predicate]
-public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge expressions, Person person)
-{
-    return kb.Entails(MethodBase.GetCurrentMethod()!, [expression, person]);
-}
-```
-```cs
-kb.Assert(() => kb.AccordingTo(Builtin.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie)), bob));
-```
-
-However, this builtin approach would suggest a runtime generator for small local knowledgebases, a builtin implementation. So, perhaps, instead, each knowledgebase instance could provide a `Quote()` method to create new knowledgebases from collections of quoted expressions...
-
 ```cs
 var content = kb.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie));
 kb.Assert(() => kb.AccordingTo(content, bob));
