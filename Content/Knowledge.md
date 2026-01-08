@@ -40,7 +40,7 @@ public interface IReadOnlyKnowledge
 
     public bool Entails(MethodBase predicate, object?[] arguments);
 
-    public bool Contains(Expression rule);
+    public bool ContainsRule(Expression rule);
 
     public IQueryable Query(Expression query);
 
@@ -55,9 +55,9 @@ public interface IKnowledge : IReadOnlyKnowledge
 
     public void Retract(MethodBase predicate, object?[] arguments);
 
-    public void Assert(Expression rule);
+    public void AssertRule(Expression rule);
 
-    public void Retract(Expression rule);
+    public void RetractRule(Expression rule);
 }
 ```
 
@@ -96,7 +96,7 @@ public static partial class Builtin
         public bool Contains<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            return kb.Contains(rule);
+            return kb.ContainsRule(rule);
         }
         public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
         {
@@ -107,24 +107,24 @@ public static partial class Builtin
 
     extension(IKnowledge kb)
     {
-        public void Assert(Expression<Func<bool>> lambda)
+        public void Assert(Expression<Func<bool>> expression)
         {
             ...
         }
-        public void Retract(Expression<Func<bool>> lambda)
+        public void Retract(Expression<Func<bool>> expression)
         {
             ...
         }
 
-        public void Assert<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+        public void AssertRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.Assert(rule);
+            kb.AssertRule(rule);
         }
-        public void Retract<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+        public void RetractRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
         {
             var rule = Expression.Call(null, _Rule.MakeGenericMethod(typeof(X)), [consequent, .. antecedent]);
-            kb.Retract(rule);
+            kb.RetractRule(rule);
         }
     }
 }
@@ -134,7 +134,7 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> kb.AssertRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
 > ```
 
 ### Example: Expressing a Query in C#
@@ -170,7 +170,7 @@ In addition to the system considered, above, variables could be delegate types; 
 
 Here is an sketch of such a second-order expression, a rule with a predicate variable:
 ```cs
-kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
+kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
@@ -178,7 +178,7 @@ kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)
 In addition to creating rules and expressions about specific sets of expressions, `kb` above, one might want to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
 
 ```cs
-kb.Assert<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
+kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
 ```
 
 ## Attributes and Predicate Definitions
