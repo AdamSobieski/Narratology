@@ -148,17 +148,17 @@ kb.Assert<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)
 
 A number of approaches are being explored involving: (1) reifying expressions, (2) quoting expressions, and (3) allowing expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
-With an `AccordingTo()` predicate:
+With an `AccordingTo()` predicate resembling:
 
 ```cs
 [Predicate]
-public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression<Func<bool>> expression, Person person)
+public static bool AccordingTo(this IReadOnlyKnowledge kb, Expression expression, Person person)
 {
     return kb.Entails(MethodBase.GetCurrentMethod()!, [expression, person]);
 }
 ```
 
-and, using a special builtin `Quote()` extension method on `IReadOnlyKnowledge`, the C# for quoting-related scenarios might resemble:
+and a special builtin `Quote()` extension method on `IReadOnlyKnowledge`, the C# for quoting-related scenarios might resemble:
 
 ```cs
 kb.Assert(k1 => k1.AccordingTo(k1.Quote(k2 => k2.BrotherOf(bob, alex)), bob));
