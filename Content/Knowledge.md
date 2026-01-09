@@ -29,6 +29,9 @@ public static partial class ExampleModule
 }
 ```
 
+> [!NOTE]
+> Faster techniques are being explored for working with predicates and expressions, including one where an `Entail()` method on `IReadOnlyKnowledge` accepts a `MethodInfo` and `object?[]` array of arguments. This approach, indicated above, a work in progress, is being explored for reasons including that it simplifies working with quoting, reification, and recursion, with expressions using multiple simultaneous knowledgebases, and in scenarios where knowledgebases may contain references to nested knowledgebases.
+
 ## Knowledgebase Interfaces
 
 These knowledgebase interfaces, a work in progress, are designed to be general-purpose, enabling developers to work with rules and queries programmatically, using convenient and approachable C# techniques, while being simultaneously scalable for developers to be able to load and parse collections of rules from resources.
