@@ -2,7 +2,7 @@
 
 Here are some approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
-## Predicates as Extension Methods
+## Predicates as Static Extension Methods
 
 Predicates can be represented as static extension methods on a type `Vocabulary`. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
 
