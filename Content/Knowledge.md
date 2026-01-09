@@ -4,7 +4,7 @@ Here are some approaches for representing strongly-typed structured knowledge, p
 
 ## Predicates as Extension Methods of Knowledgebases
 
-Predicates can be represented as simple extension methods which extend a knowledgebase interface. This technique provides numerous benefits including simplifying organizing collections of predicates, using namespaces, in .NET assemblies. Developers could access their desired predicates, including with IntelliSense features, by using namespaces in source-code files.
+Predicates can be represented as simple extension methods which extend a knowledgebase interface. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
 
 ```cs
 public static partial class ExampleModule
@@ -254,6 +254,10 @@ In addition to creating rules and expressions about specific sets of expressions
 ```cs
 kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
 ```
+
+## Scenarios Involving Multiple Knowledgebases
+
+Scenarios to be explored include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases (sets of expressions) can contain references to other knowledgebases (sets of expressions) as may occur with reification and quoting, e.g., with predicates like `AccordingTo()`.
 
 ## Attributes and Predicate Definitions
 
