@@ -207,14 +207,14 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this ISystem s
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this ISystem system, Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(system.SonOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(SymmetricDefinition))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this ISystem system, Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(system.BrotherOf(x, y));
 }
 ```
 
