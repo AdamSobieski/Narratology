@@ -198,21 +198,21 @@ one could express the example predicates in a manner resembling:
 [Definition(typeof(Inverse), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(FatherOf(x, y));
+    return kb => kb.Entails(FatherOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(Inverse), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(SonOf(x, y));
+    return kb => kb.Entails(SonOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(Symmetric))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(BrotherOf(x, y));
+    return kb => kb.Entails(BrotherOf(x, y));
 }
 ```
 
