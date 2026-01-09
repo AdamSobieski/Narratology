@@ -257,7 +257,7 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v
 
 ## Scenarios Involving Multiple Knowledgebases
 
-Scenarios to be explored include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases (sets of expressions) can contain references to other knowledgebases (sets of expressions) as may occur with reification and quoting, e.g., with predicates like `AccordingTo()`.
+Scenarios to be explored in further detail include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases (sets of expressions) can contain references to other knowledgebases (sets of expressions) as may occur with reification and quoting, e.g., with predicates like `AccordingTo()`.
 
 ## Attributes and Predicate Definitions
 
