@@ -2,29 +2,29 @@
 
 Here are some approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
-## Predicates as Extension Methods of Knowledgebases
+## Predicates as Extension Methods
 
-Predicates can be represented as simple extension methods which extend a knowledgebase interface. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
+Predicates can be represented as extension methods. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
 
 ```cs
 public static partial class ExampleModule
 {
     [Predicate]
-    public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this ISystem system, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+        return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
     }
 
     [Predicate]
-    public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this ISystem system, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+        return (IReadOnlyKnowledge kb) => kb.Entails(system.BrotherOf(x, y));
     }
 
     [Predicate]
-    public static bool UncleOf(this IReadOnlyKnowledge kb, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(this ISystem system, Person x, Person y)
     {
-        return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+        return (IReadOnlyKnowledge kb) => kb.Entails(system.UncleOf(x, y));
     }
 }
 ```
@@ -36,24 +36,22 @@ These knowledgebase interfaces, a work in progress, are designed to be general-p
 ```cs
 public interface IReadOnlyKnowledge
 {
-    public bool Contains(MethodInfo predicate, object?[] arguments);
-
-    public bool Entails(MethodInfo predicate, object?[] arguments);
+    public bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
     public bool ContainsRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 
     public IQueryable Query(LambdaExpression[] query);
 
-    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
+    public IReadOnlyKnowledge Create(params Expression<Func<IReadOnlyKnowledge, bool>>[] contents);
 }
 ```
 
 ```cs
 public interface IKnowledge : IReadOnlyKnowledge
 {
-    public void Assert(MethodInfo predicate, object?[] arguments);
+    public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    public void Retract(MethodInfo predicate, object?[] arguments);
+    public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
     public void AssertRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 
@@ -70,20 +68,12 @@ public static partial class Builtin
 {
     extension(IReadOnlyKnowledge kb)
     {
-        public void Contains(Expression<Func<bool>> expression)
-        {
-            ...
-        }
-        public void Entails(Expression<Func<bool>> expression)
-        {
-            ...
-        }
-
-        public bool ContainsRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+        public bool ContainsRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
         {
             return kb.ContainsRule(consequent, antecedent);
         }
-        public IQueryable<X> Query<X>(params Expression<Func<X, bool>>[] query)
+
+        public IQueryable<X> Query<X>(params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] query)
         {
             if (query.Length == 0) return Enumerable.Empty<X>().AsQueryable();
 
@@ -93,149 +83,61 @@ public static partial class Builtin
 
     extension(IKnowledge kb)
     {
-        public void Assert(Expression<Func<bool>> expression)
-        {
-            ...
-        }
-        public void Retract(Expression<Func<bool>> expression)
-        {
-            ...
-        }
-
-        public void AssertRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+        public void AssertRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
         {
             kb.AssertRule(consequent, antecedent);
         }
-        public void RetractRule<X>(Expression<Func<X, bool>> consequent, params Expression<Func<X, bool>>[] antecedent)
+
+        public void RetractRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
         {
-            kb.RetractRule(consequent, antecedent);
+            kb.AssertRule(consequent, antecedent);
         }
-
-        public void Assert<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Assert(predicate.Method, [kb, arg1]);
-        }
-        public void Assert<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Assert(predicate.Method, [kb, arg1, arg2]);
-        }
-        public void Assert<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Assert(predicate.Method, [kb, arg1, arg2, arg3]);
-        }
-        public void Assert<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Assert(predicate.Method, [kb, arg1, arg2, arg3, arg4]);
-        }
-        // ...
-
-        public void Retract<T1>(Func<IReadOnlyKnowledge, T1, bool> predicate, T1 arg1)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Retract(predicate.Method, [kb, arg1]);
-        }
-        public void Retract<T1, T2>(Func<IReadOnlyKnowledge, T1, T2, bool> predicate, T1 arg1, T2 arg2)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Retract(predicate.Method, [kb, arg1, arg2]);
-        }
-        public void Retract<T1, T2, T3>(Func<IReadOnlyKnowledge, T1, T2, T3, bool> predicate, T1 arg1, T2 arg2, T3 arg3)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Retract(predicate.Method, [kb, arg1, arg2, arg3]);
-        }
-        public void Retract<T1, T2, T3, T4>(Func<IReadOnlyKnowledge, T1, T2, T3, T4, bool> predicate, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
-        {
-            if (predicate.Target != null) throw new ArgumentException();
-            if (!predicate.Method.IsStatic) throw new ArgumentException();
-
-            kb.Retract(predicate.Method, [kb, arg1, arg2, arg3, arg4]);
-        }
-        // ...
     }
 }
 ```
 
-### Working with Expressions (Technique #1)
+### Working with Expressions
 
 > [!NOTE]
 > ```cs
-> kb.Assert(ExampleModule.BrotherOf, alex, bob);
+> kb.Assert(system.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Entails(ExampleModule.BrotherOf, alex, bob);
+> kb.Entails(system.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Retract(ExampleModule.BrotherOf, alex, bob);
-> ```
-
-### Working with Expressions (Technique #2)
-
-> [!NOTE]
-> ```cs
-> kb.Assert(() => kb.BrotherOf(alex, bob));
-> ```
-> ```cs
-> kb.Entails(() => kb.BrotherOf(alex, bob));
-> ```
-> ```cs
-> kb.Retract(() => kb.BrotherOf(alex, bob));
+> kb.Retract(system.BrotherOf(alex, bob));
 > ```
 
 ### Working with Rules
 
 > [!NOTE]
 > ```cs
-> kb.AssertRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> kb.AssertRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.ContainsRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> kb.ContainsRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.RetractRule<(Person x, Person y, Person z)>(v => kb.UncleOf(v.y, v.z), v => kb.FatherOf(v.x, v.z), v => kb.BrotherOf(v.x, v.y));
+> kb.RetractRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
 > ```
 
 ### Querying
 
 > [!NOTE]
 > ```cs
-> kb.Query<(Person x, Person y)>(v => kb.BrotherOf(alex, v.x), v => kb.FatherOf(v.x, v.y)).Select(v => v.y);
+> kb.Query<(Person x, Person y)>(v => system.BrotherOf(alex, v.x), v => system.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
 ## Reification, Quoting, and Recursion
 
 A number of approaches are being explored to: (1) reify expressions, (2) quote expressions, and (3) allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
-One approach involves that a `Quote()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
+One approach involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<IReadOnlyKnowledge, bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
 
 ```cs
-[Predicate]
-public static bool AccordingTo(this IReadOnlyKnowledge kb, IReadOnlyKnowledge content, Person person)
-{
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, content, person]);
-}
-```
-```cs
-var content = kb.Quote(() => kb.BrotherOf(bob, alex), () => kb.BrotherOf(bob, charlie));
-kb.Assert(() => kb.AccordingTo(content, bob));
+var content = kb.Create(() => system.BrotherOf(bob, alex), () => system.BrotherOf(bob, charlie));
+kb.Assert(() => system.AccordingTo(content, bob));
 ```
 
 ## Variables for Predicates
@@ -244,7 +146,7 @@ In addition to the system considered, above, variables could be delegate types; 
 
 Here is an sketch of such a second-order logical expression, a rule with a predicate variable:
 ```cs
-kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => kb.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
+kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => system.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
@@ -257,7 +159,7 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v
 
 ## Scenarios Involving Multiple Knowledgebases
 
-Scenarios to be explored in greater detail include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases may contain references to other knowledgebases as can occur with reification and quoting, e.g., with predicates like `AccordingTo()`.
+Scenarios to be explored in greater detail include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases may contain references to other knowledgebases as can occur with reification and quoting.
 
 ## Attributes and Predicate Definitions
 
@@ -293,23 +195,23 @@ one could express the example predicates in a manner resembling:
 ```cs
 [Predicate]
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
-public static bool FatherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this ISystem system, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
-public static bool SonOf(this IReadOnlyKnowledge kb, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this ISystem system, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(SymmetricDefinition))]
-public static bool BrotherOf(this IReadOnlyKnowledge kb, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this ISystem system, Person x, Person y)
 {
-    return kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, [kb, x, y]);
+    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
 }
 ```
 
@@ -344,20 +246,18 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 ```cs
 public interface IReadOnlyKnowledge
 {
-    public bool Contains(MethodInfo predicate, object?[] arguments);
-
-    public bool Entails(MethodInfo predicate, object?[] arguments);
+    public bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
     public IQueryable Query(LambdaExpression[] query);
 
-    public IReadOnlyKnowledge Quote(params Expression<Func<bool>>[] contents);
+    public IReadOnlyKnowledge Create(params Expression<Func<IReadOnlyKnowledge, bool>>[] contents);
 }
 
 public interface IKnowledge : IReadOnlyKnowledge
 {
-    public void Assert(MethodInfo predicate, object?[] arguments);
+    public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    public void Retract(MethodInfo predicate, object?[] arguments);
+    public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 }
 
 public interface IReadOnlyRuleSet
@@ -374,27 +274,4 @@ public interface IRuleSet : IReadOnlyRuleSet
     public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 }
 ```
-</details>
-
-9. How should the approach for expressing predicates in .NET assemblies, above, be compared and contrasted to alternatives, e.g., below, where predicates could return lambda expressions for functions accepting a knowledgebase as input and returning a Boolean?
-   1. Above, predicates are provided as extension methods on `IReadOnlyKnowledge` knowledgebases.
-   2. Below, a new interface `IExpress` is used for organizing predicates as extension methods and determining whether an expression is entailed by a knowledgebase would require the specific knowledgebase to be provided as an argument to a function.
-
-<details>
-<summary>Click here to toggle view of some alternative formulations of predicates.</summary>
-<br>
-
-```cs
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Variant1a(this IExpress express, Person x, Person y)
-{
-    return (IReadOnlyKnowledge kb) => kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, new object?[] { express, x, y });
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Variant1b(this IExpress express, Person x, Person y)
-{
-    return (IReadOnlyKnowledge kb) => kb.Entails(kb.Quote((MethodInfo)MethodBase.GetCurrentMethod()!, new object?[] { express, x, y }));
-}
-```    
 </details>
