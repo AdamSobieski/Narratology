@@ -10,27 +10,24 @@ Predicates can be represented as extension methods. This technique can provide n
 public static partial class ExampleModule
 {
     [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this ISystem system, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this IVocabulary vocab, Person x, Person y)
     {
-        return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
+        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.FatherOf(x, y));
     }
 
     [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this ISystem system, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this IVocabulary vocab, Person x, Person y)
     {
-        return (IReadOnlyKnowledge kb) => kb.Entails(system.BrotherOf(x, y));
+        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.BrotherOf(x, y));
     }
 
     [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(this ISystem system, Person x, Person y)
+    public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(this IVocabulary vocab, Person x, Person y)
     {
-        return (IReadOnlyKnowledge kb) => kb.Entails(system.UncleOf(x, y));
+        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.UncleOf(x, y));
     }
 }
 ```
-
-> [!NOTE]
-> Faster techniques are being explored for working with predicates and expressions, including one where an `Entail()` method on `IReadOnlyKnowledge` accepts a `MethodInfo` and `object?[]` array of arguments. This approach, indicated above, a work in progress, is being explored for reasons including that it simplifies working with quoting, reification, and recursion, with expressions using multiple simultaneous knowledgebases, and in scenarios where knowledgebases may contain references to nested knowledgebases.
 
 ## Knowledgebase Interfaces
 
@@ -103,33 +100,33 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert(system.BrotherOf(alex, bob));
+> kb.Assert(vocab.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Entails(system.BrotherOf(alex, bob));
+> kb.Entails(vocab.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Retract(system.BrotherOf(alex, bob));
+> kb.Retract(vocab.BrotherOf(alex, bob));
 > ```
 
 ### Working with Rules
 
 > [!NOTE]
 > ```cs
-> kb.AssertRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
+> kb.AssertRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.ContainsRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
+> kb.ContainsRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.RetractRule<(Person x, Person y, Person z)>(v => system.UncleOf(v.y, v.z), v => system.FatherOf(v.x, v.z), v => system.BrotherOf(v.x, v.y));
+> kb.RetractRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
 > ```
 
 ### Querying
 
 > [!NOTE]
 > ```cs
-> kb.Query<(Person x, Person y)>(v => system.BrotherOf(alex, v.x), v => system.FatherOf(v.x, v.y)).Select(v => v.y);
+> kb.Query<(Person x, Person y)>(v => vocab.BrotherOf(alex, v.x), v => vocab.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
 ## Reification, Quoting, and Recursion
@@ -139,8 +136,8 @@ A number of approaches are being explored to: (1) reify expressions, (2) quote e
 One approach involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<IReadOnlyKnowledge, bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Create(() => system.BrotherOf(bob, alex), () => system.BrotherOf(bob, charlie));
-kb.Assert(() => system.AccordingTo(content, bob));
+var content = kb.Create(vocab.BrotherOf(bob, alex), vocab.BrotherOf(bob, charlie));
+kb.Assert(vocab.AccordingTo(content, bob));
 ```
 
 ## Variables for Predicates
@@ -149,7 +146,7 @@ In addition to the system considered, above, variables could be delegate types; 
 
 Here is an sketch of such a second-order logical expression, a rule with a predicate variable:
 ```cs
-kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => system.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
+kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => vocab.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
@@ -162,7 +159,7 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v
 
 ## Scenarios Involving Multiple Knowledgebases
 
-Scenarios to be explored in greater detail include those where multiple knowledgebases are to be worked with simulataneously and those where knowledgebases may contain references to other knowledgebases as can occur with reification and quoting.
+Important scenarios to be explored in greater detail include those where multiple knowledgebases are desired to be worked with simulataneously and those where knowledgebases may contain references to other nested knowledgebases as can occur with reification and quoting.
 
 ## Attributes and Predicate Definitions
 
@@ -198,23 +195,23 @@ one could express the example predicates in a manner resembling:
 ```cs
 [Predicate]
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this ISystem system, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this IVocabulary vocab, Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(system.FatherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.FatherOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this ISystem system, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this IVocabulary vocab, Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(system.SonOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.SonOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(SymmetricDefinition))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this ISystem system, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this IVocabulary vocab, Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(system.BrotherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.BrotherOf(x, y));
 }
 ```
 
@@ -225,22 +222,26 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 1. Should `IReadOnlyKnowledge` be enumerable or provide an `AsEnumerable()` and/or `AsQueryable()` method?
 
 2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
-   1. If not, might developers be able to provide these using an argument to the `Query()` method?
+   1. If not, might developers be able to provide these using an optional argument to a `Query()` method?
 
-3. Should the API for rules use a special (builtin) predicate that receives expressions as its arguments?
-   1. If so, rules could have consquent expressions using the special predicate. Should rules be able to express rule consequents?
+3. Should "and", "or", and 'not" be provided as builtin predicates?
 
-4. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
+4. Should rules use a builtin predicate which receives expressions as its arguments?
+   1. If so, rules could have consquent expressions using the special predicate.
 
-5. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
+5. Should rules be able to have rules as their consequents?
 
-6. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
+6. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+7. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
 
-8. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
-   1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
-   2. Below, sets of rules can process input expression sets to produce output expression sets.
+8. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
+
+9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+
+10. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
+    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
+    2. Below, sets of rules can process input expression sets to produce output expression sets.
 
 <details>
 <summary>Click here to toggle view of an alternative set of interfaces.</summary>
