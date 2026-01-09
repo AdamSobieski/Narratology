@@ -142,19 +142,17 @@ kb.Assert(vocab.AccordingTo(content, bob));
 
 ## Variables for Predicates
 
-In addition to the system considered, above, variables could be delegate types; this would enable second-order logical expressions.
-
-Here is an sketch of such a second-order logical expression, a rule with a predicate variable:
+Here is an sketch of a second-order logical expression, a rule with a predicate variable:
 ```cs
-kb.AssertRule<(Func<IReadOnlyKnowledge, object, object, bool> P, object x, object y)>(v => v.P(kb, v.y, v.x), v => vocab.IsSymmetric(v.P), v => v.P(kb, v.x, v.y));
+kb.AssertRule<(Func<IVocabulary, object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(vocab, v.y, v.x), v => vocab.IsSymmetric(v.P), v => v.P(vocab, v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
 
-In addition to creating rules and expressions about specific sets of expressions, `kb` above, one might want to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
+One might also want to be able to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
 
 ```cs
-kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => v.KB.BrotherOf(v.x, v.y) ...);
+kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => ...);
 ```
 
 ## Scenarios Involving Multiple Knowledgebases
