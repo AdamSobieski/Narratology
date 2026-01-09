@@ -333,7 +333,7 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-8. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions.
+8. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
    2. Below, sets of rules can process input expression sets to produce output expression sets.
 
@@ -374,4 +374,27 @@ public interface IRuleSet : IReadOnlyRuleSet
     public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 }
 ```
+</details>
+
+9. How should the approach for expressing predicates in .NET assemblies, above, be compared and contrasted to alternatives, e.g., below, where predicates could return lambda expressions for functions accepting a knowledgebase as input and returning a Boolean?
+   1. Above, predicates are provided as extension methods on `IReadOnlyKnowledge` knowledgebases.
+   2. Below, a new interface `IExpress` is used for organizing predicates as extension methods and determining whether an expression is entailed by a knowledgebase would require the specific knowledgebase to be provided as an argument to a function.
+
+<details>
+<summary>Click here to toggle view of some alternative formulations of predicates.</summary>
+<br>
+
+```cs
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Variant1a(this IExpress express, Person x, Person y)
+{
+    return (IReadOnlyKnowledge kb) => kb.Entails((MethodInfo)MethodBase.GetCurrentMethod()!, new object?[] { express, x, y });
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Variant1b(this IExpress express, Person x, Person y)
+{
+    return (IReadOnlyKnowledge kb) => kb.Entails(kb.Quote((MethodInfo)MethodBase.GetCurrentMethod()!, new object?[] { express, x, y }));
+}
+```    
 </details>
