@@ -142,7 +142,7 @@ kb.Assert(vocab.AccordingTo(content, bob));
 
 ## Variables for Predicates
 
-Here is an sketch of a second-order logical expression, a rule with a predicate variable:
+Here is a sketch of a second-order logical expression, a rule with a predicate variable:
 ```cs
 kb.AssertRule<(Func<IVocabulary, object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(vocab, v.y, v.x), v => vocab.IsSymmetric(v.P), v => v.P(vocab, v.x, v.y));
 ```
