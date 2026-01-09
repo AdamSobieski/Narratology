@@ -93,7 +93,7 @@ public static partial class Builtin
 
         public void RetractRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
         {
-            kb.AssertRule(consequent, antecedent);
+            kb.RetractRule(consequent, antecedent);
         }
     }
 }
