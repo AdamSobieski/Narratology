@@ -192,21 +192,21 @@ one could express the example predicates in a manner resembling:
 
 ```cs
 [Predicate]
-[Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
+[Definition(typeof(Inverse), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this IVocabulary vocab, Person x, Person y)
 {
     return (IReadOnlyKnowledge kb) => kb.Entails(vocab.FatherOf(x, y));
 }
 
 [Predicate]
-[Definition(typeof(InverseDefinition), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
+[Definition(typeof(Inverse), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this IVocabulary vocab, Person x, Person y)
 {
     return (IReadOnlyKnowledge kb) => kb.Entails(vocab.SonOf(x, y));
 }
 
 [Predicate]
-[Definition(typeof(SymmetricDefinition))]
+[Definition(typeof(Symmetric))]
 public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this IVocabulary vocab, Person x, Person y)
 {
     return (IReadOnlyKnowledge kb) => kb.Entails(vocab.BrotherOf(x, y));
