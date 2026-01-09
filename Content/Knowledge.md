@@ -4,27 +4,30 @@ Here are some approaches for representing strongly-typed structured knowledge, p
 
 ## Predicates as Extension Methods
 
-Predicates can be represented as extension methods. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
+Predicates can be represented as static extension methods on a type `Vocabulary`. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
 
 ```cs
 public static partial class ExampleModule
 {
-    [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this IVocabulary vocab, Person x, Person y)
+    extension(Vocabulary vocab)
     {
-        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.FatherOf(x, y));
-    }
+        [Predicate]
+        public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
+        {
+            return (IReadOnlyKnowledge kb) => kb.Entails(FatherOf(x, y));
+        }
 
-    [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this IVocabulary vocab, Person x, Person y)
-    {
-        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.BrotherOf(x, y));
-    }
+        [Predicate]
+        public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
+        {
+            return (IReadOnlyKnowledge kb) => kb.Entails(BrotherOf(x, y));
+        }
 
-    [Predicate]
-    public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(this IVocabulary vocab, Person x, Person y)
-    {
-        return (IReadOnlyKnowledge kb) => kb.Entails(vocab.UncleOf(x, y));
+        [Predicate]
+        public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(Person x, Person y)
+        {
+            return (IReadOnlyKnowledge kb) => kb.Entails(UncleOf(x, y));
+        }
     }
 }
 ```
@@ -100,33 +103,33 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert(vocab.BrotherOf(alex, bob));
+> kb.Assert(Vocabulary.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Entails(vocab.BrotherOf(alex, bob));
+> kb.Entails(Vocabulary.BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Retract(vocab.BrotherOf(alex, bob));
+> kb.Retract(Vocabulary.BrotherOf(alex, bob));
 > ```
 
 ### Working with Rules
 
 > [!NOTE]
 > ```cs
-> kb.AssertRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
+> kb.AssertRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.ContainsRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
+> kb.ContainsRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.RetractRule<(Person x, Person y, Person z)>(v => vocab.UncleOf(v.y, v.z), v => vocab.FatherOf(v.x, v.z), v => vocab.BrotherOf(v.x, v.y));
+> kb.RetractRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
 > ```
 
 ### Querying
 
 > [!NOTE]
 > ```cs
-> kb.Query<(Person x, Person y)>(v => vocab.BrotherOf(alex, v.x), v => vocab.FatherOf(v.x, v.y)).Select(v => v.y);
+> kb.Query<(Person x, Person y)>(v => Vocabulary.BrotherOf(alex, v.x), v => Vocabulary.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
 ## Reification, Quoting, and Recursion
@@ -136,15 +139,15 @@ A number of approaches are being explored to: (1) reify expressions, (2) quote e
 One approach involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<IReadOnlyKnowledge, bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Create(vocab.BrotherOf(bob, alex), vocab.BrotherOf(bob, charlie));
-kb.Assert(vocab.AccordingTo(content, bob));
+var content = kb.Create(Vocabulary.BrotherOf(bob, alex), Vocabulary.BrotherOf(bob, charlie));
+kb.Assert(Vocabulary.AccordingTo(content, bob));
 ```
 
 ## Variables for Predicates
 
 Here is a sketch of a second-order logical expression, a rule with a predicate variable:
 ```cs
-kb.AssertRule<(Func<IVocabulary, object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(vocab, v.y, v.x), v => vocab.IsSymmetric(v.P), v => v.P(vocab, v.x, v.y));
+kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => Vocabulary.IsSymmetric(v.P), v => v.P(v.x, v.y));
 ```
 
 ## Variables for Sets of Expressions
@@ -193,23 +196,23 @@ one could express the example predicates in a manner resembling:
 ```cs
 [Predicate]
 [Definition(typeof(Inverse), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(this IVocabulary vocab, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.FatherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(FatherOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(Inverse), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(this IVocabulary vocab, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.SonOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(SonOf(x, y));
 }
 
 [Predicate]
 [Definition(typeof(Symmetric))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(this IVocabulary vocab, Person x, Person y)
+public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
 {
-    return (IReadOnlyKnowledge kb) => kb.Entails(vocab.BrotherOf(x, y));
+    return (IReadOnlyKnowledge kb) => kb.Entails(BrotherOf(x, y));
 }
 ```
 
