@@ -14,19 +14,19 @@ public static partial class ExampleModule
         [Predicate]
         public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
         {
-            return (IReadOnlyKnowledge kb) => kb.Entails(FatherOf(x, y));
+            return kb => kb.Entails(FatherOf(x, y));
         }
 
         [Predicate]
         public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
         {
-            return (IReadOnlyKnowledge kb) => kb.Entails(BrotherOf(x, y));
+            return kb => kb.Entails(BrotherOf(x, y));
         }
 
         [Predicate]
         public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(Person x, Person y)
         {
-            return (IReadOnlyKnowledge kb) => kb.Entails(UncleOf(x, y));
+            return kb => kb.Entails(UncleOf(x, y));
         }
     }
 }
