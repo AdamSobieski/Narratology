@@ -162,9 +162,9 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => ...);
 
 Important scenarios to be explored in greater detail include those where multiple knowledgebases are desired to be worked with simulataneously and those where knowledgebases may contain references to other nested knowledgebases as can occur with reification and quoting.
 
-## Attributes and Predicate Definitions
+## Attributes and Definitions and Metadata for Predicates
 
-Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions.
+Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions and metadata.
 
 ```cs
 public interface IPredicateDefinition
@@ -223,18 +223,33 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 1. Should `IReadOnlyKnowledge` be enumerable or provide an `AsEnumerable()` and/or `AsQueryable()` method?
 
 2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
-   1. If not, might developers be able to provide these using an optional argument to a `Query()` method?
+   1. If not, should developers be able to provide these using an optional argument to a `Query()` method?
 
-3. Should "and", "or", and 'not" be provided as builtin predicates?
+3. Should `And`, `Or`, and `Not` predicates be provided as builtins?
+
+<details>
+<summary>Click here to toggle view of a preliminary implementation of an <code>Or</code> predicate.</summary>
+<br>
+
+```cs
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    ReplaceExpressionVisitor rev = new(expr2.Parameters[0], expr1.Parameters[0]);
+    var or = Expression.Or(expr1.Body, rev.Visit(expr2.Body)!);
+    return Expression.Lambda<Func<IReadOnlyKnowledge, bool>>(or, expr1.Parameters[0]);
+}
+```
+</details>
 
 4. Should rules use a builtin predicate which receives expressions as its arguments?
-   1. If so, rules could have consquent expressions using the special predicate.
+   1. If so, rules could have consquent expressions using this builtin predicate.
 
 5. Should rules be able to have rules as their consequents?
 
 6. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-7. Should `Assert()` methods on `IKnowledge` include variants for providing attribution, provenance, and/or justifications?
+7. Should an `Assert()` method on `IKnowledge` include parameters for providing attribution, provenance, and/or justification?
 
 8. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
 
