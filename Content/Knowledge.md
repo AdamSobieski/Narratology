@@ -295,9 +295,12 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-9. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
-   1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
-   2. Below, sets of rules can process input expression sets to produce output expression sets.
+9. How can the initialization of knowledgebase instances be simplified?
+   1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
+
+10. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
+    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
+    2. Below, sets of rules can process input expression sets to produce output expression sets.
 
 <details>
 <summary>Click here to toggle view of an alternative set of interfaces.</summary>
