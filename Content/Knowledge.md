@@ -215,9 +215,9 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<
 }
 ```
 
-## Scenarios Involving Multiple Knowledgebases
+## Enabling Scenarios Involving Multiple Sets of Expressions
 
-Important scenarios to be explored in greater detail include those where multiple knowledgebases are desired to be worked with simulataneously and those where knowledgebases may contain references to other nested knowledgebases as can occur with reification and quoting.
+Important scenarios to be explored in greater detail include those where multiple knowledgebases, multiple sets of expressions, are desired to be worked with simulataneously and those scenarios where knowledgebases may contain references to nested knowledgebases, as can occur with reification and quoting.
 
 ## Attributes, Definitions and Metadata for Predicates
 
@@ -277,19 +277,19 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 ## Questions
 
-1. Should `IReadOnlyKnowledge` be enumerable or provide an `AsEnumerable()` and/or `AsQueryable()` method?
+1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
 2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
    1. If not, should developers be able to provide these using an optional argument to a `Query()` method?
 
-3. Should rules use a builtin predicate which receives expressions as its arguments?
-   1. If so, rules could have consequent expressions using this builtin predicate.
+3. Should rules utilize a builtin predicate which receives expressions as its arguments?
+   1. If so, rules could describe rules as consequents.
 
 4. Should rules be able to have rules as their consequents?
 
-5. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
+5. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-6. Should an `Assert()` method on `IKnowledge` include parameters for providing attribution, provenance, and/or justification?
+6. Should an `Assert()` method on `IKnowledge` provide parameters for providing attribution, provenance, and/or justification?
 
 7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
