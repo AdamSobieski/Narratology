@@ -243,7 +243,7 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IRea
 </details>
 
 4. Should rules use a builtin predicate which receives expressions as its arguments?
-   1. If so, rules could have consquent expressions using this builtin predicate.
+   1. If so, rules could have consequent expressions using this builtin predicate.
 
 5. Should rules be able to have rules as their consequents?
 
@@ -251,7 +251,7 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IRea
 
 7. Should an `Assert()` method on `IKnowledge` include parameters for providing attribution, provenance, and/or justification?
 
-8. Are "shapes", constraints, and/or other data validation features desired for knowledgebases?
+8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
 9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
