@@ -162,7 +162,7 @@ kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => ...);
 
 Important scenarios to be explored in greater detail include those where multiple knowledgebases are desired to be worked with simulataneously and those where knowledgebases may contain references to other nested knowledgebases as can occur with reification and quoting.
 
-## Attributes and Definitions and Metadata for Predicates
+## Attributes, Definitions and Metadata for Predicates
 
 Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions and metadata.
 
