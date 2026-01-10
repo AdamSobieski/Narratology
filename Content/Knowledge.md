@@ -132,30 +132,87 @@ public static partial class Builtin
 > kb.Query<(Person x, Person y)>(v => Vocabulary.BrotherOf(alex, v.x), v => Vocabulary.FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
+## Variables for Predicates
+
+Here is a sketch of a second-order logical expression, a rule with a predicate variable:
+
+One might want to be able to use variables for predicates.
+
+```cs
+kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => Vocabulary.IsSymmetric(v.P), v => v.P(v.x, v.y));
+```
+
+## Variables for Expressions
+
+One might want to be able to use variables for expressions, variables of the type `Expression<Func<IReadOnlyKnowledge, bool>>`.
+
+```cs
+kb.AssertRule<(Expression<Func<IReadOnlyKnowledge, bool>> expr, Person x)>(v => ...);
+```
+
+## Variables for Sets of Expressions
+
+One might want to be able to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
+
+```cs
+kb.AssertRule<(IReadOnlyKnowledge kb, Person x, Person y)>(v => ...);
+```
+
 ## Reification, Quoting, and Recursion
 
-A number of approaches are being explored to: (1) reify expressions, (2) quote expressions, and (3) allow expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
+Approaches are being explored with respect to: (1) reifying expressions, (2) quoting expressions, and (3) enabling expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
-One approach involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type `Expression<Func<IReadOnlyKnowledge, bool>>` and return an `IReadOnlyKnowledge` collection of expressions (such collections could contain zero, one, or more expressions).
+One approach to quoting expressions involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
 
 ```cs
 var content = kb.Create(Vocabulary.BrotherOf(bob, alex), Vocabulary.BrotherOf(bob, charlie));
 kb.Assert(Vocabulary.AccordingTo(content, bob));
 ```
 
-## Variables for Predicates
+## Builtin Logical Predicates
 
-Here is a sketch of a second-order logical expression, a rule with a predicate variable:
+If `And`, `Or`, and `Not` are to be be provided as builtin predicates, they might resemble:
+
 ```cs
-kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => Vocabulary.IsSymmetric(v.P), v => v.P(v.x, v.y));
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> And(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(And(expr1, expr2));
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(Or(expr1, expr2));
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Expression<Func<IReadOnlyKnowledge, bool>> expr)
+{
+    return kb => kb.Entails(Not(expr));
+}
 ```
 
-## Variables for Sets of Expressions
-
-One might also want to be able to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
+The following predicates, too, could be useful:
 
 ```cs
-kb.AssertRule<(IReadOnlyKnowledge KB, Person x, Person y)>(v => ...);
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(expr1) && kb.Entails(expr2);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(expr1) || kb.Entails(expr2);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<Func<IReadOnlyKnowledge, bool>> expr)
+{
+    return kb => !kb.Entails(expr);
+}
 ```
 
 ## Scenarios Involving Multiple Knowledgebases
@@ -225,67 +282,22 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
    1. If not, should developers be able to provide these using an optional argument to a `Query()` method?
 
-3. Should `And`, `Or`, and `Not` predicates be provided as builtins?
-
-<details>
-<summary>Click here to toggle view of some potential builtin predicates.</summary>
-<br>
-
-```cs
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    return kb => kb.Entails(expr1) && kb.Entails(expr2);
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    return kb => kb.Entails(expr1) || kb.Entails(expr2);
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<Func<IReadOnlyKnowledge, bool>> expr)
-{
-    return kb => !kb.Entails(expr);
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> And(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    return kb => kb.Entails(And(expr1, expr2));
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    return kb => kb.Entails(Or(expr1, expr2));
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Expression<Func<IReadOnlyKnowledge, bool>> expr)
-{
-    return kb => kb.Entails(Not(expr));
-}
-```
-</details>
-
-4. Should rules use a builtin predicate which receives expressions as its arguments?
+3. Should rules use a builtin predicate which receives expressions as its arguments?
    1. If so, rules could have consequent expressions using this builtin predicate.
 
-5. Should rules be able to have rules as their consequents?
+4. Should rules be able to have rules as their consequents?
 
-6. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
+5. Should `IReadOnlyKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-7. Should an `Assert()` method on `IKnowledge` include parameters for providing attribution, provenance, and/or justification?
+6. Should an `Assert()` method on `IKnowledge` include parameters for providing attribution, provenance, and/or justification?
 
-8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-10. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
-    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
-    2. Below, sets of rules can process input expression sets to produce output expression sets.
+9. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
+   1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
+   2. Below, sets of rules can process input expression sets to produce output expression sets.
 
 <details>
 <summary>Click here to toggle view of an alternative set of interfaces.</summary>
