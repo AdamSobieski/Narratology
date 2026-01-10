@@ -227,21 +227,6 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 3. Should `And`, `Or`, and `Not` predicates be provided as builtins?
 
-<details>
-<summary>Click here to toggle view of a preliminary implementation of an <code>Or</code> predicate.</summary>
-<br>
-
-```cs
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    ReplaceExpressionVisitor rev = new(expr2.Parameters[0], expr1.Parameters[0]);
-    var or = Expression.Or(expr1.Body, rev.Visit(expr2.Body)!);
-    return Expression.Lambda<Func<IReadOnlyKnowledge, bool>>(or, expr1.Parameters[0]);
-}
-```
-</details>
-
 4. Should rules use a builtin predicate which receives expressions as its arguments?
    1. If so, rules could have consequent expressions using this builtin predicate.
 
