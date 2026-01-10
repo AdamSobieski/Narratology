@@ -227,6 +227,49 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 3. Should `And`, `Or`, and `Not` predicates be provided as builtins?
 
+<details>
+<summary>Click here to toggle view of some potential builtin predicates.</summary>
+<br>
+
+```cs
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(expr1) && kb.Entails(expr2);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(expr1) || kb.Entails(expr2);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<Func<IReadOnlyKnowledge, bool>> expr)
+{
+    return kb => !kb.Entails(expr);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> And(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(And(expr1, expr2));
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+{
+    return kb => kb.Entails(Or(expr1, expr2));
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Expression<Func<IReadOnlyKnowledge, bool>> expr)
+{
+    return kb => kb.Entails(Not(expr));
+}
+```
+</details>
+
 4. Should rules use a builtin predicate which receives expressions as its arguments?
    1. If so, rules could have consequent expressions using this builtin predicate.
 
