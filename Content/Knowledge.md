@@ -130,7 +130,7 @@ public static partial class Builtin
 > kb.RetractRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
 > ```
 
-### Querying
+### Working with Queries
 
 > [!NOTE]
 > ```cs
@@ -174,7 +174,7 @@ var content = kb.Create(BrotherOf(bob, alex), BrotherOf(bob, charlie));
 kb.Assert(AccordingTo(content, bob));
 ```
 
-## Builtin Logical Predicates
+## Logical Predicates
 
 If `And`, `Or`, and `Not` are to be be provided as builtin predicates, they might resemble:
 
@@ -220,6 +220,8 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<
 }
 ```
 
+## Logical Quantification
+
 With respect to quantification, builtin predicates for `Exists` and `ForAll` might resemble:
 
 ```cs
@@ -234,6 +236,12 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Fu
 {
     return kb => kb.Entails(ForAll<X>(expr));
 }
+```
+
+As defined, logical quantifiers can be easily nested:
+
+```cs
+var expression = ForAll<Nation>(nation => Exists<City>(city => HasCapital(nation, city)));
 ```
 
 ## Enabling Scenarios Involving Multiple Sets of Expressions
