@@ -241,6 +241,10 @@ As defined, logical quantifiers can be easily nested:
 var expression = ForAll<Nation>(nation => Exists<City>(city => HasCapital(nation, city)));
 ```
 
+## Knowledgebase Overlays
+
+A means should be developed for smaller knowledgebases to function as overlays to larger background knowledgebases. Certain objects, then, could access their own small foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many expressions and rules in a larger referenced background knowledgebase.
+
 ## Intensional Sets and Set Algebra
 
 Scenarios to explore include those involving predicates like `ElementOf()`, using one or more rules to express definitions of sets, and enabling set algebraic operations on these intensional sets.
@@ -252,16 +256,19 @@ The following is a preliminary sketch of these ideas:
 ```cs
 public class IntensionalSet<T>
 {
-    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template)
+    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template, IReadOnlyKnowledgebase background)
     {
-        my_kb = template.Invoke([this]);
+        foreground_kb = template.Invoke([this]);
+        background_kb = background;
+        // ...
     }
 
-    private IReadOnlyKnowledge my_kb;
+    private IReadOnlyKnowledge foreground_kb;
+    private IReadOnlyKnowledge background_kb;
 
     public bool Contains(T element)
     {
-         my_kb.Entails(ElementOf(this, x));
+         foreground_kb.Entails(ElementOf(this, x));
     }
 
     public IntensionalSet<T> IntersectWith(IntensionalSet<T> other) { ... }
