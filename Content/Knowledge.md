@@ -215,6 +215,22 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<
 }
 ```
 
+With respect to quantification, builtin predicates for `Exists` and `ForAll` might resemble:
+
+```cs
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge,bool>> Exists<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
+{
+    return kb => kb.Entails(Exists<X>(expr));
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
+{
+    return kb => kb.Entails(ForAll<X>(expr));
+}
+```
+
 ## Enabling Scenarios Involving Multiple Sets of Expressions
 
 Important scenarios to be explored in greater detail include those where multiple knowledgebases, multiple sets of expressions, are desired to be worked with simulataneously and those scenarios where knowledgebases may contain references to nested knowledgebases, as can occur with reification and quoting.
