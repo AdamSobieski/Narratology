@@ -104,40 +104,36 @@ public static partial class Builtin
 
 ### Working with Expressions
 
-> [!NOTE]
-> ```cs
-> kb.Assert(BrotherOf(alex, bob));
-> ```
-> ```cs
-> kb.Entails(BrotherOf(alex, bob));
-> ```
-> ```cs
-> kb.Retract(BrotherOf(alex, bob));
-> ```
+```cs
+kb.Assert(BrotherOf(alex, bob));
+```
+```cs
+kb.Entails(BrotherOf(alex, bob));
+```
+```cs
+kb.Retract(BrotherOf(alex, bob));
+```
 
 ### Working with Rules
 
-> [!NOTE]
-> ```cs
-> kb.AssertRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
-> ```
-> ```cs
-> kb.ContainsRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
-> ```
-> ```cs
-> kb.RetractRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
-> ```
+```cs
+kb.AssertRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
+```
+```cs
+kb.ContainsRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
+```
+```cs
+kb.RetractRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
+```
 
 ### Working with Queries
 
-> [!NOTE]
-> ```cs
-> kb.Query<(Person x, Person y)>(v => BrotherOf(alex, v.x), v => FatherOf(v.x, v.y)).Select(v => v.y);
-> ```
->
-> ```cs
-> kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => FatherOf(v.x, v.y)).Select(v => v.y);
-> ``` 
+```cs
+kb.Query<(Person x, Person y)>(v => BrotherOf(alex, v.x), v => FatherOf(v.x, v.y)).Select(v => v.y);
+```
+```cs
+kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => FatherOf(v.x, v.y)).Select(v => v.y);
+``` 
 
 ## Variables for Predicates
 
