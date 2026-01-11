@@ -256,7 +256,7 @@ The following is a preliminary sketch of these ideas:
 ```cs
 public class IntensionalSet<T>
 {
-    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template, IReadOnlyKnowledgebase background)
+    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template, IReadOnlyKnowledge background)
     {
         foreground_kb = template.Invoke([this]);
         background_kb = background;
