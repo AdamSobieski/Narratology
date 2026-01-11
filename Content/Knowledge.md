@@ -287,6 +287,14 @@ public class IntensionalSet<T>
 
 Intensional sets could also provide collection-like methods such as `Add(T item)` and `Remove(T item)` which would operate set-algebraically on singleton sets formed from their arguments.
 
+Intensional sets might each reference their own small collection of rules involving the `ElementOf()` predicate, to provide a set-definition function, while referencing other `IReadOnlyKnowledge` collections of many more expressions and rules, so that many intensional sets could be easily and efficiently created and worked with in .NET .
+
+Brainstorming, a "set builder" technique could be developed, perhaps resembling:
+
+```cs
+var s = Set.Create<int>().Where(element => IsEven(element)).Where(element => IsGreaterThan(element, 10)).Build(large_kb);
+```
+
 ## Attributes, Definitions and Metadata for Predicates
 
 Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions and metadata.
