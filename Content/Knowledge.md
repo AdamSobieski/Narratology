@@ -260,7 +260,7 @@ public class IntensionalSet<T>
         my_kb = template.Invoke([this]);
     }
 
-    private IReadOnlyKnowedge my_kb;
+    private IReadOnlyKnowledge my_kb;
 
     public bool Contains(T element)
     {
