@@ -226,7 +226,7 @@ With respect to quantification, builtin predicates for `Exists` and `ForAll` mig
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge,bool>> Exists<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
+public static Expression<Func<IReadOnlyKnowledge, bool>> Exists<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
 {
     return kb => kb.Entails(Exists<X>(expr));
 }
