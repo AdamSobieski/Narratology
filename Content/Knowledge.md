@@ -4,29 +4,34 @@ Here are some approaches for representing strongly-typed structured knowledge, p
 
 ## Predicates as Static Extension Methods
 
-Predicates can be represented as static extension methods on a type `Vocabulary`. This technique can provide numerous benefits including simplifying organizing large collections of predicates, using namespaces, in one or more .NET assemblies. Developers could access their desired predicates, compatibly with IntelliSense features, by using namespaces in source-code files.
+Predicates can be represented as static extension methods on a type `Vocabulary`. Also, by means of the `using static` feature, developers could access desired sets of predicates can be easily added into the global scope or context, e.g., `using static Example.Predicates;` for the predicates defined, below.
+
+These techniques can simplify organizing large collections of predicates, from multiple teams, in multiple .NET assemblies. With these techniques, developers could access their desired predicates, compatibly with IntelliSense features.
 
 ```cs
-public static partial class ExampleModule
+namespace Example
 {
-    extension(Vocabulary vocab)
+    public static partial class Predicates
     {
-        [Predicate]
-        public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
+        extension(Vocabulary vocab)
         {
-            return kb => kb.Entails(FatherOf(x, y));
-        }
-
-        [Predicate]
-        public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
-        {
-            return kb => kb.Entails(BrotherOf(x, y));
-        }
-
-        [Predicate]
-        public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(Person x, Person y)
-        {
-            return kb => kb.Entails(UncleOf(x, y));
+            [Predicate]
+            public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
+            {
+                return kb => kb.Entails(FatherOf(x, y));
+            }
+    
+            [Predicate]
+            public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
+            {
+                return kb => kb.Entails(BrotherOf(x, y));
+            }
+    
+            [Predicate]
+            public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(Person x, Person y)
+            {
+                return kb => kb.Entails(UncleOf(x, y));
+            }
         }
     }
 }
@@ -103,33 +108,33 @@ public static partial class Builtin
 
 > [!NOTE]
 > ```cs
-> kb.Assert(Vocabulary.BrotherOf(alex, bob));
+> kb.Assert(BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Entails(Vocabulary.BrotherOf(alex, bob));
+> kb.Entails(BrotherOf(alex, bob));
 > ```
 > ```cs
-> kb.Retract(Vocabulary.BrotherOf(alex, bob));
+> kb.Retract(BrotherOf(alex, bob));
 > ```
 
 ### Working with Rules
 
 > [!NOTE]
 > ```cs
-> kb.AssertRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
+> kb.AssertRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.ContainsRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
+> kb.ContainsRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
 > ```
 > ```cs
-> kb.RetractRule<(Person x, Person y, Person z)>(v => Vocabulary.UncleOf(v.y, v.z), v => Vocabulary.FatherOf(v.x, v.z), v => Vocabulary.BrotherOf(v.x, v.y));
+> kb.RetractRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
 > ```
 
 ### Querying
 
 > [!NOTE]
 > ```cs
-> kb.Query<(Person x, Person y)>(v => Vocabulary.BrotherOf(alex, v.x), v => Vocabulary.FatherOf(v.x, v.y)).Select(v => v.y);
+> kb.Query<(Person x, Person y)>(v => BrotherOf(alex, v.x), v => FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
 
 ## Variables for Predicates
@@ -139,7 +144,7 @@ Here is a sketch of a second-order logical expression, a rule with a predicate v
 One might want to be able to use variables for predicates.
 
 ```cs
-kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => Vocabulary.IsSymmetric(v.P), v => v.P(v.x, v.y));
+kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => IsSymmetric(v.P), v => v.P(v.x, v.y));
 ```
 
 ## Variables for Expressions
@@ -165,8 +170,8 @@ Approaches are being explored with respect to: (1) reifying expressions, (2) quo
 One approach to quoting expressions involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Create(Vocabulary.BrotherOf(bob, alex), Vocabulary.BrotherOf(bob, charlie));
-kb.Assert(Vocabulary.AccordingTo(content, bob));
+var content = kb.Create(BrotherOf(bob, alex), BrotherOf(bob, charlie));
+kb.Assert(AccordingTo(content, bob));
 ```
 
 ## Builtin Logical Predicates
