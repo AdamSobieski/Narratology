@@ -292,7 +292,10 @@ Intensional sets might each reference their own small collection of rules involv
 Brainstorming, a "set builder" technique could be developed, perhaps resembling:
 
 ```cs
-var s = Set.Create<int>().Where(element => IsEven(element)).Where(element => IsGreaterThan(element, 10)).Build(large_kb);
+var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)).Build(large_kb);
+```
+```cs
+var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 ```
 
 ## Attributes, Definitions and Metadata for Predicates
