@@ -134,6 +134,7 @@ kb.Query<(Person x, Person y)>(v => BrotherOf(alex, v.x), v => FatherOf(v.x, v.y
 ```cs
 kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => FatherOf(v.x, v.y)).Select(v => v.y);
 ``` 
+Note that using an extension method like `Where(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> functor)`, per the second example, above, might require that the `IReadOnlyKnowledge` interface's method `Query()` return an interface of type `IKnowledgeQueryable` / `IKnowledgeQueryable<X>` which extends `IQueryable` / `IQueryable<X>`.
 
 ## Variables for Predicates
 
