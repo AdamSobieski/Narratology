@@ -4,9 +4,9 @@ Here are some approaches for representing strongly-typed structured knowledge, p
 
 ## Predicates as Static Extension Methods
 
-Predicates can be represented as static extension methods on a type `Vocabulary`. Additionally, by means of the `using static` feature, developers can access their desired sets of predicates, easily adding them into a global scope or context. This would, for the predicates defined, below, resemble: `using static Example.Predicates;`.
+Predicates can be represented as static extension methods on a type `Vocabulary`. Additionally, by means of the `using static` feature, developers can access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, below, resemble: `using static Example.Predicates;`.
 
-These techniques can simplify organizing large collections of predicates, from multiple teams, in multiple .NET assemblies. Using such techniques, developers could access their desired predicates, e.g., in C#, compatibly with IntelliSense features.
+Collections of predicates, from multiple teams, in multiple .NET assemblies, could be organized and accessed &ndash; including compatibly with IntelliSense features &ndash; using such techniques.
 
 ```cs
 namespace Example
@@ -244,9 +244,48 @@ As defined, logical quantifiers can be easily nested:
 var expression = ForAll<Nation>(nation => Exists<City>(city => HasCapital(nation, city)));
 ```
 
-## Enabling Scenarios Involving Multiple Sets of Expressions
+## Intensional Sets and Set Algebra
 
-Important scenarios to be explored in greater detail include those where multiple knowledgebases, multiple sets of expressions, are desired to be worked with simulataneously and those scenarios where knowledgebases may contain references to nested knowledgebases, as can occur with reification and quoting.
+Scenarios to explore include those involving predicates like `ElementOf()`, using one or more rules to express definitions of sets, and enabling set algebraic operations on these intensional sets.
+
+Perhaps a new type, e.g., `IntensionalSet<T>`, could be of use, in these regards. This new type would receive a set of rules with the `ElementOf()` predicate in its consequent, or receive a template with which to produce such a set of rules, in its constructor.
+
+The following is a preliminary sketch of these ideas:
+
+```cs
+public class IntensionalSet<T>
+{
+    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template)
+    {
+        my_kb = template.Invoke([this]);
+    }
+
+    private IReadOnlyKnowedge my_kb;
+
+    public bool Contains(T element)
+    {
+         my_kb.Entails(ElementOf(this, x));
+    }
+
+    public IntensionalSet<T> IntersectWith(IntensionalSet<T> other) { ... }
+
+    public IntensionalSet<T> UnionWith(IntensionalSet<T> other) { ... }
+
+    public IntensionalSet<T> ExceptWith(IntensionalSet<T> other) { ... }
+
+    public IntensionalSet<T> SymmetricExceptWith(IntensionalSet<T> other) { ... }
+
+    public bool IsSubsetOf(IntensionalSet<T> other) { ... }
+
+    public bool IsSupersetOf(IntensionalSet<T> other) { ... }
+
+    public bool IsProperSubsetOf(IntensionalSet<T> other) { ... }
+
+    public bool IsProperSupersetOf(IntensionalSet<T> other) { ... }
+}
+```
+
+Intensional sets could also provide collection-like methods such as `Add(T item)` and `Remove(T item)` which would operate set-algebraically on singleton sets formed from their arguments.
 
 ## Attributes, Definitions and Metadata for Predicates
 
