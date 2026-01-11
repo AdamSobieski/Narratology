@@ -83,8 +83,6 @@ public static partial class Builtin
 
         public IQueryable<X> Query<X>(params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] query)
         {
-            if (query.Length == 0) return Enumerable.Empty<X>().AsQueryable();
-
             return kb.Query(query).Cast<X>();
         }
     }
@@ -136,6 +134,10 @@ public static partial class Builtin
 > ```cs
 > kb.Query<(Person x, Person y)>(v => BrotherOf(alex, v.x), v => FatherOf(v.x, v.y)).Select(v => v.y);
 > ```
+>
+> ```cs
+> kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => FatherOf(v.x, v.y)).Select(v => v.y);
+> ``` 
 
 ## Variables for Predicates
 
