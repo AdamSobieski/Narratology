@@ -137,8 +137,6 @@ kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => Fat
 
 ## Variables for Predicates
 
-Here is a sketch of a second-order logical expression, a rule with a predicate variable:
-
 One might want to be able to use variables for predicates.
 
 ```cs
