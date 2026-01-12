@@ -364,6 +364,10 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 ## Questions
 
+<details>
+<summary>Click here to toggle view of some open questions.</summary>
+<br>
+
 1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
 2. Should `IKnowledge` provide developers with means to provide a map, mapping types to `IEqualityComparer` instances?
@@ -427,3 +431,9 @@ public interface IRuleSet : IReadOnlyRuleSet
 }
 ```
 </details>
+</details>
+
+## See Also
+
+* [λProlog](https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/)
+* [JSetL](https://www.clpset.unipr.it/jsetl/)
