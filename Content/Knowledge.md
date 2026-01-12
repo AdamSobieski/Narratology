@@ -373,19 +373,21 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 
 4. Should rules be able to have rules as their consequents?
 
-5. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
+5. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
+
+6. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
    1. If not, could loading be an aspect of a `KnowledgeCreationOptions` argument when generating knowledgebases and using `Create()`.
 
-6. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
+7. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-9. How can the initialization of knowledgebase instances be simplified?
-   1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
+10. How can the initialization of knowledgebase instances be simplified?
+    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 
-10. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
+11. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
     1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
     2. Below, sets of rules can process input expression sets to produce output expression sets.
 
