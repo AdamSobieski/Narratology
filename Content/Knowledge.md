@@ -4,9 +4,7 @@ Below, an approach is presented for representing strongly-typed structured knowl
 
 ## Predicates as Static Extension Methods
 
-Predicates can be represented as static methods, for example static extension methods on a type `Vocabulary`. Then, by means of the `using static` feature, developers could access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, below, resemble: `using static Example.Predicates;`.
-
-Using such techniques, collections of predicates, from multiple teams, in multiple .NET assemblies, can be organized and accessed &ndash; including compatibly with IntelliSense features.
+Predicates can be represented as static methods, for example static extension methods on a type `Vocabulary`. These static methods for representing predicates can receive a number of strongly-typed inputs and return an expression for a function which receives a knowledgebase and returns a Boolean, `Expression<Func<IReadOnlyKnowledge, bool>>`.
 
 ```cs
 namespace Example
@@ -36,6 +34,10 @@ namespace Example
     }
 }
 ```
+
+By means of the `using static` feature, developers could access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, above, resemble `using static Example.Predicates;`. In this way, developers could simply type `FatherOf`, `BrotherOf`, or `UncleOf` to access the predicates.
+
+Using techniques like those indicated, above, collections of predicates, from multiple teams, in multiple .NET assemblies, can be organized and accessed &ndash; including compatibly with IntelliSense features.
 
 ## Knowledgebase Interfaces
 
