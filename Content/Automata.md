@@ -175,14 +175,3 @@ Some for transducers:
 where TState : IHasOutgoingEdges<TEdge>
 where TEdge : IHasTarget<TState>, IMatcher<TInput>, IProducer<TInput, TOutput>
 ```
-
-## Casting
-
-A variety of extension methods for casting automata and navigables, in general, to different types, i.e., `Cast<...>()`, can be provided.
-
-## Constraints
-See Also: _[Constraints](Constraints.md)_
-
-An inspectable constraints system, utilizing the abstract syntax tree model from the `System.Linq.Expressions` namespace, will allow developers to easily express logical constraints, or invariants, which are to hold upon objects, e.g., navigables and their navigators, and to easily express logical constraints involving progressions through states and edges during navigations.
-
-An inspectable constraints system will enable many useful features, simplify debugging scenarios, and enable descriptive extension members like `bool IsDeterministic { get; }`.
