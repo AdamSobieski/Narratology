@@ -1,12 +1,12 @@
 # Knowledge
 
-Here are some approaches for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
+Below, an approach is presented for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
 ## Predicates as Static Extension Methods
 
-Predicates can be represented as static extension methods on a type `Vocabulary`. By means of the `using static` feature, developers could access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, below, resemble: `using static Example.Predicates;`.
+Predicates can be represented as static methods, for example static extension methods on a type `Vocabulary`. Then, by means of the `using static` feature, developers could access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, below, resemble: `using static Example.Predicates;`.
 
-Using such techniques, collections of predicates, from multiple teams, in multiple .NET assemblies, could be organized and accessed &ndash; including compatibly with IntelliSense features.
+Using such techniques, collections of predicates, from multiple teams, in multiple .NET assemblies, can be organized and accessed &ndash; including compatibly with IntelliSense features.
 
 ```cs
 namespace Example
@@ -39,7 +39,7 @@ namespace Example
 
 ## Knowledgebase Interfaces
 
-These knowledgebase interfaces, a work in progress, are designed to simplify working with expressions, rules, and queries.
+These knowledgebase interfaces are being designed to simplify working with expressions, rules, and queries.
 
 ```cs
 public interface IReadOnlyKnowledge
