@@ -360,7 +360,7 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 ## Questions
 
 <details>
-<summary>Click here to toggle view of some open questions.</summary>
+<summary>Click here to toggle view of some open design questions.</summary>
 
 1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
