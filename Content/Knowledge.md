@@ -133,7 +133,7 @@ kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => Fat
 ``` 
 Note that using an extension method like `Where(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> functor)`, per the second example, above, might require that the `IReadOnlyKnowledge` interface's method `Query()` return an interface of type `IKnowledgeQueryable` / `IKnowledgeQueryable<X>` which extends `IQueryable` / `IQueryable<X>`.
 
-## Variables for Predicates
+### Variables for Predicates
 
 One might want to be able to use variables for predicates.
 
@@ -141,7 +141,7 @@ One might want to be able to use variables for predicates.
 kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => IsSymmetric(v.P), v => v.P(v.x, v.y));
 ```
 
-## Variables for Expressions
+### Variables for Expressions
 
 One might want to be able to use variables for expressions, variables of the type `Expression<Func<IReadOnlyKnowledge, bool>>`.
 
@@ -149,7 +149,7 @@ One might want to be able to use variables for expressions, variables of the typ
 kb.AssertRule<(Expression<Func<IReadOnlyKnowledge, bool>> expr, Person x)>(v => ...);
 ```
 
-## Variables for Sets of Expressions
+### Variables for Sets of Expressions
 
 One might want to be able to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
 
@@ -157,7 +157,7 @@ One might want to be able to use variables for sets of expressions, variables of
 kb.AssertRule<(IReadOnlyKnowledge kb, Person x, Person y)>(v => ...);
 ```
 
-## Reification, Quoting, and Recursion
+### Reification, Quoting, and Recursion
 
 Approaches are being explored with respect to: (1) reifying expressions, (2) quoting expressions, and (3) enabling expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
 
@@ -214,7 +214,7 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<
 }
 ```
 
-## Logical Quantification
+### Logical Quantification
 
 With respect to quantification, builtin predicates for `Exists` and `ForAll` might resemble:
 
