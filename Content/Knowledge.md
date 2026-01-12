@@ -400,7 +400,7 @@ public interface IReadOnlyKnowledge
 
     public IQueryable Query(LambdaExpression[] query);
 
-    public IReadOnlyKnowledge Create(params Expression<Func<IReadOnlyKnowledge, bool>>[] contents);
+    public IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] content, KnowledgeCreationOptions? options = null);
 }
 
 public interface IKnowledge : IReadOnlyKnowledge
