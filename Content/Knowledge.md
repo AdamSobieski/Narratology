@@ -429,6 +429,52 @@ public interface IRuleSet : IReadOnlyRuleSet
 </details>
 </details>
 
+## Optimizations
+
+<details>
+<summary>Click here to toggle view of some computational performance optimization topics.</summary>
+<br>
+
+1. The following shows a faster, but less readable, technique for generating expressions for predicate invocations.
+
+```cs
+public static class Predicates
+{
+    static MethodInfo _Entails = typeof(IReadOnlyKnowledge).GetMethod("Entails")!;
+    static MethodInfo? _FatherOf;
+    static MethodInfo? _BrotherOf;
+    static MethodInfo? _UncleOf;
+
+    [Predicate]
+    public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
+    {
+        var predicate = _FatherOf ??= (MethodInfo)MethodBase.GetCurrentMethod()!;
+
+        var kb = Expression.Parameter(typeof(IReadOnlyKnowledge), "kb");
+        return Expression.Lambda<Func<IReadOnlyKnowledge, bool>>(Expression.Call(kb, _Entails, Expression.Call(null, predicate, Expression.Constant(x), Expression.Constant(y))), kb);
+    }
+
+    [Predicate]
+    public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
+    {
+        var predicate = _BrotherOf ??= (MethodInfo)MethodBase.GetCurrentMethod()!;
+
+        var kb = Expression.Parameter(typeof(IReadOnlyKnowledge), "kb");
+        return Expression.Lambda<Func<IReadOnlyKnowledge, bool>>(Expression.Call(kb, _Entails, Expression.Call(null, predicate, Expression.Constant(x), Expression.Constant(y))), kb);
+    }
+
+    [Predicate]
+    public static Expression<Func<IReadOnlyKnowledge, bool>> UncleOf(Person x, Person y)
+    {
+        var predicate = _UncleOf ??= (MethodInfo)MethodBase.GetCurrentMethod()!;
+
+        var kb = Expression.Parameter(typeof(IReadOnlyKnowledge), "kb");
+        return Expression.Lambda<Func<IReadOnlyKnowledge, bool>>(Expression.Call(kb, _Entails, Expression.Call(null, predicate, Expression.Constant(x), Expression.Constant(y))), kb);
+    }
+}    
+```
+</details>
+
 ## See Also
 
 * [{log}](https://www.clpset.unipr.it/setlog.Home.html)
