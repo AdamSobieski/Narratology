@@ -243,7 +243,7 @@ var expression = ForAll<Nation>(nation => Exists<City>(city => HasCapital(nation
 
 ## Knowledgebase Overlays
 
-A means should be developed for smaller knowledgebases to function as overlays to larger background knowledgebases. Certain objects, then, could access their own small foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many expressions and rules in a larger referenced background knowledgebase.
+A means should be developed for smaller knowledgebases to function as overlays to larger background knowledgebases. Certain knowledge-based objects, then, could access their own small foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many expressions and rules in a larger referenced background knowledgebase.
 
 Creating an overlay could be made as simple to do as specifying this intent in a `KnowledgeCreationOptions` argument provided to a knowledgebase's `Create()` method.
 
