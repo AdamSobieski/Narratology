@@ -1,6 +1,6 @@
 # Computational Narratology
 
-Ideas presented in support of computational narratology include:
+Ideas presented, here, in support of computational narratology include:
 
 * [Automata](Content/Automata.md) &ndash; interfaces for general-purpose automata, acceptors, and transducers.
 * [Constraints](Content/Constraints.md) &ndash; constraint-logic system with a fluent constraint-builder.
