@@ -363,25 +363,30 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
 1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
 2. Should `IKnowledge` provide developers with means to provide `IEqualityComparer` instances for types?
-   1. If not, should developers be able to provide these using an optional argument to a `Query()` method?
+   1. If so, this could be an argument when constructing knowledgebases and when using `Create()`.
+   2. If not, should developers be able to provide these using an optional argument to a `Query()` method?
 
 3. Should rules utilize a builtin predicate which receives expressions as its arguments?
    1. If so, rules could describe rules as consequents.
 
 4. Should rules be able to have rules as their consequents?
 
-5. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
+5. Should `Create()` be able to receive an argument for specifying options?
+   1. If so, developers would be able to provide a map from types to `IEqualityComparer` instances.
+   2. If so, this would be a candidate technique for creating overlays.
 
-6. Should an `Assert()` method on `IKnowledge` provide parameters for providing attribution, provenance, and/or justification?
+6. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+7. Should an `Assert()` method on `IKnowledge` provide parameters for providing attribution, provenance, and/or justification?
 
-8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-9. How can the initialization of knowledgebase instances be simplified?
+9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+
+10. How can the initialization of knowledgebase instances be simplified?
    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 
-10. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
+11. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
     1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
     2. Below, sets of rules can process input expression sets to produce output expression sets.
 
