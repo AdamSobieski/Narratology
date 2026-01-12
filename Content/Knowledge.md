@@ -2,9 +2,9 @@
 
 Below, an approach is presented for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
 
-## Predicates as Static Extension Methods
+## Representing Predicates
 
-Predicates can be represented as static methods, for example static extension methods on a type `Vocabulary`. These static methods for representing predicates can receive a number of strongly-typed inputs and return an expression for a function which receives a knowledgebase and returns a Boolean, `Expression<Func<IReadOnlyKnowledge, bool>>`.
+Predicates can be represented as static methods, for example static extension methods on a type `Vocabulary`. These static methods for representing predicates can receive a number of strongly-typed inputs and return expressions for functions which receive knowledgebases and return Booleans, `Expression<Func<IReadOnlyKnowledge, bool>>`.
 
 ```cs
 namespace Example
