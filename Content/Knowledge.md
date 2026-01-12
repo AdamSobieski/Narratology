@@ -435,5 +435,7 @@ public interface IRuleSet : IReadOnlyRuleSet
 
 ## See Also
 
+* [{log}](https://www.clpset.unipr.it/setlog.Home.html)
 * [λProlog](https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/)
 * [JSetL](https://www.clpset.unipr.it/jsetl/)
+* [Programming with {Sets}](https://www.cs.nmsu.edu/~complog/sets/)
