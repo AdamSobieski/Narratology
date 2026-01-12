@@ -1,7 +1,5 @@
 # Computational Narratology
 
-## Introduction
-
 Ideas presented in support of computational narratology include:
 
 * [Automata](Content/Automata.md) &ndash; interfaces for general-purpose automata, acceptors, and transducers.
