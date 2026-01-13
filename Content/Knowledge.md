@@ -225,7 +225,7 @@ public interface IReadOnlyKnowledge
 }
 ```
 
-Alternatively, developers could use an `IKnowledgeDifference` interface to express expressions to be added and removed.
+Alternatively, developers could make use of an `IKnowledgeDifference` interface to indicate those expressions to be added and removed for an operation.
 
 ```cs
 public interface IReadOnlyKnowledge
