@@ -60,8 +60,6 @@ public interface IKnowledge : IReadOnlyKnowledge
 
 ### Builtin Extension Methods
 
-The following builtins and extension methods are to provide developers with convenient and approachable syntax options for working with expressions, rules, and queries.
-
 ```cs
 public static partial class Builtin
 {
@@ -136,7 +134,7 @@ kb.Assert(AccordingTo(content, bob));
 
 ### Rules
 
-A special predicate can be provided, resembling Prolog's `:-` operator, called `Rule` here:
+A builtin predicate can be provided, resembling Prolog's `:-` operator, called `Rule` here:
 
 ```cs
 [Predicate]
