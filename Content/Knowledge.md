@@ -45,7 +45,7 @@ public interface IReadOnlyKnowledge
 
     IQueryable Query(LambdaExpression[] query);
 
-    IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
+    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
 }
 ```
 
@@ -123,10 +123,10 @@ kb.Assert(ForAll<Expression<Func<IReadOnlyKnowledge, bool>>>(expr => ...));
 
 ### Reification, Quoting, and Recursion
 
-One approach to quoting expressions involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, a `KnowledgeCreationOptions` options argument, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
+One approach to quoting expressions involves that a `Construct()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, a `KnowledgeConstructionOptions` options argument, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Create([BrotherOf(bob, alex), BrotherOf(bob, charlie)], options);
+var content = kb.Construct(new KnowledgeConstructionOptions { Additions = [BrotherOf(bob, alex), BrotherOf(bob, charlie)] });
 kb.Assert(AccordingTo(content, bob));
 ```
 
@@ -221,7 +221,7 @@ public interface IReadOnlyKnowledge
     
     IQueryable Query(LambdaExpression[] query, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? additions = null, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? removals = null);
 
-    IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
+    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
 }
 ```
 
@@ -234,19 +234,15 @@ public interface IReadOnlyKnowledge
     
     IQueryable Query(LambdaExpression[] query, IKnowledgeDifference? difference = null);
 
-    IReadOnlyKnowledge Create(IKnowledgeDifference difference, KnowledgeCreationOptions options);
+    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
 }
 ```
 
-Instead, creating overlays could be accomplished via the `KnowledgeCreationOptions` argument provided to the `Create()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
+Instead, creating overlays could be accomplished via the `KnowledgeConstructionOptions` argument provided to the `Construct()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
 
 ## Intensional Sets and Set Algebra
 
-Scenarios to explore include those involving predicates like `ElementOf()`, using one or more rules to express definitions of sets, and enabling set algebraic operations on these intensional sets.
-
-Perhaps a new type, e.g., `IntensionalSet<T>`, could be of use, in these regards. This new type would receive a set of rules with the `ElementOf()` predicate in its consequent, or receive a template with which to produce such a set of rules, in its constructor.
-
-The following is a preliminary sketch of these ideas:
+Intensional sets are a good use case for knowledgebase overlays. Here is a preliminary sketch of intensional sets:
 
 ```cs
 public class IntensionalSet<T>
@@ -288,7 +284,7 @@ Intensional sets could also provide collection-like methods such as `Add(T item)
 
 Intensional sets might each reference their own small collection of rules involving the `ElementOf()` predicate, to provide a set-definition function, while referencing other `IReadOnlyKnowledge` collections of many more expressions and rules, so that many intensional sets could be easily and efficiently created and worked with in .NET .
 
-Brainstorming, a "set builder" technique could be developed, perhaps resembling:
+Brainstorming, perhaps a "set builder" technique could be developed resembling:
 
 ```cs
 var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)).Build(large_kb);
@@ -305,13 +301,13 @@ var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
 2. Should `IKnowledge` provide developers with means to provide a map, mapping types to `IEqualityComparer` instances?
-   1. If so, this could be an aspect of a `KnowledgeCreationOptions` argument when generating knowledgebases and using `Create()`.
+   1. If so, this could be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
    2. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
 
 3. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
 
 4. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
-   1. If not, could loading be an aspect of a `KnowledgeCreationOptions` argument when generating knowledgebases and using `Create()`.
+   1. If not, could loading be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
 
 5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
