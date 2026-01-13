@@ -258,7 +258,7 @@ public class IntensionalSet<T>
 
     public bool Contains(T element)
     {
-         kb.Entails(ElementOf(this, x));
+         return kb.Entails(ElementOf(this, element));
     }
 
     public IntensionalSet<T> IntersectWith(IntensionalSet<T> other) { ... }
