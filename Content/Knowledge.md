@@ -1,6 +1,6 @@
 # Knowledge
 
-Below, an approach is presented for representing strongly-typed structured knowledge, propositional-logical expressions, rules, and queries.
+Below, an approach is presented for representing and working with strongly-typed structured knowledge, propositional-logical expressions, rules, and queries in C#.
 
 ## Predicates
 
@@ -36,18 +36,16 @@ By means of the `using static` feature, developers can access their desired coll
 
 ## Knowledgebases
 
-The following knowledgebase interfaces are being designed to simplify working with expressions, rules, and queries.
+The following knowledgebase interfaces can simplify working with expressions, rules, and queries.
 
 ```cs
 public interface IReadOnlyKnowledge
 {
     public bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    public bool ContainsRule(LambdaExpression consequent, LambdaExpression[] antecedent);
-
     public IQueryable Query(LambdaExpression[] query);
 
-    public IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] content, KnowledgeCreationOptions? options = null);
+    public IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
 }
 ```
 
@@ -57,10 +55,6 @@ public interface IKnowledge : IReadOnlyKnowledge
     public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
     public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
-
-    public void AssertRule(LambdaExpression consequent, LambdaExpression[] antecedent);
-
-    public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
 }
 ```
 
@@ -73,27 +67,9 @@ public static partial class Builtin
 {
     extension(IReadOnlyKnowledge kb)
     {
-        public bool ContainsRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
-        {
-            return kb.ContainsRule(consequent, antecedent);
-        }
-
         public IQueryable<X> Query<X>(params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] query)
         {
             return kb.Query(query).Cast<X>();
-        }
-    }
-
-    extension(IKnowledge kb)
-    {
-        public void AssertRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
-        {
-            kb.AssertRule(consequent, antecedent);
-        }
-
-        public void RetractRule<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> consequent, params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] antecedent)
-        {
-            kb.RetractRule(consequent, antecedent);
         }
     }
 }
@@ -103,24 +79,22 @@ public static partial class Builtin
 
 ```cs
 kb.Assert(BrotherOf(alex, bob));
-```
-```cs
+
 kb.Entails(BrotherOf(alex, bob));
-```
-```cs
+
 kb.Retract(BrotherOf(alex, bob));
 ```
 
 ### Working with Rules
 
+While extension methods can be provided for more syntactic sugar, a default technique for working with rules could resemble:
+
 ```cs
-kb.AssertRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
-```
-```cs
-kb.ContainsRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
-```
-```cs
-kb.RetractRule<(Person x, Person y, Person z)>(v => UncleOf(v.y, v.z), v => FatherOf(v.x, v.z), v => BrotherOf(v.x, v.y));
+kb.Assert(ForAll<Person>(x => ForAll<Person>(y => ForAll<Person>(z => Rule(UncleOf(y, z), And(FatherOf(x, z), BrotherOf(x, y)))))));
+
+kb.Contains(ForAll<Person>(x => ForAll<Person>(y => ForAll<Person>(z => Rule(UncleOf(y, z), And(FatherOf(x, z), BrotherOf(x, y)))))));
+
+kb.Retract(ForAll<Person>(x => ForAll<Person>(y => ForAll<Person>(z => Rule(UncleOf(y, z), And(FatherOf(x, z), BrotherOf(x, y)))))));
 ```
 
 ### Working with Queries
@@ -138,104 +112,102 @@ Note that using an extension method like `Where(Expression<Func<X, Expression<Fu
 One might want to be able to use variables for predicates.
 
 ```cs
-kb.AssertRule<(Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>> P, object x, object y)>(v => v.P(v.y, v.x), v => IsSymmetric(v.P), v => v.P(v.x, v.y));
+kb.Assert(ForAll<Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>>>(P => ...));
 ```
 
 ### Variables for Expressions
 
-One might want to be able to use variables for expressions, variables of the type `Expression<Func<IReadOnlyKnowledge, bool>>`.
+One might want to be able to use variables for expressions.
 
 ```cs
-kb.AssertRule<(Expression<Func<IReadOnlyKnowledge, bool>> expr, Person x)>(v => ...);
-```
-
-### Variables for Sets of Expressions
-
-One might want to be able to use variables for sets of expressions, variables of the type `IReadOnlyKnowledge`.
-
-```cs
-kb.AssertRule<(IReadOnlyKnowledge kb, Person x, Person y)>(v => ...);
+kb.Assert(ForAll<Expression<Func<IReadOnlyKnowledge, bool>>>(expr => ...));
 ```
 
 ### Reification, Quoting, and Recursion
 
-Approaches are being explored with respect to: (1) reifying expressions, (2) quoting expressions, and (3) enabling expressions to be used as arguments in expressions, e.g.: `P1(x, P2(y, z))`.
-
-One approach to quoting expressions involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
+One approach to quoting expressions involves that a `Create()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, a `KnowledgeCreationOptions` options argument, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Create([BrotherOf(bob, alex), BrotherOf(bob, charlie)]);
+var content = kb.Create([BrotherOf(bob, alex), BrotherOf(bob, charlie)], options);
 kb.Assert(AccordingTo(content, bob));
 ```
 
-## Logical Predicates
+## Builtin Logical Predicates
 
-If `And`, `Or`, and `Not` are to be be provided as builtin predicates, they might resemble:
+### Rules
+
+A special predicate can be provided, resembling Prolog's `:-` operator, called `Rule` here:
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> And(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+public static Expression<Func<IReadOnlyKnowledge, bool>> Rule(Expression<Func<IReadOnlyKnowledge, bool>> head, Expression<Func<IReadOnlyKnowledge, bool>> body)
 {
-    return kb => kb.Entails(And(expr1, expr2));
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
-{
-    return kb => kb.Entails(Or(expr1, expr2));
-}
-
-[Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Expression<Func<IReadOnlyKnowledge, bool>> expr)
-{
-    return kb => kb.Entails(Not(expr));
+    return kb => kb.Entails(Rule(head, body));
 }
 ```
 
-The following predicates, too, could be useful:
+### `And`, `Or`, and `Not`
+
+If `And`, `Or`, and `Not` are to be be provided as builtin predicates, they could resemble:
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+public static Expression<Func<IReadOnlyKnowledge, bool>> And(Expression<Func<IReadOnlyKnowledge, bool>> left, Expression<Func<IReadOnlyKnowledge, bool>> right)
 {
-    return kb => kb.Entails(expr1) && kb.Entails(expr2);
+    return kb => kb.Entails(And(left, right));
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Expression<Func<IReadOnlyKnowledge, bool>> expr1, Expression<Func<IReadOnlyKnowledge, bool>> expr2)
+public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Expression<Func<IReadOnlyKnowledge, bool>> left, Expression<Func<IReadOnlyKnowledge, bool>> right)
 {
-    return kb => kb.Entails(expr1) || kb.Entails(expr2);
+    return kb => kb.Entails(Or(left, right));
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<Func<IReadOnlyKnowledge, bool>> expr)
+public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Expression<Func<IReadOnlyKnowledge, bool>> expression)
 {
-    return kb => !kb.Entails(expr);
+    return kb => kb.Entails(Not(expression));
+}
+```
+
+The following predicates may also be useful:
+
+```cs
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Expression<Func<IReadOnlyKnowledge, bool>> left, Expression<Func<IReadOnlyKnowledge, bool>> right)
+{
+    return kb => kb.Entails(left) && kb.Entails(right);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Expression<Func<IReadOnlyKnowledge, bool>> left, Expression<Func<IReadOnlyKnowledge, bool>> right)
+{
+    return kb => kb.Entails(left) || kb.Entails(right);
+}
+
+[Predicate]
+public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Expression<Func<IReadOnlyKnowledge, bool>> expression)
+{
+    return kb => !kb.Entails(expression);
 }
 ```
 
 ### Logical Quantification
 
-With respect to quantification, builtin predicates for `Exists` and `ForAll` might resemble:
+With respect to quantification, builtin predicates for `Exists` and `ForAll` could resemble:
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Exists<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
+public static Expression<Func<IReadOnlyKnowledge, bool>> Exists<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expression)
 {
-    return kb => kb.Entails(Exists<X>(expr));
+    return kb => kb.Entails(Exists<X>(expression));
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expr)
+public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expression)
 {
-    return kb => kb.Entails(ForAll<X>(expr));
+    return kb => kb.Entails(ForAll<X>(expression));
 }
-```
-
-As defined, logical quantifiers can be easily nested:
-
-```cs
-var expression = ForAll<Nation>(nation => Exists<City>(city => HasCapital(nation, city)));
 ```
 
 ## Knowledgebase Overlays
@@ -368,65 +340,19 @@ When a knowledgebase encounters an unrecognized predicate, it could opt to exami
    1. If so, this could be an aspect of a `KnowledgeCreationOptions` argument when generating knowledgebases and using `Create()`.
    2. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
 
-3. Should rules utilize a builtin predicate which receives expressions as its arguments?
-   1. If so, rules could describe rules as consequents.
+3. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
 
-4. Should rules be able to have rules as their consequents?
-
-5. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
-
-6. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
+4. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
    1. If not, could loading be an aspect of a `KnowledgeCreationOptions` argument when generating knowledgebases and using `Create()`.
 
-7. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
+5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+6. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-10. How can the initialization of knowledgebase instances be simplified?
-    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
-
-11. How should the knowledgebase interfaces, above, be compared and constrasted to alternatives, e.g., below, where sets of rules can receive interfaces to sets of expressions, as input, to produce interfaces to output sets of expressions?
-    1. Above, rules can be added to and subtracted from collections which can contain both expressions and rules, on the fly.
-    2. Below, sets of rules can process input expression sets to produce output expression sets.
-
-<details>
-<summary>Click here to toggle view of an alternative set of interfaces.</summary>
-<br>
-
-```cs
-public interface IReadOnlyKnowledge
-{
-    public bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
-
-    public IQueryable Query(LambdaExpression[] query);
-
-    public IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] content, KnowledgeCreationOptions? options = null);
-}
-
-public interface IKnowledge : IReadOnlyKnowledge
-{
-    public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
-
-    public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
-}
-
-public interface IReadOnlyRuleSet
-{
-    public bool ContainsRule(LambdaExpression consequent, LambdaExpression[] antecedent);
-
-    public IReadOnlyKnowledge Process(IReadOnlyKnowledge input);
-}
-
-public interface IRuleSet : IReadOnlyRuleSet
-{
-    public void AssertRule(LambdaExpression consequent, LambdaExpression[] antecedent);
-
-    public void RetractRule(LambdaExpression consequent, LambdaExpression[] antecedent);
-}
-```
-</details>
+8. How can the initialization of knowledgebase instances be simplified?
+   1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 </details>
 
 ## Optimizations
