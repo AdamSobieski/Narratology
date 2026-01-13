@@ -41,20 +41,20 @@ The following knowledgebase interfaces can simplify working with expressions, ru
 ```cs
 public interface IReadOnlyKnowledge
 {
-    public bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    public IQueryable Query(LambdaExpression[] query);
+    IQueryable Query(LambdaExpression[] query);
 
-    public IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
+    IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
 }
 ```
 
 ```cs
 public interface IKnowledge : IReadOnlyKnowledge
 {
-    public void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+    void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    public void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+    void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 }
 ```
 
@@ -270,62 +270,6 @@ var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)
 ```cs
 var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 ```
-
-## Attributes, Definitions and Metadata for Predicates
-
-Developers could make use of attributes on predicates to reference reusable types of use for retrieving aspects of the predicates' definitions and metadata.
-
-```cs
-public interface IPredicateDefinition
-{
-    public IReadOnlyKnowledge GetDefinition(MethodInfo predicate, object?[] args, IReadOnlyKnowledge? callerMetadata = null);
-}
-```
-
-Using a new attribute:
-
-```cs
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public class DefinitionAttribute : Attribute
-{
-    public DefinitionAttribute(Type type, params object?[] args)
-    {
-        Type = type;
-        Arguments = args;
-    }
-
-    public Type Type { get; }
-
-    public object?[] Arguments { get; }
-}
-```
-
-one could express the example predicates in a manner resembling:
-
-```cs
-[Predicate]
-[Definition(typeof(Inverse), typeof(ExampleModule), nameof(SonOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> FatherOf(Person x, Person y)
-{
-    return kb => kb.Entails(FatherOf(x, y));
-}
-
-[Predicate]
-[Definition(typeof(Inverse), typeof(ExampleModule), nameof(FatherOf), typeof(Person), typeof(Person))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> SonOf(Person x, Person y)
-{
-    return kb => kb.Entails(SonOf(x, y));
-}
-
-[Predicate]
-[Definition(typeof(Symmetric))]
-public static Expression<Func<IReadOnlyKnowledge, bool>> BrotherOf(Person x, Person y)
-{
-    return kb => kb.Entails(BrotherOf(x, y));
-}
-```
-
-When a knowledgebase encounters an unrecognized predicate, it could opt to examine that predicate's `MethodInfo`'s custom attributes for one or more `DefinitionAttribute` attributes to make use of to create the referenced types, using their parameterless constructors, and then to provide arguments to these instances' `GetDefinition()` methods to request read-only knowledgebases containing aspects of the unrecognized predicate's definition.
 
 ## Questions
 
