@@ -225,7 +225,20 @@ public interface IReadOnlyKnowledge
 }
 ```
 
-Instead, creating overlays could be accomplished via the `KnowledgeCreationOptions` argument provided to the `Create()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
+Alternatively, developers could use an `IKnowledgeDifference` interface to express expressions to be added and removed.
+
+```cs
+public interface IReadOnlyKnowledge
+{
+    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression, IKnowledgeDifference? difference = null);
+    
+    IQueryable Query(LambdaExpression[] query, IKnowledgeDifference? difference = null);
+
+    IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
+}
+```
+
+Also, instead, creating overlays could be accomplished via the `KnowledgeCreationOptions` argument provided to the `Create()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
 
 ## Intensional Sets and Set Algebra
 
