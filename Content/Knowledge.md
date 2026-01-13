@@ -210,9 +210,22 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Fu
 
 ## Knowledgebase Overlays
 
-A means should be developed for smaller knowledgebases to function as overlays to larger background knowledgebases. Certain knowledge-based objects, then, could access their own small foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many expressions and rules in a larger referenced background knowledgebase.
+If knowledgebases could function as overlays to other knowledgebases, knowledge-based objects could interact with their own small, mutable foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many more expressions and rules available in a larger, immutable, background knowledgebase.
 
-Creating an overlay could be made as simple to do as specifying this intent in a `KnowledgeCreationOptions` argument provided to a knowledgebase's `Create()` method.
+Overlays can be viewed as consisting of one set of expressions to add, and another set to remove, relative to a background knowledgebase. Overlays, then, could be provided to background knowledgebases' `Entails()` and `Query()` methods in the form of expressions intended to be added or removed before performing these operations.
+
+```cs
+public interface IReadOnlyKnowledge
+{
+    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? additions = null, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? removals = null);
+    
+    IQueryable Query(LambdaExpression[] query, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? additions = null, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? removals = null);
+
+    IReadOnlyKnowledge Create(Expression<Func<IReadOnlyKnowledge, bool>>[] contents, KnowledgeCreationOptions options);
+}
+```
+
+Instead, creating overlays could be accomplished via the `KnowledgeCreationOptions` argument provided to the `Create()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
 
 ## Intensional Sets and Set Algebra
 
