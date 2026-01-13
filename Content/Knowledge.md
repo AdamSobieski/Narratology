@@ -4,7 +4,7 @@ Below, an approach is presented for representing strongly-typed structured knowl
 
 ## Predicates
 
-Predicates can be represented as static methods, receiving a number of strongly-typed inputs and return expressions for functions which receive knowledgebases and return Boolean values.
+Predicates can be represented as static methods, receiving a number of strongly-typed inputs and returning expressions for functions which receive knowledgebases and return Boolean values.
 
 ```cs
 namespace Example
