@@ -249,17 +249,16 @@ public class IntensionalSet<T>
 {
     public IntensionalSet(ITemplate<IReadOnlyKnowledge> template, IReadOnlyKnowledge background)
     {
-        foreground_kb = template.Invoke([this]);
-        background_kb = background;
+        var foreground = template.Invoke([this]);
+
         // ...
     }
 
-    private IReadOnlyKnowledge foreground_kb;
-    private IReadOnlyKnowledge background_kb;
+    private IReadOnlyKnowledge kb;
 
     public bool Contains(T element)
     {
-         foreground_kb.Entails(ElementOf(this, x));
+         kb.Entails(ElementOf(this, x));
     }
 
     public IntensionalSet<T> IntersectWith(IntensionalSet<T> other) { ... }
