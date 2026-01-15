@@ -230,7 +230,7 @@ If knowledgebases could function as overlays to other knowledgebases, knowledge-
 
 As designed, overlays can be created from `IReadOnlyKnowledge` instances by means of the `Overlay()` method.
 
-## Intensional Sets and Set Algebra
+## Intensional Sets
 
 Intensional sets are a good use case for knowledgebase overlays. Here is a preliminary sketch of intensional sets:
 
@@ -283,6 +283,12 @@ var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)
 ```cs
 var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 ```
+
+## Discussion: Concepts
+
+It will be convenient for developers to be able to simply create and work with intensional sets. In theory, developers will also enjoy being able to create and work with ad-hoc "concepts".
+
+Where intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism), with respect to the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory) of concepts, with a [similarity measure](https://en.wikipedia.org/wiki/Similarity_measure) (see also: [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning))), developers could provide one or multiple weighted or ranked examples (see: [ostensive definition](https://en.wikipedia.org/wiki/Ostensive_definition)) and define [fuzzy-set](https://en.wikipedia.org/wiki/Fuzzy_set) membership functions in terms of contextual similarities to these examples, or prototypes.
 
 ## Questions
 
