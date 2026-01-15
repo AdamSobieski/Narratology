@@ -292,7 +292,7 @@ It will be convenient for developers to be able to simply create and work with i
 
 Where intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism), with respect to the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory) of concepts, using [similarity measures](https://en.wikipedia.org/wiki/Similarity_measure) (see also: [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)) and [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)), developers could provide a number of weighted or ranked examples (see also: [ostensive definition](https://en.wikipedia.org/wiki/Ostensive_definition)) and subsequently make use of [fuzzy](https://en.wikipedia.org/wiki/Fuzzy_set) or [type-2 fuzzy](https://en.wikipedia.org/wiki/Type-2_fuzzy_sets_and_systems) set membership functions.
 
-
+Interestingly, concepts can have both acontextual and contextual properties [(Barsalou, 1982)](https://barsaloulab.org/Online_Articles/1982-Barsalou-MC-context_independent_dependent_info.pdf).
 
 ## Questions
 
