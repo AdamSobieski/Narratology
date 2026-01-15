@@ -324,12 +324,14 @@ var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 
 6. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+7. Should predicate-calculus expressions be `Expression<Func<IContainer, bool>>` or `Expression<Func<IEntailer, bool>>` instead of `Expression<Func<IReadOnlyKnowledge, bool>>` where `IReadOnlyKnowledge` would extend `IContainer` or `IEntailer`?
 
-8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-9. How can the initialization of knowledgebase instances be simplified?
-   1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
+9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+
+10. How can the initialization of knowledgebase instances be simplified?
+    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 </details>
 
 ## Optimizations
