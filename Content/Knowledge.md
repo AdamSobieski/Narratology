@@ -230,7 +230,7 @@ If knowledgebases could function as overlays to other knowledgebases, knowledge-
 
 As designed, overlays can be created from `IReadOnlyKnowledge` instances by means of the `Overlay()` method.
 
-## Intensional Sets
+## Discussion: Intensional Sets
 
 Intensional sets are a good use case for knowledgebase overlays. Here is a preliminary sketch of intensional sets:
 
