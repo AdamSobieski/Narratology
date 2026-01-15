@@ -315,18 +315,20 @@ var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
    1. If so, this could be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
    2. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
 
-3. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
+3. Should the `Construct()` method on `IReadOnlyKnowledge` instead be three methods: `Clone()`, `Overlay()`, and `Quote()`?
 
-4. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
+4. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
+
+5. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
    1. If not, could loading be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
 
-5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
+6. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-6. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-8. How can the initialization of knowledgebase instances be simplified?
+9. How can the initialization of knowledgebase instances be simplified?
    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 </details>
 
