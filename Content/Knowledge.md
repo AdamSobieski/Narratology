@@ -230,7 +230,9 @@ If knowledgebases could function as overlays to other knowledgebases, knowledge-
 
 As designed, overlays can be created from `IReadOnlyKnowledge` instances by means of the `Overlay()` method.
 
-## Discussion: Intensional Sets
+## Discussion
+
+### Intensional Sets
 
 Intensional sets are a good use case for knowledgebase overlays. Here is a preliminary sketch of intensional sets:
 
@@ -284,7 +286,7 @@ var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)
 var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 ```
 
-## Discussion: Concepts
+### Concepts
 
 It will be convenient for developers to be able to simply create and work with intensional sets. In theory, developers will also enjoy being able to create and work with ad-hoc "concepts".
 
