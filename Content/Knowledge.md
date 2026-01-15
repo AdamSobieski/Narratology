@@ -210,6 +210,8 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Fu
 
 ### Lambda Calculus
 
+With respect to lambda calculus, a builtin predicate for `Lambda` could resemble:
+
 ```cs
 [Predicate]
 public static Expression<Func<IReadOnlyKnowledge, bool>> Lambda<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> expression)
