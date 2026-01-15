@@ -286,11 +286,13 @@ var s1 = Set.Create<int>().Where(x => IsEven(x)).Where(x => IsGreaterThan(x, 10)
 var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 ```
 
+See Also: [{log}](https://www.clpset.unipr.it/setlog.Home.html), [λProlog](https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/), [JSetL](https://www.clpset.unipr.it/jsetl/), [Programming with {Sets}](https://www.cs.nmsu.edu/~complog/sets/).
+
 ### Concepts
 
 It will be convenient for developers to be able to simply create and work with intensional sets. In theory, developers will also enjoy being able to create and work with ad-hoc "concepts".
 
-Where intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism), with respect to the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory) of concepts, using [similarity measures](https://en.wikipedia.org/wiki/Similarity_measure) (see also: [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)) and [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)), developers could provide a number of weighted or ranked examples (see also: [ostensive definition](https://en.wikipedia.org/wiki/Ostensive_definition)) and subsequently make use of [fuzzy](https://en.wikipedia.org/wiki/Fuzzy_set) or [type-2 fuzzy](https://en.wikipedia.org/wiki/Type-2_fuzzy_sets_and_systems) set membership functions.
+Where intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism), there is also the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory) of concepts to consider. Mindful of this theory, using [similarity measures](https://en.wikipedia.org/wiki/Similarity_measure) (see also: [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)) and [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)), developers could provide a number of weighted or ranked examples (see also: [ostensive definition](https://en.wikipedia.org/wiki/Ostensive_definition)) and subsequently make use of [fuzzy](https://en.wikipedia.org/wiki/Fuzzy_set) or [type-2 fuzzy](https://en.wikipedia.org/wiki/Type-2_fuzzy_sets_and_systems) set membership functions.
 
 Interestingly, concepts can have both acontextual and contextual properties [(Barsalou, 1982)](https://barsaloulab.org/Online_Articles/1982-Barsalou-MC-context_independent_dependent_info.pdf).
 
@@ -310,7 +312,8 @@ Interestingly, concepts can have both acontextual and contextual properties [(Ba
 
 5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-6. Should predicate-calculus expressions be `Expression<Func<IContainer, bool>>` or `Expression<Func<IEntailer, bool>>` instead of `Expression<Func<IReadOnlyKnowledge, bool>>` where `IReadOnlyKnowledge` would extend `IContainer` or `IEntailer`?
+6. Should the method `Entails()` be, instead, `Evaluate()`, and should this method return, instead of a `bool`, a `float` or `double`?
+   1. Predicates would, then, return `Expression<Func<IReadOnlyKnowledge, float>>` or `Expression<Func<IReadOnlyKnowledge, double>>`.
 
 7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
@@ -365,10 +368,3 @@ public static class Predicates
 }    
 ```
 </details>
-
-## See Also
-
-* [{log}](https://www.clpset.unipr.it/setlog.Home.html)
-* [λProlog](https://www.lix.polytechnique.fr/Labo/Dale.Miller/lProlog/)
-* [JSetL](https://www.clpset.unipr.it/jsetl/)
-* [Programming with {Sets}](https://www.cs.nmsu.edu/~complog/sets/)
