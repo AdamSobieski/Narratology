@@ -45,7 +45,11 @@ public interface IReadOnlyKnowledge
 
     IQueryable Query(LambdaExpression[] query);
 
-    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
+    IKnowledge Clone();
+
+    IKnowledge Overlay();
+
+    IReadOnlyKnowledge Quote(IEnumerable<Expression<Func<IReadOnlyKnowledge, bool>>> expressions);
 }
 ```
 
@@ -123,10 +127,10 @@ kb.Assert(ForAll<Expression<Func<IReadOnlyKnowledge, bool>>>(expr => ...));
 
 ### Reification, Quoting, and Recursion
 
-One approach to quoting expressions involves that a `Construct()` method on `IReadOnlyKnowledge` could receive a variable-length array of arguments of type expression, `Expression<Func<IReadOnlyKnowledge, bool>>`, a `KnowledgeConstructionOptions` options argument, and return an `IReadOnlyKnowledge` collection of expressions (where such collections could contain zero, one, or more expressions).
+One approach to quoting expressions involves that a `Quote()` method on `IReadOnlyKnowledge` could receive an enumerable of expressions and return an `IReadOnlyKnowledge` set or collection of expressions (where such collections could contain zero, one, or more expressions).
 
 ```cs
-var content = kb.Construct(new KnowledgeConstructionOptions { Additions = [BrotherOf(bob, alex), BrotherOf(bob, charlie)] });
+var content = kb.Quote([BrotherOf(bob, alex), BrotherOf(bob, charlie)]);
 kb.Assert(AccordingTo(content, bob));
 ```
 
@@ -224,33 +228,7 @@ public static Expression<Func<IReadOnlyKnowledge, bool>> Lambda<X>(Expression<Fu
 
 If knowledgebases could function as overlays to other knowledgebases, knowledge-based objects could interact with their own small, mutable foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many more expressions and rules available in a larger, immutable, background knowledgebase.
 
-Overlays can be viewed as consisting of one set of expressions to add, and another set to remove, relative to a background knowledgebase. Overlays, then, could be provided to background knowledgebases' `Entails()` and `Query()` methods in the form of expressions intended to be added or removed before performing these operations.
-
-```cs
-public interface IReadOnlyKnowledge
-{
-    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? additions = null, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? removals = null);
-    
-    IQueryable Query(LambdaExpression[] query, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? additions = null, IReadOnlyCollection<Expression<Func<IReadOnlyKnowledge, bool>>>? removals = null);
-
-    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
-}
-```
-
-Alternatively, developers could make use of an `IKnowledgeDifference` interface to indicate those expressions to be added and removed for an operation.
-
-```cs
-public interface IReadOnlyKnowledge
-{
-    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression, IKnowledgeDifference? difference = null);
-    
-    IQueryable Query(LambdaExpression[] query, IKnowledgeDifference? difference = null);
-
-    IReadOnlyKnowledge Construct(KnowledgeConstructionOptions options);
-}
-```
-
-Instead, creating overlays could be accomplished via the `KnowledgeConstructionOptions` argument provided to the `Construct()` method (which would provide a `IReadOnlyKnowledge` which could later be cast to `IKnowledge`). In this second approach, knowledge-based objects would only need to interact with their smaller, mutable, foreground knowledgebase instances which would encapsulate the detail that they were overlays to larger background knowledgebases.
+As designed, overlays can be created from `IReadOnlyKnowledge` instances by means of the `Overlay()` method.
 
 ## Intensional Sets and Set Algebra
 
@@ -263,10 +241,12 @@ public class IntensionalSet<T>
     {
         var foreground = template.Invoke([this]);
 
+        kb = background.Overlay();
+
         // ...
     }
 
-    private IReadOnlyKnowledge kb;
+    private IKnowledge kb;
 
     public bool Contains(T element)
     {
@@ -312,26 +292,22 @@ var s2 = Set.Create<Person>().Where(x => BrotherOf(alex, x)).Build(large_kb);
 1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
 2. Should `IKnowledge` provide developers with means to provide a map, mapping types to `IEqualityComparer` instances?
-   1. If so, this could be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
-   2. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
+   1. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
 
-3. Should the `Construct()` method on `IReadOnlyKnowledge` instead be three methods: `Clone()`, `Overlay()`, and `Quote()`?
+3. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
 
-4. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
+4. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
 
-5. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
-   1. If not, could loading be an aspect of a `KnowledgeConstructionOptions` argument when generating knowledgebases and using `Construct()`.
+5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-6. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
+6. Should predicate-calculus expressions be `Expression<Func<IContainer, bool>>` or `Expression<Func<IEntailer, bool>>` instead of `Expression<Func<IReadOnlyKnowledge, bool>>` where `IReadOnlyKnowledge` would extend `IContainer` or `IEntailer`?
 
-7. Should predicate-calculus expressions be `Expression<Func<IContainer, bool>>` or `Expression<Func<IEntailer, bool>>` instead of `Expression<Func<IReadOnlyKnowledge, bool>>` where `IReadOnlyKnowledge` would extend `IContainer` or `IEntailer`?
+7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-8. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
+8. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
 
-9. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
-
-10. How can the initialization of knowledgebase instances be simplified?
-    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
+9. How can the initialization of knowledgebase instances be simplified?
+   1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 </details>
 
 ## Optimizations
