@@ -312,8 +312,29 @@ Interestingly, concepts can have both acontextual and contextual properties [(Ba
 
 5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
 
-6. Should the method `Entails()` be, instead, `Evaluate()`, and should this method return, instead of a `bool`, a `float` or `double`?
-   1. Predicates would, then, return `Expression<Func<IReadOnlyKnowledge, float>>` or `Expression<Func<IReadOnlyKnowledge, double>>`.
+6. Should the `IReadOnlyKnowledge` include an `Entails()` variation which accepts fuzzy-logic predicates and returns `double`?
+
+<details>
+<summary>Click here to toggle view of a sketch of <code>IReadOnlyKnowledge</code> with both Boolean and fuzzy <code>Entails()</code> methods.</summary>
+<br>
+
+```cs
+public interface IReadOnlyKnowledge
+{
+    bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+
+    double Entails(Expression<Func<IReadOnlyKnowledge, double>> expression);
+
+    IQueryable Query(LambdaExpression[] query);
+
+    IKnowledge Clone();
+
+    IKnowledge Overlay();
+
+    IReadOnlyKnowledge Quote(IEnumerable<Expression<Func<IReadOnlyKnowledge, bool>>> expressions);
+}
+```
+</details>
 
 7. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
