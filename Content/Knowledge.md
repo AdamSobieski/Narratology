@@ -314,7 +314,7 @@ Similarly, developers would also enjoy being able to create and work with ad-hoc
 6. Should the `IReadOnlyKnowledge` include an `Entails()` variation which accepts fuzzy-logic predicates and returns `double`?
 
 <details>
-<summary>Click here to toggle view of a sketch of <code>IReadOnlyKnowledge</code> with both Boolean and fuzzy <code>Entails()</code> methods.</summary>
+<summary>Click here to toggle view of a sketch of <code>IReadOnlyKnowledge</code> and <code>IKnowledge</code> with both Boolean and fuzzy-logic methods.</summary>
 <br>
 
 ```cs
@@ -331,6 +331,18 @@ public interface IReadOnlyKnowledge
     IKnowledge Overlay();
 
     IReadOnlyKnowledge Quote(IEnumerable<Expression<Func<IReadOnlyKnowledge, bool>>> expressions);
+}
+```
+```cs
+public interface IKnowledge : IReadOnlyKnowledge
+{
+    void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+
+    void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
+
+    void Assert(Expression<Func<IReadOnlyKnowledge, double>> expression, double value = 1.0d);
+
+    void Retract(Expression<Func<IReadOnlyKnowledge, double>> expression);
 }
 ```
 </details>
