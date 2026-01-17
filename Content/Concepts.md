@@ -6,7 +6,7 @@ A vision for _conceptual computing_ is that, beyond people and artificial-intell
 
 ## Interfaces
 
-With respect to modeling concepts, starting simply, a concept can be an interface providing an `IServiceProvider`.
+With respect to modeling concepts, starting simply, a concept can be an interface providing an `IServiceProvider`. In this way, a concept could be worked with independently of implementational details such as any [feature vectors](https://en.wikipedia.org/wiki/Feature_(machine_learning)#Feature_vectors) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
 
 ```cs
 public interface IConcept
@@ -17,7 +17,7 @@ public interface IConcept
 
 ## Services
 
-Initial services envisioned for concepts include those relating to definitions, provenance, related concepts, and whether the concepts contain provided individual object instances.
+Initial services envisioned for concepts include those pertaining to definitions, provenance, related concepts, and whether the concepts contain provided individual object instances.
 
 ### Definition
 
@@ -30,9 +30,11 @@ public interface IConceptDefinitionProvider
 }
 ```
 
+As envisioned, obtaining a concept's definition resembles [content negotiation](https://en.wikipedia.org/wiki/Content_negotiation) with model-specificity added in.
+
 ### Provenance
 
-The provenance of a concept is envisioned as detailing its origins, from operations involving other concepts.
+The provenance of a concept is envisioned as including operations involving other concepts.
 
 ```cs
 public interface IConceptProvenanceProvider
@@ -101,5 +103,7 @@ public static partial class Extensions
     }
 }
 ```
+
+## Obtaining Concepts from Artificial-intelligence Systems
 
 _More coming soon!_
