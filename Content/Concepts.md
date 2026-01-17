@@ -104,7 +104,7 @@ public static partial class Extensions
 
 ## Obtaining Concepts from Artificial-intelligence Systems
 
-Interfaces and extension methods are presently being designed and explored for retrieving concepts from AI systems. For example:
+Techniques are being designed and explored for retrieving concepts from AI systems. For example:
 
 ```cs
 IConcept concept = ai.GetConcept(
@@ -117,6 +117,6 @@ IConcept concept = ai.GetConcept(
 
 ## Building Concepts
 
-Interfaces and extension methods are presently being designed and explored for programmatically building concept-retrieval queries for AI systems and concepts.
+Techniques are being designed and explored for programmatically building concept-retrieval queries for AI systems and concepts using method chaining and fluent interfaces.
 
 _More coming soon!_
