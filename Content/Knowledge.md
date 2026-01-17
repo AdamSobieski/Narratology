@@ -2,7 +2,7 @@
 
 Below, an approach is presented for representing and working with strongly-typed structured knowledge, propositional-logical expressions, rules, and queries in C#.
 
-## Predicates
+## Boolean Predicates
 
 Predicates can be represented as static methods, receiving a number of strongly-typed inputs and returning expressions for functions which receive knowledgebases and return Boolean values.
 
