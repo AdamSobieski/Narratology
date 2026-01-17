@@ -6,7 +6,7 @@ A vision for _conceptual computing_ is that, beyond people and artificial-intell
 
 ## Interfaces
 
-With respect to modeling concepts, starting simply, a concept can be an interface providing an `IServiceProvider`:
+With respect to modeling concepts, starting simply, a concept can be an interface providing an `IServiceProvider`.
 
 ```cs
 public interface IConcept
@@ -17,7 +17,7 @@ public interface IConcept
 
 ## Services
 
-Initial services envisioned for concepts include those relating to definitions, provenance, and whether concepts contain instances.
+Initial services envisioned for concepts include those relating to definitions, provenance, related concepts, and whether the concepts contain provided individual object instances.
 
 ### Definition
 
@@ -38,6 +38,15 @@ The provenance of a concept is envisioned as detailing its origins, from operati
 public interface IConceptProvenanceProvider
 {
     object? GetProvenance(IConcept concept, Type? type = null);
+}
+```
+
+### Related Concepts
+
+```cs
+public interface IConceptRelatedConceptsProvider
+{
+    IEnumerable<IConcept>? GetRelatedConcepts(IConcept concept, object relationship);
 }
 ```
 
@@ -74,6 +83,13 @@ public static partial class Extensions
             if (service == null) return null;
 
             return service.GetProvenance(concept, type);
+        }
+        public IEnumerable<IConcept>? GetRelatedConcepts(object relationship)
+        {
+            var service = (IConceptRelatedConceptsProvider?)concept.ServiceProvider.GetService(typeof(IConceptRelatedConceptsProvider));
+            if (service == null) return null;
+
+            return service.GetRelatedConcepts(concept, relationship);
         }
         public ConfidenceValue<double>? Contains(object? instance)
         {
