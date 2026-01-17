@@ -6,12 +6,12 @@ A vision for _conceptual computing_ is that, beyond people and artificial-intell
 
 ## Interfaces
 
-With respect to modeling concepts, starting simply, a concept can be an interface providing an `IServiceProvider`. In this way, a concept could be worked with independently of implementational details such as any [feature vectors](https://en.wikipedia.org/wiki/Feature_(machine_learning)#Feature_vectors) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
+With respect to modeling concepts, starting simply, a concept can be an interface providing `Services`, an `IServiceProvider`. In this way, a concept could be worked with independently of implementational details such as any [feature vectors](https://en.wikipedia.org/wiki/Feature_(machine_learning)#Feature_vectors) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
 
 ```cs
 public interface IConcept
 {
-    IServiceProvider ServiceProvider { get; }
+    IServiceProvider Services { get; }
 }
 ```
 
@@ -74,28 +74,28 @@ public static partial class Extensions
     {
         public object? GetDefinition(string model, ContentType contentType, CultureInfo language, Type? type = null)
         {
-            var service = (IConceptDefinitionService?)concept.ServiceProvider.GetService(typeof(IConceptDefinitionService));
+            var service = (IConceptDefinitionService?)concept.Services.GetService(typeof(IConceptDefinitionService));
             if (service == null) return null;
 
             return service.GetDefinition(concept, model, contentType, language, type);
         }
         public object? GetProvenance(Type? type = null)
         {
-            var service = (IConceptProvenanceService?)concept.ServiceProvider.GetService(typeof(IConceptProvenanceService));
+            var service = (IConceptProvenanceService?)concept.Services.GetService(typeof(IConceptProvenanceService));
             if (service == null) return null;
 
             return service.GetProvenance(concept, type);
         }
         public IEnumerable<IConcept>? GetRelatedConcepts(object relationship)
         {
-            var service = (IConceptRelatedConceptsService?)concept.ServiceProvider.GetService(typeof(IConceptRelatedConceptsService));
+            var service = (IConceptRelatedConceptsService?)concept.Services.GetService(typeof(IConceptRelatedConceptsService));
             if (service == null) return null;
 
             return service.GetRelatedConcepts(concept, relationship);
         }
         public ConfidenceValue<double>? Contains(object? instance)
         {
-            var service = (IConceptContainsService?)concept.ServiceProvider.GetService(typeof(IConceptContainsService));
+            var service = (IConceptContainsService?)concept.Services.GetService(typeof(IConceptContainsService));
             if (service == null) return null;
 
             return service.Contains(concept, instance);
