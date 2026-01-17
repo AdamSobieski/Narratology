@@ -117,4 +117,8 @@ IConcept concept = ai.GetConcept(
 );
 ```
 
+## Building Concepts
+
+Interfaces and extension methods are presently being designed and explored for programmatically building concepts.
+
 _More coming soon!_
