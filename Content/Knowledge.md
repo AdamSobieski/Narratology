@@ -278,7 +278,7 @@ See Also: [_Concepts_](/Content/Concepts.md)
 
 It will be convenient for developers to be able to simply create and work with intensional sets.
 
-Similarly, developers would also enjoy being able to create and work with ad-hoc "concepts". Intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism). There are other theories of concepts to consider, e.g., the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory).
+Similarly, developers would also enjoy being able to create and work with ad-hoc "concepts". Intensional sets resemble the [classical theory](https://en.wikipedia.org/wiki/Concept#Classical_theory) of concepts and [definitionism](https://en.wikipedia.org/wiki/Definitionism). There are other theories of concepts to consider, e.g., the [prototype theory](https://en.wikipedia.org/wiki/Concept#Prototype_theory) and [theory-theory](https://en.wikipedia.org/wiki/Concept#Theory-theory).
 
 ## Questions
 
