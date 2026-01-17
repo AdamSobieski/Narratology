@@ -113,7 +113,7 @@ IConcept concept = ai.GetConcept(
     positiveExamples: [img1, img2, img3],
     negativeExamples: [img4],
     definitionType: "text/markdown",
-    definition: "This is some descriptive text."
+    definition: "This is a definition."
 );
 ```
 
