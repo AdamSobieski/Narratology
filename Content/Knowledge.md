@@ -34,7 +34,7 @@ namespace Example
 
 By means of the `using static` feature, developers can access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, above, resemble `using static Example.Predicates;`. In this way, developers can simply type `FatherOf`, `BrotherOf`, or `UncleOf` to access the predicates in C#.
 
-## Knowledgebases
+## Boolean Knowledgebases
 
 The following knowledgebase interfaces can simplify working with expressions, rules, and queries.
 
@@ -74,7 +74,7 @@ kb.Retract(BrotherOf(alex, bob));
 
 ### Working with Rules
 
-While extension methods can be provided for more syntactic sugar, a default technique for working with rules could resemble:
+While extension methods could be provided for more syntactic sugar, a default technique for working with rules could resemble:
 
 ```cs
 kb.Assert(ForAll<Person>(x => ForAll<Person>(y => ForAll<Person>(z => Rule(UncleOf(y, z), And(FatherOf(x, z), BrotherOf(x, y)))))));
