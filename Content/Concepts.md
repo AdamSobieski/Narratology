@@ -48,7 +48,7 @@ public interface IConceptProvenanceService
 ```cs
 public interface IConceptRelatedConceptsService
 {
-    IEnumerable<ConfidenceValueRelatedConcept<double>>? GetRelatedConcepts(IConcept concept, object relationship);
+    IEnumerable<ConfidenceValueTriple<double>>? GetRelatedConcepts(IConcept concept, object relationship);
 }
 ```
 
@@ -84,7 +84,7 @@ public static partial class Extensions
 
             return service.GetProvenance(concept, type);
         }
-        public IEnumerable<ConfidenceValueRelatedConcept<double>>? GetRelatedConcepts(object relationship)
+        public IEnumerable<ConfidenceValueTriple<double>>? GetRelatedConcepts(object relationship)
         {
             var service = (IConceptRelatedConceptsService?)concept.Services.GetService(typeof(IConceptRelatedConceptsService));
             if (service == null) return null;
