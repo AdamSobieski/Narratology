@@ -117,6 +117,6 @@ IConcept concept = ai.GetConcept(
 
 ## Building Concepts
 
-Techniques are being designed and explored for programmatically building concept-retrieval queries for AI systems and concepts using method chaining and fluent interfaces.
+Techniques are being designed and explored for both building concept-retrieval queries for AI systems and building concepts using method chaining and fluent interfaces.
 
 _More coming soon!_
