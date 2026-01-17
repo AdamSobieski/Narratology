@@ -2,7 +2,7 @@
 
 Below, an approach is presented for representing and working with strongly-typed structured knowledge, propositional-logical expressions, rules, and queries in C#.
 
-## Boolean Predicates
+## Predicates
 
 Predicates can be represented as static methods, receiving a number of strongly-typed inputs and returning expressions for functions which receive knowledgebases and return Boolean values.
 
@@ -34,7 +34,7 @@ namespace Example
 
 By means of the `using static` feature, developers can access their desired collections of predicates, easily adding them into a global scope or context. This would, for the predicates defined, above, resemble `using static Example.Predicates;`. In this way, developers can simply type `FatherOf`, `BrotherOf`, or `UncleOf` to access the predicates in C#.
 
-## Boolean Knowledgebases
+## Knowledgebases
 
 The following knowledgebase interfaces can simplify working with expressions, rules, and queries.
 
