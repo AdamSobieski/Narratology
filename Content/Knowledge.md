@@ -43,7 +43,7 @@ public interface IReadOnlyKnowledge
 {
     bool Entails(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
-    IQueryable Query(LambdaExpression[] query);
+    IQueryable<X> Query<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> query);
 
     IKnowledge Clone();
 
@@ -59,21 +59,6 @@ public interface IKnowledge : IReadOnlyKnowledge
     void Assert(Expression<Func<IReadOnlyKnowledge, bool>> expression);
 
     void Retract(Expression<Func<IReadOnlyKnowledge, bool>> expression);
-}
-```
-
-### Builtin Extension Methods
-
-```cs
-public static partial class Builtin
-{
-    extension(IReadOnlyKnowledge kb)
-    {
-        public IQueryable<X> Query<X>(params Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>>[] query)
-        {
-            return kb.Query(query).Cast<X>();
-        }
-    }
 }
 ```
 
@@ -324,7 +309,9 @@ public interface IReadOnlyKnowledge
 
     double Entails(Expression<Func<IReadOnlyKnowledge, double>> expression);
 
-    IQueryable Query(LambdaExpression[] query);
+    IQueryable<X> Query<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, bool>>>> query);
+
+    IQueryable<X> Query<X>(Expression<Func<X, Expression<Func<IReadOnlyKnowledge, double>>>> query); // ?
 
     IKnowledge Clone();
 
