@@ -24,7 +24,7 @@ Initial services envisioned for concepts include those pertaining to definitions
 A definition is a potentially model-specific (e.g., Claude or Gemma), multimodal, natural-language document defining the concept. It may include an [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) definition, an [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) definition (positive and negative examples), and more.
 
 ```cs
-public interface IConceptDefinitionProvider
+public interface IConceptDefinitionService
 {
     object? GetDefinition(IConcept concept, string model, ContentType contentType, CultureInfo language, Type? type = null);
 }
@@ -37,7 +37,7 @@ As envisioned, obtaining a concept's definition resembles [content negotiation](
 The provenance of a concept is envisioned as including operations involving other concepts.
 
 ```cs
-public interface IConceptProvenanceProvider
+public interface IConceptProvenanceService
 {
     object? GetProvenance(IConcept concept, Type? type = null);
 }
@@ -46,7 +46,7 @@ public interface IConceptProvenanceProvider
 ### Related Concepts
 
 ```cs
-public interface IConceptRelatedConceptsProvider
+public interface IConceptRelatedConceptsService
 {
     IEnumerable<IConcept>? GetRelatedConcepts(IConcept concept, object relationship);
 }
@@ -57,7 +57,7 @@ public interface IConceptRelatedConceptsProvider
 Is an object an element of the concept? Does the concept contain the object as an instance?
 
 ```cs
-public interface IConceptContainsProvider
+public interface IConceptContainsService
 {
     ConfidenceValue<double>? Contains(IConcept concept, object? instance);
 }
@@ -74,28 +74,28 @@ public static partial class Extensions
     {
         public object? GetDefinition(string model, ContentType contentType, CultureInfo language, Type? type = null)
         {
-            var service = (IConceptDefinitionProvider?)concept.ServiceProvider.GetService(typeof(IConceptDefinitionProvider));
+            var service = (IConceptDefinitionService?)concept.ServiceProvider.GetService(typeof(IConceptDefinitionService));
             if (service == null) return null;
 
             return service.GetDefinition(concept, model, contentType, language, type);
         }
         public object? GetProvenance(Type? type = null)
         {
-            var service = (IConceptProvenanceProvider?)concept.ServiceProvider.GetService(typeof(IConceptProvenanceProvider));
+            var service = (IConceptProvenanceService?)concept.ServiceProvider.GetService(typeof(IConceptProvenanceService));
             if (service == null) return null;
 
             return service.GetProvenance(concept, type);
         }
         public IEnumerable<IConcept>? GetRelatedConcepts(object relationship)
         {
-            var service = (IConceptRelatedConceptsProvider?)concept.ServiceProvider.GetService(typeof(IConceptRelatedConceptsProvider));
+            var service = (IConceptRelatedConceptsService?)concept.ServiceProvider.GetService(typeof(IConceptRelatedConceptsService));
             if (service == null) return null;
 
             return service.GetRelatedConcepts(concept, relationship);
         }
         public ConfidenceValue<double>? Contains(object? instance)
         {
-            var service = (IConceptContainsProvider?)concept.ServiceProvider.GetService(typeof(IConceptContainsProvider));
+            var service = (IConceptContainsService?)concept.ServiceProvider.GetService(typeof(IConceptContainsService));
             if (service == null) return null;
 
             return service.Contains(concept, instance);
