@@ -54,8 +54,6 @@ public interface IConceptRelatedConceptsService
 
 ### Contains
 
-Is an object an element of the concept? Does the concept contain the object as an instance?
-
 ```cs
 public interface IConceptContainsService
 {
@@ -119,6 +117,6 @@ IConcept concept = ai.GetConcept(
 
 ## Building Concepts
 
-Interfaces and extension methods are presently being designed and explored for programmatically building concepts.
+Interfaces and extension methods are presently being designed and explored for programmatically building concept-retrieval queries for AI systems and concepts.
 
 _More coming soon!_
