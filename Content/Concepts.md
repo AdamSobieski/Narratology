@@ -21,7 +21,7 @@ Initial services envisioned for concepts include those pertaining to definitions
 
 ### Definition
 
-A definition is a potentially model-specific (e.g., Claude or Gemma), multimodal, natural-language document defining the concept. It may include an [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) definition, an [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) definition (positive and negative examples), and more.
+Concepts' definitions are model-specific (e.g., Claude, Gemma), multimodal, natural-language documents. They may include [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) components, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) components (positive and negative examples), and more.
 
 ```cs
 public interface IConceptDefinitionService
