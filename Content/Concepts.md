@@ -106,4 +106,15 @@ public static partial class Extensions
 
 ## Obtaining Concepts from Artificial-intelligence Systems
 
+Interfaces and extension methods are presently being designed and explored for retrieving concepts from AI systems:
+
+```cs
+IConcept concept = ai.GetConcept(
+    positiveExamples: [img1, img2, img3],
+    negativeExamples: [img4],
+    definitionType: "text/markdown",
+    definition: "This is some descriptive text."
+);
+```
+
 _More coming soon!_
