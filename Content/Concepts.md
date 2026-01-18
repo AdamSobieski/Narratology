@@ -48,7 +48,7 @@ public interface IConceptProvenanceService
 ```cs
 public interface IConceptRelatedConceptsService
 {
-    IEnumerable<ConfidenceValueTriple<double>>? GetRelatedConcepts(IConcept concept, object relationship);
+    IEnumerable<ConfidenceValueTriple<double>> GetRelatedConcepts(IConcept concept, object relationship);
 }
 ```
 
@@ -57,7 +57,7 @@ public interface IConceptRelatedConceptsService
 ```cs
 public interface IConceptContainsService
 {
-    ConfidenceValue<double>? Contains(IConcept concept, object? instance);
+    ConfidenceValue<double> Contains(IConcept concept, object? instance);
 }
 ```
 
