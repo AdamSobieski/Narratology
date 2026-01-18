@@ -108,6 +108,7 @@ Techniques are being designed and explored for retrieving concepts from AI syste
 
 ```cs
 IConcept concept = ai.GetConcept(
+    context: context,
     positiveExamples: [img1, img2, img3],
     negativeExamples: [img4],
     definitionType: "text/markdown",
