@@ -116,7 +116,7 @@ IConcept concept = ai.GetConcept(
 );
 ```
 
-It makes sense to provide concept retrival with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp), and, in theory, in some cases, concept retrieval could also be incremental and conversational, a process.
+It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp), and, in theory, in some cases, concept retrieval could also be incremental and conversational, a process.
 
 ## Building Concepts
 
