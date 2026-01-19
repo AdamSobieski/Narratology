@@ -117,9 +117,9 @@ IEnumerable<IConcept> candidates = ai.GetConcept(
 );
 ```
 
-It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp). In theory, in some cases, concept retrieval could be incremental and conversational, a process.
+Concept retrieval could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational, processes adhering to a protocol. In addition to accepting and potentially generating [chat histories](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp) during these processes, concept-retrieval requests could include other context cues (e.g., state vectors).
 
-Considered formats suitable for storing and transmitting concept-retrieval requests and resultant concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these like [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for styling and presentation.
+Considered formats suitable for storing and transmitting concept-retrieval requests and resultant concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for styling and presentation.
 
 ## Building Concepts
 
