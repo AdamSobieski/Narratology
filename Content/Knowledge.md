@@ -352,7 +352,9 @@ Firstly, one could use a special predicate, `calculus:holdsFor`, to relate n-ary
 @prefix calculus: <http://predicate-calculus.org/> .
 @prefix ex: <http://example.org/> .
 
-ex:p calculus:holdsFor (ex:x ex:y ex:z) .
+ex:p1 calculus:holdsFor (ex:r ex:s ex:t) ,
+                        (ex:u ex:v ex:w) .
+ex:p2 calculus:holdsFor (ex:x ex:y ex:z) .  
 ```
 
 Secondly, one could use containing named graphs as subjects, n-ary predicates as predicates, and lists of arguments as objects.
@@ -360,7 +362,9 @@ Secondly, one could use containing named graphs as subjects, n-ary predicates as
 @prefix ex: <http://example.org/> .
 
 ex:graph {
-  ex:graph ex:p (ex:x ex:y ex:z) .
+  ex:graph ex:p1 (ex:r ex:s ex:t) ,
+                 (ex:u ex:v ex:w) ;
+           ex:p2 (ex:x ex:y ex:z) .
 }
 ```
 </details>
