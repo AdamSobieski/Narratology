@@ -154,7 +154,7 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
     <title>c577ad59-7fc2-4788-b636-35a5b17848bf</title>
     <script src="/script.js" />
     <style src="/style.css" />
-    <link rel="dcterms.provenance" href="prov.ttl" />
+    <link rel="dcterms.provenance" href="provenance.ttl" />
   </head>
   <body>
     <section class="definition" lang="en">
