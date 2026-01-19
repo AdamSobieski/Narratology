@@ -17,9 +17,9 @@ public interface IConcept
 
 ## Services
 
-Initial services envisioned for concepts include those pertaining to definitions, provenance, related concepts, and whether the concepts contain provided individual object instances.
+Initial services envisioned for concepts include those pertaining to definitions, differences, provenance, related concepts, and whether concepts contain provided individual object instances.
 
-### Definition
+### Definitions
 
 Concepts' definitions are model-specific (e.g., Claude, Gemma), multimodal, natural-language documents. They may include [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) components, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) components (positive and negative examples), and more.
 
@@ -31,6 +31,17 @@ public interface IConceptDefinitionService
 ```
 
 As envisioned, obtaining a concept's definition resembles [content negotiation](https://en.wikipedia.org/wiki/Content_negotiation) with model-specificity added in.
+
+### Differences
+
+Services can provide [differences](https://en.wikipedia.org/wiki/Data_differencing) or deltas between concepts, be they proximate to or some distance from one another.
+
+```cs
+public interface IConceptDifferenceService
+{
+    object? GetDifference(IConcept concept, IConcept other, ContentType contentType, CultureInfo language, Type? type = null);
+}
+```
 
 ### Provenance
 
@@ -76,6 +87,13 @@ public static partial class Extensions
             if (service == null) return null;
 
             return service.GetDefinition(concept, model, contentType, language, type);
+        }
+        public object? GetDifference(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
+        {
+            var service = (IConceptDifferenceService?)concept.Services.GetService(typeof(IConceptDifferenceService));
+            if (service == null) return null;
+
+            return service.GetDifference(concept, other, contentType, language, type);
         }
         public object? GetProvenance(Type? type = null)
         {
