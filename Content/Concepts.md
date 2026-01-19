@@ -157,7 +157,7 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
     <link rel="dcterms.provenance" href="provenance.ttl" />
   </head>
   <body>
-    <section class="definition" lang="en">
+    <section class="text-definition" lang="en">
       <p>This is a natural-language definition of a concept.</p>
       <p>It can be comprised of multiple paragraphs.</p>
     </section>
