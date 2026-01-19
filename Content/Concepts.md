@@ -137,7 +137,7 @@ IEnumerable<IConcept> candidates = ai.GetConcept(
 );
 ```
 
-Note that positive and negative examples need not only be images. These could be builtin datatypes, file resources, text or multimedia documents, objects (e.g., JSON), knowledge graphs, concepts, sets of concepts, and more &ndash; anything from which a concept could be inferred from examples.
+Note that positive and negative examples need not only be images. They could be builtin datatypes, objects (e.g., JSON), file-based resources, text or multimedia documents, 3D models, knowledge graphs, concepts, sets of concepts, and more &ndash; any things from which concepts could be inferred from examples.
 
 Concept retrieval processes could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational, adhering to a protocol. In addition to accepting and potentially generating [chat histories](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp) during these processes, e.g., per candidate concept, concept-retrieval requests could provide additional context cues (e.g., state vectors) to artificial-intelligence systems.
 
