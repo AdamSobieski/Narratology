@@ -102,7 +102,7 @@ public static partial class Extensions
 }
 ```
 
-## Obtaining Concepts from Artificial-intelligence Systems
+## Retrieving Concepts from Artificial-intelligence Systems
 
 Techniques are being designed and explored for retrieving concepts from AI systems. For example:
 
@@ -118,6 +118,8 @@ IConcept concept = ai.GetConcept(
 ```
 
 It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp). In theory, in some cases, concept retrieval could be incremental and conversational, a process.
+
+Considered formats suitable for storing and transmitting concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Concept-definition documents might include hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for styling and presentation.
 
 ## Building Concepts
 
