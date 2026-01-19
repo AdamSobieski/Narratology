@@ -164,6 +164,7 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
         <p>It can be comprised of multiple paragraphs.</p>
       </section>
       <script type="text/turtle" src="definition.ttl" />
+      <script type="text/x-prolog" src="definition.pl" />
     </section>
     <section class="examples">
       <section class="positive">
