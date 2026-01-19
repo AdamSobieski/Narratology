@@ -341,7 +341,7 @@ public interface IKnowledge : IReadOnlyKnowledge
 9. How can the initialization of knowledgebase instances be simplified?
    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
 
-10. How might predicate-calculus expressions be represented in formats like RDF Turtle and TriG?
+10. How might n-ary predicate-calculus expressions be represented in formats like RDF Turtle and TriG?
 
 <details>
 <summary>Click to view one approach for representing n-ary predicate-calculus expressions in RDF Turtle and TriG.</summary>
