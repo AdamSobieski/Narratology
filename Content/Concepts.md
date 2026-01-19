@@ -174,13 +174,10 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
     <section class="related">
       <script type="text/turtle" src="related.ttl" />
     </section>
-    <section class="constraints">
-      <script type="text/turtle" src="constraints.ttl" />
-    </section>
     <section class="vectors">
-      <vector-data system="chatgpt-model-id" src="1.vec" />
-      <vector-data system="claude-model-id" src="2.vec" />
-      <vector-data system="gemma-model-id" src="3.vec" />
+      <vector-data system="openai.gpt-oss-safeguard-20b" src="1.vec" />
+      <vector-data system="anthropic.claude-sonnet-4-20250514" src="2.vec" />
+      <vector-data system="google.gemma-3-27b-it" src="3.vec" />
     </section>
   </body>
 </html>
