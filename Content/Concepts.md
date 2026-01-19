@@ -112,11 +112,12 @@ IConcept concept = ai.GetConcept(
     positiveExamples: [img1, img2, img3],
     negativeExamples: [img4],
     definitionType: "text/markdown",
-    definition: "This is a natural-language concept definition."
+    definition: "This is a natural-language concept definition.",
+    constraints: []
 );
 ```
 
-It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp), and, in theory, in some cases, concept retrieval could also be incremental and conversational, a process.
+It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp). In theory, in some cases, concept retrieval could be incremental and conversational, a process.
 
 ## Building Concepts
 
