@@ -34,7 +34,7 @@ As envisioned, obtaining a concept's definition resembles [content negotiation](
 
 ### Differences
 
-Services can provide [differences](https://en.wikipedia.org/wiki/Data_differencing) or deltas between concepts, be they proximate to or some distance from one another.
+Services can provide differences between concepts, be they proximate concepts to one another or some distance apart.
 
 ```cs
 public interface IConceptDifferenceService
