@@ -107,7 +107,7 @@ public static partial class Extensions
 Techniques are being designed and explored for client systems to retrieve concepts from artificial-intelligence systems. For example:
 
 ```cs
-IEnumerable<IConcept> candidates = ai.GetConcepts(
+IEnumerable<IConcept> candidates = ai.GetConcept(
     context: context,
     positiveExamples: [img1, img2, img3],
     negativeExamples: [img4],
