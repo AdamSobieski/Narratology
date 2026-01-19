@@ -347,7 +347,7 @@ public interface IKnowledge : IReadOnlyKnowledge
 <summary>Click to view two approaches for representing n-ary predicate-calculus expressions in RDF Turtle and TriG.</summary>
 <br>
 
-Firstly, one could use a `calculus:holdsFor` property to relate a predicate to a list of arguments.
+Firstly, one could use a special predicate, `calculus:holdsFor`, to relate an n-ary predicate to a list of arguments.
 ```turtle
 @prefix calculus: <http://predicate-calculus.org/> .
 @prefix ex: <http://example.org/> .
