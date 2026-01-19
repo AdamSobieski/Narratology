@@ -43,6 +43,8 @@ public interface IConceptDifferenceService
 }
 ```
 
+Would these services, providing documents detailing differences between pairs of concepts, be acontextual or contextual?
+
 ### Provenance
 
 The provenance of a concept is envisioned as including operations involving other concepts.
