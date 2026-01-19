@@ -176,8 +176,9 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
       <script type="text/turtle" src="constraints.ttl" />
     </section>
     <section class="vectors">
-      <vector-data system="claude" src="1.vec" />
-      <vector-data system="gemma" src="2.vec" />
+      <vector-data system="chatgpt-model-id" src="1.vec" />
+      <vector-data system="claude-model-id" src="2.vec" />
+      <vector-data system="gemma-model-id" src="3.vec" />
     </section>
   </body>
 </html>
