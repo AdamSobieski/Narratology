@@ -90,7 +90,7 @@ public static partial class Extensions
 
             return service.GetDefinition(concept, model, contentType, language, type);
         }
-        public object? Compare(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
+        public object? CompareWith(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
         {
             var service = (IConceptDifferenceService?)concept.Services.GetService(typeof(IConceptDifferenceService));
             if (service == null) return null;
