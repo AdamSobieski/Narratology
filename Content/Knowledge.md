@@ -344,26 +344,24 @@ public interface IKnowledge : IReadOnlyKnowledge
 10. How might n-ary predicate-calculus expressions be represented in formats like RDF Turtle and TriG?
 
 <details>
-<summary>Click to view one approach for representing n-ary predicate-calculus expressions in RDF Turtle and TriG.</summary>
+<summary>Click to view two approaches for representing n-ary predicate-calculus expressions in RDF Turtle and TriG.</summary>
 <br>
 
-One could use a `calculus:holdsFor` property to relate a predicate to a list of arguments.
+Firstly, one could use a `calculus:holdsFor` property to relate a predicate to a list of arguments.
 ```turtle
 @prefix calculus: <http://predicate-calculus.org/> .
 @prefix ex: <http://example.org/> .
 
 ex:p calculus:holdsFor (ex:x ex:y ex:z) .
 ```
-A reification for the above expression would resemble:
+
+Secondly, one could use containing named graphs as subjects, n-ary predicates as predicates, and lists of arguments as objects.
 ```turtle
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix calculus: <http://predicate-calculus.org/> .
 @prefix ex: <http://example.org/> .
 
-[] a rdf:Statement ;
-   rdf:subject ex:p ;
-   rdf:predicate calculus:holdsFor ;
-   rdf:object (ex:x ex:y ex:z) .
+ex:graph {
+  ex:graph ex:p (ex:x ex:y ex:z) .
+}
 ```
 </details>
 </details>
