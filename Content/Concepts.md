@@ -32,18 +32,18 @@ public interface IConceptDefinitionService
 
 As envisioned, obtaining a concept's definition resembles [content negotiation](https://en.wikipedia.org/wiki/Content_negotiation) with model-specificity added in.
 
-### Differences
+### Comparisons and Differences
 
-Services can provide differences between concepts, be they proximate concepts to one another or some distance apart.
+Services can provide [comparisons](https://en.wikipedia.org/wiki/Comparison) and differences between concepts, be they proximate concepts to one another or a greater distance apart.
 
 ```cs
-public interface IConceptDifferenceService
+public interface IConceptComparisonService
 {
-    object? GetDifference(IConcept concept, IConcept other, ContentType contentType, CultureInfo language, Type? type = null);
+    object? Compare(IConcept concept, IConcept other, ContentType contentType, CultureInfo language, Type? type = null);
 }
 ```
 
-Would these services, providing documents detailing differences between pairs of concepts, be acontextual or contextual?
+Would these services, providing comparisons between pairs of concepts, be acontextual or contextual?
 
 ### Provenance
 
@@ -90,12 +90,12 @@ public static partial class Extensions
 
             return service.GetDefinition(concept, model, contentType, language, type);
         }
-        public object? GetDifference(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
+        public object? Compare(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
         {
             var service = (IConceptDifferenceService?)concept.Services.GetService(typeof(IConceptDifferenceService));
             if (service == null) return null;
 
-            return service.GetDifference(concept, other, contentType, language, type);
+            return service.Compare(concept, other, contentType, language, type);
         }
         public object? GetProvenance(Type? type = null)
         {
