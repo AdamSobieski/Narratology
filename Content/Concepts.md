@@ -119,7 +119,7 @@ IConcept concept = ai.GetConcept(
 
 It makes sense to provide concept retrieval with context cues, or a [chat history](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp). In theory, in some cases, concept retrieval could be incremental and conversational, a process.
 
-Considered formats suitable for storing and transmitting concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these like [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for styling and presentation.
+Considered formats suitable for storing and transmitting concept-retrieval requests and concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these like [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for styling and presentation.
 
 ## Building Concepts
 
