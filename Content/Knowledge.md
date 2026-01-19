@@ -368,7 +368,7 @@ ex:graph {
 }
 ```
 
-Thirdly, building upon the second approach, one could use a constant value for the subject, e.g., `true` and `false`.
+Thirdly, one could use constant values as subjects, e.g., `true` and `false`.
 
 ```turtle
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
