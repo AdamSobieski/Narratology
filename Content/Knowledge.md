@@ -13,33 +13,30 @@ Using a generic struct, `ConfidenceValue<TConfidence, TValue>`, developers could
 ```cs
 public class Proposition<TEvaluate> : Expression
 {
-    internal Proposition(MethodInfo method, Expression[] arguments)
+    internal Proposition(MethodInfo method, Expression[]? arguments)
     {
-        m_method = method;
-        m_arguments = arguments;
+        m_expression = Expression.Call(method, arguments);
     }
     internal Proposition(Expression<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>> lambda)
     {
-        m_method = null;
-        m_arguments = null;
+        m_expression = null;
         m_lambda = lambda;
     }
 
-    MethodInfo? m_method;
-    Expression[]? m_arguments;
+    MethodCallExpression? m_expression;
     Expression<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>>? m_lambda;
 
-    public MethodInfo? Method => m_method;
+    public MethodInfo? Method => m_expression?.Method ?? null;
 
     public ReadOnlyCollection<Expression> Arguments
     {
         get
         {
-            if(m_arguments == null)
+            if(m_expression == null)
             {
                 return ReadOnlyCollection<Expression>.Empty;
             }
-            return m_arguments.AsReadOnly();
+            return m_expression.Arguments;
         }
     }
 
@@ -49,7 +46,7 @@ public class Proposition<TEvaluate> : Expression
     {
         get
         {
-            if (m_method == null) return PropositionType.Special;
+            if (m_expression == null) return PropositionType.Special;
             else return PropositionType.Call;
         }
     }
@@ -62,15 +59,13 @@ public class Proposition<TEvaluate> : Expression
     {
         if (m_lambda == null)
         {
-            if (m_method != null)
+            if (m_expression != null)
             {
                 var type = typeof(IReadOnlyKnowledge<TEvaluate>);
                 var evaluate = type.GetMethod("Evaluate")!;
 
                 var kb = Expression.Parameter(type, "kb");
-
-                var innerCall = Expression.Call(null, m_method, m_arguments);
-
+                var innerCall = m_expression;
                 var call = Expression.Call(kb, evaluate, innerCall);
 
                 m_lambda = Expression.Lambda<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>>(call, kb);
