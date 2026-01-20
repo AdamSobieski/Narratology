@@ -16,200 +16,43 @@ Here is an example of a usage of the constraint system described below, a fluent
 
 ## Interfaces
 
-Here are some interfaces for a new constraints system using the `System.Linq.Expressions` model for lambda expressions.
+Here are some interfaces for a constraints system utilizing both `System.Linq.Expression` lambda expressions and `Proposition<bool>` Boolean propositions from the [_Knowledge_](Content/Knowledge.md) system.
 
 ```cs
 public interface IHasConstraints
 {
-    public IConstraintCollection Constraints { get; }
+    IConstraintsCollection Constraints { get; }
 }
 
-public interface IConstraintCollection
+public interface IConstraintsCollection
 {
-    public Type ParameterType { get; }
+    bool Check(object value);
 
-    public void Check(object value);
-
-    public IEnumerable<(LambdaExpression Map, LambdaExpression Create)> GetPromotionKeys();
-
-    public IEnumerable<IAssertion> Assertions { get; }
-
-    public IEnumerable<IConditionalAssertion> ConditionalAssertions { get; }
-
-    public IEnumerable<IDeclaration> Declarations { get; }
-
-    public IConstraintCollection PromoteMatchingDeclarations(LambdaExpression map);
-
-    public IConstraintCollection PromoteMatchingDeclarations(LambdaExpression map, LambdaExpression create);
+    IConstraintsCollection PromoteMatchingDeclarations(LambdaExpression map);
 }
 
-public interface IConstraint
+public interface IConstraintsCollection<T> : IConstraintsCollection
 {
-    public LambdaExpression Expression { get; }
+    bool Check(T value);
+
+    IConstraintsCollection<U> PromoteMatchingDeclarations<U>(Expression<Func<T, U>> map);
 }
 
-public interface IAssertion : IConstraint
-{
-    public void Check(object value);
-}
-
-public interface IConditionalAssertion : IAssertion
-{
-    public LambdaExpression Condition { get; }
-
-    public LambdaExpression Assertion { get; }
-}
-
-public interface IDeclaration : IConstraint
-{
-    public LambdaExpression Map { get; }
-
-    public LambdaExpression Create { get; }
-
-    public LambdaExpression Declaration { get; }
-
-    public IConstraint? Promote(LambdaExpression map);
-
-    public IConstraint? Promote(LambdaExpression map, LambdaExpression create);
-}
-```
-```cs
-public interface IHasConstraints<T> : IHasConstraints
-{
-    public new IConstraintCollection<T> Constraints { get; }
-}
-
-public interface IConstraintCollection<T> : IConstraintCollection
-{
-    public void Check(T value);
-
-    public new IEnumerable<IAssertion<T>> Assertions { get; }
-
-    public new IEnumerable<IConditionalAssertion<T>> ConditionalAssertions { get; }
-
-    public new IEnumerable<IDeclaration<T>> Declarations { get; }
-
-    public IConstraintCollection<U> PromoteMatchingDeclarations<U>(Expression<Func<T, U>> map);
-
-    public IConstraintCollection<V> PromoteMatchingDeclarations<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
-}
-
-public interface IConstraint<T> : IConstraint
-{
-    public new Expression<Action<T>> Expression { get; }
-}
-
-public interface IAssertion<T> : IConstraint<T>, IAssertion
-{
-    public void Check(T value);
-}
-
-public interface IConditionalAssertion<T> : IConditionalAssertion, IAssertion<T>
-{
-    public new Expression<Func<T, bool>> Condition { get; }
-
-    public new Expression<Action<T>> Assertion { get; }
-}
-
-public interface IDeclaration<T> : IConstraint<T>, IDeclaration
-{
-    public IConstraint<U>? Promote<U>(Expression<Func<T, U>> map);
-
-    public IConstraint<V>? Promote<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create);
-}
-```
-
-## Representing Invariants and Declarations
-
-Invariants are constraints which must apply to their objects in all cases. Declarations are declared knowledge, stored in objects' constraint sets, about related objects.
-
-As envisioned, lambda expressions can express method calls to special static methods such as:
-
-```cs
-public static class Constraint
-{
-    public static void Declare<T, U>(T on, Func<T, U> map, Action<U> action)
-    {
-
-    }
-    public static void Declare<T, U, V>(T on, Func<T, U> map, Func<T, U, V> create, Action<V> action)
-    {
-
-    }
-
-    public static void Assert<T>(T on, Func<T, bool> predicate)
-    {
-        if (!predicate(on)) throw new ConstraintException("Assertion failed.");
-    }
-    public static void Assert<T>(T on, Func<T, bool> predicate, string message)
-    {
-        if (!predicate(on)) throw new ConstraintException(message);
-    }
-
-    public static void When<T>(T on, Func<T, bool> condition, Action<T> action)
-    {
-        try
-        {
-            if (!condition(on)) return;
-            action(on);
-        }
-        catch (ConstraintException e)
-        {
-            throw new ConstraintException("Conditional assertion failed.", e);
-        }
-    }
-    public static void When<T>(T on, Func<T, bool> condition, Action<T> action, string message)
-    {
-        try
-        {
-            if (!condition(on)) return;
-            action(on);
-        }
-        catch (ConstraintException e)
-        {
-            throw new ConstraintException(message, e);
-        }
-    }
-}
-```
-
-Note that `Invariant()` is not present as a static method. Constraint builders can transform these kinds of assertions into `When` method calls with always true conditions.
-
-## Method Chaining, Fluent Interfaces, and Constraint Building
-
-Here is a preliminary fluent interface for building constraints, `IConstraintsBuilder<T>`:
-
-```cs
 public interface IConstraintsBuilder<T>
 {
-    public IConstraintsBuilder<T> Declare<U>(Expression<Func<T, U>> map, Expression<Action<IConstraintsBuilder<U>>> action);
+    IConstraintsBuilder<T> Declare<U>(Expression<Func<T, U>> map, Expression<Action<IConstraintsBuilder<U>>> action);
 
-    public IConstraintsBuilder<T> Declare<U, V>(Expression<Func<T, U>> map, Expression<Func<T, U, V>> create, Expression<Action<IConstraintsBuilder<V>>> action);
+    IConstraintsBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
+    IConstraintsBuilder<T> Assert(Expression<Func<T, Proposition<bool>>> assertion, string? message = null);
 
-    public IConstraintsBuilder<T> Assert(Expression<Func<T, bool>> assertion, string? message = null);
+    IConstraintsBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string? message = null);
+    IConstraintsBuilder<T> Invariant(Expression<Func<T, Proposition<bool>>> predicate, string? message = null);
 
-    public IConstraintsBuilder<T> Invariant(Expression<Func<T, bool>> predicate, string? message = null);
+    IConstraintsBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
+    IConstraintsBuilder<T> When(Expression<Func<T, Proposition<bool>>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
 
-    public IConstraintsBuilder<T> When(Expression<Func<T, bool>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
-
-    public IConstraintsCollection<T> Build();
-
-    public Expression<Action<T>> GetLambdaExpression();
+    IConstraintsCollection<T> Build();
+    IConstraintsCollection<T> Build(IReadOnlyKnowledge<bool> kb);
+    IConstraintsCollection<T> Build(Func<T, IReadOnlyKnowledge<bool>> selector);
 }
 ```
-
-Using such a constraints builder, automaton implementations could easily provide inspectable constraints about themselves, e.g., cardinality constraints regarding their sets of initial states, and declare constraints about all navigators which they might provide via their `GetNavigator()` methods, e.g., cardinality constraints on the sets of their current states and on the numbers of edges traversed to reach these.
-
-Here, again, is an example of how constraints can be built using a fluent syntax enabled by `IConstraintsBuilder<T>`:
-
-```cs
-var constraints = Constraint.Builder<DeterministicAcceptor>()
-    .Invariant(x => x.Start.Count() == 1)
-    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Current.Count() == 1))
-    .Declare(x => x.GetNavigator(), b => b.Invariant(x => x.Edges.Count() == 1))
-    .Build();
-```
-
-Invariants and declarations, together, enable expressiveness for extension members about determinism, `bool IsDeterministic { get; }`, and for other verifiable properties of automata.
-
-A first version of these concepts was successfully prototyped. A second version is actively being developed.
