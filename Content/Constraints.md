@@ -16,7 +16,7 @@ Here is an example of a usage of the constraint system described below, a fluent
 
 ## Interfaces
 
-Here are some interfaces for a constraints system utilizing both `System.Linq.Expression` lambda expressions and `Proposition<bool>` Boolean propositions from the [_Knowledge_](Content/Knowledge.md) system.
+Here are some interfaces for a constraints system utilizing both `System.Linq.Expression` lambda expressions and `Proposition<bool>` Boolean propositions from the [_Knowledge_](Knowledge.md) system.
 
 ```cs
 public interface IHasConstraints
