@@ -147,6 +147,8 @@ Considered formats suitable for storing and transmitting concept-retrieval reque
 <summary>Click here to toggle view of a rough-draft representation of a concept using XHTML.</summary>
 <br>
 
+As envisioned, concept definitions will be able to express combinations of textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) definitions.
+
 ```xml
 <!-- e.g., retrieved from URL: https://www.project.org/concepts/c577ad59-7fc2-4788-b636-35a5b17848bf/ -->
 
