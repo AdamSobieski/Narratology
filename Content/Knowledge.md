@@ -54,7 +54,7 @@ public class Proposition<TEvaluate> : Expression
         }
     }
 
-    public override Type Type => typeof(Expression<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>>);
+    public override Type Type => typeof(Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>);
 
     public override bool CanReduce => true;
 
