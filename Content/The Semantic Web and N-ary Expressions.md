@@ -63,3 +63,7 @@ ex:graph {
   (ex:x ex:y ex:z) ex:p2 "true"^^xsd:boolean .
 }
 ```
+
+## See Also
+
+* https://www.w3.org/TR/swbp-n-aryRelations/
