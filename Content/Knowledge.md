@@ -17,14 +17,14 @@ public class Proposition<TEvaluate> : Expression
     {
         m_expression = Expression.Call(method, arguments);
     }
-    internal Proposition(Expression<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>> lambda)
+    internal Proposition(Expression<Func<IEvaluator<TEvaluate>, TEvaluate>> lambda)
     {
         m_expression = null;
         m_lambda = lambda;
     }
 
     MethodCallExpression? m_expression;
-    Expression<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>>? m_lambda;
+    Expression<Func<IEvaluator<TEvaluate>, TEvaluate>>? m_lambda;
 
     public MethodInfo? Method => m_expression?.Method ?? null;
 
@@ -32,7 +32,7 @@ public class Proposition<TEvaluate> : Expression
     {
         get
         {
-            if(m_expression == null)
+            if (m_expression == null)
             {
                 return ReadOnlyCollection<Expression>.Empty;
             }
@@ -51,7 +51,7 @@ public class Proposition<TEvaluate> : Expression
         }
     }
 
-    public override Type Type => typeof(Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>);
+    public override Type Type => typeof(Func<IEvaluator<TEvaluate>, TEvaluate>);
 
     public override bool CanReduce => true;
 
@@ -61,14 +61,13 @@ public class Proposition<TEvaluate> : Expression
         {
             if (m_expression != null)
             {
-                var type = typeof(IReadOnlyKnowledge<TEvaluate>);
+                var type = typeof(IEvaluator<TEvaluate>);
                 var evaluate = type.GetMethod("Evaluate")!;
 
                 var kb = Expression.Parameter(type, "kb");
-                var innerCall = m_expression;
-                var call = Expression.Call(kb, evaluate, innerCall);
+                var call = Expression.Call(kb, evaluate, m_expression);
 
-                m_lambda = Expression.Lambda<Func<IReadOnlyKnowledge<TEvaluate>, TEvaluate>>(call, kb);
+                m_lambda = Expression.Lambda<Func<IEvaluator<TEvaluate>, TEvaluate>>(call, kb);
             }
             else
             {
@@ -122,26 +121,31 @@ The following generic knowledgebase interfaces simplify working with proposition
 Note that a knowledgebase implementation could implement both `IKnowledge<bool>` and `IKnowledge<double>` interfaces.
 
 ```cs
-public interface IReadOnlyKnowledge<TEvaluate>
+public interface IEvaluator<TEvaluate>
 {
-    TEvaluate Evaluate(Proposition<TEvaluate> proposition);
+    public TEvaluate Evaluate(Proposition<TEvaluate> proposition);
+}
+```
 
-    IKnowledgeQueryable<TEvaluate, X> Query<X>(Expression<Func<X, Proposition<TEvaluate>>> query);
+```cs
+public interface IReadOnlyKnowledge<TEvaluate> : IEvaluator<TEvaluate>
+{
+    public IKnowledgeQueryable<TEvaluate, X> Query<X>(Expression<Func<X, Proposition<TEvaluate>>> query);
 
-    IKnowledge<TEvaluate> Clone();
+    public IKnowledge<TEvaluate> Clone();
 
-    IKnowledge<TEvaluate> Overlay();
+    public IKnowledge<TEvaluate> Overlay();
 
-    IReadOnlyKnowledge<TEvaluate> Quote(IEnumerable<Proposition<TEvaluate>> propositions);
+    public IReadOnlyKnowledge<TEvaluate> Quote(IEnumerable<Proposition<TEvaluate>> propositions);
 }
 ```
 
 ```cs
 public interface IKnowledge<TEvaluate> : IReadOnlyKnowledge<TEvaluate>
 {
-    void Assert(Proposition<TEvaluate> proposition, TEvaluate value);
+    public void Assert(Proposition<TEvaluate> proposition, TEvaluate value);
 
-    void Retract(Proposition<TEvaluate> proposition);
+    public void Retract(Proposition<TEvaluate> proposition);
 }
 ```
 
@@ -180,15 +184,15 @@ kb.Query<(Person x, Person y)>().Where(v => BrotherOf(alex, v.x)).Where(v => Fat
 One might want to be able to use variables for predicates.
 
 ```cs
-kb.Assert(ForAll<Func<object, object, Expression<Func<IReadOnlyKnowledge, bool>>>>(P => ...), true);
+kb.Assert(ForAll<Func<object, object, Proposition<bool>>>(P => ...), true);
 ```
 
-### Variables for Expressions
+### Variables for Propositions
 
 One might want to be able to use variables for expressions.
 
 ```cs
-kb.Assert(ForAll<Expression<Func<IReadOnlyKnowledge, bool>>>(expr => ...), true);
+kb.Assert(ForAll<Proposition<bool>>(expr => ...), true);
 ```
 
 ### Reification, Quoting, and Recursion
@@ -206,7 +210,7 @@ A builtin predicate can be provided, resembling Prolog's `:-` operator, called `
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Rule(Proposition<bool> head, Proposition<bool> body)
+public static Proposition<bool> Rule(Proposition<bool> head, Proposition<bool> body)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Constant(head), Expression.Constant(body)]);
 }
@@ -218,19 +222,19 @@ If `And`, `Or`, and `Not` are to be be provided as builtin predicates, they migh
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> And(Proposition<bool> left, Proposition<bool> right)
+public static Proposition<bool> And(Proposition<bool> left, Proposition<bool> right)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Constant(left), Expression.Constant(right)]);
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Or(Proposition<bool> left, Proposition<bool> right)
+public static Proposition<bool> Or(Proposition<bool> left, Proposition<bool> right)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Constant(left), Expression.Constant(right)]);
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Not(Proposition<bool> expression)
+public static Proposition<bool> Not(Proposition<bool> expression)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Constant(expression)]);
 }
@@ -240,19 +244,19 @@ The following predicates may also be useful:
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAll(Proposition<bool> left, Proposition<bool> right)
+public static Proposition<bool> EntailsAll(Proposition<bool> left, Proposition<bool> right)
 {
     return Expression.Proposition<bool>(kb => kb.Entails(left) && kb.Entails(right));
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsAny(Proposition<bool> left, Proposition<bool> right)
+public static Proposition<bool> EntailsAny(Proposition<bool> left, Proposition<bool> right)
 {
     return Expression.Proposition<bool>(kb => kb.Entails(left) || kb.Entails(right));
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> EntailsNone(Proposition<bool> expression)
+public static Proposition<bool> EntailsNone(Proposition<bool> expression)
 {
     return Expression.Proposition<bool>(kb => !kb.Entails(expression));
 }
@@ -264,13 +268,13 @@ With respect to quantification, builtin predicates for `Exists` and `ForAll` cou
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Exists<X>(Expression<Func<X, Proposition<bool>>> expression)
+public static Proposition<bool> Exists<X>(Expression<Func<X, Proposition<bool>>> expression)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Quote(expression)]);
 }
 
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> ForAll<X>(Expression<Func<X, Proposition<bool>>> expression)
+public static Proposition<bool> ForAll<X>(Expression<Func<X, Proposition<bool>>> expression)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Quote(expression)]);
 }
@@ -282,7 +286,7 @@ With respect to lambda calculus, a builtin predicate for `Lambda` could resemble
 
 ```cs
 [Predicate]
-public static Expression<Func<IReadOnlyKnowledge, bool>> Lambda<X>(Expression<Func<X, Proposition<bool>>> expression)
+public static Proposition<bool> Lambda<X>(Expression<Func<X, Proposition<bool>>> expression)
 {
     return Expression.Proposition<bool>((MethodInfo)MethodBase.GetCurrentMethod()!, [Expression.Quote(expression)]);
 }
@@ -362,20 +366,20 @@ Similarly, developers would also enjoy being able to create and work with ad-hoc
 <details>
 <summary>Click here to toggle view of some open design questions.</summary>
 
-1. Should `IReadOnlyKnowledge` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
+1. Should `IReadOnlyKnowledge<>` be enumerable, provide `GetEnumerator()`, or provide `AsEnumerable()` and/or `AsQueryable()` methods?
 
-2. Should `IKnowledge` provide developers with means to provide a map, mapping types to `IEqualityComparer` instances?
+2. Should `IKnowledge<>` provide developers with means to provide a map, mapping types to `IEqualityComparer` instances?
    1. If not, should developers be able to provide these maps using an optional argument to a `Query()` method?
 
 3. Should predicates, in addition to being static methods, be static extension methods, perhaps extending a shared type `Vocabulary`?
 
-4. Should `IKnowledge` provide methods for loading sets of expressions and rules from resources?
+4. Should `IKnowledge<>` provide methods for loading sets of expressions and rules from resources?
 
-5. Should an `Assert()` method on `IKnowledge` provide optional parameters for specifying attribution, provenance, and/or justification?
+5. Should an `Assert()` method on `IKnowledge<>` provide optional parameters for specifying attribution, provenance, and/or justification?
 
 6. Are shapes, constraints, and/or other data validation features desired for knowledgebases?
 
-7. Is obtaining differences or deltas between `IReadOnlyKnowledge` instances a feature desired by developers?
+7. Is obtaining differences or deltas between `IReadOnlyKnowledge<>` instances a feature desired by developers?
 
 8. How can the initialization of knowledgebase instances be simplified?
    1. Perhaps developers could utilize an initializer which receives metadata categories and uses these one or more metadata categories to populate a knowledgebase instance with expressions and rules.
