@@ -144,7 +144,7 @@ Concept retrieval processes could be [session-based](https://en.wikipedia.org/wi
 Considered formats suitable for storing and transmitting concept-retrieval requests and resultant concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
 
 <details>
-<summary>Click here to toggle view of some rough-draft representations of a concept using XML and XHTML.</summary>
+<summary>Click here to toggle view of some rough-draft representations of a concept using XML.</summary>
 <br>
 
 Concept definitions will be able to express combinations of types of [definitions](https://en.wikipedia.org/wiki/Definition), e.g., textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions).
@@ -176,48 +176,10 @@ Concept definitions will be able to express combinations of types of [definition
     <part rel="vector" type="application/octet-stream" system="anthropic.claude-sonnet-4-20250514" src="2.vec" />
     <part rel="vector" type="application/octet-stream" system="google.gemma-3-27b-it" src="3.vec" />
   </part>
+  <part rel="provenance" type="text/turtle" src="provenance.ttl" />
 </concept>
 ```
 
-```xml
-<!-- e.g., retrieved from URL: https://www.project.org/concepts/c577ad59-7fc2-4788-b636-35a5b17848bf/ -->
-
-<html>
-  <head>
-    <title>c577ad59-7fc2-4788-b636-35a5b17848bf</title>
-    <script src="/script.js" />
-    <style src="/style.css" />
-    <link rel="dcterms.provenance" href="provenance.ttl" />
-  </head>
-  <body>
-    <section class="definitions">
-      <section class="text" lang="en">
-        <p>This is a natural-language definition of a concept.</p>
-        <p>It can be comprised of multiple paragraphs.</p>
-      </section>
-      <script type="text/turtle" src="definition.ttl" />
-    </section>
-    <section class="examples">
-      <section class="positive">
-        <img src="1.png" />
-        <img src="2.png" />
-        <img src="3.png" />
-      </section>
-      <section class="negative">
-        <img src="4.png" />
-      </section>
-    </section>
-    <section class="related">
-      <script type="text/turtle" src="related.ttl" />
-    </section>
-    <section class="vectors">
-      <vector-data system="openai.gpt-oss-safeguard-20b" src="1.vec" />
-      <vector-data system="anthropic.claude-sonnet-4-20250514" src="2.vec" />
-      <vector-data system="google.gemma-3-27b-it" src="3.vec" />
-    </section>
-  </body>
-</html>
-```
 </details>
 
 ## Building Concepts
