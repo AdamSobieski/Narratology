@@ -144,10 +144,40 @@ Concept retrieval processes could be [session-based](https://en.wikipedia.org/wi
 Considered formats suitable for storing and transmitting concept-retrieval requests and resultant concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
 
 <details>
-<summary>Click here to toggle view of a rough-draft representation of a concept using XHTML.</summary>
+<summary>Click here to toggle view of some rough-draft representations of a concept using XML and XHTML.</summary>
 <br>
 
 Concept definitions will be able to express combinations of types of [definitions](https://en.wikipedia.org/wiki/Definition), e.g., textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions).
+
+```xml
+<concept version="1.0" xmlns="..." xmlns:html="http://www.w3.org/1999/xhtml">
+  <part rel="text-definition" type="text/html" lang="en">
+    <html:p>This is natural-language hypertext definitional content.</html:p>
+    <html:p>It can be comprised of multiple paragraphs of content.</html:p>
+  </part>
+  <part rel="structured-definition" type="text/turtle">
+    ...
+  </part>
+  <part rel="examples" type="multipart/related">
+    <part rel="positive-examples" type="multipart/related">
+      <part rel="example" type="image/png" src="1.png" />
+      <part rel="example" type="image/png" src="2.png" />
+      <part rel="example" type="image/png" src="3.png" />
+    </part>
+    <part rel="negative-examples" type="multipart/related">
+      <part rel="example" type="image/png" src="4.png" />
+    </part>
+  </part>
+  <part rel="structured-relationships" type="text/turtle">
+    ...
+  </part>
+  <part rel="vectors" type="multipart/related">
+    <part rel="vector" type="application/octet-stream" system="openai.gpt-oss-safeguard-20b" src="1.vec" />
+    <part rel="vector" type="application/octet-stream" system="anthropic.claude-sonnet-4-20250514" src="2.vec" />
+    <part rel="vector" type="application/octet-stream" system="google.gemma-3-27b-it" src="3.vec" />
+  </part>
+</concept>
+```
 
 ```xml
 <!-- e.g., retrieved from URL: https://www.project.org/concepts/c577ad59-7fc2-4788-b636-35a5b17848bf/ -->
