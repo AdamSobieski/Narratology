@@ -11,7 +11,7 @@ The generic type `Proposition<bool>` is for Boolean propositions. The types `Pro
 Using a generic struct, `ConfidenceValue<TConfidence, TValue>`, developers could create propositions of types `bool`, `float`, or `double` with an additional confidence score, e.g., `Proposition<ConfidenceValue<double, double>>`.
 
 ```cs
-public class Proposition<TEvaluate> : Expression
+public sealed class Proposition<TEvaluate> : Expression
 {
     internal Proposition(MethodInfo method, Expression[]? arguments)
     {
@@ -305,7 +305,7 @@ Intensional sets are a good use case for knowledgebase overlays. Here is a preli
 ```cs
 public class IntensionalSet<T>
 {
-    public IntensionalSet(ITemplate<IReadOnlyKnowledge> template, IReadOnlyKnowledge background)
+    public IntensionalSet(ITemplate<IReadOnlyKnowledge<bool>> template, IReadOnlyKnowledge<bool> background)
     {
         var foreground = template.Invoke([this]);
 
@@ -314,11 +314,11 @@ public class IntensionalSet<T>
         // ...
     }
 
-    private IKnowledge kb;
+    private IKnowledge<bool> kb;
 
     public bool Contains(T element)
     {
-         return kb.Entails(ElementOf(this, element));
+         return kb.Evaluate(ElementOf(this, element));
     }
 
     public IntensionalSet<T> IntersectWith(IntensionalSet<T> other) { ... }
@@ -341,7 +341,7 @@ public class IntensionalSet<T>
 
 Intensional sets could also provide collection-like methods such as `Add(T item)` and `Remove(T item)` which would operate set-algebraically on singleton sets formed from their arguments.
 
-Intensional sets might each reference their own small collection of rules involving the `ElementOf()` predicate, to provide a set-definition function, while referencing other `IReadOnlyKnowledge` collections of many more expressions and rules, so that many intensional sets could be easily and efficiently created and worked with in .NET .
+Intensional sets might each reference their own small collection of rules involving the `ElementOf()` predicate, to provide a set-definition function, while referencing other `IReadOnlyKnowledge<bool>` collections of many more expressions and rules, so that many intensional sets could be easily and efficiently created and worked with in .NET .
 
 Brainstorming, perhaps a "set builder" technique could be developed resembling:
 
