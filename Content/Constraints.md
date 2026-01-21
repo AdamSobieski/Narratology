@@ -52,7 +52,7 @@ public interface IConstraintsBuilder<T>
     IConstraintsBuilder<T> When(Expression<Func<T, Proposition<bool>>> condition, Expression<Action<IConstraintsBuilder<T>>> action, string? message = null);
 
     IConstraintsCollection<T> Build();
-    IConstraintsCollection<T> Build(IReadOnlyKnowledge<bool> kb);
-    IConstraintsCollection<T> Build(Func<T, IReadOnlyKnowledge<bool>> selector);
+    IConstraintsCollection<T> Build(IEvaluator<bool> kb);
+    IConstraintsCollection<T> Build(Func<T, IEvaluator<bool>> selector);
 }
 ```
