@@ -165,7 +165,7 @@ Concept definitions will be able to express combinations of aspects of [definiti
     <html:p>It can be comprised of multiple paragraphs of content.</html:p>
   </part>
   <part rel="structured-definition" type="text/turtle">
-    ...
+    <![CDATA[...]]>
   </part>
   <part rel="examples" type="multipart/related">
     <part rel="positive-examples" type="multipart/related">
@@ -178,10 +178,10 @@ Concept definitions will be able to express combinations of aspects of [definiti
     </part>
   </part>
   <part rel="structured-relationships" type="text/turtle">
-    ...
+    <![CDATA[...]]>
   </part>
   <part rel="structured-mappings" type="text/turtle">
-    ...
+    <![CDATA[...]]>
   </part>
   <part rel="vector-collection" type="multipart/related">
     <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
@@ -189,7 +189,7 @@ Concept definitions will be able to express combinations of aspects of [definiti
     <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
   </part>
   <part rel="provenance" type="text/turtle">
-    ...
+    <![CDATA[...]]>
   </part>
 </concept>
 ```
