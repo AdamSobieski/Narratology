@@ -122,12 +122,12 @@ public static partial class Extensions
 }
 ```
 
-## Retrieving Concepts from Artificial-intelligence Systems
+## Retrieving Concepts
 
-Techniques are being designed and explored for client systems to retrieve concepts from artificial-intelligence systems. For example:
+Techniques are being designed and explored for client systems to retrieve concepts from artificial-intelligence systems. For examples:
 
 ```cs
-IEnumerable<IConcept> candidates = ai.GetConcept(
+IEnumerable<IConcept> candidates = system.GetConcept(
     context: context,
     positiveExamples: [img1, img2, img3],
     negativeExamples: [img4],
@@ -137,11 +137,20 @@ IEnumerable<IConcept> candidates = ai.GetConcept(
 );
 ```
 
+```cs
+IEnumerable<IConcept> candidates = system.GetConcept(
+    context: context,
+    vectors: [vector]
+);
+```
+
 Note that positive and negative examples need not only be images. They could be builtin datatypes, objects (e.g., JSON), file-based resources, text or multimedia documents, 3D models, knowledge graphs, concepts, sets of concepts, and more &ndash; any things from which concepts could be inferred from examples.
 
-Concept retrieval processes could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational, adhering to a protocol. In addition to accepting and potentially generating [chat histories](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp) during these processes, e.g., per candidate concept, concept-retrieval requests could provide additional context cues (e.g., state vectors) to artificial-intelligence systems.
+Concept-retrieval processes could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational, adhering to a protocol. In addition to accepting and potentially generating [chat histories](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp) during these processes, e.g., per candidate concept, concept-retrieval requests could provide additional context cues (e.g., state vectors) to artificial-intelligence systems.
 
-Considered formats suitable for storing and transmitting concept-retrieval requests and resultant concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XML](https://en.wikipedia.org/wiki/XML), [XHTML](https://en.wikipedia.org/wiki/XHTML), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
+Concept storage and retrieval services could be centralized, Web-based platforms or decentralized, distributed, peer-to-peer systems [(Zaarour and Curry, 2022)](https://www.sciencedirect.com/science/article/pii/S0167739X22000590).
+
+Suitable formats for storing and transmitting concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XML](https://en.wikipedia.org/wiki/XML), [XHTML](https://en.wikipedia.org/wiki/XHTML), [JSON](https://en.wikipedia.org/wiki/JSON), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
 
 Concept definitions will be able to express combinations of types of [definitions](https://en.wikipedia.org/wiki/Definition), e.g., textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions).
 
@@ -171,19 +180,22 @@ Concept definitions will be able to express combinations of types of [definition
   <part rel="structured-relationships" type="text/turtle">
     ...
   </part>
-  <part rel="vectors" type="multipart/related">
-    <part rel="vector" type="application/octet-stream" system="openai.gpt-oss-safeguard-20b" src="1.vec" />
-    <part rel="vector" type="application/octet-stream" system="anthropic.claude-sonnet-4-20250514" src="2.vec" />
-    <part rel="vector" type="application/octet-stream" system="google.gemma-3-27b-it" src="3.vec" />
+  <part rel="structured-mappings" type="text/turtle">
+    ...
   </part>
-  <part rel="provenance" type="text/turtle" src="provenance.ttl" />
+  <part rel="vector-collection" type="multipart/related">
+    <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
+    <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
+    <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
+  </part>
+  <part rel="provenance" type="text/turtle">
+    ...
+  </part>
 </concept>
 ```
 
 </details>
 
-## Building Concepts
+## Creating and Building Concepts
 
 Techniques are being designed and explored for both building concept-retrieval queries for AI systems and building concepts using method chaining and fluent interfaces.
-
-_More coming soon!_
