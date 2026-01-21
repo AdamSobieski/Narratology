@@ -155,7 +155,7 @@ Suitable extensible formats for storing and transmitting concept definitions bet
 Concept definitions will be able to express combinations of aspects of [definitions](https://en.wikipedia.org/wiki/Definition), e.g., textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions).
 
 <details>
-<summary>Click here to toggle view of a rought-draft extensible concept-definition using XML.</summary>
+<summary>Click here to toggle view of a rough-draft extensible concept-definition using XML.</summary>
 <br>
 
 ```xml
