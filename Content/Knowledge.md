@@ -62,7 +62,7 @@ public class Proposition<TEvaluate> : Expression
             if (m_expression != null)
             {
                 var type = typeof(IEvaluator<TEvaluate>);
-                var evaluate = type.GetMethod("Evaluate")!;
+                var evaluate = type.GetMethod(nameof(IEvaluator<TEvaluate>.Evaluate))!;
 
                 var kb = Expression.Parameter(type, "kb");
                 var call = Expression.Call(kb, evaluate, m_expression);
