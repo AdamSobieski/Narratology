@@ -140,29 +140,29 @@ Note that a knowledgebase implementation could implement both `IKnowledge<bool>`
 ```cs
 public interface IEvaluator<TEvaluate>
 {
-    public TEvaluate Evaluate(Proposition<TEvaluate> proposition);
+    TEvaluate Evaluate(Proposition<TEvaluate> proposition);
 }
 ```
 
 ```cs
 public interface IReadOnlyKnowledge<TEvaluate> : IEvaluator<TEvaluate>
 {
-    public IKnowledgeQueryable<TEvaluate, X> Query<X>(Expression<Func<X, Proposition<TEvaluate>>> query);
+    IKnowledgeQueryable<TEvaluate, X> Query<X>(Expression<Func<X, Proposition<TEvaluate>>> query);
 
-    public IKnowledge<TEvaluate> Clone();
+    IKnowledge<TEvaluate> Clone();
 
-    public IKnowledge<TEvaluate> Overlay();
+    IKnowledge<TEvaluate> Overlay();
 
-    public IReadOnlyKnowledge<TEvaluate> Quote(IEnumerable<Proposition<TEvaluate>> propositions);
+    IReadOnlyKnowledge<TEvaluate> Quote(params Proposition<TEvaluate>[] propositions);
 }
 ```
 
 ```cs
 public interface IKnowledge<TEvaluate> : IReadOnlyKnowledge<TEvaluate>
 {
-    public void Assert(Proposition<TEvaluate> proposition, TEvaluate value);
+    void Assert(Proposition<TEvaluate> proposition, TEvaluate value);
 
-    public void Retract(Proposition<TEvaluate> proposition);
+    void Retract(Proposition<TEvaluate> proposition);
 }
 ```
 
