@@ -79,11 +79,28 @@ public sealed class Proposition<TEvaluate> : Expression
 }
 ```
 
+Note that one can add static extension methods to the type `System.Linq.Expressions.Expression`.
+
+```cs
+public static partial class Extensions
+{
+    extension(Expression)
+    {
+        public static Proposition<TEvaluate> Proposition<TEvaluate>(MethodInfo method, params Expression[] arguments)
+        {
+            return new Proposition<TEvaluate>(method, arguments);
+        }
+        public static Proposition<TEvaluate> Proposition<TEvaluate>(Expression<Func<IEvaluator<TEvaluate>, TEvaluate>> lambda)
+        {
+            return new Proposition<TEvaluate>(lambda);
+        }
+    }
+}
+```
+
 ## Predicates
 
 Predicates can be represented using static methods, receiving a number of strongly-typed input arguments and returning propositions.
-
-Note that, as of C# 14, one can add static extension methods to the type `System.Linq.Expressions.Expression`.
 
 ```cs
 public static partial class Module
