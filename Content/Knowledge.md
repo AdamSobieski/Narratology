@@ -46,7 +46,7 @@ public sealed class Proposition<TEvaluate> : Expression
     {
         get
         {
-            if (m_expression == null) return PropositionType.Special;
+            if (m_expression == null) return PropositionType.Lambda;
             else return PropositionType.Call;
         }
     }
