@@ -151,7 +151,7 @@ Concept definitions will be able to express combinations of types of [definition
 
 ```xml
 <concept version="1.0" xmlns="..." xmlns:html="http://www.w3.org/1999/xhtml">
-  <part rel="text-definition" type="text/html" lang="en">
+  <part rel="text-definition" type="application/xhtml+xml" lang="en">
     <html:p>This is natural-language hypertext definitional content.</html:p>
     <html:p>It can be comprised of multiple paragraphs of content.</html:p>
   </part>
