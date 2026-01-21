@@ -82,7 +82,7 @@ public class Proposition<TEvaluate> : Expression
 
 ## Predicates
 
-Using propositions, predicates can be represented as static methods, receiving a number of strongly-typed inputs and returning propositions.
+Predicates can be represented using static methods, receiving a number of strongly-typed input arguments and returning propositions.
 
 Note that, as of C# 14, one can add static extension methods to the type `System.Linq.Expressions.Expression`.
 
