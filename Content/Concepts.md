@@ -152,7 +152,7 @@ Concept storage and retrieval services could be centralized, Web-based platforms
 
 Suitable extensible formats for storing and transmitting concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XML](https://en.wikipedia.org/wiki/XML), [XHTML](https://en.wikipedia.org/wiki/XHTML), [JSON](https://en.wikipedia.org/wiki/JSON), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
 
-Concept definitions will be able to express combinations of aspects of [definitions](https://en.wikipedia.org/wiki/Definition), e.g., textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions).
+Approaches for expressing concept definitions should be able to express, in combination, multiple approaches to [definition](https://en.wikipedia.org/wiki/Definition). For examples, textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), and the [Ramsey-Lewis method](https://en.wikipedia.org/wiki/Ramsey%E2%80%93Lewis_method).
 
 <details>
 <summary>Click here to toggle view of a rough-draft extensible concept-definition using XML.</summary>
