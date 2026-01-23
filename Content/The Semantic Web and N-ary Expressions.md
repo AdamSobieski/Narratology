@@ -2,9 +2,11 @@
 
 ## Introduction
 
-How could n-ary predicate-calculus expressions be represented in formats like RDF Turtle and TriG?
+How can n-ary propositional statements be represented in formats like RDF Turtle and TriG?
 
-Firstly, one could use a special predicate, `calculus:holdsFor`, to relate n-ary predicates to lists of arguments.
+## Using Lists
+
+One could use a special predicate, `calculus:holdsFor`, to relate n-ary predicates to lists of arguments.
 ```turtle
 @prefix calculus: <http://predicate-calculus.org/> .
 @prefix ex: <http://example.org/> .
@@ -16,7 +18,7 @@ ex:graph {
 }
 ```
 
-Secondly, one could use containing named graphs as subjects, n-ary predicates as predicates, and lists of arguments as objects.
+One could use containing named graphs as subjects, n-ary predicates as predicates, and lists of arguments as objects.
 ```turtle
 @prefix ex: <http://example.org/> .
 
@@ -27,7 +29,7 @@ ex:graph {
 }
 ```
 
-Thirdly, one could use blank nodes as subjects, n-ary predicates as predicates, and lists of arguments as objects.
+One could use blank nodes as subjects, n-ary predicates as predicates, and lists of arguments as objects.
 ```turtle
 @prefix ex: <http://example.org/> .
 
@@ -38,20 +40,7 @@ ex:graph {
 }
 ```
 
-Fourthly, one could use constant values as subjects, e.g., `true` and `false`.
-
-```turtle
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/> .
-
-ex:graph {
-  "true"^^xsd:boolean ex:p1 (ex:r ex:s ex:t) ,
-                            (ex:u ex:v ex:w) ;
-                      ex:p2 (ex:x ex:y ex:z) .
-}
-```
-
-Fifthly, one could invert the statements, flipping the subjects and objects, from approach four, above.
+One could use constant values, e.g. `true` and `false`, as literal objects.
 
 ```turtle
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -64,6 +53,36 @@ ex:graph {
 }
 ```
 
+One could use constant values, e.g., `true` and `false`, as literal subjects.
+
+```turtle
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:graph {
+  "true"^^xsd:boolean ex:p1 (ex:r ex:s ex:t) ,
+                            (ex:u ex:v ex:w) ;
+                      ex:p2 (ex:x ex:y ex:z) .
+}
+```
+
+## Using Literals
+
+One could use literals to encode arrays or lists of arguments.
+
+```turtle
+@prefix cdt: <http://w3id.org/awslabs/neptune/SPARQL-CDTs/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:graph {
+  "true"^^xsd:boolean ex:p1 "(<http://example.org/r> <http://example.org/s> <http://example.org/t>)"^^cdt:List ,
+                            "(<http://example.org/u> <http://example.org/v> <http://example.org/w>)"^^cdt:List ;
+                      ex:p2 "(<http://example.org/x> <http://example.org/y> <http://example.org/z>)"^^cdt:List .
+}
+```
+
 ## See Also
 
 * https://www.w3.org/TR/swbp-n-aryRelations/
+* https://awslabs.github.io/SPARQL-CDTs/spec/latest.html
