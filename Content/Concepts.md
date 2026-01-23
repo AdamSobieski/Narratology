@@ -162,8 +162,8 @@ Approaches for expressing concept definitions should be able to express, in comb
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
-          <p>This is natural-language hypertext definitional content.</p>
-          <p>It can be comprised of multiple paragraphs of content.</p>
+          <p>This is natural-language concept-definitional content.</p>
+          <p>It can be multiple paragraphs of hypertext.</p>
         </html>
       ]]>
     </part>
@@ -198,6 +198,15 @@ Approaches for expressing concept definitions should be able to express, in comb
     <part rel="structured-knowledge" type="text/turtle" profile="...">
       <![CDATA[...]]>
     </part>
+    <part rel="structured-relationships" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
+    <part rel="structured-mappings" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
+    <part rel="provenance" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
         <part rel="example" type="image/png" src="1.png" />
@@ -208,19 +217,10 @@ Approaches for expressing concept definitions should be able to express, in comb
         <part rel="example" type="image/png" src="4.png" />
       </part>
     </part>
-    <part rel="structured-relationships" type="text/turtle">
-      <![CDATA[...]]>
-    </part>
-    <part rel="structured-mappings" type="text/turtle">
-      <![CDATA[...]]>
-    </part>
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
-    </part>
-    <part rel="provenance" type="text/turtle">
-      <![CDATA[...]]>
     </part>
   </concept>
   <concept id="ref-1">
