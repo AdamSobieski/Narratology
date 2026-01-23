@@ -170,40 +170,32 @@ Approaches for expressing concept definitions should be able to express, in comb
       ]]>
     </part>
     <part rel="ramsey-lewis" type="multipart/related">
-      <part rel="theory-statements-collection" type="multipart/related">
-        <part rel="theory-statements" type="multipart/related">
-          <part rel="theory" type="application/xhtml+xml">
-            <![CDATA[
-              <html xmlns="http://www.w3.org/1999/xhtml">
-                <head>
-                  <link rel="theory-reference" href="..." />
-                </head>
-              </html>
-            ]]>
-          </part>
-          <part rel="statements" type="application/xhtml+xml" lang="en">
-            <![CDATA[
-              <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
-                <ul>
-                  <li>
-                    <p>
-                      This is a sentence of a theory with a <x:term x:href="concept:main">keyword</x:term> in context.
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      Can use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.
-                    </p>
-                  </li>
-                </ul>
-              </html>
-            ]]>
-          </part>
+      <part rel="theory-statements" type="multipart/related">
+        <part rel="theory" type="text/uri-list">
+          <![CDATA[...]]>
+        </part>
+        <part rel="statements" type="application/xhtml+xml" lang="en">
+          <![CDATA[
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
+              <ul>
+                <li>
+                  <p>
+                    This is a sentence of a theory with a <x:term x:href="concept:main">keyword</x:term> in context.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Can use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.
+                  </p>
+                </li>
+              </ul>
+            </html>
+          ]]>
         </part>
       </part>
     </part>
