@@ -158,7 +158,7 @@ Approaches for expressing concept definitions should be able to express, in comb
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="concept:main">
-  <concept id="main" type="multipart/related">
+  <concept id="main">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
@@ -223,7 +223,7 @@ Approaches for expressing concept definitions should be able to express, in comb
       <![CDATA[...]]>
     </part>
   </concept>
-  <concept id="ref-1" type="multipart/related">
+  <concept id="ref-1">
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
