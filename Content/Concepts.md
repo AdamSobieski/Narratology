@@ -171,7 +171,7 @@ Approaches for expressing concept definitions should be able to express, in comb
     </part>
     <part rel="ramsey-lewis" type="multipart/related">
       <part rel="theory-statements-collection" type="multipart/related">
-        <part rel="theory-statement" type="multipart/related">
+        <part rel="theory-statements" type="multipart/related">
           <part rel="theory" type="application/xhtml+xml">
             <![CDATA[
               <html xmlns="http://www.w3.org/1999/xhtml">
