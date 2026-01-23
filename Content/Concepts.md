@@ -160,37 +160,81 @@ Approaches for expressing concept definitions should be able to express, in comb
 
 ```xml
 <concept version="1.0" xmlns="..." xmlns:html="http://www.w3.org/1999/xhtml">
-  <part rel="text-definition" type="application/xhtml+xml" lang="en">
-    <html:p>This is natural-language hypertext definitional content.</html:p>
-    <html:p>It can be comprised of multiple paragraphs of content.</html:p>
-  </part>
-  <part rel="structured-definition" type="text/turtle">
-    <![CDATA[...]]>
-  </part>
-  <part rel="examples" type="multipart/related">
-    <part rel="positive-examples" type="multipart/related">
-      <part rel="example" type="image/png" src="1.png" />
-      <part rel="example" type="image/png" src="2.png" />
-      <part rel="example" type="image/png" src="3.png" />
+  <frame id="definition">
+    <part rel="text-definition" type="application/xhtml+xml" lang="en">
+      <![CDATA[
+        <html:p>This is natural-language hypertext definitional content.</html:p>
+        <html:p>It can be comprised of multiple paragraphs of content.</html:p>
+      ]]>
     </part>
-    <part rel="negative-examples" type="multipart/related">
-      <part rel="example" type="image/png" src="4.png" />
+    <part rel="ramsey-lewis-collocations" type="multipart/related">
+      <part rel="ramsey-lewis-collocation" type="multipart/related">
+        <part rel="theory-references" type="application/xhtml+xml">
+          <!-- special case: metadata; use <meta>, <link>, or <part> with their attributes? -->
+          <![CDATA[
+          <html:link rel="theory-reference" href="... URI ..." />
+        ]]>
+        </part>
+        <part rel="collocations" type="multipart/related">
+          <part rel="collocation" type="application/xhtml+xml" lang="en">
+            <![CDATA[
+              <html:ul>
+                <html:li>
+                  <html:p>
+                    This is a sentence of a theory with a <term href="#definition">keyword</term> in context.
+                  </html:p>
+                </html:li>
+                <html:li>
+                  <html:p>
+                    Sentences with <term href="#definition">keyword</term>, here, are assertions of a theory.
+                  </html:p>
+                </html:li>
+                <html:li>
+                  <html:p>
+                    Sentences can refer to <term href="#reference-1">other</term> <term href="#definition">keywords</term>.
+                  </html:p>
+                </html:li>
+              </html:ul>
+            ]]>
+          </part>
+        </part>
+      </part>
     </part>
-  </part>
-  <part rel="structured-relationships" type="text/turtle">
-    <![CDATA[...]]>
-  </part>
-  <part rel="structured-mappings" type="text/turtle">
-    <![CDATA[...]]>
-  </part>
-  <part rel="vector-collection" type="multipart/related">
-    <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
-    <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
-    <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
-  </part>
-  <part rel="provenance" type="text/turtle">
-    <![CDATA[...]]>
-  </part>
+    <part rel="structured-definition" type="text/turtle" profile="...">
+      <![CDATA[...]]>
+    </part>
+    <part rel="examples" type="multipart/related">
+      <part rel="positive" type="multipart/related">
+        <part rel="example" type="image/png" src="1.png" />
+        <part rel="example" type="image/png" src="2.png" />
+        <part rel="example" type="image/png" src="3.png" />
+      </part>
+      <part rel="negative" type="multipart/related">
+        <part rel="example" type="image/png" src="4.png" />
+      </part>
+    </part>
+    <part rel="structured-relationships" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
+    <part rel="structured-mappings" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
+    <part rel="vectors" type="multipart/alternative">
+      <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
+      <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
+      <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
+    </part>
+    <part rel="provenance" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
+  </frame>
+  <frame id="reference-1">
+    <part rel="vectors" type="multipart/alternative">
+      <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
+      <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
+      <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
+    </part>
+  </frame>
 </concept>
 ```
 
