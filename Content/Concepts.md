@@ -161,7 +161,7 @@ Approaches for expressing concept definitions should be able to express, in comb
 ```xml
 <concept version="1.0" xmlns="...">
   <frame id="definition">
-    <part rel="text-definition" type="application/xhtml+xml" lang="en">
+    <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml">
           <p>This is natural-language hypertext definitional content.</p>
@@ -180,7 +180,7 @@ Approaches for expressing concept definitions should be able to express, in comb
             </html>
           ]]>
         </part>
-        <part rel="statements" type="multipart/related">
+        <part rel="statements" type="application/xhtml+xml">
           <![CDATA[
             <html xmlns="http://www.w3.org/1999/xhtml">
               <ul>
@@ -205,7 +205,7 @@ Approaches for expressing concept definitions should be able to express, in comb
         </part>
       </part>
     </part>
-    <part rel="structured-definition" type="text/turtle" profile="...">
+    <part rel="structured-knowledge" type="text/turtle" profile="...">
       <![CDATA[...]]>
     </part>
     <part rel="examples" type="multipart/related">
