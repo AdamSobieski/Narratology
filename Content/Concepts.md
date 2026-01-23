@@ -159,8 +159,8 @@ Approaches for expressing concept definitions should be able to express, in comb
 <br>
 
 ```xml
-<concept version="1.0" xmlns="...">
-  <frame id="definition" type="multipart/related">
+<definition xmlns="..." version="1.0" main="#main">
+  <concept id="main" type="multipart/related">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -187,17 +187,17 @@ Approaches for expressing concept definitions should be able to express, in comb
                 <ul>
                   <li>
                     <p>
-                      This is a sentence of a theory with a <term href="#definition">keyword</term> in context.
+                      This is a sentence of a theory with a <term href="#main">keyword</term> in context.
                     </p>
                   </li>
                   <li>
                     <p>
-                      Sentences with <term href="#definition">keyword</term>, here, are assertions of a theory.
+                      Sentences with <term href="#main">keyword</term>, here, are assertions of a theory.
                     </p>
                   </li>
                   <li>
                     <p>
-                      Sentences can refer to <term href="#reference-1">other</term> <term href="#definition">keywords</term>.
+                      Sentences can refer to <term href="#reference-1">other</term> <term href="#main">keywords</term>.
                     </p>
                   </li>
                 </ul>
@@ -234,15 +234,15 @@ Approaches for expressing concept definitions should be able to express, in comb
     <part rel="provenance" type="text/turtle">
       <![CDATA[...]]>
     </part>
-  </frame>
-  <frame id="reference-1" type="multipart/related">
+  </concept>
+  <concept id="reference-1" type="multipart/related">
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
-  </frame>
-</concept>
+  </concept>
+</definition>
 ```
 
 </details>
