@@ -76,9 +76,9 @@ One could use literals to encode arrays or lists of arguments.
 @prefix ex: <http://example.org/> .
 
 ex:graph {
-  "true"^^xsd:boolean ex:p1 "[<http://example.org/r> <http://example.org/s> <http://example.org/t>]"^^cdt:List ,
-                            "[<http://example.org/u> <http://example.org/v> <http://example.org/w>]"^^cdt:List ;
-                      ex:p2 "[<http://example.org/x> <http://example.org/y> <http://example.org/z>]"^^cdt:List .
+  "true"^^xsd:boolean ex:p1 "[<http://example.org/r>, <http://example.org/s>, <http://example.org/t>]"^^cdt:List ,
+                            "[<http://example.org/u>, <http://example.org/v>, <http://example.org/w>]"^^cdt:List ;
+                      ex:p2 "[<http://example.org/x>, <http://example.org/y>, <http://example.org/z>]"^^cdt:List .
 }
 ```
 
