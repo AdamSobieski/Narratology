@@ -180,7 +180,7 @@ Approaches for expressing concept definitions should be able to express, in comb
             </html>
           ]]>
         </part>
-        <part rel="statements" type="application/xhtml+xml">
+        <part rel="statements" type="application/xhtml+xml" lang="en">
           <![CDATA[
             <html xmlns="http://www.w3.org/1999/xhtml">
               <ul>
