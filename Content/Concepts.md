@@ -159,44 +159,49 @@ Approaches for expressing concept definitions should be able to express, in comb
 <br>
 
 ```xml
-<concept version="1.0" xmlns="..." xmlns:html="http://www.w3.org/1999/xhtml">
+<concept version="1.0" xmlns="...">
   <frame id="definition">
     <part rel="text-definition" type="application/xhtml+xml" lang="en">
       <![CDATA[
-        <html:p>This is natural-language hypertext definitional content.</html:p>
-        <html:p>It can be comprised of multiple paragraphs of content.</html:p>
+        <html xmlns="http://www.w3.org/1999/xhtml">
+          <p>This is natural-language hypertext definitional content.</p>
+          <p>It can be comprised of multiple paragraphs of content.</p>
+        </html>
       ]]>
     </part>
-    <part rel="ramsey-lewis-collocations" type="multipart/related">
-      <part rel="ramsey-lewis-collocation" type="multipart/related">
-        <part rel="theory-references" type="application/xhtml+xml">
-          <!-- special case: metadata; use <meta>, <link>, or <part> with their attributes? -->
+    <part rel="ramsey-lewis" type="multipart/related">
+      <part rel="theory-statements" type="multipart/related">
+        <part rel="theory" type="application/xhtml+xml">
           <![CDATA[
-          <html:link rel="theory-reference" href="... URI ..." />
-        ]]>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+              <head>
+                <link rel="theory-reference" href="..." />
+              </head>
+            </html>
+          ]]>
         </part>
-        <part rel="collocations" type="multipart/related">
-          <part rel="collocation" type="application/xhtml+xml" lang="en">
-            <![CDATA[
-              <html:ul>
-                <html:li>
-                  <html:p>
+        <part rel="statements" type="multipart/related">
+          <![CDATA[
+            <html xmlns="http://www.w3.org/1999/xhtml">
+              <ul>
+                <li>
+                  <p>
                     This is a sentence of a theory with a <term href="#definition">keyword</term> in context.
-                  </html:p>
-                </html:li>
-                <html:li>
-                  <html:p>
+                  </p>
+                </li>
+                <li>
+                  <p>
                     Sentences with <term href="#definition">keyword</term>, here, are assertions of a theory.
-                  </html:p>
-                </html:li>
-                <html:li>
-                  <html:p>
+                  </p>
+                </li>
+                <li>
+                  <p>
                     Sentences can refer to <term href="#reference-1">other</term> <term href="#definition">keywords</term>.
-                  </html:p>
-                </html:li>
-              </html:ul>
-            ]]>
-          </part>
+                  </p>
+                </li>
+              </ul>
+            </html>
+          ]]>
         </part>
       </part>
     </part>
