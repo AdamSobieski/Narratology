@@ -195,17 +195,17 @@ Approaches for expressing concept definitions should be able to express, in comb
         ]]>
       </part>
     </part>
-    <part rel="structured-knowledge" type="text/turtle" profile="...">
+    <part rel="structured-definition" type="text/turtle" profile="...">
       <![CDATA[...]]>
     </part>
-    <part rel="structured-relationships" type="text/turtle">
+    <part rel="relationships" type="text/turtle">
       <![CDATA[
         @prefix ex: <http://www.example.org/> .
       
         <concept:main> ex:relation <concept:ref-1> .
       ]]>
     </part>
-    <part rel="structured-mappings" type="text/turtle">
+    <part rel="mappings" type="text/turtle">
       <![CDATA[...]]>
     </part>
     <part rel="provenance" type="text/turtle">
