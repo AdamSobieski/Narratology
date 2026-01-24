@@ -314,4 +314,4 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
 
 ## Creating and Building Concepts Programmatically
 
-Techniques are being designed and explored for both building concept-retrieval queries for AI systems and building concepts using method chaining and fluent interfaces.
+Techniques are also being developed to enable developers to programmatically create and build concepts and related queries using method chaining and fluent interfaces.
