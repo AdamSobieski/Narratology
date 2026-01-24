@@ -158,6 +158,8 @@ Concept definitions should be able to include multiple approaches to [definition
 
 For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) (multimedia) examples, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) text selections from cited works, [concordances](https://en.wikipedia.org/wiki/Concordance_(publishing)), [intensional definitions](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), [extensional definitions](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), the [Ramsey-Lewis method](https://en.wikipedia.org/wiki/Ramsey%E2%80%93Lewis_method), and other approaches for defining algorithmically-obtained concepts, e.g., [cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis) and [conceptual clustering](https://en.wikipedia.org/wiki/Conceptual_clustering).
 
+Here is a rough-draft format for representing concept definitions.
+
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
   <reference id="main">
@@ -318,4 +320,8 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
 
 ## Creating and Building Concepts Programmatically
 
-Techniques are also being developed to enable developers to programmatically create and build concepts and related queries using method chaining and fluent interfaces.
+Techniques are also being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
+
+## See Also
+
+* https://plato.stanford.edu/entries/concepts/
