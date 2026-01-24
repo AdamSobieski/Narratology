@@ -163,7 +163,7 @@ Approaches for expressing concept definitions should be able to express multiple
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
           <p>This is natural-language concept-definitional content.</p>
-          <p>It can be multiple paragraphs of hypertext.</p>
+          <p>It can contain multiple paragraphs of hypertext.</p>
         </html>
       ]]>
     </part>
@@ -176,19 +176,17 @@ Approaches for expressing concept definitions should be able to express multiple
           <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
             <ul>
               <li>
-                <p>
-                  This is a sentence of a theory with a <x:term x:href="concept:main">keyword</x:term> in context.
-                </p>
+                <p>This is one sentence of a theory with a <x:term x:href="concept:main">keyword</x:term> in context.</p>
               </li>
               <li>
-                <p>
-                  Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.
-                </p>
+                <p>Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.</p>
               </li>
               <li>
-                <p>
-                  Can use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.
-                </p>
+                <p>Could use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+              </li>
+              <li>
+                <p>Then <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+                <p>Concepts referred to, here, might also appear in the structured-knowledge section, below.</p>
               </li>
             </ul>
           </html>
@@ -203,6 +201,7 @@ Approaches for expressing concept definitions should be able to express multiple
         @prefix ex: <http://www.example.org/> .
       
         <concept:main> ex:relation <concept:ref-1> .
+        <concept:main> ex:relation <concept:ref-2> .
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
@@ -228,6 +227,11 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
   </concept>
   <concept id="ref-1">
+    <part rel="location" type="text/uri-list">
+      <![CDATA[https://www.example.org/concepts/location.xml]]>
+    </part>
+  </concept>
+  <concept id="ref-2">
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
