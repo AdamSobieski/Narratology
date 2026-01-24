@@ -188,7 +188,7 @@ Approaches for expressing concept definitions should be able to express multiple
               </li>
               <li>
                 <p>And <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
-                <p>Concepts referred to, here, should also appear in the "structured-definition" section, below.</p>
+                <p>Concepts referred to, here, should also appear in the structured-knowledge sections, below.</p>
               </li>
             </ul>
           </html>
