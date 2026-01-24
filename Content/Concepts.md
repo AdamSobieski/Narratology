@@ -228,7 +228,7 @@ Approaches for expressing concept definitions should be able to express multiple
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
   </resource>
-  <resource id="ref-1">
+  <resource id="ref-1" type="application/concept+xml">
     <part rel="location" type="text/uri-list">
       <![CDATA[
         https://www.example.org/concepts/resource.xml
@@ -236,14 +236,14 @@ Approaches for expressing concept definitions should be able to express multiple
       ]]>
     </part>
   </resource>
-  <resource id="ref-2">
+  <resource id="ref-2" type="application/octet-stream">
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
   </resource>
-  <resource id="ref-3">
+  <resource id="ref-3" type="image/png">
     <part rel="hash" type="text/uri-list">
       <![CDATA[
         urn:hash::md5:f81e29ae988b19699abd92c59906d0ee
