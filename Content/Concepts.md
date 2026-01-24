@@ -232,7 +232,7 @@ Approaches for expressing concept definitions should be able to express multiple
             "@context": "http://www.w3.org/ns/anno.jsonld",
             "type": "Annotation",
             "target": {
-              "source": "res:ref3#peacocke1992study",
+              "source": "res:ref-3#peacocke1992study",
               "selector": {
                 "type": "FragmentSelector",
                 "value": "page=10",
@@ -253,7 +253,7 @@ Approaches for expressing concept definitions should be able to express multiple
             "@context": "http://www.w3.org/ns/anno.jsonld",
             "type": "Annotation",
             "target": {
-              "source": "res:ref3#murphy2004big",
+              "source": "res:ref-3#murphy2004big",
               "selector": {
                 "type": "FragmentSelector",
                 "value": "page=21",
