@@ -291,7 +291,7 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
   </resource>
   <resource id="ref-3">
-    <part rel="references" type="text/x-bibtex">
+    <part rel="bibliography" type="text/x-bibtex">
       <![CDATA[
         @book{peacocke1992study,
         title={A study of concepts},
