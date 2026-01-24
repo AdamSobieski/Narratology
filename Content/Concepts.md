@@ -160,14 +160,14 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
-  <resource id="main">
+  <reference id="main">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
           <p>This is natural-language concept-definitional content.</p>
           <p>It can contain multiple paragraphs of hypertext.</p>
-          <p>It could refer to the definiendum by <x:term x:href="res:main">keyword</x:term>.</p>
-          <p>It could refer to <x:term x:href="res:ref-1">other</x:term> concepts.</p>
+          <p>It could refer to the definiendum by <x:term x:href="ref:main">keyword</x:term>.</p>
+          <p>It could refer to <x:term x:href="ref:ref-1">other</x:term> concepts.</p>
         </html>
       ]]>
     </part>
@@ -180,16 +180,16 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
           <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
             <ul>
               <li>
-                <p>This is one sentence of a theory with a <x:term x:href="res:main">keyword</x:term> in context.</p>
+                <p>This is one sentence of a theory with a <x:term x:href="ref:main">keyword</x:term> in context.</p>
               </li>
               <li>
-                <p>Sentences with <x:term x:href="res:main">keyword</x:term>, here, are assertions of a theory.</p>
+                <p>Sentences with <x:term x:href="ref:main">keyword</x:term>, here, are assertions of a theory.</p>
               </li>
               <li>
-                <p>Can use <x:term x:href="res:ref-1">other</x:term> <x:term x:href="res:main">keywords</x:term>.</p>
+                <p>Can use <x:term x:href="ref:ref-1">other</x:term> <x:term x:href="ref:main">keywords</x:term>.</p>
               </li>
               <li>
-                <p>And <x:term x:href="res:ref-2">yet other</x:term> <x:term x:href="res:main">keywords</x:term>.</p>
+                <p>And <x:term x:href="ref:ref-2">yet other</x:term> <x:term x:href="ref:main">keywords</x:term>.</p>
                 <p>Concepts referred to, here, should also appear in the structured-knowledge sections, below.</p>
               </li>
             </ul>
@@ -204,15 +204,15 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
       <![CDATA[
         @prefix ex: <http://www.example.org/> .
       
-        <res:main> ex:relation1 <res:ref-1> ;
-                   ex:relation2 <res:ref-2> .
+        <ref:main> ex:relation1 <ref:ref-1> ;
+                   ex:relation2 <ref:ref-2> .
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
       <![CDATA[
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
         
-        <res:main> rdfs:seeAlso <https://en.wiktionary.org/wiki/keyword> .
+        <ref:main> rdfs:seeAlso <https://en.wiktionary.org/wiki/keyword> .
       ]]>
     </part>
     <part rel="provenance" type="text/turtle">
@@ -238,7 +238,7 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
             "@context": "http://www.w3.org/ns/anno.jsonld",
             "type": "Annotation",
             "target": {
-              "source": "res:ref-3#peacocke1992study",
+              "source": "ref:ref-3#peacocke1992study",
               "selector": {
                 "type": "FragmentSelector",
                 "value": "page=10",
@@ -259,7 +259,7 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
             "@context": "http://www.w3.org/ns/anno.jsonld",
             "type": "Annotation",
             "target": {
-              "source": "res:ref-3#murphy2004big",
+              "source": "ref:ref-3#murphy2004big",
               "selector": {
                 "type": "FragmentSelector",
                 "value": "page=21",
@@ -280,23 +280,23 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
-  </resource>
-  <resource id="ref-1">
+  </reference>
+  <reference id="ref-1">
     <part rel="location" type="text/uri-list">
       <![CDATA[
         https://www.example.org/concepts/resource.xml
         https://www.mirror.org/concepts/resource.xml        
       ]]>
     </part>
-  </resource>
-  <resource id="ref-2">
+  </reference>
+  <reference id="ref-2">
     <part rel="vector" type="multipart/alternative">
       <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
-  </resource>
-  <resource id="ref-3">
+  </reference>
+  <reference id="ref-3">
     <part rel="bibliography" type="text/x-bibtex">
       <![CDATA[
         @book{peacocke1992study,
@@ -312,7 +312,7 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
         publisher={MIT press}}
       ]]>
     </part>
-  </resource>
+  </reference>
 </definition>
 ```
 
