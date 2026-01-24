@@ -188,7 +188,7 @@ Approaches for expressing concept definitions should be able to express multiple
               </li>
               <li>
                 <p>And <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
-                <p>Concepts referred to, here, should also appear in the structured-knowledge section, below.</p>
+                <p>Concepts referred to, here, should also appear in the "structured-definition" section, below.</p>
               </li>
             </ul>
           </html>
@@ -202,8 +202,8 @@ Approaches for expressing concept definitions should be able to express multiple
       <![CDATA[
         @prefix ex: <http://www.example.org/> .
       
-        <concept:main> ex:relation <concept:ref-1> .
-        <concept:main> ex:relation <concept:ref-2> .
+        <concept:main> ex:relation1 <concept:ref-1> ;
+                       ex:relation2 <concept:ref-2> .
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
