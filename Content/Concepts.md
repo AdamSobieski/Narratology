@@ -164,8 +164,8 @@ Approaches for expressing concept definitions should be able to express multiple
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
           <p>This is natural-language concept-definitional content.</p>
           <p>It can contain multiple paragraphs of hypertext.</p>
-          <p>It could refer to the definiendum by <x:term x:href="resource:main">keyword</x:term>.</p>
-          <p>It could refer to <x:term x:href="resource:ref-1">other</x:term> concepts.</p>
+          <p>It could refer to the definiendum by <x:term x:href="res:main">keyword</x:term>.</p>
+          <p>It could refer to <x:term x:href="res:ref-1">other</x:term> concepts.</p>
         </html>
       ]]>
     </part>
@@ -178,16 +178,16 @@ Approaches for expressing concept definitions should be able to express multiple
           <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
             <ul>
               <li>
-                <p>This is one sentence of a theory with a <x:term x:href="resource:main">keyword</x:term> in context.</p>
+                <p>This is one sentence of a theory with a <x:term x:href="res:main">keyword</x:term> in context.</p>
               </li>
               <li>
-                <p>Sentences with <x:term x:href="resource:main">keyword</x:term>, here, are assertions of a theory.</p>
+                <p>Sentences with <x:term x:href="res:main">keyword</x:term>, here, are assertions of a theory.</p>
               </li>
               <li>
-                <p>Can use <x:term x:href="resource:ref-1">other</x:term> <x:term x:href="resource:main">keywords</x:term>.</p>
+                <p>Can use <x:term x:href="res:ref-1">other</x:term> <x:term x:href="res:main">keywords</x:term>.</p>
               </li>
               <li>
-                <p>And <x:term x:href="resource:ref-2">yet other</x:term> <x:term x:href="resource:main">keywords</x:term>.</p>
+                <p>And <x:term x:href="res:ref-2">yet other</x:term> <x:term x:href="res:main">keywords</x:term>.</p>
                 <p>Concepts referred to, here, should also appear in the structured-knowledge sections, below.</p>
               </li>
             </ul>
@@ -202,8 +202,8 @@ Approaches for expressing concept definitions should be able to express multiple
       <![CDATA[
         @prefix ex: <http://www.example.org/> .
       
-        <resource:main> ex:relation1 <resource:ref-1> ;
-                        ex:relation2 <resource:ref-2> .
+        <res:main> ex:relation1 <res:ref-1> ;
+                   ex:relation2 <res:ref-2> .
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
@@ -214,7 +214,7 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
-        <part rel="example" type="image/png" src="resource:ref-3" />
+        <part rel="example" type="image/png" src="res:ref-3" />
         <part rel="example" type="image/png" src="2.png" />
         <part rel="example" type="image/png" src="3.png" />
       </part>
