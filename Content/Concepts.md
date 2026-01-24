@@ -214,9 +214,9 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
-        <part rel="example">
-          <source type="image/png" hash="urn:hash::md5:..." src="https://www.example.org/media/picture-1.png" />
-          <source type="image/png" hash="urn:hash::md5:..." src="https://www.mirror.org/media/picture-1.png" />
+        <part rel="example" type="multipart/alternative">
+          <part type="image/png" hash="urn:hash::md5:..." src="https://www.example.org/media/picture-1.png" />
+          <part type="image/png" hash="urn:hash::md5:..." src="https://www.mirror.org/media/picture-1.png" />
         </part>
         <part rel="example" type="image/png" src="picture-2.png" />
         <part rel="example" type="image/png" src="picture-3.png" />
@@ -225,10 +225,10 @@ Approaches for expressing concept definitions should be able to express multiple
         <part rel="example" type="image/png" src="picture-4.png" />
       </part>
     </part>
-    <part rel="vectors" type="multipart/alternative">
-      <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
-      <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
-      <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
+    <part rel="vector" type="multipart/alternative">
+      <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
+      <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
+      <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
   </resource>
   <resource id="ref-1">
@@ -240,10 +240,10 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
   </resource>
   <resource id="ref-2">
-    <part rel="vectors" type="multipart/alternative">
-      <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
-      <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
-      <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
+    <part rel="vector" type="multipart/alternative">
+      <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
+      <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
+      <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
   </resource>
 </definition>
