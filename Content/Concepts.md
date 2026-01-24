@@ -164,6 +164,8 @@ Approaches for expressing concept definitions should be able to express multiple
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
           <p>This is natural-language concept-definitional content.</p>
           <p>It can contain multiple paragraphs of hypertext.</p>
+          <p>It could refer to the definiendum by <x:term x:href="concept:main">keyword</x:term>.</p>
+          <p>It could refer to <x:term x:href="concept:ref-1">other</x:term> concepts.</p>
         </html>
       ]]>
     </part>
@@ -182,11 +184,11 @@ Approaches for expressing concept definitions should be able to express multiple
                 <p>Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.</p>
               </li>
               <li>
-                <p>Could use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+                <p>Can use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
               </li>
               <li>
-                <p>Then <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
-                <p>Concepts referred to, here, might also appear in the structured-knowledge section, below.</p>
+                <p>And <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+                <p>Concepts referred to, here, should also appear in the structured-knowledge section, below.</p>
               </li>
             </ul>
           </html>
@@ -228,7 +230,10 @@ Approaches for expressing concept definitions should be able to express multiple
   </concept>
   <concept id="ref-1">
     <part rel="location" type="text/uri-list">
-      <![CDATA[https://www.example.org/concepts/location.xml]]>
+      <![CDATA[
+        https://www.example.org/concepts/resource.xml
+        https://www.mirror.org/concepts/resource.xml        
+      ]]>
     </part>
   </concept>
   <concept id="ref-2">
