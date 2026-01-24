@@ -158,14 +158,14 @@ Approaches for expressing concept definitions should be able to express multiple
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
-  <concept id="main">
+  <resource id="main">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
           <p>This is natural-language concept-definitional content.</p>
           <p>It can contain multiple paragraphs of hypertext.</p>
-          <p>It could refer to the definiendum by <x:term x:href="concept:main">keyword</x:term>.</p>
-          <p>It could refer to <x:term x:href="concept:ref-1">other</x:term> concepts.</p>
+          <p>It could refer to the definiendum by <x:term x:href="resource:main">keyword</x:term>.</p>
+          <p>It could refer to <x:term x:href="resource:ref-1">other</x:term> concepts.</p>
         </html>
       ]]>
     </part>
@@ -178,16 +178,16 @@ Approaches for expressing concept definitions should be able to express multiple
           <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
             <ul>
               <li>
-                <p>This is one sentence of a theory with a <x:term x:href="concept:main">keyword</x:term> in context.</p>
+                <p>This is one sentence of a theory with a <x:term x:href="resource:main">keyword</x:term> in context.</p>
               </li>
               <li>
-                <p>Sentences with <x:term x:href="concept:main">keyword</x:term>, here, are assertions of a theory.</p>
+                <p>Sentences with <x:term x:href="resource:main">keyword</x:term>, here, are assertions of a theory.</p>
               </li>
               <li>
-                <p>Can use <x:term x:href="concept:ref-1">other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+                <p>Can use <x:term x:href="resource:ref-1">other</x:term> <x:term x:href="resource:main">keywords</x:term>.</p>
               </li>
               <li>
-                <p>And <x:term x:href="concept:ref-2">yet other</x:term> <x:term x:href="concept:main">keywords</x:term>.</p>
+                <p>And <x:term x:href="resource:ref-2">yet other</x:term> <x:term x:href="resource:main">keywords</x:term>.</p>
                 <p>Concepts referred to, here, should also appear in the structured-knowledge sections, below.</p>
               </li>
             </ul>
@@ -202,8 +202,8 @@ Approaches for expressing concept definitions should be able to express multiple
       <![CDATA[
         @prefix ex: <http://www.example.org/> .
       
-        <concept:main> ex:relation1 <concept:ref-1> ;
-                       ex:relation2 <concept:ref-2> .
+        <resource:main> ex:relation1 <resource:ref-1> ;
+                        ex:relation2 <resource:ref-2> .
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
@@ -214,7 +214,7 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
-        <part rel="example" type="image/png" src="1.png" />
+        <part rel="example" type="image/png" src="resource:ref-3" />
         <part rel="example" type="image/png" src="2.png" />
         <part rel="example" type="image/png" src="3.png" />
       </part>
@@ -227,22 +227,35 @@ Approaches for expressing concept definitions should be able to express multiple
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
-  </concept>
-  <concept id="ref-1">
+  </resource>
+  <resource id="ref-1">
     <part rel="location" type="text/uri-list">
       <![CDATA[
         https://www.example.org/concepts/resource.xml
         https://www.mirror.org/concepts/resource.xml        
       ]]>
     </part>
-  </concept>
-  <concept id="ref-2">
+  </resource>
+  <resource id="ref-2">
     <part rel="vectors" type="multipart/alternative">
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
-  </concept>
+  </resource>
+  <resource id="ref-3">
+    <part rel="hash" type="text/uri-list">
+      <![CDATA[
+        urn:hash::md5:f81e29ae988b19699abd92c59906d0ee
+      ]]>
+    </part>
+    <part rel="location" type="text/uri-list">
+      <![CDATA[
+        https://www.example.org/media/picture-1.png
+        https://www.mirror.org/media/picture-1.png
+      ]]>
+    </part>
+  </resource>
 </definition>
 ```
 
