@@ -214,12 +214,15 @@ Approaches for expressing concept definitions should be able to express multiple
     </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
-        <part rel="example" type="image/png" src="res:ref-3" />
-        <part rel="example" type="image/png" src="2.png" />
-        <part rel="example" type="image/png" src="3.png" />
+        <part rel="example">
+          <source type="image/png" hash="urn:hash::md5:..." src="https://www.example.org/media/picture-1.png" />
+          <source type="image/png" hash="urn:hash::md5:..." src="https://www.mirror.org/media/picture-1.png" />
+        </part>
+        <part rel="example" type="image/png" src="picture-2.png" />
+        <part rel="example" type="image/png" src="picture-3.png" />
       </part>
       <part rel="negative" type="multipart/related">
-        <part rel="example" type="image/png" src="4.png" />
+        <part rel="example" type="image/png" src="picture-4.png" />
       </part>
     </part>
     <part rel="vectors" type="multipart/alternative">
@@ -241,19 +244,6 @@ Approaches for expressing concept definitions should be able to express multiple
       <part rel="vector" type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part rel="vector" type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
-    </part>
-  </resource>
-  <resource id="ref-3">
-    <part rel="hash" type="text/uri-list">
-      <![CDATA[
-        urn:hash::md5:f81e29ae988b19699abd92c59906d0ee
-      ]]>
-    </part>
-    <part rel="location" type="text/uri-list">
-      <![CDATA[
-        https://www.example.org/media/picture-1.png
-        https://www.mirror.org/media/picture-1.png
-      ]]>
     </part>
   </resource>
 </definition>
