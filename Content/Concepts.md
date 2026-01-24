@@ -157,7 +157,7 @@ Suitable extensible formats for storing and transmitting concept definitions bet
 Approaches for expressing concept definitions should be able to express multiple approaches to [definition](https://en.wikipedia.org/wiki/Definition) simultaneously and in combination. For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition), [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), [extensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), the [Ramsey-Lewis method](https://en.wikipedia.org/wiki/Ramsey%E2%80%93Lewis_method), and other approaches for defining algorithmically-obtained concepts, e.g., [cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis) and [conceptual clustering](https://en.wikipedia.org/wiki/Conceptual_clustering).
 
 ```xml
-<definition xmlns="..." version="1.0" definiendum="concept:main">
+<definition xmlns="..." version="1.0" definiendum="main">
   <concept id="main">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
