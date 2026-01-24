@@ -225,6 +225,50 @@ Approaches for expressing concept definitions should be able to express multiple
         <part rel="example" type="image/png" src="picture-4.png" />
       </part>
     </part>
+    <part rel="occurrences" type="multipart/related">
+      <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+        <![CDATA[
+          {
+            "@context": "http://www.w3.org/ns/anno.jsonld",
+            "type": "Annotation",
+            "target": {
+              "source": "res:ref3#peacocke1992study",
+              "selector": {
+                "type": "FragmentSelector",
+                "value": "page=10",
+                "refinedBy": {
+                  "type": "TextQuoteSelector",
+                  "exact": "keyword",
+                  "prefix": "text before the ",
+                  "suffix": " and text after it"
+                }
+              }
+            }
+          }
+        ]]>
+      </part>
+      <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+        <![CDATA[
+          {
+            "@context": "http://www.w3.org/ns/anno.jsonld",
+            "type": "Annotation",
+            "target": {
+              "source": "res:ref3#murphy2004big",
+              "selector": {
+                "type": "FragmentSelector",
+                "value": "page=21",
+                "refinedBy": {
+                  "type": "TextQuoteSelector",
+                  "exact": "keyword",
+                  "prefix": "some text before the ",
+                  "suffix": " and more text after it"
+                }
+              }
+            }
+          }
+        ]]>
+      </part>
+    </part>
     <part rel="vector" type="multipart/alternative">
       <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="1.vec" />
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
@@ -244,6 +288,23 @@ Approaches for expressing concept definitions should be able to express multiple
       <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
+    </part>
+  </resource>
+  <resource id="ref-3">
+    <part rel="references" type="text/x-bibtex">
+      <![CDATA[
+        @book{peacocke1992study,
+        title={A study of concepts},
+        author={Peacocke, Christopher},
+        year={1992},
+        publisher={MIT Press}}
+        
+        @book{murphy2004big,
+        title={The big book of concepts},
+        author={Murphy, Gregory},
+        year={2004},
+        publisher={MIT press}}
+      ]]>
     </part>
   </resource>
 </definition>
