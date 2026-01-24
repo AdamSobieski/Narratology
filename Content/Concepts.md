@@ -209,7 +209,11 @@ For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_defini
       ]]>
     </part>
     <part rel="mappings" type="text/turtle">
-      <![CDATA[...]]>
+      <![CDATA[
+        @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+        
+        <res:main> rdfs:seeAlso <https://en.wiktionary.org/wiki/keyword> .
+      ]]>
     </part>
     <part rel="provenance" type="text/turtle">
       <![CDATA[...]]>
