@@ -234,47 +234,49 @@ Here is an example of an extensible format for representing concept definitions.
       </part>
     </part>
     <part rel="occurrences" type="multipart/related">
-      <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
-        <![CDATA[
-          {
-            "@context": "http://www.w3.org/ns/anno.jsonld",
-            "type": "Annotation",
-            "target": {
-              "source": "ref:ref-3#peacocke1992study",
-              "selector": {
-                "type": "FragmentSelector",
-                "value": "page=10",
-                "refinedBy": {
-                  "type": "TextQuoteSelector",
-                  "exact": "keyword",
-                  "prefix": "text before the ",
-                  "suffix": " and text after it"
+      <part rel="positive" type="multipart/related">
+        <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+          <![CDATA[
+            {
+              "@context": "http://www.w3.org/ns/anno.jsonld",
+              "type": "Annotation",
+              "target": {
+                "source": "ref:ref-3#peacocke1992study",
+                "selector": {
+                  "type": "FragmentSelector",
+                  "value": "page=10",
+                  "refinedBy": {
+                    "type": "TextQuoteSelector",
+                    "exact": "keyword",
+                    "prefix": "text before the ",
+                    "suffix": " and text after it"
+                  }
                 }
               }
             }
-          }
-        ]]>
-      </part>
-      <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
-        <![CDATA[
-          {
-            "@context": "http://www.w3.org/ns/anno.jsonld",
-            "type": "Annotation",
-            "target": {
-              "source": "ref:ref-3#murphy2004big",
-              "selector": {
-                "type": "FragmentSelector",
-                "value": "page=21",
-                "refinedBy": {
-                  "type": "TextQuoteSelector",
-                  "exact": "keyword",
-                  "prefix": "some text before the ",
-                  "suffix": " and more text after it"
+          ]]>
+        </part>
+        <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+          <![CDATA[
+            {
+              "@context": "http://www.w3.org/ns/anno.jsonld",
+              "type": "Annotation",
+              "target": {
+                "source": "ref:ref-3#murphy2004big",
+                "selector": {
+                  "type": "FragmentSelector",
+                  "value": "page=21",
+                  "refinedBy": {
+                    "type": "TextQuoteSelector",
+                    "exact": "keyword",
+                    "prefix": "some text before the ",
+                    "suffix": " and more text after it"
+                  }
                 }
               }
             }
-          }
-        ]]>
+          ]]>
+        </part>
       </part>
     </part>
     <part rel="vector" type="multipart/alternative">
