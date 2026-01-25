@@ -329,7 +329,8 @@ Techniques are also being developed to enable developers to programmatically cre
 2. How can concept definitions be stored, indexed, searched for, and retrieved?
 3. How can concept definitions benefit artificial-intelligence systems, agents, and multi-agent systems?
    1. How can (curated and revised) concept definitions be of use for fine-tuning and/or training artificial-intelligence systems?
-4. How can concepts be compared, contrasted, or otherwise disambiguated pairwise?
+4. How can concepts be contextually compared, contrasted, and otherwise disambiguated pairwise?
+5. How can contextual operations be performed on concepts such as abstraction, analogy, blend, complement, intersection, and union?
 
 ## See Also
 
