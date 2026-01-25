@@ -162,7 +162,7 @@ Here is an example of an extensible format for representing concept definitions.
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
-  <reference id="main" rel="concept">
+  <part id="main" rel="concept" type="multipart/related">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
@@ -282,23 +282,23 @@ Here is an example of an extensible format for representing concept definitions.
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="2.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
-  </reference>
-  <reference id="ref-1" rel="concept">
+  </part>
+  <part id="ref-1" rel="concept" type="multipart/related">
     <part rel="location" type="text/uri-list">
       <![CDATA[
         https://www.example.org/concepts/resource.xml
         https://www.mirror.org/concepts/resource.xml        
       ]]>
     </part>
-  </reference>
-  <reference id="ref-2" rel="concept">
+  </part>
+  <part id="ref-2" rel="concept" type="multipart/related">
     <part rel="vector" type="multipart/alternative">
       <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
-  </reference>
-  <reference id="ref-3" rel="bibliography" type="text/x-bibtex">
+  </part>
+  <part id="ref-3" rel="bibliography" type="text/x-bibtex">
     <![CDATA[
       @book{peacocke1992study,
       title={A study of concepts},
@@ -312,7 +312,7 @@ Here is an example of an extensible format for representing concept definitions.
       year={2004},
       publisher={MIT press}}
     ]]>
-  </reference>
+  </part>
 </definition>
 ```
 
