@@ -158,7 +158,7 @@ Concept definitions should be able to include multiple approaches to [definition
 
 For example: textual, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) (multimedia) examples, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) text selections from cited works, [concordances](https://en.wikipedia.org/wiki/Concordance_(publishing)), [intensional definitions](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), [extensional definitions](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions), the [Ramsey-Lewis method](https://en.wikipedia.org/wiki/Ramsey%E2%80%93Lewis_method), and other approaches for defining algorithmically-obtained concepts, e.g., [cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis) and [conceptual clustering](https://en.wikipedia.org/wiki/Conceptual_clustering).
 
-Here is a rough-draft format for representing concept definitions.
+Here is an example of an extensible format for representing concept definitions.
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
@@ -321,6 +321,15 @@ Here is a rough-draft format for representing concept definitions.
 ## Creating and Building Concepts Programmatically
 
 Techniques are also being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
+
+## Research Questions
+
+1. How can artificial-intelligence systems, e.g., large language models, be of use for creating and explicating concept definitions?
+   1. How can knowledge be extracted from some of these systems?
+2. How can concept definitions be stored, indexed, searched for, and retrieved?
+3. How can concept definitions benefit artificial-intelligence systems, agents, and multi-agent systems?
+   1. How can (curated and revised) concept definitions be of use for training and/or fine-tuning artificial-intelligence systems?
+4. How can concepts be compared, contrasted, or otherwise disambiguated pairwise?
 
 ## See Also
 
