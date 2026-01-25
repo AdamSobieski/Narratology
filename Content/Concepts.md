@@ -162,7 +162,7 @@ Here is an example of an extensible format for representing concept definitions.
 
 ```xml
 <definition xmlns="..." version="1.0" definiendum="main">
-  <reference id="main">
+  <reference id="main" rel="concept">
     <part rel="text" type="application/xhtml+xml" lang="en">
       <![CDATA[
         <html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="...">
@@ -283,7 +283,7 @@ Here is an example of an extensible format for representing concept definitions.
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="3.vec" />
     </part>
   </reference>
-  <reference id="ref-1">
+  <reference id="ref-1" rel="concept">
     <part rel="location" type="text/uri-list">
       <![CDATA[
         https://www.example.org/concepts/resource.xml
@@ -291,29 +291,27 @@ Here is an example of an extensible format for representing concept definitions.
       ]]>
     </part>
   </reference>
-  <reference id="ref-2">
+  <reference id="ref-2" rel="concept">
     <part rel="vector" type="multipart/alternative">
       <part type="application/octet-stream" system="(model: openai.gpt-oss-safeguard-20b)" src="4.vec" />
       <part type="application/octet-stream" system="(model: anthropic.claude-sonnet-4-20250514)" src="5.vec" />
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
   </reference>
-  <reference id="ref-3">
-    <part rel="bibliography" type="text/x-bibtex">
-      <![CDATA[
-        @book{peacocke1992study,
-        title={A study of concepts},
-        author={Peacocke, Christopher},
-        year={1992},
-        publisher={MIT Press}}
+  <reference id="ref-3" rel="bibliography" type="text/x-bibtex">
+    <![CDATA[
+      @book{peacocke1992study,
+      title={A study of concepts},
+      author={Peacocke, Christopher},
+      year={1992},
+      publisher={MIT Press}}
         
-        @book{murphy2004big,
-        title={The big book of concepts},
-        author={Murphy, Gregory},
-        year={2004},
-        publisher={MIT press}}
-      ]]>
-    </part>
+      @book{murphy2004big,
+      title={The big book of concepts},
+      author={Murphy, Gregory},
+      year={2004},
+      publisher={MIT press}}
+    ]]>
   </reference>
 </definition>
 ```
@@ -328,7 +326,7 @@ Techniques are also being developed to enable developers to programmatically cre
    1. How can knowledge be extracted from some of these systems?
 2. How can concept definitions be stored, indexed, searched for, and retrieved?
 3. How can concept definitions benefit artificial-intelligence systems, agents, and multi-agent systems?
-   1. How can (curated and revised) concept definitions be of use for training and/or fine-tuning artificial-intelligence systems?
+   1. How can (curated and revised) concept definitions be of use for fine-tuning and/or training artificial-intelligence systems?
 4. How can concepts be compared, contrasted, or otherwise disambiguated pairwise?
 
 ## See Also
