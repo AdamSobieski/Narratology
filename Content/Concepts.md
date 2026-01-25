@@ -323,7 +323,7 @@ Techniques are also being developed to enable developers to programmatically cre
 ## Research Questions
 
 1. How can artificial-intelligence systems, e.g., large language models, be of use for creating and explicating concept definitions?
-   1. How can knowledge be extracted from some of these systems?
+   1. How can knowledge be extracted from these systems?
 2. How can concept definitions be stored, indexed, searched for, and retrieved?
 3. How can concept definitions benefit artificial-intelligence systems, agents, and multi-agent systems?
    1. How can (curated and revised) concept definitions be of use for fine-tuning and/or training artificial-intelligence systems?
