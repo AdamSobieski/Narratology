@@ -217,6 +217,9 @@ Here is an example of an extensible format for representing concept definitions.
         <ref:main> rdfs:seeAlso <https://en.wiktionary.org/wiki/keyword> .
       ]]>
     </part>
+    <part rel="metadata" type="text/turtle">
+      <![CDATA[...]]>
+    </part>
     <part rel="provenance" type="text/turtle">
       <![CDATA[...]]>
     </part>
