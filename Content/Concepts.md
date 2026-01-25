@@ -330,9 +330,9 @@ Techniques are also being developed to enable developers to programmatically cre
 3. How can concept definitions benefit artificial-intelligence systems, agents, and multi-agent systems?
    1. How can (curated and revised) concept definitions be of use for fine-tuning and/or training artificial-intelligence systems?
 4. How can concepts be compared, contrasted, and otherwise disambiguated pairwise?
-   1. How does context factor into these operations?
+   1. How can context factor into these operations?
 5. How can operations be performed on concepts such as [abstraction](https://en.wikipedia.org/wiki/Abstraction), [analogy](https://en.wikipedia.org/wiki/Analogy), [blend](https://en.wikipedia.org/wiki/Conceptual_blending), [combination](https://en.wikipedia.org/wiki/Conceptual_combination), [complement](https://en.wikipedia.org/wiki/Complement_(set_theory)), [intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory)), and [union](https://en.wikipedia.org/wiki/Union_(set_theory))?
-   1. How does context factor into these operations?
+   1. How can context factor into these operations?
 
 ## See Also
 
