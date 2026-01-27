@@ -216,7 +216,7 @@ Here is an example of an extensible format for representing concept definitions.
 </definition>
 ```
 
-Remaining aspects to be included or expanded upon in the concept-definition example, above, include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), binary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), and/or [properties](https://en.wikipedia.org/wiki/Property_(philosophy)).
+Aspects to be included or expanded upon include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), [properties](https://en.wikipedia.org/wiki/Property_(philosophy)), binary and n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), and [reification](https://en.wikipedia.org/wiki/Reification_(knowledge_representation)).
 
 ## Research Questions
 
