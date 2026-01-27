@@ -120,20 +120,13 @@ Here is an example of an extensible format for representing concept definitions.
     </part>
     <part rel="examples" type="multipart/related">
       <part rel="positive" type="multipart/related">
-        <part rel="example" type="multipart/alternative">
+        <part rel="example image" type="multipart/alternative">
           <part type="image/png" hash="urn:hash::md5:..." src="https://www.example.org/media/picture-1.png" />
           <part type="image/png" hash="urn:hash::md5:..." src="https://www.mirror.org/media/picture-1.png" />
         </part>
-        <part rel="example" type="image/png" src="picture-2.png" />
-        <part rel="example" type="image/png" src="picture-3.png" />
-      </part>
-      <part rel="negative" type="multipart/related">
-        <part rel="example" type="image/png" src="picture-4.png" />
-      </part>
-    </part>
-    <part rel="occurrences" type="multipart/related">
-      <part rel="positive" type="multipart/related">
-        <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+        <part rel="example image" type="image/png" src="picture-2.png" />
+        <part rel="example image" type="image/png" src="picture-3.png" />
+        <part rel="example selection" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
           <![CDATA[
             {
               "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -154,7 +147,7 @@ Here is an example of an extensible format for representing concept definitions.
             }
           ]]>
         </part>
-        <part rel="occurrence" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
+        <part rel="example selection" type="application/ld+json" profile="http://www.w3.org/ns/anno.jsonld">
           <![CDATA[
             {
               "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -175,6 +168,9 @@ Here is an example of an extensible format for representing concept definitions.
             }
           ]]>
         </part>
+      </part>
+      <part rel="negative" type="multipart/related">
+        <part rel="example image" type="image/png" src="picture-4.png" />
       </part>
     </part>
     <part rel="vector" type="multipart/alternative">
