@@ -17,9 +17,9 @@ public interface IConcept
 
 Concept-related functionalities can be provided via extension methods which attempt to retrieve and subsequently utilize services by interface.
 
-## Retrieving Concepts
+## Searching for and Retrieving Concepts
 
-Techniques are being designed and explored for client systems to retrieve concepts from artificial-intelligence systems. For examples:
+Techniques are being designed and explored for client systems to search for and retrieve concepts from artificial-intelligence systems.
 
 ```cs
 IEnumerable<IConcept> candidates = system.GetConcept(
