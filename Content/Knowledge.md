@@ -311,7 +311,7 @@ public static Proposition<bool> Lambda<X>(Expression<Func<X, Proposition<bool>>>
 
 ## Overlays
 
-Knowledgebases could function as overlays to other larger knowledgebases. Knowledge-based objects could interact with their own small, mutable foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many more expressions and rules available in a larger, immutable, background knowledgebase.
+Knowledgebases could function as overlays to other larger knowledgebases. Knowledge-based objects, then, could interact with their own small, mutable foreground knowledgebases while simultaneously benefitting from that reasoning possible as a result of using the many more expressions and rules available in a larger, immutable, background knowledgebase.
 
 ## Discussion
 
