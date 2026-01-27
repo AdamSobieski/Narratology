@@ -15,7 +15,7 @@ public interface IConcept
 }
 ```
 
-Concept-related functionalities can be provided via extension methods which attempt to retrieve and subsequently utilize service interfaces.
+Concept-related functionalities can be provided via extension methods which attempt to retrieve and subsequently utilize services by interface.
 
 ## Retrieving Concepts
 
@@ -39,15 +39,15 @@ IEnumerable<IConcept> candidates = system.GetConcept(
 );
 ```
 
-Note that positive and negative examples need not only be images. They could be builtin datatypes, objects (e.g., JSON), file-based resources, text or multimedia documents, 3D models, knowledge graphs, concepts, sets of concepts, and more &ndash; any things from which concepts could be inferred from examples.
-
-Concept-retrieval processes could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational, adhering to a protocol. In addition to accepting and potentially generating [chat histories](https://learn.microsoft.com/en-us/semantic-kernel/concepts/ai-services/chat-completion/chat-history?pivots=programming-language-csharp) during these processes, e.g., per candidate concept, concept-retrieval requests could provide additional context cues (e.g., state vectors) to artificial-intelligence systems.
+Note that positive and negative examples need not only be images. They could be builtin datatypes, objects (e.g., JSON), file-based resources, text or multimedia documents, selections thereof, 3D models, knowledge graphs, concepts, sets of concepts, and more.
 
 Concept storage and retrieval services could be centralized, Web-based platforms or, instead, decentralized, distributed, peer-to-peer systems [(Zaarour and Curry, 2022)](https://www.sciencedirect.com/science/article/pii/S0167739X22000590). Both approaches can enable multiple means of indexing, addressing, and searching for concept definitions.
 
+Concept-retrieval processes could be [session-based](https://en.wikipedia.org/wiki/Session_(computer_science)), incremental and conversational.
+
 ## Creating and Building Concepts Programmatically
 
-Techniques are also being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
+Techniques are being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
 
 ## Representing Concept Definitions
 
