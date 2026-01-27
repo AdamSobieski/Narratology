@@ -6,7 +6,7 @@ A vision for _conceptual computing_ is that, beyond people and artificial-intell
 
 ## Interfaces
 
-With respect to modeling concepts, starting simply, a concept can be an interface providing `Services`, an `IServiceProvider`. In this way, concepts can be worked with independently of implementational details such as any [feature vectors](https://en.wikipedia.org/wiki/Feature_(machine_learning)#Feature_vectors) or [embedding vectors](https://en.wikipedia.org/wiki/Embedding_(machine_learning)).
+With respect to modeling concepts, starting simply, a concept can be an interface providing `Services`, an `IServiceProvider`.
 
 ```cs
 public interface IConcept
@@ -15,112 +15,7 @@ public interface IConcept
 }
 ```
 
-## Services
-
-Initial services envisioned for concepts include those pertaining to definitions, differences, provenance, related concepts, and whether concepts contain provided individual object instances.
-
-### Definitions
-
-Concepts' definitions are model-specific (e.g., Claude, Gemma), multimodal, natural-language documents. They may include [intensional](https://en.wikipedia.org/wiki/Extensional_and_intensional_definitions) components, [ostensive](https://en.wikipedia.org/wiki/Ostensive_definition) components (positive and negative examples), and more.
-
-```cs
-public interface IConceptDefinitionService
-{
-    object? GetDefinition(IConcept concept, string model, ContentType contentType, CultureInfo language, Type? type = null);
-}
-```
-
-As envisioned, obtaining a concept's definition resembles [content negotiation](https://en.wikipedia.org/wiki/Content_negotiation) with model-specificity added in.
-
-### Comparisons and Differences
-
-Services can provide [comparisons](https://en.wikipedia.org/wiki/Comparison) and differences between concepts, be they proximate concepts to one another or a greater distance apart.
-
-```cs
-public interface IConceptComparisonService
-{
-    object? Compare(IConcept concept, IConcept other, ContentType contentType, CultureInfo language, Type? type = null);
-}
-```
-
-Would these services, providing comparisons between pairs of concepts, be acontextual or contextual?
-
-### Provenance
-
-The provenance of a concept is envisioned as including operations involving other concepts.
-
-```cs
-public interface IConceptProvenanceService
-{
-    object? GetProvenance(IConcept concept, Type? type = null);
-}
-```
-
-### Related Concepts
-
-```cs
-public interface IConceptRelatedConceptsService
-{
-    IEnumerable<ConfidenceValueTriple<double>> GetRelatedConcepts(IConcept concept, object relationship);
-}
-```
-
-### Contains
-
-```cs
-public interface IConceptContainsService
-{
-    ConfidenceValue<double> Contains(IConcept concept, object? instance);
-}
-```
-
-## Extension Methods
-
-For the initial set of services, indicated above, extension method can be provided for `IConcept`:
-
-```cs
-public static partial class Extensions
-{
-    extension(IConcept concept)
-    {
-        public object? GetDefinition(string model, ContentType contentType, CultureInfo language, Type? type = null)
-        {
-            var service = (IConceptDefinitionService?)concept.Services.GetService(typeof(IConceptDefinitionService));
-            if (service == null) return null;
-
-            return service.GetDefinition(concept, model, contentType, language, type);
-        }
-        public object? Compare(IConcept other, ContentType contentType, CultureInfo language, Type? type = null)
-        {
-            var service = (IConceptDifferenceService?)concept.Services.GetService(typeof(IConceptDifferenceService));
-            if (service == null) return null;
-
-            return service.Compare(concept, other, contentType, language, type);
-        }
-        public object? GetProvenance(Type? type = null)
-        {
-            var service = (IConceptProvenanceService?)concept.Services.GetService(typeof(IConceptProvenanceService));
-            if (service == null) return null;
-
-            return service.GetProvenance(concept, type);
-        }
-        public IEnumerable<ConfidenceValueTriple<double>>? GetRelatedConcepts(object relationship)
-        {
-            var service = (IConceptRelatedConceptsService?)concept.Services.GetService(typeof(IConceptRelatedConceptsService));
-            if (service == null) return null;
-
-            return service.GetRelatedConcepts(concept, relationship);
-        }
-        public ConfidenceValue<double>? Contains(object? instance)
-        {
-            var service = (IConceptContainsService?)concept.Services.GetService(typeof(IConceptContainsService));
-            if (service == null) return null;
-
-            return service.Contains(concept, instance);
-        }
-    }
-}
-```
+Concept-related functionalities can be provided via extension methods which attempt to retrieve and subsequently utilize service interfaces.
 
 ## Retrieving Concepts
 
