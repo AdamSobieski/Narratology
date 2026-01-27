@@ -6,7 +6,7 @@ A vision for _conceptual computing_ is that, beyond people and artificial-intell
 
 ## Interfaces
 
-With respect to modeling concepts, starting simply, a concept can be an interface providing `Services`, an `IServiceProvider`.
+Concepts can be modeled using an interface providing `Services`, via [`IServiceProvider`](https://learn.microsoft.com/en-us/dotnet/api/system.iserviceprovider?view=net-10.0).
 
 ```cs
 public interface IConcept
