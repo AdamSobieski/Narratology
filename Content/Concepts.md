@@ -45,6 +45,10 @@ Concept-retrieval processes could be [session-based](https://en.wikipedia.org/wi
 
 Concept storage and retrieval services could be centralized, Web-based platforms or, instead, decentralized, distributed, peer-to-peer systems [(Zaarour and Curry, 2022)](https://www.sciencedirect.com/science/article/pii/S0167739X22000590). Both approaches can enable multiple means of indexing, addressing, and searching for concept definitions.
 
+## Creating and Building Concepts Programmatically
+
+Techniques are also being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
+
 ## Representing Concept Definitions
 
 Suitable extensible formats for storing and transmitting concept definitions between systems include [MIME](https://en.wikipedia.org/wiki/MIME), [XML](https://en.wikipedia.org/wiki/XML), [XHTML](https://en.wikipedia.org/wiki/XHTML), [JSON](https://en.wikipedia.org/wiki/JSON), and combinations of these, e.g., [MHTML](https://en.wikipedia.org/wiki/MHTML) (see also: [RFC 2392](https://www.rfc-editor.org/rfc/rfc2392)). Structured concept-definition documents might include sections of hypertext, multimedia, mathematics, structured knowledge, and, perhaps, JavaScript, while referring to stylesheets for presentation.
@@ -213,10 +217,6 @@ Here is an example of an extensible format for representing concept definitions.
 ```
 
 Remaining aspects to be included or expanded upon in the concept-definition example, above, include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), binary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), and/or [properties](https://en.wikipedia.org/wiki/Property_(philosophy)).
-
-## Creating and Building Concepts Programmatically
-
-Techniques are also being developed to enable developers to programmatically create and build concepts and concept-related queries utilizing method chaining and fluent interfaces.
 
 ## Research Questions
 
