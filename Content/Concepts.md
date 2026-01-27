@@ -199,7 +199,7 @@ Here is an example of an extensible format for representing concept definitions.
         ]]>
       </part>
     </part>
-    <part rel="structured-definition" type="text/turtle" profile="...">
+    <part rel="structured-definition" type="text/turtle">
       <![CDATA[...]]>
     </part>
     <part rel="relationships" type="text/turtle">
@@ -217,10 +217,10 @@ Here is an example of an extensible format for representing concept definitions.
         <ref:main> rdfs:seeAlso <https://en.wiktionary.org/wiki/keyword> .
       ]]>
     </part>
-    <part rel="metadata" type="text/turtle">
+    <part rel="provenance" type="text/turtle">
       <![CDATA[...]]>
     </part>
-    <part rel="provenance" type="text/turtle">
+    <part rel="metadata" type="text/turtle">
       <![CDATA[...]]>
     </part>
     <part rel="examples" type="multipart/related">
@@ -244,7 +244,7 @@ Here is an example of an extensible format for representing concept definitions.
               "@context": "http://www.w3.org/ns/anno.jsonld",
               "type": "Annotation",
               "target": {
-                "source": "ref:ref-3#peacocke1992study",
+                "source": "ref:biblio#peacocke1992study",
                 "selector": {
                   "type": "FragmentSelector",
                   "value": "page=10",
@@ -265,7 +265,7 @@ Here is an example of an extensible format for representing concept definitions.
               "@context": "http://www.w3.org/ns/anno.jsonld",
               "type": "Annotation",
               "target": {
-                "source": "ref:ref-3#murphy2004big",
+                "source": "ref:biblio#murphy2004big",
                 "selector": {
                   "type": "FragmentSelector",
                   "value": "page=21",
@@ -303,7 +303,7 @@ Here is an example of an extensible format for representing concept definitions.
       <part type="application/octet-stream" system="(model: google.gemma-3-27b-it)" src="6.vec" />
     </part>
   </part>
-  <part id="ref-3" rel="bibliography" type="text/x-bibtex">
+  <part id="biblio" rel="bibliography" type="text/x-bibtex">
     <![CDATA[
       @book{peacocke1992study,
       title={A study of concepts},
