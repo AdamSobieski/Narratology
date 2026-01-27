@@ -216,7 +216,7 @@ Here is an example of an extensible format for representing concept definitions.
 </definition>
 ```
 
-Aspects to be included or expanded upon include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), [properties](https://en.wikipedia.org/wiki/Property_(philosophy)), binary and n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), [reification](https://en.wikipedia.org/wiki/Reification_(knowledge_representation)), and [onomasiological cues](https://en.wikipedia.org/wiki/Onomasiology).
+Aspects to be included or expanded upon include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), [properties](https://en.wikipedia.org/wiki/Property_(philosophy)), binary and n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), [reification](https://en.wikipedia.org/wiki/Reification_(knowledge_representation)), and [onomasiological hints](https://en.wikipedia.org/wiki/Onomasiology).
 
 ## Research Questions
 
