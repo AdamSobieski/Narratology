@@ -236,6 +236,22 @@ Adding client-side [scripting](https://en.wikipedia.org/wiki/Scripting_language)
 </part>
 ```
 
+or:
+
+```xml
+<part type="multipart/template" output="application/xhtml+xml">
+  <part rel="template" type="text/x-handlebars-template">
+    <![CDATA[...]]>
+  </part>
+  <part rel="script" type="text/javascript">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
 or, perhaps:
 
 ```xml
