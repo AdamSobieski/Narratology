@@ -218,24 +218,16 @@ Here is an example of an extensible format for representing concept definitions.
 
 Aspects to be included or expanded upon include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), [properties](https://en.wikipedia.org/wiki/Property_(philosophy)), binary and n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), [reification](https://en.wikipedia.org/wiki/Reification_(knowledge_representation)), and [onomasiological hints](https://en.wikipedia.org/wiki/Onomasiology).
 
-### Client-side Template Processing
+### Client-side Scripting and Template Processing
 
-Adding client-side [template processing](https://en.wikipedia.org/wiki/Template_processor) capabilities to the concept-definition representation format, above, is being explored.
+Adding client-side [scripting](https://en.wikipedia.org/wiki/Scripting_language) and [template processing](https://en.wikipedia.org/wiki/Template_processor) capabilities to the concept-definition representation format, above, are being explored. These would allow reusable, cached templates and their accompanying scripts, or helper functions, to be utilized to produce components of concept definitions.
 
 ```xml
 <part type="multipart/related" output="application/xhtml+xml">
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
   </part>
-  <part rel="data" type="application/json">
-    <![CDATA[...]]>
-  </part>
-</part>
-```
-
-```xml
-<part type="multipart/related" output="application/xhtml+xml">
-  <part rel="template" type="text/x-django">
+  <part rel="script" type="text/javascript">
     <![CDATA[...]]>
   </part>
   <part rel="data" type="application/json">
@@ -251,17 +243,21 @@ or, perhaps:
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
   </part>
+  <part rel="script" type="text/javascript">
+    <![CDATA[...]]>
+  </part>
   <part rel="data" type="application/json">
     <![CDATA[...]]>
   </part>
 </part>
 ```
 
+where, then, the following would be possible:
+
 ```xml
 <part type="multipart/template;output='application/xhtml+xml'">
-  <part rel="template" type="text/x-django">
-    <![CDATA[...]]>
-  </part>
+  <part rel="template" type="text/x-handlebars-template" src="https://www.templates.org/template-123.hbs" />
+  <part rel="script" type="text/javascript" src="https://www.templates.org/template-123.js" />
   <part rel="data" type="application/json">
     <![CDATA[...]]>
   </part>
