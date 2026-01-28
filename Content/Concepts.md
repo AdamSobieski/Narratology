@@ -247,30 +247,6 @@ Adding client-side [template processing](https://en.wikipedia.org/wiki/Template_
 or, perhaps:
 
 ```xml
-<part type="multipart/template">
-  <part rel="template" type="text/x-handlebars-template">
-    <![CDATA[...]]>
-  </part>
-  <part rel="data" type="application/json">
-    <![CDATA[...]]>
-  </part>
-</part>
-```
-
-```xml
-<part type="multipart/template">
-  <part rel="template" type="text/x-django">
-    <![CDATA[...]]>
-  </part>
-  <part rel="data" type="application/json">
-    <![CDATA[...]]>
-  </part>
-</part>
-```
-
-or, perhaps:
-
-```xml
 <part type="multipart/template;output='application/xhtml+xml'">
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
