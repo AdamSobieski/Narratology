@@ -280,7 +280,7 @@ where, then, the following would be possible:
 </part>
 ```
 
-Interestingly, while template processing is often used with HTML (`application/xhtml+xml`), it could also be used with knowledge graphs (`text/turtle`). In these regards, one can see also: [OTTR](https://www.ottr.xyz/) and [maplib](https://github.com/DataTreehouse/maplib).
+Interestingly, while template processing is often used with HTML (`application/xhtml+xml`), it could also be used with knowledge graphs (`text/turtle`). In these regards, one can see also: [OTTR](https://www.ottr.xyz/).
 
 ## Research Questions
 
