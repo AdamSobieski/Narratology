@@ -218,6 +218,80 @@ Here is an example of an extensible format for representing concept definitions.
 
 Aspects to be included or expanded upon include: [ontologies](https://en.wikipedia.org/wiki/Ontology_(information_science)), [features](https://en.wikipedia.org/wiki/Feature_(machine_learning)), [predicates](https://en.wikipedia.org/wiki/Predicate_(logic)), [properties](https://en.wikipedia.org/wiki/Property_(philosophy)), binary and n-ary [relations](https://en.wikipedia.org/wiki/Relation_(philosophy)), [reification](https://en.wikipedia.org/wiki/Reification_(knowledge_representation)), and [onomasiological hints](https://en.wikipedia.org/wiki/Onomasiology).
 
+### Client-side Template Processing
+
+Adding client-side [template processing](https://en.wikipedia.org/wiki/Template_processor) capabilities to the concept-definition representation format, above, is being explored.
+
+```xml
+<part type="multipart/related" output="application/xhtml+xml">
+  <part rel="template" type="text/x-handlebars-template">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
+```xml
+<part type="multipart/related" output="application/xhtml+xml">
+  <part rel="template" type="text/x-django">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
+or, perhaps:
+
+```xml
+<part type="multipart/template">
+  <part rel="template" type="text/x-handlebars-template">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
+```xml
+<part type="multipart/template">
+  <part rel="template" type="text/x-django">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
+or, perhaps:
+
+```xml
+<part type="multipart/template;output='application/xhtml+xml'">
+  <part rel="template" type="text/x-handlebars-template">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
+```xml
+<part type="multipart/template;output='application/xhtml+xml'">
+  <part rel="template" type="text/x-django">
+    <![CDATA[...]]>
+  </part>
+  <part rel="data" type="application/json">
+    <![CDATA[...]]>
+  </part>
+</part>
+```
+
 ## Research Questions
 
 1. How can artificial-intelligence systems, e.g., large language models, be of use for creating and explicating concept definitions?
