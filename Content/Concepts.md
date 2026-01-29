@@ -312,6 +312,8 @@ or:
 </part>
 ```
 
+Interestingly, there are a number of approaches for [differencing RDF-based resources](https://www.w3.org/2001/sw/wiki/How_to_diff_RDF) and there is a PATCH HTTP verb (see also: [RFC 5789](https://www.rfc-editor.org/rfc/rfc5789)).
+
 ## Research Questions
 
 1. How can artificial-intelligence systems, e.g., large language models, be of use for creating and explicating concept definitions?
@@ -328,5 +330,3 @@ or:
 
 * https://en.wikipedia.org/wiki/Concept
 * https://plato.stanford.edu/entries/concepts/
-* https://www.w3.org/2001/sw/wiki/How_to_diff_RDF
-* https://www.rfc-editor.org/rfc/rfc5789
