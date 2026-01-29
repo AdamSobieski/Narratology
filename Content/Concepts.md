@@ -290,7 +290,27 @@ Drawing inspiration including from [object-oriented modeling](https://en.wikiped
 
 [Connotation-](https://en.wikipedia.org/wiki/Connotation), [valence](https://en.wikipedia.org/wiki/Valence_(psychology))- or [sentiment](https://en.wikipedia.org/wiki/Sentiment_analysis)-related variations across elements of a set of concepts, for example, could be modeled, with these subtly-varying concepts each extending shared, base concepts while, perhaps, also being definitionally related to one another. This would allow more subtle concept definitions to be built using, built atop, one or more previously defined gross ones.
 
-For example, a "stubborn" person could be described as being "strong-willed" or "pig-headed". Although these have a same literal meaning ("stubborn"), "strong-willed" connotes admiration for the level of someone's will (a positive connotation), while "pig-headed" connotes frustration in dealing with someone (a negative connotation). One could, then, define a base definition pertaining to the concept of "stubbornness" and subsequently define some number of concept definitions extending upon it, e.g., "strong-willed" and "pig-headed", each such concept definitions differing from &ndash; and building upon &ndash; its one or more base concepts.
+For example, a "stubborn" person could be described as being "strong-willed" or "pig-headed". Although these have a same literal meaning ("stubborn"), "strong-willed" connotes admiration for the level of someone's will (a positive connotation), while "pig-headed" connotes frustration in dealing with someone (a negative connotation).
+
+One could, then, define a base definition pertaining to the concept of "stubbornness" and subsequently define some number of concept definitions extending upon it, e.g., "strong-willed" and "pig-headed", each such concept definitions differing from &ndash; and building upon &ndash; its one or more base concepts.
+
+So, based upon a pattern involving combining multiple ingredients together, each ingredient resembling $x_{i}$ is based on $y_{i}$ but differs in way $\Delta_{i}$, perhaps this could be expressed in a manner resembling:
+
+```xml
+<part rel="..." type="multipart/difference;output='text/turtle'">
+  <part rel="base" type="text/turtle" src="https://www.resource.org/concepts/concept-123.ttl" />
+  <part rel="difference" type="text/x-diff" src="concept-extension.diff" />
+</part>
+```
+
+or
+
+```xml
+<part rel="..." type="multipart/difference;output='text/turtle'">
+  <part rel="base" type="text/turtle" src="https://www.resource.org/concepts/concept-123.ttl" />
+  <part rel="difference" type="text/x-patch" src="concept-extension.patch" />
+</part>
+```
 
 ## Research Questions
 
