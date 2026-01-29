@@ -312,7 +312,7 @@ or:
 </part>
 ```
 
-Interestingly, there are a number of approaches for [differencing RDF-based resources](https://www.w3.org/2001/sw/wiki/How_to_diff_RDF) and there is a PATCH HTTP verb (see also: [RFC 5789](https://www.rfc-editor.org/rfc/rfc5789)).
+Interestingly, there are a number of approaches for [differencing RDF-based resources](https://www.w3.org/2001/sw/wiki/How_to_diff_RDF) and there is a [PATCH HTTP verb](https://en.wikipedia.org/wiki/PATCH_(HTTP)) (see also: [RFC 5789](https://www.rfc-editor.org/rfc/rfc5789)).
 
 ## Research Questions
 
