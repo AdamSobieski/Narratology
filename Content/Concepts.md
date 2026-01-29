@@ -282,7 +282,7 @@ where, then, the following would be possible:
 
 Interestingly, while template processing is often used with HTML (`application/xhtml+xml`), it could also be used with knowledge graphs (`text/turtle`). In these regards, one can see also: [OTTR](https://www.ottr.xyz/).
 
-### Defining Concepts by Relation to Other Concepts
+### Defining Concepts by Relations to Other Concepts
 
 Drawing inspiration including from [object-oriented modeling](https://en.wikipedia.org/wiki/Object-oriented_modeling), concepts could be defined including by means of being related to one another.
 
