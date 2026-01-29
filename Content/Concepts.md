@@ -303,7 +303,7 @@ So, based upon a pattern involving combining multiple ingredients together, each
 </part>
 ```
 
-or
+or:
 
 ```xml
 <part rel="..." type="multipart/difference;output='text/turtle'">
