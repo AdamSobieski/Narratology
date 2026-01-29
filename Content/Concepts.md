@@ -223,7 +223,7 @@ Aspects to be included or expanded upon include: [ontologies](https://en.wikiped
 Adding client-side [scripting](https://en.wikipedia.org/wiki/Scripting_language) and [template processing](https://en.wikipedia.org/wiki/Template_processor) capabilities to the concept-definition representation format, above, are being explored. These would allow reusable, cached templates and their accompanying scripts, or helper functions, to be utilized to produce components of concept definitions.
 
 ```xml
-<part type="multipart/related" output="application/xhtml+xml">
+<part rel="..." type="multipart/related" output="application/xhtml+xml">
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
   </part>
@@ -239,7 +239,7 @@ Adding client-side [scripting](https://en.wikipedia.org/wiki/Scripting_language)
 or:
 
 ```xml
-<part type="multipart/template" output="application/xhtml+xml">
+<part rel="..." type="multipart/template" output="application/xhtml+xml">
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
   </part>
@@ -255,7 +255,7 @@ or:
 or, perhaps:
 
 ```xml
-<part type="multipart/template;output='application/xhtml+xml'">
+<part rel="..." type="multipart/template;output='application/xhtml+xml'">
   <part rel="template" type="text/x-handlebars-template">
     <![CDATA[...]]>
   </part>
@@ -271,7 +271,7 @@ or, perhaps:
 where, then, the following would be possible:
 
 ```xml
-<part type="multipart/template;output='application/xhtml+xml'">
+<part rel="..." type="multipart/template;output='application/xhtml+xml'">
   <part rel="template" type="text/x-handlebars-template" src="https://www.templates.org/template-123.hbs" />
   <part rel="script" type="text/javascript" src="https://www.templates.org/template-123.js" />
   <part rel="data" type="application/json">
