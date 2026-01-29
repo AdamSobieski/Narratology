@@ -282,6 +282,18 @@ where, then, the following would be possible:
 
 Interestingly, while template processing is often used with HTML (`application/xhtml+xml`), it could also be used with knowledge graphs (`text/turtle`). In these regards, one can see also: [OTTR](https://www.ottr.xyz/).
 
+### Defining Concepts by Relation to Other Concepts
+
+Drawing inspiration including from [object-oriented modeling](https://en.wikipedia.org/wiki/Object-oriented_modeling), concepts could be defined including by means of being related to one another.
+
+[Comparisons](https://en.wikipedia.org/wiki/Comparison) (or [constrasts](https://en.wikipedia.org/wiki/Contrast_(linguistics))) could be usefully expressed between concepts. [Differences](https://en.wikipedia.org/wiki/Data_differencing) or deltas could be expressed between concepts' definitions and their definitions' parts. However, this task would seemingly be confounded by the extensible, multi-format, nature of the approaches to defining concepts under consideration here.
+
+[Connotation-](https://en.wikipedia.org/wiki/Connotation), [valence](https://en.wikipedia.org/wiki/Valence_(psychology))- or [sentiment](https://en.wikipedia.org/wiki/Sentiment_analysis)-related variations across elements of a set of concepts, for example, could be modeled, with these subtlely varying concepts each extending a shared, base concept while, perhaps, also being definitionally related to one another. This would allow more subtle concept definitions to be built atop one or more more gross ones.
+
+For example, a "stubborn" person could be described as being "strong-willed" or "pig-headed". Although these have a same literal meaning ("stubborn"), "strong-willed" connotes admiration for the level of someone's will (a positive connotation), while "pig-headed" connotes frustration in dealing with someone (a negative connotation).
+
+One could define a base definition pertaining to the concept of "stubbornness" and then define two (or more) concept definitions extending upon it, e.g., "strong-willed" and "pig-headed", each of these extending concept definitions differing from &ndash; and building upon &ndash; one or more base concepts.
+
 ## Research Questions
 
 1. How can artificial-intelligence systems, e.g., large language models, be of use for creating and explicating concept definitions?
