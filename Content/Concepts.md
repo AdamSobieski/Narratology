@@ -328,3 +328,5 @@ or:
 
 * https://en.wikipedia.org/wiki/Concept
 * https://plato.stanford.edu/entries/concepts/
+* https://www.w3.org/2001/sw/wiki/How_to_diff_RDF
+* https://www.rfc-editor.org/rfc/rfc5789
