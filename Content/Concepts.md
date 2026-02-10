@@ -325,6 +325,8 @@ Interestingly, there are a number of approaches for [differencing RDF-based reso
    1. How can context factor into these operations?
 5. How can operations be performed on concepts such as [abstraction](https://en.wikipedia.org/wiki/Abstraction), [analogy](https://en.wikipedia.org/wiki/Analogy), [blend](https://en.wikipedia.org/wiki/Conceptual_blending), [combination](https://en.wikipedia.org/wiki/Conceptual_combination), [complement](https://en.wikipedia.org/wiki/Complement_(set_theory)), [intersection](https://en.wikipedia.org/wiki/Intersection_(set_theory)), and [union](https://en.wikipedia.org/wiki/Union_(set_theory))?
    1. How can context factor into these operations?
+6. How should conceptual [diachrony and synchrony](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) be addessed?
+7. How should (cognitive) grammatical categories be flexibly and extensibly supported?
 
 ## See Also
 
