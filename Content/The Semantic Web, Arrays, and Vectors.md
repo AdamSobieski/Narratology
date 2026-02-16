@@ -2,7 +2,7 @@
 
 ## Introduction
 
-How can arrays and vectors be represented in languages like RDF Turtle and TriG?
+How can arrays and vectors be represented in RDF languages like Turtle and TriG?
 
 ## Using Literals
 
@@ -60,4 +60,5 @@ ex:graph {
 
 ## See Also
 
+* [The Semantic Web and N-ary Expressions](The%20Semantic%20Web%20and%20N-ary%20Expressions.md)
 * https://awslabs.github.io/SPARQL-CDTs/spec/latest.html
