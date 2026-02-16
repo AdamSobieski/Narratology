@@ -2,7 +2,7 @@
 
 ## Introduction
 
-How can n-ary propositional statements be represented in languages like RDF Turtle and TriG?
+How can n-ary propositional statements be represented in RDF languages like Turtle and TriG?
 
 ## Using Lists
 
