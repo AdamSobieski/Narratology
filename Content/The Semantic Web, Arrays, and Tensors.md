@@ -1,8 +1,8 @@
-# The Semantic Web, Arrays, and Vectors
+# The Semantic Web, Arrays, and Tensors
 
 ## Introduction
 
-How can arrays and vectors be represented in RDF languages like Turtle and TriG?
+How can arrays and tensors, e.g., numerical vectors, be represented in RDF languages like Turtle and TriG?
 
 ## Using Literals
 
