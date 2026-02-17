@@ -62,3 +62,4 @@ ex:graph {
 
 * [The Semantic Web and N-ary Expressions](The%20Semantic%20Web%20and%20N-ary%20Expressions.md)
 * https://awslabs.github.io/SPARQL-CDTs/spec/latest.html
+* https://neverblink-oss.github.io/rdf-tensor/
