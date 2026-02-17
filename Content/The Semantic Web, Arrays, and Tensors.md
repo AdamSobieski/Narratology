@@ -34,7 +34,6 @@ While there exist many syntax possibilities with respect to [string interpolatio
 
 ```turtle
 @prefix cdt: <http://w3id.org/awslabs/neptune/SPARQL-CDTs/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/> .
 
 ex:graph {
@@ -47,7 +46,7 @@ ex:graph {
 ## Typed Collections
 
 ```turtle
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ex: <http://example.org/> .
 
 ex:graph {
@@ -59,6 +58,7 @@ ex:graph {
 
 ```turtle
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix ex: <http://example.org/> .
 
 ex:graph {
