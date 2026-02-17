@@ -18,6 +18,18 @@ ex:graph {
 }
 ```
 
+```turtle
+@prefix tensor: <https://w3id.org/rdf-tensor/vocab#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex2:graph {
+ ex:thing ex:hasTensor
+  "{\"type\": \"float32\", \"shape\": [3, 2], \"data\": [0.1, 1.2, 2.2, 3.2, 4.1, 5.4e2]}"^^tensor:NumericDataTensor ,
+  "{\"type\": \"int32\", \"shape\": [1, 2, 2, 2], \"data\": [1, 3, 4, 12, 22, 32, 41, 5]}"^^tensor:NumericDataTensor .
+}
+```
+
 ### String Interpolation
 
 While there exist many syntax possibilities with respect to [string interpolation](https://en.wikipedia.org/wiki/String_interpolation), one is shown below.
