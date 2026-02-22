@@ -17,7 +17,7 @@ CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@c
 
 ## A CSVAI Schema
 
-A CSVAI schema could build on CSVW metadata. Preliminary ideas for a CSVAI schema include:
+A CSVAI schema would build on CSVW metadata. Preliminary ideas for a CSVAI schema include:
 
 1. descriptive metadata for AI systems.
    1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for AI systems.
