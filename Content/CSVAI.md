@@ -23,7 +23,7 @@ A CSVAI schema would build on the CSVW metadata schema. Preliminary ideas for a 
 
 2. functionalities could be declared and described
    1. as envisioned, there would be default functionalities for table-groups, tables, and so forth, e.g., functionalities for conversationally selecting and navigating through data visualizations and functionalities from relational algebra and data-querying languages.
-   2. custom functionalities might involve using the [Function Ontology](https://fno.io/), perhaps mapping functions with semantic classes for table-groups, tables, columns, rows, and cells.
+   2. custom functionalities could involve usage of the [MCP Tool Schema](https://modelcontextprotocol.io/specification/2025-06-18/schema#tool) or the [Function Ontology](https://fno.io/), perhaps mapping functions with semantic classes for table-groups, tables, columns, rows, and cells.
       1. custom functionalities could be defined for multiple backends.
 
 ## Loading Data into Model Context Protocol Servers
@@ -44,6 +44,8 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 
 2. educational data
    1. homework exercises and activities, quizzes, and exam results
+
+These two use cases involve natural-language or multimodal questions and answers or responses provided by populations of respondents. Questions could be text-based strings or resources referenced by URL (see also: [QTI](https://www.1edtech.org/standards/qti/index)).
 
 ## Bibliography
 
