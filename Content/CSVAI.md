@@ -22,7 +22,7 @@ A CSVAI schema would build on CSVW metadata. Preliminary ideas for a CSVAI schem
 1. descriptive metadata for AI systems.
    1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for AI systems.
 
-2. functions could be declared and described
+2. custom functions could be declared and described
    1. this could be achieved by providing functions (e.g., via [the Function Ontology](https://fno.io/)) mapped to semantic classes, e.g., for cells, rows, columns, tables, and table-groups.
    2. functions could be declared in a backend-independent manner while enabling the automatic generation of dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers.
 
