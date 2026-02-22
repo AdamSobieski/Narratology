@@ -16,7 +16,7 @@
 
 ## A CSVAI Metadata Schema
 
-A CSVAI schema would build on CSVW metadata. Preliminary ideas for a CSVAI schema include:
+A CSVAI schema would build on the CSVW metadata schema. Preliminary ideas for a CSVAI schema include:
 
 1. descriptive metadata for AI systems.
    1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
