@@ -34,7 +34,7 @@ Dynamic, in this case, means that an automatically generated MCP server could se
 
 ## Loading Data into General-purpose Model Context Protocol Servers
 
-Another approach for exploration is that dynamic MCP servers could search for, retrieve, and load CSV data having CSVAI metadata.
+Another approach for exploration is that dynamic MCP servers could search for, retrieve, and load CSV data having CSVW and CSVAI metadata.
 
 ## Use Cases of Interest
 
