@@ -2,7 +2,7 @@
 
 ## Introduction
 
-CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference the CSVW namespace and also a CSVAI namespace.
+[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference the CSVW namespace and also a CSVAI namespace.
 
 ```json
 {
