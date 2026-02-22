@@ -26,15 +26,15 @@ A CSVAI schema would build on the CSVW metadata schema. Preliminary ideas for a 
    2. custom functionalities might involve using the [Function Ontology](https://fno.io/), perhaps mapping functions with semantic classes for table-groups, tables, columns, rows, and cells.
       1. custom functionalities could be defined for multiple backends.
 
-## Generating Dynamic Model Context Protocol Servers
+## Loading Data into Model Context Protocol Servers
 
-A CSVAI schema could enable and enhance AI scenarios including enabling the automatic generation of dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers for CSV data.
+One approach for exploration is that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could search for, retrieve, and load CSV data having CSVW and CSVAI metadata.
 
-Dynamic, in this case, means that an automatically generated MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
+Dynamic, in this case, means that an MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
 
-## Loading Data into General-purpose Model Context Protocol Servers
+## Generating Model Context Protocol Servers
 
-Another approach for exploration is that dynamic MCP servers could search for, retrieve, and load CSV data having CSVW and CSVAI metadata.
+Another approach for exploration is that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could be automatically generated for and from CSV data having CSVW and CSVAI metadata.
 
 ## Use Cases of Interest
 
