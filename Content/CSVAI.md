@@ -10,8 +10,8 @@ CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@c
     "csvw": "http://www.w3.org/ns/csvw#",
     "csvai": "..."
   },
-  "url": "data.csv",
-  "tableSchema": "metadata.json"
+  "csvw:url": "data.csv",
+  "csvw:tableSchema": "metadata.json"
 }
 ```
 
