@@ -36,7 +36,11 @@ One approach for exploration involves that dynamic [MCP](https://modelcontextpro
 
 Another approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could be automatically generated for and from CSV data providing CSVW and CSVAI metadata.
 
-## Use Cases of Interest
+## Web-based Scenarios
+
+In the not-too-distant future, Web developers may be able to utilize [WebMCP](https://github.com/webmachinelearning/webmcp/) to deliver natural-language or multimodal conversational data science and analytics functionalities to end-users using Web browsers. Data could be stored either client-side or server-side.
+
+## Use Cases
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), two motivating use cases for CSVAI are listed below.
 
