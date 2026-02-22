@@ -26,7 +26,7 @@ or, using the `@vocab` property:
 
 CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analytics tasks.
 
-## Motivating Use Cases
+## Some Motivating Use Cases
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
 
