@@ -28,7 +28,9 @@ A CSVAI schema would build on CSVW metadata. Preliminary ideas for a CSVAI schem
 
 ## Generating Dynamic Model Context Protocol Servers
 
-A CSVAI schema could enable and enhance AI scenarios including enabling the automatic generation of dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers for CSV data. Dynamic, in this case, means that a generated MCP server could send clients `tools/list_changed` notifications, indicating that the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) had changed, during the course of a multimodal conversation.
+A CSVAI schema could enable and enhance AI scenarios including enabling the automatic generation of dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers for CSV data.
+
+Dynamic, in this case, means that an automatically generated MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
 
 ## Use Cases of Interest
 
