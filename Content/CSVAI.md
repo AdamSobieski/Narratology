@@ -14,7 +14,7 @@
 }
 ```
 
-CSVW and CSVAI metadata can, together, enable end-users to be able to converse with AI assistants, in natural-language or multimodal dialogues, to perform data science and analytics tasks.
+CSVW and CSVAI metadata can, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analytics tasks.
 
 ## A CSVAI Metadata Schema
 
@@ -34,18 +34,18 @@ One approach for exploration involves that dynamic [MCP](https://modelcontextpro
 
 ## Generating Model Context Protocol Servers
 
-Another approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could be automatically generated for and from CSV data having CSVW and CSVAI metadata.
+Another approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could be automatically generated for and from CSV data providing CSVW and CSVAI metadata.
 
 ## Use Cases of Interest
 
-In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), two motivating use cases are listed below.
+In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), two motivating use cases for CSVAI are listed below.
 
 1. Opinion-poll and survey data.
 
 2. Educational data.
    1. Homework exercises and activities, quizzes, and exam results.
 
-These two use cases involve natural-language or multimodal questions and answers or responses provided by populations of respondents. Questions could be text-based strings provided in metadata or external resources referenced by URL (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
+These two use cases involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text-based strings provided in metadata or external resources referenced by URL (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
 ## Bibliography
 
