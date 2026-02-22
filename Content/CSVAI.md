@@ -22,9 +22,9 @@ A CSVAI schema would build on the CSVW metadata schema. Preliminary ideas for a 
    1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
 
 2. functionalities could be declared and described
-   1. as envisioned, there could be default functionalities for automatically-generated dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers, functionalities for conversationally selecting and navigating through data visualizations and functionalities from relational algebra and data-querying languages.
-   2. custom functionalities might involve the [Function Ontology](https://fno.io/), perhaps mapping functions with semantic classes for cells, rows, columns, tables, and table-groups.
-      1. custom functionalities could be declared for multiple backends.
+   1. as envisioned, there would be default functionalities for table-groups, tables, and so forth, e.g., functionalities for conversationally selecting and navigating through data visualizations and functionalities from relational algebra and data-querying languages.
+   2. custom functionalities might involve using the [Function Ontology](https://fno.io/), perhaps mapping functions with semantic classes for table-groups, tables, columns, rows, and cells.
+      1. custom functionalities could be defined for multiple backends.
 
 ## Generating Dynamic Model Context Protocol Servers
 
