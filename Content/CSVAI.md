@@ -18,7 +18,7 @@ CSVW and CSVAI metadata can, together, enable end-users to be able to converse w
 
 ## A CSVAI Metadata Schema
 
-A CSVAI schema would be designed to augment metadata using CSVW metadata. Preliminary ideas for a CSVAI schema include:
+A CSVAI schema would be designed to augment metadata using the CSVW schema. Preliminary ideas for a CSVAI metadata schema include:
 
 1. Descriptive metadata for AI systems.
    1. In addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
