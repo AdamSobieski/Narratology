@@ -30,9 +30,7 @@ A CSVAI schema would build upon the existing CSVW metadata schema. Preliminary i
 
 ## Loading Data into Model Context Protocol Servers
 
-One approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could search for, retrieve, and load CSV data having CSVW and CSVAI metadata.
-
-Dynamic, in this case, means that an MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
+One approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could search for, retrieve, and load CSV data having CSVW and CSVAI metadata. "Dynamic", in this case, means that an MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
 
 ## Generating Model Context Protocol Servers
 
