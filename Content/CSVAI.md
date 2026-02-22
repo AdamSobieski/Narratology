@@ -14,11 +14,11 @@
 }
 ```
 
-CSVW and CSVAI metadata can, together, enable AI scenarios including delivering multimodal conversational data-science and analytical-reasoning capabilities for end-users.
+CSVW and CSVAI metadata can, together, enable end-users to be able to converse with AI assistants, in natural-language or multimodal dialogues, to perform data science and analytics tasks.
 
 ## A CSVAI Metadata Schema
 
-A CSVAI schema would build on the CSVW metadata schema. Preliminary ideas for a CSVAI schema include:
+A CSVAI schema would build upon the existing CSVW metadata schema. Preliminary ideas for a CSVAI schema include:
 
 1. Descriptive metadata for AI systems.
    1. In addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
