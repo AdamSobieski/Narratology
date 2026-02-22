@@ -2,7 +2,7 @@
 
 ## Introduction
 
-CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@context` property could reference the `http://www.w3.org/ns/csvw#` namespace and also a CSVAI schema.
+CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference the CSVW namespace and also a CSVAI namespace.
 
 ```json
 {
@@ -10,17 +10,16 @@ CSVW utilizes JSON-LD for metadata in an extensible manner. Accordingly, the `@c
     "csvw": "http://www.w3.org/ns/csvw#",
     "csvai": "..."
   },
-  "csvw:url": "data.csv",
-  "csvw:tableSchema": "metadata.json"
+  "csvw:url": "data.csv"
 }
 ```
 
-## A CSVAI Schema
+## CSVAI
 
 A CSVAI schema would build on CSVW metadata. Preliminary ideas for a CSVAI schema include:
 
 1. descriptive metadata for AI systems.
-   1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for AI systems.
+   1. in addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
 
 2. custom functions could be declared and described
    1. this could be achieved by providing function descriptions (e.g., via the [Function Ontology](https://fno.io/)) mapped to semantic classes, e.g., for cells, rows, columns, tables, and table-groups.
