@@ -45,7 +45,7 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 2. educational data
    1. homework exercises and activities, quizzes, and exam results
 
-These two use cases involve natural-language or multimodal questions and answers or responses provided by populations of respondents. Questions could be text-based strings or resources referenced by URL (see also: [QTI](https://www.1edtech.org/standards/qti/index)).
+These two use cases involve natural-language or multimodal questions and answers or responses provided by populations of respondents. Questions could be text-based strings provided in metadata or external resources referenced by URL (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
 ## Bibliography
 
