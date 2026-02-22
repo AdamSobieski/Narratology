@@ -32,6 +32,8 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 
 These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see: [HTML](https://html.spec.whatwg.org/multipage/), [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
+One goal is for AI assistants to be able to enhance both quantitative and qualitative data analyses including by means of using and reasoning about natural-language or multimodal questions.
+
 ## CSVAI Metadata Schema
 
 A CSVAI schema would be designed to augment metadata using the CSVW schema. Preliminary ideas for a CSVAI metadata schema include:
