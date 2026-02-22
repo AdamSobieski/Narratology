@@ -32,6 +32,10 @@ A CSVAI schema could enable and enhance AI scenarios including enabling the auto
 
 Dynamic, in this case, means that an automatically generated MCP server could send clients `tools/list_changed` notifications, the list of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of a multimodal conversation.
 
+## Loading Data into General-purpose Model Context Protocol Servers
+
+Another approach for exploration is that dynamic MCP servers could search for, retrieve, and load CSV data having CSVAI metadata.
+
 ## Use Cases of Interest
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for enhancing CSV metadata to enable AI scenarios include delivering multimodal conversational data-science and analytical-reasoning capabilities for end-users utilizing:
