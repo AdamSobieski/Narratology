@@ -42,7 +42,7 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 
 1. Opinion-poll and survey data.
 
-2. Educational Data
+2. Educational data.
    1. Homework exercises and activities, quizzes, and exam results.
 
 These two use cases involve natural-language or multimodal questions and answers or responses provided by populations of respondents. Questions could be text-based strings provided in metadata or external resources referenced by URL (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
