@@ -13,8 +13,18 @@
   "csvw:url": "data.csv"
 }
 ```
+or, using the `@vocab` property:
+```json
+{
+  "@context": {
+    "@vocab": "http://www.w3.org/ns/csvw#",
+    "csvai": "..."
+  },
+  "url": "data.csv"
+}
+```
 
-CSVW and CSVAI metadata can, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analytics tasks.
+CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analytics tasks.
 
 ## A CSVAI Metadata Schema
 
