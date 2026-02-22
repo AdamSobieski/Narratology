@@ -24,15 +24,15 @@ or, using the `@vocab` property:
 }
 ```
 
-CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analytics tasks.
+CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analysis tasks.
 
 ## Some Motivating Use Cases
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) public opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
 
-These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
+These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see: [HTML](https://html.spec.whatwg.org/multipage/), [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
-## A CSVAI Metadata Schema
+## CSVAI Metadata Schema
 
 A CSVAI schema would be designed to augment metadata using the CSVW schema. Preliminary ideas for a CSVAI metadata schema include:
 
