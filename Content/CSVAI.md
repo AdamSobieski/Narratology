@@ -2,7 +2,7 @@
 
 ## Introduction
 
-[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference the CSVW namespace and also a CSVAI namespace.
+[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for declaring metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference both the CSVW namespace and a CSVAI namespace.
 
 ```json
 {
@@ -26,7 +26,7 @@ A CSVAI schema would build upon the existing CSVW metadata schema. Preliminary i
 2. Functionalities could be declared and described.
    1. As envisioned, there would be default functionalities for table-groups, tables, and so forth, for conversationally selecting and navigating through data visualizations, functionalities from relational algebra, and from data-querying languages.
    2. Custom functionalities could be expressed using either the [MCP Tool Schema](https://modelcontextprotocol.io/specification/2025-11-25/schema#tool) or [Function Ontology](https://fno.io/). Custom functions could be mapped with semantic classes for table-groups, tables, columns, rows, and cells.
-      1. Custom functionalities could provide implementations for multiple backends.
+      1. Custom functions could provide one or more implementations, e.g., JavaScript.
 
 ## Loading Data into Model Context Protocol Servers
 
