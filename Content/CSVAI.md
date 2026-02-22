@@ -28,7 +28,7 @@ CSVW and CSVAI metadata could, together, enable end-users to be able to converse
 
 ## Some Motivating Use Cases
 
-In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
+In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) public opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
 
 These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see also: [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
