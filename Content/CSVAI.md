@@ -32,7 +32,7 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 
 These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see: [HTML](https://html.spec.whatwg.org/multipage/), [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
-One goal is for AI assistants to be able to enhance both quantitative and qualitative data analyses including by means of using and reasoning about natural-language or multimodal questions.
+A goal is for AI assistants to be able to enhance both quantitative and qualitative data analyses. One approach to achieving this goal involves enabling AI assistants to be able to use and to reason about natural-language or multimodal questions. AI-equipped data analysts could, then, more readily combine and merge information from multiple sources.
 
 ## CSVAI Metadata Schema
 
