@@ -16,7 +16,7 @@
 
 CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analysis tasks.
 
-## What is CSVW
+## What is CSVW?
 
 Validation, conversion, display, and search of tabular data on the Web requires additional metadata that describes how the data should be interpreted.
 
