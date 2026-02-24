@@ -71,7 +71,8 @@ CSVAI would be additional metadata for enabling more AI scenarios. As CSVW utili
 {
   "@context": {
     "@vocab": "http://www.w3.org/ns/csvw#",
-    "csvai": "..."
+    "csvai": "...",
+    { "@language": "en" }
   },
   "url": "data.csv"
 }
