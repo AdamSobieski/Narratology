@@ -73,6 +73,11 @@ and that the following metadata file were available at `http://example.org/tree-
   }
 }
 ```
+The JSON-LD resource, the metadata file, describes the CSV data.
+
+## What is CSVAI?
+
+Succinctly, CSVAI would be additional metadata to enable more AI scenarios.
 
 ## Two Motivating Use Cases
 
@@ -82,7 +87,7 @@ These motivating use cases both involve natural-language or multimodal questions
 
 It is a goal for AI assistants to be able to enhance both quantitative and qualitative data analyses. One approach to achieving this goal involves enabling AI assistants to be able to use and to reason about natural-language or multimodal questions. AI-equipped data analysts could, then, more readily combine and merge information from multiple sources, e.g., from multiple opinion polls or surveys occuring at the same time or at different points in time.
 
-## CSVAI Metadata Schema
+## Towards a CSVAI Metadata Schema
 
 A CSVAI schema would be designed to augment metadata using the CSVW schema. Preliminary ideas for a CSVAI metadata schema include:
 
