@@ -2,18 +2,8 @@
 
 ## Introduction
 
-[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for declaring metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could reference both the CSVW namespace and a CSVAI namespace.
+[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for declaring metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could use the `@vocab` property to reference both the CSVW namespace and a CSVAI namespace.
 
-```json
-{
-  "@context": {
-    "csvw": "http://www.w3.org/ns/csvw#",
-    "csvai": "..."
-  },
-  "csvw:url": "data.csv"
-}
-```
-or, using the `@vocab` property:
 ```json
 {
   "@context": {
@@ -48,11 +38,11 @@ A CSVAI schema would be designed to augment metadata using the CSVW schema. Prel
 
 ## Technical Scenarios
 
-### Loading Data Into Model Context Protocol Servers
+### Loading Data Into Model Context Protocol Servers and Agents
 
 One approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could search for, retrieve, and load CSV data providing CSVW and CSVAI metadata. "Dynamic", as used here, means that MCP servers could send clients `tools/list_changed` notifications, lists of available [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) could change, during the course of natural-language or multimodal conversations.
 
-### Generating Model Context Protocol Servers
+### Generating Model Context Protocol Servers and Agents
 
 Another approach for exploration involves that dynamic [MCP](https://modelcontextprotocol.io/docs/getting-started/intro) servers could be automatically generated for and from CSV data providing CSVW and CSVAI metadata.
 
