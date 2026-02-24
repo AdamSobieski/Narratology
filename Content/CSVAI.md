@@ -2,25 +2,13 @@
 
 ## Introduction
 
-[CSVW](https://w3c.github.io/csvw/primer/) utilizes [JSON-LD](https://json-ld.org/) for declaring metadata in an extensible manner. Accordingly, the `@context` property in a metadata resource describing [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data could use the `@vocab` property to reference both the CSVW namespace and a CSVAI namespace.
-
-```json
-{
-  "@context": {
-    "@vocab": "http://www.w3.org/ns/csvw#",
-    "csvai": "..."
-  },
-  "url": "data.csv"
-}
-```
-
-CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analysis tasks.
+[CSVW](https://w3c.github.io/csvw/primer/) and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform more data science and analysis tasks.
 
 ## What is CSVW?
 
 Validation, conversion, display, and search of tabular data on the Web requires additional metadata that describes how the data should be interpreted.
 
-Based on the CSVW documentation and examples, say that the following CSV file were available at `http://example.org/tree-ops.csv`:
+Based on the CSVW documentation and examples, say that the following [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) file were available at `http://example.org/tree-ops.csv`:
 ```csv
 GID,On Street,Species,Trim Cycle,Inventory Date
 1,ADDISON AV,Celtis australis,Large Tree Routine Prune,10/18/2010
@@ -77,7 +65,19 @@ The JSON-LD resource, the metadata file, describes the CSV data.
 
 ## What is CSVAI?
 
-Succinctly, CSVAI would be additional metadata to enable more AI scenarios.
+Succinctly, CSVAI would be additional metadata for enabling more AI scenarios.
+
+As CSVW utilizes JSON-LD for declaring CSV metadata in an extensible manner, the `@context` property in a metadata resource could use the `@vocab` property to reference the default CSVW namespace and define a prefix for using a CSVAI namespace.
+
+```json
+{
+  "@context": {
+    "@vocab": "http://www.w3.org/ns/csvw#",
+    "csvai": "..."
+  },
+  "url": "data.csv"
+}
+```
 
 ## Two Motivating Use Cases
 
