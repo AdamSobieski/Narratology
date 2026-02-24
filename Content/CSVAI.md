@@ -80,7 +80,7 @@ CSVAI would be additional metadata for enabling more AI scenarios. As CSVW utili
 Preliminary ideas for a CSVAI metadata schema include:
 
 1. More descriptive metadata for AI systems.
-   1. In addition to using [Dublin Core](https://www.dublincore.org/) metadata, a CSVAI schema could define descriptive metadata intended for consumption by AI systems.
+   1. In addition to [Dublin Core](https://www.dublincore.org/) metadata, a CSVAI schema could define descriptive metadata intended for consumption by AI systems.
 
 2. Custom functionalities.
    1. As envisioned, there would be default functionalities for table-groups, tables, and so forth, e.g., for conversationally selecting and navigating through data visualizations, functionalities from relational algebra, and from data-querying languages.
