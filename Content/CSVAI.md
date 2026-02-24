@@ -65,9 +65,7 @@ The JSON-LD resource, the metadata file, describes the CSV data.
 
 ## What is CSVAI?
 
-Succinctly, CSVAI would be additional metadata for enabling more AI scenarios.
-
-As CSVW utilizes JSON-LD for declaring CSV metadata in an extensible manner, the `@context` property in a metadata resource could use the `@vocab` property to reference the default CSVW namespace and define a prefix for using a CSVAI namespace.
+CSVAI would be additional metadata for enabling more AI scenarios. As CSVW utilizes JSON-LD for declaring CSV metadata in an extensible manner, the `@context` property in a metadata resource could use the `@vocab` property to reference the default CSVW namespace and define a prefix for using a CSVAI namespace.
 
 ```json
 {
@@ -79,6 +77,16 @@ As CSVW utilizes JSON-LD for declaring CSV metadata in an extensible manner, the
 }
 ```
 
+Preliminary ideas for a CSVAI metadata schema include:
+
+1. More descriptive metadata for AI systems.
+   1. In addition to using [Dublin Core](https://www.dublincore.org/) metadata, a CSVAI schema could define descriptive metadata intended for consumption by AI systems.
+
+2. Custom functionalities.
+   1. As envisioned, there would be default functionalities for table-groups, tables, and so forth, e.g., for conversationally selecting and navigating through data visualizations, functionalities from relational algebra, and from data-querying languages.
+   2. Custom functionalities could be declared and described using either the [MCP Tool Schema](https://modelcontextprotocol.io/specification/2025-11-25/schema#tool) or [Function Ontology](https://fno.io/). Custom functions could be mapped with semantic classes for table-groups, tables, columns, rows, and cells.
+      1. Custom functions could provide one or more implementations, e.g., JavaScript.
+
 ## Two Motivating Use Cases
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) public opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
@@ -86,18 +94,6 @@ In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/u
 These motivating use cases both involve natural-language or multimodal questions and responses provided by populations of respondents. Questions could be text strings provided in metadata and/or external resources referenced by URL in metadata (see: [HTML](https://html.spec.whatwg.org/multipage/), [OCX](https://k12ocx.github.io/k12ocx-specs/), [OER](https://www.oerschema.org/classes/Activity), and [QTI](https://www.1edtech.org/standards/qti/index)).
 
 It is a goal for AI assistants to be able to enhance both quantitative and qualitative data analyses. One approach to achieving this goal involves enabling AI assistants to be able to use and to reason about natural-language or multimodal questions. AI-equipped data analysts could, then, more readily combine and merge information from multiple sources, e.g., from multiple opinion polls or surveys occuring at the same time or at different points in time.
-
-## Towards a CSVAI Metadata Schema
-
-A CSVAI schema would be designed to augment metadata using the CSVW schema. Preliminary ideas for a CSVAI metadata schema include:
-
-1. Descriptive metadata for AI systems.
-   1. In addition to using [Dublin Core](https://www.dublincore.org/) metadata, CSVAI could define descriptive metadata intended for consumption by AI systems.
-
-2. Functionalities could be declared and described.
-   1. As envisioned, there would be default functionalities for table-groups, tables, and so forth, for conversationally selecting and navigating through data visualizations, functionalities from relational algebra, and from data-querying languages.
-   2. Custom functionalities could be expressed using either the [MCP Tool Schema](https://modelcontextprotocol.io/specification/2025-11-25/schema#tool) or [Function Ontology](https://fno.io/). Custom functions could be mapped with semantic classes for table-groups, tables, columns, rows, and cells.
-      1. Custom functions could provide one or more implementations, e.g., JavaScript.
 
 ## Technical Scenarios
 
