@@ -16,6 +16,64 @@
 
 CSVW and CSVAI metadata could, together, enable end-users to be able to converse with AI assistants, in natural-language and multimodal dialogues, to perform data science and analysis tasks.
 
+## What is CSVW
+
+Validation, conversion, display, and search of tabular data on the Web requires additional metadata that describes how the data should be interpreted.
+
+Based on the CSVW documentation and examples, say that the following CSV file were available at `http://example.org/tree-ops.csv`:
+```csv
+GID,On Street,Species,Trim Cycle,Inventory Date
+1,ADDISON AV,Celtis australis,Large Tree Routine Prune,10/18/2010
+2,EMERSON ST,Liquidambar styraciflua,Large Tree Routine Prune,6/2/2010
+```
+
+and that the following metadata file were available at `http://example.org/tree-ops.csv-metadata.json`:
+```json
+{
+  "@context": ["http://www.w3.org/ns/csvw#", {"@language": "en"}],
+  "url": "tree-ops.csv",
+  "dc:title": "Tree Operations",
+  "dcat:keyword": ["tree", "street", "maintenance"],
+  "dc:publisher": {
+    "schema:name": "Example Municipality",
+    "schema:url": {"@id": "http://example.org"}
+  },
+  "dc:license": {"@id": "http://opendefinition.org/licenses/cc-by/"},
+  "dc:modified": {"@value": "2010-12-31", "@type": "xsd:date"},
+  "tableSchema": {
+    "columns": [{
+      "name": "GID",
+      "titles": ["GID", "Generic Identifier"],
+      "dc:description": "An identifier for the operation on a tree.",
+      "datatype": "string",
+      "required": true
+    }, {
+      "name": "on_street",
+      "titles": "On Street",
+      "dc:description": "The street that the tree is on.",
+      "datatype": "string"
+    }, {
+      "name": "species",
+      "titles": "Species",
+      "dc:description": "The species of the tree.",
+      "datatype": "string"
+    }, {
+      "name": "trim_cycle",
+      "titles": "Trim Cycle",
+      "dc:description": "The operation performed on the tree.",
+      "datatype": "string"
+    }, {
+      "name": "inventory_date",
+      "titles": "Inventory Date",
+      "dc:description": "The date of the operation that was performed.",
+      "datatype": {"base": "date", "format": "M/d/yyyy"}
+    }],
+    "primaryKey": "GID",
+    "aboutUrl": "#gid-{GID}"
+  }
+}
+```
+
 ## Two Motivating Use Cases
 
 In addition to the [twenty-five use cases for CSVW](https://w3c.github.io/csvw/use-cases-and-requirements/#uc), motivating use cases for CSVAI include enabling conversational AI for data science and analysis with respect to: (1) public opinion polling and survey data, and (2) educational data such as homework exercises and activities, quizzes, and exams.
