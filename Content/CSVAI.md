@@ -95,7 +95,7 @@ These motivating use cases both involve natural-language or multimodal questions
 
 It is a goal for AI assistants to be able to enhance both quantitative and qualitative data analyses. One approach to achieving this goal involves enabling AI assistants to be able to use and to reason about natural-language or multimodal questions. AI-equipped data analysts could, then, more readily combine and merge information from multiple sources, e.g., from multiple opinion polls or surveys occuring at the same time or at different points in time.
 
-## Technical Scenarios
+## Considered Technical Scenarios
 
 ### Loading Data Into Model Context Protocol Servers and Agents
 
