@@ -84,7 +84,7 @@ Preliminary ideas for a CSVAI metadata schema include:
    1. In addition to [Dublin Core](https://www.dublincore.org/) metadata, a CSVAI schema could define descriptive metadata intended for consumption by AI systems.
 
 2. Multimodal conversational user interfaces.
-   1. As envisioned, table-groups, tables, and so forth, would have default functionalities, e.g., conversationally selecting columns and rows, navigating through data visualizations, functionalities from relational algebra, from data-querying languages, making selections, and performing operations on selections.
+   1. As envisioned, table-groups, tables, and so forth, would have default functionalities, e.g., from relational algebra, from querying languages, for making selections (e.g., columns, rows), for performing operations on selections, for creating data visualizations, and for navigating through these. 
 
 3. Custom Functionality.
    1. Custom functionalities could be declared and described using either the [MCP Tool Schema](https://modelcontextprotocol.io/specification/2025-11-25/schema#tool) or [Function Ontology](https://fno.io/). Custom functions could be mapped with semantic classes for table-groups, tables, columns, rows, and cells.
