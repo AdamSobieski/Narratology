@@ -4,21 +4,21 @@
 
 Should accessibility metadata for 3D scenes and objects be:
 
-1. hierarchical, enabling an adaptive level of detail?
-2. readonly or additionally writeable, e.g., by AI assistants?
-3. time-variable, or animatable?
+1. available in multiple languages?
+2. hierarchical, enabling an adaptive level of detail?
+3. readonly or additionally writeable, e.g., by AI assistants?
+4. time-variable, or animatable?
 
-With respect to question #1, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: `aria-expanded`). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
+With respect to question #2, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: `aria-expanded`). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
-With respect to question #2, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. A toggleable `expanded` property, however, suggests that at least some metadata content for loaded 3D scenes or objects would be mutable or writeable.
+With respect to question #3, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. A toggleable `expanded` property, however, suggests that at least some metadata content for loaded 3D scenes or objects would be mutable or writeable.
 
-Question #3 is the most challenging.
+Question #4 is the most challenging.
 
 ## Considered Features
 
 1. Dynamic alt text. During user-interactions or animations, that alt text available for 3D scenes or objects could be varied. This includes during motions of virtual cameras and during animations, e.g., rotations of objects, where different parts of objects would be visible to a virtual camera as a result.
    1. Artificial-intelligence systems could obtain these dynamic data from combinations of (accessibility) metadata and screen-captured visual renderings of 3D scenes or objects.
-2. Internationalization. Support for multiple languages could be available in accessibility metadata.
 
 ## Case Studies
 
