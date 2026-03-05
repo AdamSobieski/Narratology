@@ -8,9 +8,9 @@ Should accessibility metadata for 3D scenes and objects be:
 2. readonly or additionally writeable, e.g., by AI assistants?
 3. time-variable, or animatable?
 
-With respect to question #1, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail. If a separate hierarchy is desired for a metadata layer, one could provide objects with `id`s and reference these when creating a tree described in metadata.
+With respect to question #1, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail. If a separate hierarchy is desired for a metadata layer, one could provide objects with `id`s and reference these when creating a tree described in metadata.
 
-With respect to question #2, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. A contextually toggleable `expanded` property, however, suggests that metadata content for loaded 3D scenes or objects would be mutable or writeable.
+With respect to question #2, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. A contextually toggleable `expanded` property, however, suggests that at least some metadata content for loaded 3D scenes or objects would be mutable or writeable.
 
 Question #3 is the most challenging.
 
