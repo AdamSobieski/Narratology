@@ -16,8 +16,9 @@ Question #3 is the most challenging.
 
 ## Considered Features
 
-1. Dynamic `alt text`: during interactivity or animations, the `alt text` available for a 3D scene or object could vary. This includes rotations of objects where different parts would be visible to a virtual camera as a result.
+1. Dynamic alt text. During user-interactions or animations, that alt text available for 3D scenes or objects could be varied. This includes during motions of virtual cameras and during animations, e.g., rotations of objects, where different parts of objects would be visible to a virtual camera as a result.
    1. Artificial-intelligence systems could obtain these dynamic data from combinations of (accessibility) metadata and screen-captured visual renderings of 3D scenes or objects.
+2. Internationalization. Support for multiple languages could be available in accessibility metadata.
 
 ## Case Studies
 
