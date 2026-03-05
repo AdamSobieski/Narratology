@@ -11,17 +11,31 @@ Should accessibility metadata for 3D scenes and objects be:
 5. capable of providing functionalities (e.g., via MCP)?
 6. time-variable, or animatable?
 
-With respect to question #1, support for multiple languages, there are multiple approaches to supporting multiple languages in JSON- and JSON-LD-based accessibility metadata.
+## Introduction
 
-With respect to question #2, hierarhical adaptive level of detail, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: `aria-expanded`). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
+### Support for Multiple Languages
 
-With respect to question #3, the capability of expressing user selections, one could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: `aria-selected`).
+There are a number of approaches for supporting multiple languages in JSON- and JSON-LD-based accessibility metadata.
 
-With respect to question #4, readonly vs. writeable metadata, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
+### Hierarchical Structure Enabling an Adaptive Level of Detail
 
-With respect to question #5, functionalities, one could attach MCP servers and sets of tools to 3D scenes, objects, and virtual cameras.
+One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: `aria-expanded`). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
-With respect to question #6, time-varying or animatable metadata...
+### User Selections
+
+One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: `aria-selected`).
+
+### Readonly and Writeable
+
+One could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
+
+### Adding Functionalities
+
+One could attach MCP servers and sets of tools to 3D scenes, objects, and virtual cameras.
+
+### Animatability
+
+Coming soon.
 
 ## Considered Features
 
@@ -45,16 +59,4 @@ With respect to question #6, time-varying or animatable metadata...
   <source type="model/gltf+json" src="resource.gltf" />
   <source type="model/x3d+xml" src="resource.x3d" />
 </model-viewer>
-```
-
-### X3D
-
-```xml
-<x3d width="800" height="600">
-  <scene>
-    <meta name="label" content="..." />
-    <meta name="description" content="..." />
-    <meta name="urgency" content="..." />
-  </scene>
-</x3d>
 ```
