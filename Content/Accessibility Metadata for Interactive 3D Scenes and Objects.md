@@ -25,8 +25,8 @@ Question #5 is the most challenging.
 
 ## Case Studies
 
-1. glTF: https://equalentry.com/accessibility-gltf-objects/
-2. OpenUSD: https://openusd.org/release/user_guides/schemas/usdUI/AccessibilityAPI.html
+1. OpenUSD: https://openusd.org/release/user_guides/schemas/usdUI/AccessibilityAPI.html
+2. glTF: https://equalentry.com/accessibility-gltf-objects/
 3. X3D: https://www.web3d.org/x3d4
 
 ## Examples
@@ -35,8 +35,9 @@ Question #5 is the most challenging.
 
 ```xml
 <model-viewer alt="..." aria-label="..." aria-description="..." aria-urgency="...">
-  <source type="model/gltf+json" src="resource.gltf" />
   <source type="application/vnd.usdz+zip" src="resource.usdz" />
+  <source type="model/gltf+json" src="resource.gltf" />
+  <source type="model/x3d+xml" src="resource.x3d" />
 </model-viewer>
 ```
 
