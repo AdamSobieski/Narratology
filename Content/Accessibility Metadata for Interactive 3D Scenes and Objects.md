@@ -10,7 +10,7 @@ Should accessibility metadata for 3D scenes and objects be:
 4. readonly or additionally writeable (e.g., by AI assistants)?
 5. capable of providing functionalities (e.g., via MCP)?
 6. time-variable, or animatable?
-7. embedded or external to 3D-graphics resources?
+7. embedded in or external to 3D-graphics resources?
 
 ## Discussion
 
