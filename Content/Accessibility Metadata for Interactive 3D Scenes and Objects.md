@@ -10,6 +10,7 @@ Should accessibility metadata for 3D scenes and objects be:
 4. readonly or additionally writeable (e.g., by AI assistants)?
 5. capable of providing functionalities (e.g., via MCP)?
 6. time-variable, or animatable?
+7. embedded or external to 3D-graphics resources?
 
 ## Discussion
 
@@ -37,11 +38,11 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 
 Changes to accessibility metadata for 3D scenes and objects (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
 
-## Inline or External Metadata Resources
+### Embedded or External Metadata
 
 Accessibility metadata could be either embedded inline within 3D-graphics resources or accompany these resources (resembling how CSVW metadata accompanies CSV data resources).
 
-In the case of accompanying metadata, 3D scenes and objects could have embedded inline identifiers and these identifiers could be referenced by external metadata resources. As envisioned, external metadata resources could be referenced by 3D-graphics resources by URL and/or could accompany 3D-graphics resources in compressed archive formats.
+In the case of accompanying metadata, 3D scenes and objects could have embedded inline identifiers, e.g., URI, and these identifiers could be referenced by external metadata resources. As envisioned, external metadata resources could be referenced by 3D-graphics resources by URL and/or could accompany them in compressed archive formats.
 
 ## Considered Features
 
