@@ -27,7 +27,7 @@ One could add a property, `selected`, with an enumerate value, a Boolean value, 
 
 ### Readonly and Writeable
 
-One could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
+One could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable (see also: [`aria-readonly`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-readonly)). Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
 
 ### Adding Functionalities
 
