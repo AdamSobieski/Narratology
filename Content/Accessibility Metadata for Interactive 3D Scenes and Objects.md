@@ -30,10 +30,10 @@ Question #3 is the most challenging.
 ### HTML5 Custom Elements
 
 ```xml
-<3d-graphics alt="..." aria-label="..." aria-description="..." aria-urgency="...">
+<model-viewer alt="..." aria-label="..." aria-description="..." aria-urgency="...">
   <source type="model/gltf+json" src="resource.gltf" />
   <source type="application/vnd.usdz+zip" src="resource.usdz" />
-</3d-graphics>
+</model-viewer>
 ```
 
 ### X3D
