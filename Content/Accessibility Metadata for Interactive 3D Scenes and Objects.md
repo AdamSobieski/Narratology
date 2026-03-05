@@ -35,7 +35,7 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 
 ### Animation
 
-Coming soon.
+Perhaps changes to accessibility metadata could be defined in animation keyframes. Coming soon.
 
 ## Considered Features
 
