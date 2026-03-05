@@ -33,7 +33,7 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
 
-### Animatability
+### Animation
 
 Coming soon.
 
