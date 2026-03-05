@@ -21,15 +21,15 @@ There are a number of approaches for supporting multiple languages in JSON- and 
 
 One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
-### User Selections
+### Selectability
 
 One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected)).
 
-### Readonly and Writeable
+### Readability and Writeability
 
 One could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable (see also: [`aria-readonly`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-readonly)). Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
 
-### Adding Functionalities
+### Functionality
 
 One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
 
