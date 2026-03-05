@@ -14,6 +14,11 @@ With respect to question #2, one could add a property, `readonly`, with an enume
 
 Question #3 is the most challenging.
 
+## Considered Features
+
+1. Dynamic `alt text`: during interactivity or animations, the `alt text` available for a 3D scene or object could vary. This includes rotations of objects where different parts would be visible to a virtual camera as a result.
+   1. Artificial-intelligence systems could obtain these dynamic data from combinations of (accessibility) metadata and screen-captured visual renderings of 3D scenes or objects.
+
 ## Case Studies
 
 1. glTF: https://equalentry.com/accessibility-gltf-objects/
