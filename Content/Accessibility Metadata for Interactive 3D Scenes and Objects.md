@@ -11,7 +11,7 @@ Should accessibility metadata for 3D scenes and objects be:
 5. capable of providing functionalities (e.g., via MCP)?
 6. time-variable, or animatable?
 
-## Introduction
+## Discussion
 
 ### Support for Multiple Languages
 
@@ -37,13 +37,19 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 
 Changes to accessibility metadata for 3D scenes and objects (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
 
+## Inline or External Metadata Resources
+
+Accessibility metadata could be either embedded inline within 3D-graphics resources or accompany these resources (resembling how CSVW metadata accompanies CSV data).
+
+In the case of accompanying metadata, 3D scenes and objects could have embedded inline identifiers and these identifiers could be referenced by external metadata resources. As envisioned, external metadata resources could be referenced by 3D-graphics resources by URL and/or could accompany 3D-graphics resources in compressed archive formats.
+
 ## Considered Features
 
 1. Dynamic alt text. During user-interactions or animations, that alt text available for 3D scenes or objects could be varied. This includes during motions of virtual cameras and during animations, e.g., rotations of objects, where different parts of objects would be visible to a virtual camera as a result.
    1. Artificial-intelligence systems could obtain these dynamic data from combinations of (accessibility) metadata and screen-captured visual renderings of 3D scenes or objects.
 2. AI-enabled conversational user experiences for interacting with 3D scenes and objects.
 
-## Case Studies
+## Existing Formats
 
 1. OpenUSD: https://openusd.org/release/user_guides/schemas/usdUI/AccessibilityAPI.html
 2. glTF: https://equalentry.com/accessibility-gltf-objects/
