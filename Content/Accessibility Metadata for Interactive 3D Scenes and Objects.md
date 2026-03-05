@@ -19,7 +19,7 @@ There are a number of approaches for supporting multiple languages in JSON- and 
 
 ### Hierarchical Structure Enabling an Adaptive Level of Detail
 
-One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
+One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
 ### User Selections
 
@@ -31,7 +31,7 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 ### Adding Functionalities
 
-One could attach MCP servers and sets of tools to 3D scenes, objects, and virtual cameras.
+One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
 
 ### Animatability
 
