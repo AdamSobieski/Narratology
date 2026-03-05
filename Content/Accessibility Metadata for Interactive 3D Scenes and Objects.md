@@ -19,11 +19,11 @@ There are a number of approaches for supporting multiple languages in JSON- and 
 
 ### Hierarchical Structure Enabling an Adaptive Level of Detail
 
-One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
+One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded) and [`aria-level`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-level)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
 ### Selectability
 
-One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected)).
+One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
 
 ### Readability and Writeability
 
