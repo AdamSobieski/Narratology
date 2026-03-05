@@ -6,14 +6,17 @@ Should accessibility metadata for 3D scenes and objects be:
 
 1. available in multiple languages?
 2. hierarchical, enabling an adaptive level of detail?
-3. readonly or additionally writeable, e.g., by AI assistants?
-4. time-variable, or animatable?
+3. capable of expressing user selections?
+4. readonly or additionally writeable (e.g., by AI assistants)?
+5. time-variable, or animatable?
 
 With respect to question #2, one could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: `aria-expanded`). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
-With respect to question #3, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. A toggleable `expanded` property, however, suggests that at least some metadata content for loaded 3D scenes or objects would be mutable or writeable.
+With respect to question #3, one could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: `aria-selected`).
 
-Question #4 is the most challenging.
+With respect to question #4, one could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable. Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
+
+Question #5 is the most challenging.
 
 ## Considered Features
 
