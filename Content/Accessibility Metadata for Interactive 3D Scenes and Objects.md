@@ -35,7 +35,7 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 
 ### Animation
 
-Changes to accessibility metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) for 3D scenes and objects could be defined in animation keyframes.
+Changes to accessibility metadata for 3D scenes and objects (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
 
 ## Considered Features
 
