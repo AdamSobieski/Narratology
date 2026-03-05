@@ -54,7 +54,7 @@ Changes to accessibility metadata (e.g., [`aria-label`](https://developer.mozill
 ### HTML5 Custom Elements
 
 ```xml
-<model-viewer alt="..." aria-label="..." aria-description="..." aria-urgency="...">
+<model-viewer alt="..." aria-label="..." aria-description="...">
   <source type="application/vnd.usdz+zip" src="resource.usdz" />
   <source type="model/gltf+json" src="resource.gltf" />
   <source type="model/x3d+xml" src="resource.x3d" />
