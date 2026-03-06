@@ -51,7 +51,8 @@ With respect to implementation of external metadata resources, 3D scenes, object
       1. This includes during motions of virtual cameras and during animations, e.g., rotations of objects, where different parts of objects would be visible to a virtual camera as a result.
    2. Artificial-intelligence systems could produce dynamic alt text from combinations of (accessibility) metadata and screen-captured visual renderings.
 3. AI-enabled conversational user experiences for interacting with 3D scenes and objects.
-   1. This includes visuospatial question-answering about a 3D scene, object, or its parts.
+   1. This includes visual question-answering about 3D scenes, objects, or their parts.
+      1. This includes question-answering about spatial relationships between and distances between objects in 3D scenes.
 
 ## Existing Formats
 
