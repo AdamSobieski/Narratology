@@ -61,7 +61,9 @@ With respect to implementation of external metadata resources, 3D scenes, object
    2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
 
 4. Toggleable 3D contents.
-   1. With metadata, 3D graphics could have toggleable contents, e.g., for toggling whether to display features and visual annotations atop 3D graphs, plots, or surfaces from mathematical functions.
+   1. With metadata, 3D graphics could have toggleable contents.
+      1. Users could toggle whether to display certain visual annotations atop 3D graphs, plots, or surfaces from mathematical functions.
+   2. Toggling such contents might be available through menus or heads-up-displays in 3D-graphics content; metadata for these would be an accessibility topic.
 
 5. JavaScript interoperability features.
 
