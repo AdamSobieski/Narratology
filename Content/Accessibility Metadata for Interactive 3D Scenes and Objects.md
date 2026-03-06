@@ -57,10 +57,13 @@ With respect to implementation of external metadata resources, 3D scenes, object
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants as a result of multimodal man-machine dialogues?
 
 3. Interaction menus.
-   1. While affordances and/or options for interaction with 3D scenes or objects may be evident for sighted users, in theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D graphics.
-   2. This might involve the union of those affordances from relevant and/or selected objects.
+   1. While affordances and/or options for interaction with 3D scenes or objects may be apparent for sighted users, in theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D graphics.
+   2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
 
-4. JavaScript features.
+4. Toggleable 3D contents.
+   1. With metadata, 3D graphics could have toggleable contents, e.g., for toggling whether to display features and visual annotations atop 3D graphs, plots, or surfaces from mathematical functions.
+
+5. JavaScript interoperability features.
 
 ## Existing Formats
 
