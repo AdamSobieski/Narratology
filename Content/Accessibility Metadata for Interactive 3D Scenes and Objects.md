@@ -62,7 +62,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 4. Automatically-generated interaction menus.
    1. In theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D objects.
    2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
-   3. See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction).
+   3. See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction) and the [interactive fiction accessibility testing report](https://accessibility.iftechfoundation.org/).
 
 5. JavaScript interoperability features.
 
