@@ -47,12 +47,20 @@ With respect to implementation of external metadata resources, 3D scenes, object
 ## Envisioned Features
 
 1. Dynamic alt text.
-   1. During user-interactions or animations, that alt text available for 3D scenes or objects could be varied.
-      1. This includes during motions of virtual cameras and during animations, e.g., rotations of objects, where different parts of objects would be visible to a virtual camera as a result.
+   1. During user-interactions or animations, the alt text available for 3D scenes or objects could be varied.
+      1. This includes during motions of virtual cameras and during objects' animations.
    2. Artificial-intelligence systems could produce dynamic alt text from combinations of (accessibility) metadata and screen-captured visual renderings.
-3. AI-enabled conversational user experiences.
-   1. This includes visual question-answering about 3D scenes, objects, or their parts.
-      1. This includes question-answering about spatial relationships between and distances between objects in 3D scenes.
+
+2. Conversational user experiences.
+   1. This would include visual question-answering about 3D scenes, objects, and their parts.
+      1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
+   2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants as a result of multimodal man-machine dialogues?
+
+3. Interaction menus.
+   1. While affordances and/or options for interaction with 3D scenes or objects may be evident for sighted users, in theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D graphics.
+   2. This could be a union of the affordances from relevant and/or selected objects.
+
+4. JavaScript features.
 
 ## Existing Formats
 
