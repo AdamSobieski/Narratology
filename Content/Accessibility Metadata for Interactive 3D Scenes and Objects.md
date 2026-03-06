@@ -58,7 +58,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 3. Interaction menus.
    1. While affordances and/or options for interaction with 3D scenes or objects may be evident for sighted users, in theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D graphics.
-   2. This could be a union of the affordances from relevant and/or selected objects.
+   2. This might involve the union of those affordances from relevant and/or selected objects.
 
 4. JavaScript features.
 
