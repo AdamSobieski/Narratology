@@ -54,7 +54,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 2. Conversational user experiences.
    1. This would include visual question-answering about 3D scenes, objects, and their parts.
       1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
-   2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants as a result of multimodal man-machine dialogues?
+   2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
 
 3. Accessible menus and controls.
    1. Menus and controls displayed within 3D-graphics widgets could be annotated with metadata for accessibility.
