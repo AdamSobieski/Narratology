@@ -57,7 +57,7 @@ Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://develo
 
 Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how CSVW metadata resources are external to, reference, and accompany CSV data resources).
 
-With respect to implementation of external metadata resources, 3D scenes, objects, and their parts could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources.
+With respect to implementation of external metadata resources, 3D scenes, objects, their parts, and animation keyframes could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources. Some 3D-graphics formats utilize archive formats and, in these cases, metadata resources could accompany other resources in such archives.
 
 ## Envisioned Features
 
@@ -83,6 +83,12 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 6. Other JavaScript interoperability features.
 
+## Implementation Ideas
+
+1. `http://www.w3.org/WAI/ARIA/` is the namespace to use when representing ARIA roles, states, and properties in formats like RDF Turtle and JSON‑LD.
+2. Perhaps 3D-graphics widgets (see: `<model-viewer>`) could, for their JavaScript APIs, provide (virtual) (mutable) DOM trees for their contents such that `aria-` attributes and their values would be bidirectionally mapped with any semantic models of the 3D-graphics contents.
+3. Perhaps 3D-graphics widgets (see: `<model-viewer>`) could, for their JavaScript APIs, provide knowledge graphs for their metadata contents such that these (mutable) graphs would be bidirectionally mapped with any semantic models of the 3D-graphics contents.
+
 ## Existing Formats
 
 1. OpenUSD: https://openusd.org/release/user_guides/schemas/usdUI/AccessibilityAPI.html
@@ -91,14 +97,20 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 ## Examples
 
-### HTML5 Custom Elements
-
 ```xml
 <model-viewer alt="..." aria-label="..." aria-description="...">
   <source type="application/vnd.usdz+zip" src="resource.usdz" />
   <source type="model/gltf+json" src="resource.gltf" />
   <source type="model/x3d+xml" src="resource.x3d" />
 </model-viewer>
+```
+
+```turtle
+@prefix aria: <http://www.w3.org/WAI/ARIA/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<#myButton> rdf:type aria:button ;
+            aria:pressed "false" .
 ```
 
 ## See Also
