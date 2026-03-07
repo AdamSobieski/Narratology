@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Bridging visuospatial content with semantics will enable many new and interesting technologies and features. These include new accessibility-related and artificial-intelligence-related features involving 3D-graphics content in digital textbooks and instructional materials, blueprints, diagrams, maps, and schematics.
+Bridging visuospatial content with semantics will enable many new and interesting technologies and features. These include new accessibility-related and artificial-intelligence-related features involving interactive 3D-graphics content in digital textbooks and instructional materials, blueprints, diagrams, maps, models, and schematics.
 
 ## Guiding Questions
 
@@ -44,7 +44,7 @@ Changes to accessibility metadata for 3D scenes and objects (e.g., [`aria-label`
 
 ### Embedded or External Metadata
 
-Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how CSVW metadata are external to and accompany CSV data resources).
+Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how CSVW metadata resources are external to, reference, and accompany CSV data resources).
 
 With respect to implementation of external metadata resources, 3D scenes, objects, and their parts could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata.
 
@@ -66,9 +66,12 @@ With respect to implementation of external metadata resources, 3D scenes, object
 4. Automatically-generated interaction menus.
    1. In theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D objects.
    2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
-   3. See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction) and the [interactive fiction accessibility testing report](https://accessibility.iftechfoundation.org/).
 
 5. JavaScript interoperability features.
+
+## Synergies with Interactive Fiction
+
+See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction) and the [interactive fiction accessibility testing report](https://accessibility.iftechfoundation.org/).
 
 ## Existing Formats
 
