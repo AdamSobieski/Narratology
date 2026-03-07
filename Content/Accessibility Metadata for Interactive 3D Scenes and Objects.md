@@ -29,7 +29,7 @@ One could add a property, `expanded`, with an enumerated value, a toggle for `op
 
 If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the ARIA [`tree`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role) and [`treeitem`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/treeitem_role) roles.
 
-Objects in 3D scenes may have multiple mereological decompositions into parts, including beyond any default one or ones provided by content authors.
+3D scenes may have multiple mereological decompositions into objects, and objects multiple such decompositions into parts, including beyond the default one or ones provided by content authors.
 
 ### Selectable
 
