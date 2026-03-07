@@ -1,5 +1,9 @@
 # Accessibility Metadata for Interactive 3D Scenes and Objects
 
+## Introduction
+
+Bridging visuospatial content with semantics will enable many new and interesting technologies and features. These include new accessibility-related and artificial-intelligence-related features involving 3D-graphics content in digital textbooks and instructional materials, blueprints, diagrams, maps, and schematics.
+
 ## Guiding Questions
 
 Should accessibility metadata for 3D scenes and objects be:
