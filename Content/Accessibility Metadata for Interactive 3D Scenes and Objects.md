@@ -63,7 +63,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 3. Undo and redo capabilities.
 
 4. Saving and loading state.
-   1. How might 3D-graphics widgets interoperate with [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API)?
+   1. How might 3D-graphics widgets interoperate with the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) in Web browsers?
 
 5. Accessible menus and controls.
    1. Menus and controls displayed within 3D-graphics widgets could be annotated with metadata for accessibility.
