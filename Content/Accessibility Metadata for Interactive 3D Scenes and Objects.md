@@ -43,7 +43,7 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic, or mutable.
 
-If structurally dynamic, or mutable, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections (see also: the [document object model](https://dom.spec.whatwg.org/)).
+If structurally dynamic, or mutable, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections (see also: the [DOM](https://dom.spec.whatwg.org/) and [RDFJS](https://rdf.js.org/) APIs).
 
 ### Functional
 
@@ -119,6 +119,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 * [Semantic 3D Content Accessibility Community Group](https://www.w3.org/community/semantic-3d-a11y/)
 * [Accessible Player Experiences (APX)](https://accessible.games/accessible-player-experiences/)
 * [Interactive Fiction Technology Foundation Accessibility Testing Report](https://accessibility.iftechfoundation.org/)
+* [WAI-ARIA Overview](https://www.w3.org/WAI/standards-guidelines/aria/)
 * https://github.com/w3c/webai/issues/5
 * https://github.com/webmachinelearning/webmcp/issues/65
 * https://github.com/webmachinelearning/webmcp/issues/91
