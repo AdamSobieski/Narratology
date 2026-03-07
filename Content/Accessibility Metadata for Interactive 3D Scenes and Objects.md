@@ -42,7 +42,7 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 
 Changes to accessibility metadata for 3D scenes and objects (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
 
-### Embedded or External Metadata
+### Embedded or External
 
 Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how CSVW metadata resources are external to, reference, and accompany CSV data resources).
 
