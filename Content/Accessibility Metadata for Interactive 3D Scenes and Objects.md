@@ -29,9 +29,11 @@ One could add a property, `expanded`, with an enumerated value, a toggle for `op
 
 If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the ARIA [`tree`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role) and [`treeitem`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/treeitem_role) roles.
 
+Objects in 3D scenes may have multiple mereological decompositions into parts, including beyond any default one or ones provided by content authors.
+
 ### Selectable
 
-One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether one or more objects were selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
+One could add a property, `selected`, with an enumerated value, a Boolean value, for indicating whether one or more objects were selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
 
 ### Readonly or Writeable
 
@@ -39,9 +41,9 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 ### Static or Dynamic
 
-Objects in 3D scenes may have multiple mereological decompositions into parts, beyond any default one or ones provided by content authors.
+In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic or mutable.
 
-In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic (or mutable). If so, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections.
+If structurally dynamic or mutable, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections (see also: the [document object model](https://dom.spec.whatwg.org/)).
 
 ### Functional
 
