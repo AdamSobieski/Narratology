@@ -28,7 +28,7 @@ One could add a property, `expanded`, with an enumerated value, a toggle for `op
 
 ### Selectability
 
-One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether an object was currently selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
+One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether one or more objects were selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
 
 ### Readability and Writeability
 
