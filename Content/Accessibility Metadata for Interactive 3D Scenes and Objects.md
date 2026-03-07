@@ -41,9 +41,9 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 ### Static or Dynamic
 
-In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic or mutable.
+In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic, or mutable.
 
-If structurally dynamic or mutable, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections (see also: the [document object model](https://dom.spec.whatwg.org/)).
+If structurally dynamic, or mutable, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections (see also: the [document object model](https://dom.spec.whatwg.org/)).
 
 ### Functional
 
