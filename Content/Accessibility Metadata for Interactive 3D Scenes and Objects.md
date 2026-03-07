@@ -10,7 +10,7 @@ Should accessibility metadata for 3D scenes and objects be:
 
 1. available in multiple languages?
 2. hierarchical, enabling an adaptive level of detail?
-3. capable of expressing user selections?
+3. capable of enabling user selections?
 4. readonly or additionally writeable (e.g., by AI assistants)?
 5. capable of providing functionalities (e.g., via MCP)?
 6. time-variable, or animatable?
