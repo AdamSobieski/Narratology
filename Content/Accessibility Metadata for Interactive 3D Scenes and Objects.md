@@ -60,16 +60,19 @@ With respect to implementation of external metadata resources, 3D scenes, object
       1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
 
-3. Undo capabilities.
+3. Undo and redo capabilities.
 
-4. Accessible menus and controls.
+4. Saving and loading state.
+   1. How might 3D-graphics widgets interoperate with [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API)?
+
+5. Accessible menus and controls.
    1. Menus and controls displayed within 3D-graphics widgets could be annotated with metadata for accessibility.
 
-5. Automatically-generated interaction menus.
-   1. In theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D objects.
-   2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
+6. Automatically-generated interaction menus.
+   1. In theory, menus could be generated, including in an on-the-fly manner, to enable the manipulation of interactive 3D objects.
+   2. This might involve computing the unions of affordances from 3D scenes' relevant and/or selected objects.
 
-6. JavaScript interoperability features.
+7. JavaScript interoperability features.
 
 ## Existing Formats
 
