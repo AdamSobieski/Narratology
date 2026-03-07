@@ -60,18 +60,16 @@ With respect to implementation of external metadata resources, 3D scenes, object
       1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
 
-3. Accessible menus and controls.
+3. Undo capabilities.
+
+4. Accessible menus and controls.
    1. Menus and controls displayed within 3D-graphics widgets could be annotated with metadata for accessibility.
 
-4. Automatically-generated interaction menus.
+5. Automatically-generated interaction menus.
    1. In theory, menus could be generated, including in an on-the-fly manner, for visually-impaired users to be able to manipulate interactive 3D objects.
    2. This might involve calculating the union of those affordances from relevant and/or selected 3D objects.
 
-5. JavaScript interoperability features.
-
-## Synergies with Interactive Fiction
-
-See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fiction) and the [interactive fiction accessibility testing report](https://accessibility.iftechfoundation.org/).
+6. JavaScript interoperability features.
 
 ## Existing Formats
 
@@ -90,3 +88,11 @@ See also: [interactive fiction](https://en.wikipedia.org/wiki/Interactive_fictio
   <source type="model/x3d+xml" src="resource.x3d" />
 </model-viewer>
 ```
+
+## See Also
+
+* [Semantic 3D Content Accessibility Community Group](https://www.w3.org/community/semantic-3d-a11y/)
+* [Interactive Fiction Accessibility Testing Report](https://accessibility.iftechfoundation.org/)
+* https://github.com/w3c/webai/issues/5
+* https://github.com/webmachinelearning/webmcp/issues/65
+* https://github.com/webmachinelearning/webmcp/issues/91
