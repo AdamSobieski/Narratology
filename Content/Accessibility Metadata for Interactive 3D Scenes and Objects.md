@@ -92,6 +92,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 ## See Also
 
 * [Semantic 3D Content Accessibility Community Group](https://www.w3.org/community/semantic-3d-a11y/)
+* [Accessible Player Exepriences (APX)](https://accessible.games/accessible-player-experiences/)
 * [Interactive Fiction Accessibility Testing Report](https://accessibility.iftechfoundation.org/)
 * https://github.com/w3c/webai/issues/5
 * https://github.com/webmachinelearning/webmcp/issues/65
