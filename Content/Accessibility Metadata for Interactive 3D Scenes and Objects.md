@@ -12,9 +12,10 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 2. hierarchical, enabling an adaptive level of detail?
 3. capable of enabling user selections?
 4. readonly or additionally writeable (e.g., by AI assistants)?
-5. capable of providing functionalities (e.g., via MCP)?
-6. time-variable, or animatable?
-7. embedded in or external to 3D-graphics resources?
+5. static or dynamic?
+6. capable of providing functionalities (e.g., via MCP)?
+7. time-variable, or animatable?
+8. embedded in or external to 3D-graphics resources?
 
 ## Discussion
 
@@ -28,19 +29,23 @@ One could add a property, `expanded`, with an enumerated value, a toggle for `op
 
 If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the ARIA [`tree`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role) and [`treeitem`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/treeitem_role) roles.
 
-### Selectability
+### Selectable
 
 One could add a property, `selected`, with an enumerate value, a Boolean value, for indicating whether one or more objects were selected (see also: [`aria-selected`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-selected) and [`aria-activedescendant`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-activedescendant)).
 
-### Readability and Writeability
+### Readonly or Writeable
 
 One could add a property, `readonly`, with an enumerated value for indicating whether an object's metadata were readonly or writeable (see also: [`aria-readonly`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-readonly)). Toggleable `expanded` and/or `selected` properties would suggest that at least some of the metadata content for loaded interactive 3D scenes or objects would be writeable.
 
-### Functionality
+### Static or Dynamic
+
+Objects in 3D scenes may have multiple mereological decompositions into parts. If accessibility metadata content both is capable of enabling selections and is writeable, end-users or their AI assistants could "reify" and attach metadata to ad-hoc groupings or sets formed by selections of multiple objects or their parts.
+
+### Functional
 
 One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
 
-### Animatability
+### Animatable
 
 Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
 
