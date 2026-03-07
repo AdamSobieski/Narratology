@@ -6,7 +6,7 @@ Bridging visuospatial content with semantics will enable many new and interestin
 
 ## Questions
 
-Should accessibility metadata for 3D scenes and objects be:
+Should accessibility metadata for 3D scenes, objects, and their parts be:
 
 1. available in multiple languages?
 2. hierarchical, enabling an adaptive level of detail?
@@ -24,7 +24,9 @@ There are a number of approaches for supporting multiple languages in JSON- and 
 
 ### Hierarchical Structure Enabling an Adaptive Level of Detail
 
-One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded) and [`aria-level`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-level)). If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
+One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded) and [`aria-level`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-level)).
+
+If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the [ARIA `tree` role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role).
 
 ### Selectability
 
