@@ -61,9 +61,9 @@ With respect to implementation of external metadata resources, 3D scenes, object
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
 
 3. Undo and redo capabilities.
+   1. How might 3D-graphics widgets interoperate with the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) in Web browsers?
 
 4. Saving and loading states.
-   1. How might 3D-graphics widgets interoperate with the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) in Web browsers?
 
 5. Accessible menus and controls.
    1. Menus and controls displayed within 3D-graphics widgets could be annotated with metadata for accessibility.
