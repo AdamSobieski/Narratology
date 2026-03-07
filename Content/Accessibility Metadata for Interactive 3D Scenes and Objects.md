@@ -41,7 +41,7 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 Objects in 3D scenes may have multiple mereological decompositions into parts, beyond any default one or ones provided by content authors.
 
-If accessibility metadata is both selectable and writeable, end-users or their AI assistants could "reify" and attach metadata to ad-hoc groupings or sets formed by selections of multiple objects or their parts.
+In addition to accessibility metadata being capable of being selectable and writeable, it may also be structurally dynamic (or mutable). If so, end-users or their AI assistants could "reify" and attach new metadata to ad-hoc groupings or sets of multiple objects or their parts formed by selections.
 
 ### Functional
 
