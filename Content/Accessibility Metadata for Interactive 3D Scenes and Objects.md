@@ -70,7 +70,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
    1. In theory, menus could be generated, including in an on-the-fly manner, to enable the manipulation of interactive 3D objects.
    2. This might involve computing the unions of affordances from 3D scenes' relevant and/or selected objects.
 
-6. Other JavaScript interoperability features.
+6. Other JavaScript and Web Assembly (WASM) interoperability features.
 
 ## Existing Formats
 
