@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Bridging visuospatial content with semantics will enable many new and interesting technologies and features. These include new accessibility-related and artificial-intelligence-related features involving interactive 3D-graphics content in digital textbooks and instructional materials, blueprints, diagrams, games, maps, models, and schematics.
+Bridging visuospatial content with semantics will enable many new and exciting technologies and features. These include new accessibility-related and artificial-intelligence-related features involving interactive 3D-graphics content in digital textbooks and instructional materials, blueprints, diagrams, games, maps, models, and schematics.
 
 ## Questions
 
