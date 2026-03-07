@@ -123,3 +123,8 @@ With respect to implementation of external metadata resources, 3D scenes, object
 * https://github.com/w3c/webai/issues/5
 * https://github.com/webmachinelearning/webmcp/issues/65
 * https://github.com/webmachinelearning/webmcp/issues/91
+  
+<br>
+
+* [Mereology](https://plato.stanford.edu/entries/mereology/)
+* [Location and Mereology](https://plato.stanford.edu/entries/location-mereology/)
