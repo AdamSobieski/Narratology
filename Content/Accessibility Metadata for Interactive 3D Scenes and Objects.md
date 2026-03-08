@@ -123,6 +123,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 * [Mereology](https://plato.stanford.edu/entries/mereology/)
 * [Location and Mereology](https://plato.stanford.edu/entries/location-mereology/)
+* [Temporal Parts](https://plato.stanford.edu/entries/temporal-parts/)
 
 <br>
 
