@@ -53,7 +53,7 @@ Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://develo
 
 ### Embedded or External
 
-Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how [CSVW](https://www.w3.org/TR/tabular-data-model/) metadata resources are external to, reference, and accompany CSV data resources).
+Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how [CSVW](https://www.w3.org/TR/tabular-data-model/) metadata resources are external to, reference, and can accompany CSV data resources).
 
 With respect to implementation of external metadata resources, 3D scenes, objects, their parts, and animation keyframes could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources. Some 3D-graphics formats utilize archive formats and, in these cases, metadata resources could accompany other resources in such archives.
 
