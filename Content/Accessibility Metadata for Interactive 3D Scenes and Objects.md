@@ -21,7 +21,7 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 
 ### Support for Multiple Languages
 
-There are a number of approaches for supporting multiple languages in JSON- and JSON-LD-based accessibility metadata.
+There are a number of approaches for supporting multiple languages in accessibility metadata.
 
 ### Hierarchical Structure Enabling an Adaptive Level of Detail
 
