@@ -71,7 +71,7 @@ In particular if external to 3D-graphics resources, metadata could readily expre
    1. This would include visual question-answering about 3D scenes, objects, and their parts.
       1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
-      1. With selectability, dynamic metadata, and support for annotations and/or for multiple models, end-users could "reify" selected groups of objects or parts and attach metadata content to them.
+      1. With selectability, annotatable or dynamic metadata, and perhaps support for multiple models, end-users could "reify" selected groups of objects or parts and attach metadata content to them.
 
 3. Undo and redo capabilities.
    1. 3D-graphics widgets could interoperate with the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) in Web browsers.
