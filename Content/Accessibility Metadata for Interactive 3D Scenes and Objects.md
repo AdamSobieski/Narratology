@@ -40,7 +40,7 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 ### Static or Dynamic
 
-In addition to accessibility metadata being capable of being selectable and writeable, it may also be dynamic. If dynamic, end-users or their AI assistants could add, remove, and modify metadata content, mapping it to 3D visuospatial content. End-users could, for example, "reify" ad-hoc selections of groups of objects or their parts and attach new metadata content to these (see also: the [DOM](https://dom.spec.whatwg.org/) and [RDFJS](https://rdf.js.org/) APIs).
+In addition to accessibility metadata being capable of being selectable and writeable, it may also be dynamic. If dynamic, end-users or their AI assistants could add, remove, and modify metadata content, mapping it to 3D visuospatial content.
 
 ### Functional
 
@@ -59,6 +59,8 @@ With respect to implementation of external metadata resources, 3D scenes, object
 ### Single or Multiple Models
 
 In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects, including beyond those default ones provided by content authors.
+
+With dynamic metadata and support for multiple models, users could "reify" selected groups of objects or parts and attach new metadata content to these (see also: the [DOM](https://dom.spec.whatwg.org/) and [RDFJS](https://rdf.js.org/) APIs).
 
 ## Envisioned Features
 
