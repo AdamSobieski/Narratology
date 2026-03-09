@@ -58,7 +58,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 ### Single or Multiple Models
 
-In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects, including beyond those default ones provided by content authors.
+In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects (including beyond those provided by content authors).
 
 ## Envisioned Features
 
@@ -83,7 +83,7 @@ In particular if external to 3D-graphics resources, metadata could readily expre
    1. In theory, menus could be generated, including in an on-the-fly manner, to enable the manipulation of interactive 3D objects.
    2. This might involve computing the unions of affordances from 3D scenes' relevant and/or selected objects.
 
-6. Other scripting features (e.g., JavaScript).
+6. Other scripting-related features (e.g., JavaScript).
 
 ## Implementation Ideas
 
