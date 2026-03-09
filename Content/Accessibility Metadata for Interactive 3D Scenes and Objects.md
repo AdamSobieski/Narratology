@@ -11,10 +11,10 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 1. available in multiple languages?
 2. hierarchical, enabling an adaptive level of detail?
 3. selectable?
-4. readonly or writeable (e.g., by AI assistants)?
+4. readonly or writeable?
 5. static or dynamic?
-6. capable of providing functionalities (e.g., via MCP)?
-7. animatable?
+6. animatable?
+7. capable of providing functionalities (e.g., via MCP)?
 8. embedded in or external to 3D-graphics resources?
 9. expressive for multiple mereological models?
 
@@ -42,13 +42,13 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 In addition to accessibility metadata being capable of being selectable and writeable, it may also be dynamic. If dynamic, end-users or their AI assistants could add, remove, and modify metadata content, mapping it to 3D visuospatial content.
 
-### Functional
-
-One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
-
 ### Animatable
 
 Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
+
+### Functional
+
+One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
 
 ### Embedded or External
 
