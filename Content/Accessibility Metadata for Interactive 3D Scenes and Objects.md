@@ -60,8 +60,6 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects, including beyond those default ones provided by content authors.
 
-With selectability, dynamic metadata, and support for annotations and/or multiple models, end-users could "reify" selected groups of objects or parts and attach metadata content to them.
-
 ## Envisioned Features
 
 1. Dynamic alt text.
@@ -73,6 +71,7 @@ With selectability, dynamic metadata, and support for annotations and/or multipl
    1. This would include visual question-answering about 3D scenes, objects, and their parts.
       1. This would include question-answering about spatial relationships between and distances between objects in 3D scenes.
    2. Might writeable (accessibility) metadata about 3D scenes and objects be modifiable by AI assistants?
+      1. With selectability, dynamic metadata, and support for annotations and/or for multiple models, end-users could "reify" selected groups of objects or parts and attach metadata content to them.
 
 3. Undo and redo capabilities.
    1. 3D-graphics widgets could interoperate with the [History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API) in Web browsers.
@@ -84,7 +83,7 @@ With selectability, dynamic metadata, and support for annotations and/or multipl
    1. In theory, menus could be generated, including in an on-the-fly manner, to enable the manipulation of interactive 3D objects.
    2. This might involve computing the unions of affordances from 3D scenes' relevant and/or selected objects.
 
-6. Other JavaScript interoperability features.
+6. Other scripting features (e.g., JavaScript).
 
 ## Implementation Ideas
 
