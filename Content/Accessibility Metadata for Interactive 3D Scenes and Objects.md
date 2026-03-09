@@ -16,7 +16,7 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 6. animatable?
 7. capable of providing functionalities (e.g., via MCP)?
 8. embedded in or external to 3D-graphics resources?
-9. expressive for multiple mereological models?
+9. sufficiently expressive for multiple mereological models?
 
 ## Discussion
 
