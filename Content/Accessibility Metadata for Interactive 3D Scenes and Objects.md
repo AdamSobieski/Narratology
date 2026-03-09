@@ -16,20 +16,19 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 6. capable of providing functionalities (e.g., via MCP)?
 7. animatable?
 8. embedded in or external to 3D-graphics resources?
+9. expressive for multiple mereological models?
 
 ## Discussion
 
-### Support for Multiple Languages
+### Multilingual
 
 There are a number of approaches for supporting multiple languages in accessibility metadata.
 
-### Hierarchical Structure Enabling an Adaptive Level of Detail
+### Adaptive Level of Detail
 
 One could add a property, `expanded`, with an enumerated value, a toggle for `open` or `closed`, or a Boolean value, for indicating whether sub-objects or sub-parts are revealed to an adaptive level of detail (see also: [`aria-expanded`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded) and [`aria-level`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-level)).
 
 If a separate, parallel tree-like hierarchy is desired for a scene's or object's metadata layer, one could use something like the ARIA [`tree`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tree_role) and [`treeitem`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/treeitem_role) roles.
-
-3D scenes may have multiple [mereological](https://plato.stanford.edu/entries/mereology/) decompositions into objects, and objects multiple such decompositions into parts, including beyond the default one or ones provided by content authors.
 
 ### Selectable
 
@@ -56,6 +55,10 @@ Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://develo
 Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how [CSVW](https://www.w3.org/TR/tabular-data-model/) metadata resources are external to, reference, and can accompany CSV data resources).
 
 With respect to implementation of external metadata resources, 3D scenes, objects, their parts, and animation keyframes could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources. Some 3D-graphics formats utilize archive formats and, in these cases, metadata resources could accompany other resources in such archives.
+
+### Single or Multiple Models
+
+In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects, including beyond those default ones provided by content authors.
 
 ## Envisioned Features
 
