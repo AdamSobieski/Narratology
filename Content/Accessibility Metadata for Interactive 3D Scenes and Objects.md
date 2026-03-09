@@ -87,8 +87,10 @@ In particular if external to 3D-graphics resources, metadata could readily expre
 ## Implementation Ideas
 
 1. Perhaps 3D-graphics widgets (see: `<model-viewer>`) could, for their JavaScript APIs, provide (virtual) (mutable) DOM trees such that `aria-` attributes and their values on these trees would be bidirectionally mapped with any semantic models of the 3D-graphics contents.
+
 2. Perhaps 3D-graphics widgets (see: `<model-viewer>`) could, for their JavaScript APIs, provide knowledge graphs for their metadata such that these (mutable) graphs would be bidirectionally mapped with any semantic models of the 3D-graphics contents.
    1. `http://www.w3.org/WAI/ARIA/` is the namespace to use when representing ARIA roles, states, and properties in formats like RDF Turtle and JSON‑LD.
+
 3. With respect to affordances and functionalities, perhaps those DOM elements or knowledge-graph nodes of 3D-graphics contents' semantic models could each have sets of MCP tools.
 
 ## Existing Formats
