@@ -60,7 +60,7 @@ With respect to implementation of external metadata resources, 3D scenes, object
 
 In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects, including beyond those default ones provided by content authors.
 
-With dynamic metadata and support for multiple models, users could "reify" selected groups of objects or parts and attach new metadata content to these (see also: the [DOM](https://dom.spec.whatwg.org/) and [RDFJS](https://rdf.js.org/) APIs).
+With dynamic metadata and support for multiple models, users could "reify" selected groups of objects or parts and attach metadata content to these (see also: the [DOM](https://dom.spec.whatwg.org/) and [RDFJS](https://rdf.js.org/) APIs).
 
 ## Envisioned Features
 
