@@ -8,15 +8,16 @@ Bridging visuospatial content with semantics will enable many new and exciting t
 
 Should accessibility metadata for 3D scenes, objects, and their parts be:
 
-1. available in multiple languages?
+1. multilingual?
 2. hierarchical, enabling an adaptive level of detail?
 3. selectable?
 4. readonly or writeable?
 5. static or dynamic?
 6. animatable?
-7. capable of providing functionalities (e.g., via MCP)?
-8. embedded in or external to 3D-graphics resources?
-9. sufficiently expressive for multiple mereological models?
+7. streamable?
+8. capable of providing functionalities (e.g., via MCP)?
+9. embedded in or external to 3D-graphics resources?
+10. sufficiently expressive for multiple mereological models?
 
 ## Discussion
 
@@ -44,7 +45,11 @@ In addition to accessibility metadata being capable of being selectable and writ
 
 ### Animatable
 
-Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation keyframes.
+Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation [keyframes](https://en.wikipedia.org/wiki/Key_frame).
+
+### Streamable
+
+For some media types, [WebVTT](https://www.w3.org/TR/webvtt1/) [metadata](https://www.w3.org/TR/webvtt1/#introduction-metadata) tracks could, perhaps containing both ["intra-coded" and "predicted"](https://en.wikipedia.org/wiki/Video_compression_picture_types#Intra-coded_(I)_frames/slices_(key_frames)) time-aligned metadata (expressed using JSON or JSON-LD), stream RDF graphs and [diff or patch](https://www.w3.org/DesignIssues/Diff) content.
 
 ### Functional
 
