@@ -49,7 +49,7 @@ Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://develo
 
 ### Streamable
 
-For some media types, [WebVTT](https://www.w3.org/TR/webvtt1/) [metadata](https://www.w3.org/TR/webvtt1/#introduction-metadata) tracks could, perhaps containing both ["intra-coded" and "predicted"](https://en.wikipedia.org/wiki/Video_compression_picture_types#Intra-coded_(I)_frames/slices_(key_frames)) time-aligned metadata (expressed using JSON or JSON-LD), stream RDF graphs and [diff or patch](https://www.w3.org/DesignIssues/Diff) content.
+For some media types, [WebVTT](https://www.w3.org/TR/webvtt1/) [metadata](https://www.w3.org/TR/webvtt1/#introduction-metadata) tracks could, using JSON or JSON-LD, perhaps containing both ["intra-coded" and "predicted"](https://en.wikipedia.org/wiki/Video_compression_picture_types#Intra-coded_(I)_frames/slices_(key_frames)) time-aligned metadata, stream RDF graphs and [diff or patch](https://www.w3.org/DesignIssues/Diff) content.
 
 ### Functional
 
