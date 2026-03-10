@@ -13,11 +13,11 @@ Should accessibility metadata for 3D scenes, objects, and their parts be:
 3. selectable?
 4. readonly or writeable?
 5. static or dynamic?
-6. animatable?
-7. streamable?
-8. capable of providing functionalities (e.g., via MCP)?
-9. embedded in or external to 3D-graphics resources?
-10. sufficiently expressive for multiple mereological models?
+6. embedded in or external to 3D-graphics resources?
+7. sufficiently expressive for multiple mereological models?
+8. animatable?
+9. streamable?
+10. capable of providing functionalities (e.g., via MCP)?
 
 ## Discussion
 
@@ -43,6 +43,16 @@ One could add a property, `readonly`, with an enumerated value for indicating wh
 
 In addition to accessibility metadata being capable of being selectable and writeable, it may also be dynamic. If dynamic, end-users or their AI assistants could add, remove, and modify metadata content, mapping it to 3D visuospatial content.
 
+### Embedded or External
+
+Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how [CSVW](https://www.w3.org/TR/tabular-data-model/) metadata resources are external to, reference, and can accompany CSV data resources).
+
+With respect to implementation of external metadata resources, 3D scenes, objects, their parts, and animation keyframes could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources. Some 3D-graphics formats utilize archive formats and, in these cases, metadata resources could accompany other resources in such archives.
+
+### Single or Multiple Models
+
+In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects (including beyond those provided by content authors).
+
 ### Animatable
 
 Changes to 3D scenes' and objects' metadata (e.g., [`aria-label`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label) and [`aria-description`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-description)) could be defined in animation [keyframes](https://en.wikipedia.org/wiki/Key_frame).
@@ -54,16 +64,6 @@ For some media types, [WebVTT](https://www.w3.org/TR/webvtt1/) [metadata](https:
 ### Functional
 
 One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts) and sets of [tools](https://modelcontextprotocol.io/docs/learn/server-concepts#tools) to 3D scenes, objects, and virtual cameras.
-
-### Embedded or External
-
-Accessibility metadata could be either embedded inline within 3D-graphics resources or external to these resources (resembling how [CSVW](https://www.w3.org/TR/tabular-data-model/) metadata resources are external to, reference, and can accompany CSV data resources).
-
-With respect to implementation of external metadata resources, 3D scenes, objects, their parts, and animation keyframes could have embedded inline identifiers, e.g., URIs or GUIDs, and these identifiers could be referenced by external metadata resources. Some 3D-graphics formats utilize archive formats and, in these cases, metadata resources could accompany other resources in such archives.
-
-### Single or Multiple Models
-
-In particular if external to 3D-graphics resources, metadata could readily express multiple [mereological](https://plato.stanford.edu/entries/mereology/) models for 3D scenes or objects (including beyond those provided by content authors).
 
 ## Envisioned Features
 
