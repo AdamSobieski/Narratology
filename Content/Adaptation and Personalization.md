@@ -51,13 +51,13 @@ Accept-Adaptation: science/botany;q=0.82, science/chemistry;q=0.5
 
 ## HTML Document Metadata
 
-HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter space.
+HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter spaces.
 
 ```html
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" href="alternative-resource.html" />
 ```
 
-HTML document metadata could be of use for specifying a document's adaptation parameters and their current or default values.
+HTML document metadata could be of use for specifying a document's available adaptation parameters and their current or default values for the current document.
 
 ```html
 <meta name="adaptation-parameter" content="science/botany;q=0.5" />
