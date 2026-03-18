@@ -6,7 +6,7 @@ What if Web content could be adapted using _adaptation parameters_, e.g., users'
 
 The same concept, "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, on many educational journeys. One learner, over the course of many years, might revisit this concept in a variety of ways. This suggests a different approach from the traditional encyclopedic organization of knowledge where one concept has one article for all audiences and all situational contexts.
 
-Can Web technologies be developed to enable adaptation of personalization of content?
+Can Web technologies be developed to enable adaptation and personalization of content?
 
 ## Envisioned User Experiences
 
