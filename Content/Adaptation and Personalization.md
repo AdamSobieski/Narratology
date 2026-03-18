@@ -58,6 +58,7 @@ HTML document metadata could be of use for specifying a document's alternatives 
 ```html
 <link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.5" href="alternative-1.html" />
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" href="alternative-2.html" />
+<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.8" href="alternative-3.html" />
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.8" href="alternative-3.html" />
 ```
 
