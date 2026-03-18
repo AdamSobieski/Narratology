@@ -8,7 +8,23 @@ The same concept, "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis
 
 Can Web technologies be developed to enable adaptation and personalization of content?
 
-## Envisioned User Experiences
+## Discussion
+
+### Background
+
+While some websites can already perform content customization for users, including based on their site-specific settings and configuration, one value proposition, here, is the portability of users' settings and configuration, of their preferred values for adaptation parameters, across websites of their choosing.
+
+Techniques indicated here would be, in particular, useful for educational websites. Learners of all ages would find the Web to be more readily comprehensible to them as they read and learned about topics both of interest to them and pertaining to their courses.
+
+### Benefits
+
+Standard approaches to adaptation and personalization would enable Web frameworks to support these features, content-management systems (or extensions to these), learning-management systems (or extensions to these), and new HTML5 custom elements.
+
+### User Privacy
+
+As envisioned, users would be in total control of which websites could read from and write to their stored adaptation parameters.
+
+### Envisioned User Experiences
 
 Users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
 
