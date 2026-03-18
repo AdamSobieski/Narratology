@@ -21,10 +21,10 @@ Eventually, conversational user-experiences could be delivered for users to ask 
 A server could use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server or for individual resources.
 
 ```turtle
-<https://en.wikipedia.org/wiki/Category:Botany> rdfs:label "science/botany" ;
+<https://en.wikipedia.org/wiki/Category:Botany> edu:label "science/botany" ;
     dc:description "Botany, also called phytology or plant science..."@en .
 
-<https://en.wikipedia.org/wiki/Category:Chemistry> rdfs:label "science/chemistry" ;
+<https://en.wikipedia.org/wiki/Category:Chemistry> edu:label "science/chemistry" ;
     dc:description "Chemistry is the scientific study of the properties and behavior of matter."@en .
 ```
 
@@ -84,6 +84,10 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
   <p>...</p>
 </section>
 ```
+
+## JavaScript
+
+For single-page applications and other scenarios, JavaScript could handle and intercept events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
 
 ## Beyond Scalar Values
 
