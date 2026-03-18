@@ -53,7 +53,7 @@ Accept-Adaptation: science/botany;q=0.82, science/chemistry;q=0.5
 
 ## HTTP HEAD Method
 
-Using the HTTP HEAD method, a server could use HTTP headers to specify the adaptation parameters available for a resource and/or a document's alternatives available at coordinates in adaptation-parameter space.
+Using the HTTP HEAD method, a server could use HTTP headers to specify the adaptation parameters available for a resource and/or a document's alternative resources available for coordinates in adaptation-parameter space.
 
 ## HTML Document Metadata
 
