@@ -67,7 +67,6 @@ HTML document metadata could be of use for specifying a document's available ada
 ```
 
 ```html
-<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.5" type="text/html" href="1.html" />
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" type="text/html" href="2.html" />
 <link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.8" type="text/html" href="3.html" />
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.8" type="text/html" href="4.html" />
