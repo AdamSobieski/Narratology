@@ -94,7 +94,7 @@ HTML document metadata could be of use for specifying a document's available ada
 <meta name="adaptation-parameter" content="science/chemistry;q=0.5" />
 ```
 
-HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter spaces.
+HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in or for other regions in adaptation-parameter spaces.
 
 ```html
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" type="text/html" href="2.html" />
