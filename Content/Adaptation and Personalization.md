@@ -84,6 +84,6 @@ Artificial-intelligence systems can "translate" content from one language into t
 
 ## See Also
 
-* https://en.wikipedia.org/wiki/Adaptive_learning
-* https://en.wikipedia.org/wiki/Adaptive_hypermedia
-* https://en.wikipedia.org/wiki/Personalized_learning
+* [Adaptive Learning](https://en.wikipedia.org/wiki/Adaptive_learning)
+* [Adaptive Hypermedia](https://en.wikipedia.org/wiki/Adaptive_hypermedia)
+* [Personalized Learning](https://en.wikipedia.org/wiki/Personalized_learning)
