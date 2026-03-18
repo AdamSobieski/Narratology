@@ -117,6 +117,16 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 </section>
 ```
 
+## HTML Custom Elements
+
+```html
+<adaptive-content>
+  <content-source data-prerequisite="...">...</content-source>
+  <content-source data-prerequisite="...">...</content-source>
+  <content-source data-prerequisite="...">...</content-source>
+</adaptive-content>
+```
+
 ## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts in resources could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
