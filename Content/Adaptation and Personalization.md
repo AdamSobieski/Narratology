@@ -86,7 +86,7 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 
 ## JavaScript
 
-For single-page applications and other scenarios, JavaScript could handle and intercept events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
+For single-page applications and other scenarios, JavaScript scripts in resources could handle and intercept events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
 
 ## Beyond Scalar Values
 
