@@ -12,6 +12,8 @@ Can Web technologies be developed to enable adaptation of personalization of con
 
 Users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
 
+Adaptive explanations would be one use case for these user experiences.
+
 ## Defining Adaptation Parameters
 
 A server would use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server.
