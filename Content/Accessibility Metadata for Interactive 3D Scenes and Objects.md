@@ -129,6 +129,7 @@ One could attach [MCP servers](https://modelcontextprotocol.io/docs/learn/server
 * [Accessible Player Experiences (APX)](https://accessible.games/accessible-player-experiences/)
 * [Interactive Fiction Technology Foundation Accessibility Testing Report](https://accessibility.iftechfoundation.org/)
 * [WAI-ARIA Overview](https://www.w3.org/WAI/standards-guidelines/aria/)
+* [XR Accessibility User Requirements](https://www.w3.org/TR/xaur/)
 
 <br>
 
