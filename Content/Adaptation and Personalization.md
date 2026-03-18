@@ -26,9 +26,9 @@ A server would use the `/.well-known` directory to provide an RDF Turtle or a JS
     dc:description "Chemistry is the scientific study of the properties and behavior of matter."@en .
 ```
 
-## Category Identifiers
+## Adaptation Parameter Identifiers
 
-Note that identifiers for categories could be `/`-delimited strings capable of having more than two parts.
+Note that identifiers for adaptation parameters could be `/`-delimited strings capable of having more than two parts.
 
 ```
 science/chemistry/organic
