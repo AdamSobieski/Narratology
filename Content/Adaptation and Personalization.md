@@ -82,7 +82,7 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 </section>
 ```
 
-## JavaScript
+## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts in resources could handle and/or override events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
 
