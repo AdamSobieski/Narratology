@@ -98,7 +98,7 @@ Adaptive explanations would be one use case for these technologies. Existing con
 
 ### Intelligent Tutoring Systems
 
-Intelligent tutoring systems and other educational software could, with user permissions, set and calibrate values specified by the aforementioned horizontal slider bars for users.
+Intelligent tutoring systems and other educational software could, in addition to providing language adaptation and adaptive explanation features, set and calibrate values specified by the aforementioned horizontal slider bars for users, with user permissions.
 
 ## Beyond Scalars
 
