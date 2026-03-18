@@ -113,7 +113,7 @@ Accept-Adaptation: science/botany;q=0.82;c=0.9
 A default value for each adaptation parameter, if not specified by a user, could be 0.5 (perhaps with a confidence modifier of 0.0).
 
 ```http
-Accept-Adaptation: science/botany;q=0.5;c=0.0
+Accept-Adaptation: */*;q=0.5;c=0.0
 ```
 
 ## See Also
