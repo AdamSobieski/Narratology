@@ -110,7 +110,10 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 <section data-prerequisite="science/botany;q=0.8, science/chemistry;q=0.5">
   <p>...</p>
   <p data-prerequisite="math/calculus;q=0.65">...</p>
-  <p>...</p>
+  <p>...
+    <span class="term" data-prerequisite="science/botany;q=0.6">...</span>
+    ...
+  </p>
 </section>
 ```
 
