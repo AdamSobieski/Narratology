@@ -12,8 +12,6 @@ Can Web technologies be developed to enable adaptation of personalization of con
 
 Users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
 
-Adaptive explanations would be one use case for these user experiences. Existing content-adaptation methods include: additional explanations, prerequisite explanations, comparative explanations, explanation variants, and adaptive content sorting. Existing techniques for providing these include: conditional text, stretchtext, page variants, fragment variants, and frame-based techniques.
-
 Eventually, conversational user-experiences could be delivered for users to ask questions about available adaptation- and personalization-specific alternatives available for documents or for their parts. Conversational user-experiences could also be provided for adjusting those horizontal sliders representing adaptation parameters' values.
 
 ## Defining Adaptation Parameters
@@ -93,6 +91,10 @@ For single-page applications and other scenarios, JavaScript scripts in resource
 ### Language Adaptation
 
 Artificial-intelligence systems can "translate" content from one language into that same language, into adapted, personalized, custom-tailored variants for users.
+
+### Adaptive Explanation
+
+Adaptive explanations would be one use case for these technologies. Existing content-adaptation methods include: additional explanations, prerequisite explanations, comparative explanations, explanation variants, and adaptive content sorting. Existing techniques for providing these include: conditional text, stretchtext, page variants, fragment variants, and frame-based techniques.
 
 ### Intelligent Tutoring Systems
 
