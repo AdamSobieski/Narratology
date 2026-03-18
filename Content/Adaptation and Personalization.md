@@ -60,7 +60,7 @@ HTML document metadata could be of use for specifying a document's adaptation pa
 
 ## HTML Content Prerequisites
 
-The same syntax could be used to define prerequisite knowledge for sections, subsections, paragraphs, and spans of content.
+The same syntax could be used to define prerequisite knowledge for articles, sections, subsections, paragraphs, and spans of content.
 
 ```html
 <section data-prerequisite="science/botany;q=0.8, science/chemistry;q=0.5">
