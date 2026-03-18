@@ -24,9 +24,11 @@ Standard approaches to adaptation and personalization would enable Web framework
 
 As envisioned, users would be in total control of which websites could read from and write to their stored adaptation parameters.
 
-### Envisioned User Experiences
+Users who opt out of or do not opt into making use of these features would not provide any preferences for adaptation parameters to websites. As envisioned, this would result in content being presented for the default, or average, user.
 
-Users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
+### User Experiences
+
+As envisioned, users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
 
 Eventually, conversational user-experiences could be delivered for users to ask questions about available adaptation- and personalization-specific alternatives available for documents or for their parts. Conversational user-experiences could also be provided for adjusting those horizontal sliders representing adaptation parameters' values.
 
