@@ -16,7 +16,7 @@ Adaptive explanations would be one use case for these user experiences. Existing
 
 ## Defining Adaptation Parameters
 
-A server could use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server.
+A server could use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server or for individual resources.
 
 ```turtle
 <https://en.wikipedia.org/wiki/Category:Botany> rdfs:label "science/botany" ;
