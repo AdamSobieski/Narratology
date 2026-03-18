@@ -51,22 +51,26 @@ science/chemistry/quantum/*
 Accept-Adaptation: science/botany;q=0.82, science/chemistry;q=0.5
 ```
 
+## HTTP HEAD Method
+
+Using the HTTP HEAD method, a server could use HTTP headers to specify the adaptation parameters available for a resource and/or a document's alternatives available at coordinates in adaptation-parameter space.
+
 ## HTML Document Metadata
 
 HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter spaces.
-
-```html
-<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.5" type="text/html" href="1.html" />
-<link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" type="text/html" href="2.html" />
-<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.8" type="text/html" href="3.html" />
-<link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.8" type="text/html" href="4.html" />
-```
 
 HTML document metadata could be of use for specifying a document's available adaptation parameters and their current or default values for the current document.
 
 ```html
 <meta name="adaptation-parameter" content="science/botany;q=0.5" />
 <meta name="adaptation-parameter" content="science/chemistry;q=0.5" />
+```
+
+```html
+<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.5" type="text/html" href="1.html" />
+<link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" type="text/html" href="2.html" />
+<link rel="alternate" data-adaptation="science/botany;q=0.5, science/chemistry;q=0.8" type="text/html" href="3.html" />
+<link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.8" type="text/html" href="4.html" />
 ```
 
 ## HTML Content Prerequisites
