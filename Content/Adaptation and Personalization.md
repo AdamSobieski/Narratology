@@ -30,6 +30,20 @@ Users could, as easily as adjusting text size, adjust pages' adaptation paramete
 
 Eventually, conversational user-experiences could be delivered for users to ask questions about available adaptation- and personalization-specific alternatives available for documents or for their parts. Conversational user-experiences could also be provided for adjusting those horizontal sliders representing adaptation parameters' values.
 
+### Artificial Intelligence
+
+#### Language Adaptation
+
+Artificial-intelligence systems can "translate" content from one language into that same language, into adapted, personalized, custom-tailored variants for users.
+
+#### Adaptive Explanation
+
+Adaptive explanations would be one use case for these technologies. Existing content-adaptation methods include: additional explanations, prerequisite explanations, comparative explanations, explanation variants, and adaptive content sorting. Existing techniques for providing these include: conditional text, stretchtext, page variants, fragment variants, and frame-based techniques.
+
+#### Intelligent Tutoring Systems
+
+Intelligent tutoring systems and other educational software could, in addition to providing language adaptation and adaptive explanation features, set and calibrate values specified by the aforementioned horizontal slider bars for users, with user permissions.
+
 ## Defining Adaptation Parameters
 
 A server could use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server or for individual resources.
@@ -101,20 +115,6 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 ## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts in resources could handle and/or override events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
-
-## Artificial Intelligence
-
-### Language Adaptation
-
-Artificial-intelligence systems can "translate" content from one language into that same language, into adapted, personalized, custom-tailored variants for users.
-
-### Adaptive Explanation
-
-Adaptive explanations would be one use case for these technologies. Existing content-adaptation methods include: additional explanations, prerequisite explanations, comparative explanations, explanation variants, and adaptive content sorting. Existing techniques for providing these include: conditional text, stretchtext, page variants, fragment variants, and frame-based techniques.
-
-### Intelligent Tutoring Systems
-
-Intelligent tutoring systems and other educational software could, in addition to providing language adaptation and adaptive explanation features, set and calibrate values specified by the aforementioned horizontal slider bars for users, with user permissions.
 
 ## Beyond Scalars
 
