@@ -86,7 +86,17 @@ The same syntax could be used to define prerequisite knowledge for articles, sec
 
 ## JavaScript
 
-For single-page applications and other scenarios, JavaScript scripts in resources could handle and intercept events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
+For single-page applications and other scenarios, JavaScript scripts in resources could handle and/or override events raised when users' adjusted their aforementioned horizontal sliders representing resources' adaptation parameters.
+
+## Artificial Intelligence
+
+### Language Adaptation
+
+Artificial-intelligence systems can "translate" content from one language into that same language, into adapted, personalized, custom-tailored variants for users.
+
+### Intelligent Tutoring Systems
+
+Intelligent tutoring systems and other educational software could, with user permissions, set values specified by the aforementioned horizontal slider bars for users.
 
 ## Beyond Scalar Values
 
@@ -95,10 +105,6 @@ Must each category have a value that is a scalar? Couldn’t these be tuples for
 ```http
 Accept-Adaptation: science/botany;q=0.82;c=0.9
 ```
-
-## Artificial Intelligence
-
-Artificial-intelligence systems can "translate" content from one language into that same language, into adapted, personalized, custom-tailored variants for users.
 
 ## See Also
 
