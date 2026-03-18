@@ -55,14 +55,14 @@ Using the HTTP HEAD method, a server could use HTTP headers to specify the adapt
 
 ## HTML Document Metadata
 
-HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter spaces.
-
-HTML document metadata could be of use for specifying a document's available adaptation parameters and their current or default values for the current document.
+HTML document metadata could be of use for specifying a document's available adaptation parameters and their current or default values for a current document.
 
 ```html
 <meta name="adaptation-parameter" content="science/botany;q=0.5" />
 <meta name="adaptation-parameter" content="science/chemistry;q=0.5" />
 ```
+
+HTML document metadata could be of use for specifying a document's alternatives available at other coordinates in adaptation-parameter spaces.
 
 ```html
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.5" type="text/html" href="2.html" />
