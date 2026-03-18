@@ -16,7 +16,7 @@ While some websites can already perform content customization for users, includi
 
 Techniques indicated here would be, in particular, useful for educational websites. Learners of all ages would find the Web to be more readily comprehensible to them as they read and learned about topics both of interest to them and pertaining to their courses.
 
-### Benefits
+### Standardization Benefits
 
 Standard approaches to adaptation and personalization would enable Web frameworks to support these features, content-management systems (or extensions to these), learning-management systems (or extensions to these), and new HTML5 custom elements.
 
