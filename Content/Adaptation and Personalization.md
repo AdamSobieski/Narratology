@@ -87,7 +87,7 @@ Using the HTTP HEAD method, a server could use HTTP headers to specify the adapt
 
 ## HTML Document Metadata
 
-HTML document metadata could be of use for specifying a document's available adaptation parameters and their current or default values for a current document.
+HTML document metadata could be of use for specifying a document's available adaptation parameters and their current values for a document.
 
 ```html
 <meta name="adaptation-parameter" content="science/botany;q=0.5" />
