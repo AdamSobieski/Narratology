@@ -77,16 +77,15 @@ science/chemistry/organic
 math/calculus/integration/multidimensional
 ```
 
-In theory, wildcards could also be used.
-```
-science/chemistry/quantum/*
-```
-
-
 ## HTTP Content Negotiation
 
 ```http
 Accept-Adaptation: science/botany;q=0.82, science/chemistry;q=0.5
+```
+
+In theory, wildcards could also be used.
+```http
+Accept-Adaptation: science/chemistry/quantum/*;q=0.81
 ```
 
 ## HTTP HEAD Method
