@@ -119,6 +119,8 @@ The same syntax (or some other syntax) could be used to specify prerequisite kno
 
 ## HTML Custom Elements
 
+Resembling HTML media tags, the `<source>` tag, and the `media` attribute:
+
 ```html
 <adaptive-content>
   <content-source data-prerequisite="...">...</content-source>
