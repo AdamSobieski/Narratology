@@ -64,7 +64,7 @@ Such resources might resemble:
 
 <#3> rdf:type edu:AdaptationParameter ;
      edu:label "science/chemistry/organic" ;
-     edu:description "Organic chemistry is a subdiscipline within chemistry involving the scientific study of organic..."@en ;
+     edu:description "Organic chemistry is a subdiscipline within chemistry studying organic..."@en ;
      edu:sameAs <https://en.wikipedia.org/wiki/Category:Organic_chemistry> ;
      edu:hasSuperParameter <#2> .
 ```
