@@ -149,7 +149,7 @@ Must each category have a value that is a scalar? Couldn’t these be tuples for
 Accept-Adaptation: science/botany;q=0.82;c=0.9
 ```
 
-## Default Values and User-modeling Stereotypes
+## User-modeling Stereotypes and Default Values
 
 A default value for each adaptation parameter, if not specified by a user, could be 0.5 (perhaps with a confidence modifier of 0.0). This value could be defined to correspond with the average user.
 
