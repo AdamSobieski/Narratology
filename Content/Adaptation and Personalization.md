@@ -68,7 +68,7 @@ A server could use the `/.well-known` directory to provide an RDF Turtle or a JS
      edu:hasSuperParameter <#2> .
 ```
 
-Identifiers or labels for adaptation parameters, `/`-delimited strings, can be capable of having more than two parts.
+As considered, adaptation parameters' identifiers or labels, `/`-delimited strings, could have more than two parts.
 
 ```
 science/chemistry/organic
