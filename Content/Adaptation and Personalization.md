@@ -149,13 +149,15 @@ Must each category have a value that is a scalar? Couldn’t these be tuples for
 Accept-Adaptation: science/botany;q=0.82;c=0.9
 ```
 
-## Default Values
+## Default Values and User-modeling Stereotypes
 
-A default value for each adaptation parameter, if not specified by a user, could be 0.5 (perhaps with a confidence modifier of 0.0).
+A default value for each adaptation parameter, if not specified by a user, could be 0.5 (perhaps with a confidence modifier of 0.0). This value could be defined to correspond with the average user.
 
 ```http
 Accept-Adaptation: *;q=0.5;c=0.0
 ```
+
+It might be useful to be able to have different average values for different demographics, e.g., reading levels for students in grades K-12, and to provide a means for users to be able to succinctly specify one or more demographics for these purposes.
 
 ## See Also
 
