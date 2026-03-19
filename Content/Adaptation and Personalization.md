@@ -50,20 +50,21 @@ Intelligent tutoring systems and other educational software could, in addition t
 
 A server could use the `/.well-known` directory to provide an RDF Turtle or a JSON-LD resource definining the available adaptation parameters for the server or for individual resources.
 
+Such resources might resemble:
 ```turtle
 <#1> rdf:type edu:AdaptationParameter ;
      edu:label "science/botany" ;
-     dc:description "Botany, also called phytology or plant science..."@en ;
+     edu:description "Botany, also called phytology or plant science..."@en ;
      edu:sameAs <https://en.wikipedia.org/wiki/Category:Botany> .
 
 <#2> rdf:type edu:AdaptationParameter ;
      edu:label "science/chemistry" ;
-     dc:description "Chemistry is the scientific study of the properties and behavior of matter."@en ;
+     edu:description "Chemistry is the scientific study of the properties and behavior of matter."@en ;
      edu:sameAs <https://en.wikipedia.org/wiki/Category:Chemistry> .
 
 <#3> rdf:type edu:AdaptationParameter ;
      edu:label "science/chemistry/organic" ;
-     dc:description "Organic chemistry is a subdiscipline within chemistry involving the scientific study of organic..."@en ;
+     edu:description "Organic chemistry is a subdiscipline within chemistry involving the scientific study of organic..."@en ;
      edu:sameAs <https://en.wikipedia.org/wiki/Category:Organic_chemistry> ;
      edu:hasSuperParameter <#2> .
 ```
