@@ -84,7 +84,7 @@ math/calculus/integration/multidimensional
 Accept-Adaptation: science/botany;q=0.82, science/chemistry;q=0.5
 ```
 
-In theory, wildcards could also be used.
+Wildcard symbols could also be utilized.
 ```http
 Accept-Adaptation: science/chemistry/quantum/*;q=0.81
 ```
