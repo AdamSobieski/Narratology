@@ -157,7 +157,7 @@ A default value for each adaptation parameter, if not specified by a user, could
 Accept-Adaptation: *;q=0.5;c=0.0
 ```
 
-It might be useful to be able to succinctly express different average values for different demographics, e.g., average reading levels for students in grades K-12. It might be useful to provide a means for users to be able to succinctly indicate one or more demographics for these purposes, to be able to express differences relative to demographics-based user-modeling stereotypes.
+It might be useful to be able to succinctly express different average values for different demographics, e.g., average reading levels for students in grades K-12, students in university, and personnel employed in different categories of the workforce. It might be useful to provide a means for users to be able to succinctly indicate one or more demographics for these purposes, so as to be able to express differences relative to demographics-based user-model stereotypes.
 
 ## See Also
 
