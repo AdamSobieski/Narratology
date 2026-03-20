@@ -100,7 +100,7 @@ Using the HTTP HEAD method, a server could use HTTP headers to specify the adapt
 HTML document metadata could be of use for indicating where resource-specific adaptation parameters were defined.
 
 ```html
-<link rel="adaptation-parameter-definition" type="application/ld+json" href="adaptation.jsonld" />
+<link rel="adaptation-definitions" type="application/ld+json" href="adaptation.jsonld" />
 ```
 
 HTML document metadata could be of use for specifying a document's available adaptation parameters and their current values for a document.
@@ -162,6 +162,8 @@ Must each category have a value that is a scalar? Couldn’t these be tuples for
 ```http
 Accept-Adaptation: science/botany;q=0.82;c=0.9
 ```
+
+Adaptation parameters could also, in theory, define their valid values as being, beyond scalars ranging from 0.0 to 1.0, enumerated sequences of text-string values, each text-string value mapping to a scalar ranging from 0.0 to 1.0.
 
 ## User-modeling Stereotypes and Default Values
 
