@@ -54,21 +54,21 @@ A server could use the `/.well-known` directory to provide an RDF Turtle or a JS
 
 Such resources might resemble:
 ```turtle
-<#1> rdf:type edu:AdaptationParameter ;
-     edu:label "science/botany" ;
-     edu:description "Botany, also called phytology or plant science..."@en ;
-     edu:sameAs <https://en.wikipedia.org/wiki/Category:Botany> .
+<#1> rdf:type adapt:AdaptationParameter ;
+     adapt:label "science/botany" ;
+     adapt:description "Botany, also called phytology or plant science..."@en ;
+     adapt:sameAs <https://en.wikipedia.org/wiki/Category:Botany> .
 
-<#2> rdf:type edu:AdaptationParameter ;
-     edu:label "science/chemistry" ;
-     edu:description "Chemistry is the scientific study of the properties and behavior of matter."@en ;
-     edu:sameAs <https://en.wikipedia.org/wiki/Category:Chemistry> .
+<#2> rdf:type adapt:AdaptationParameter ;
+     adapt:label "science/chemistry" ;
+     adapt:description "Chemistry is the scientific study of the properties and behavior of matter."@en ;
+     adapt:sameAs <https://en.wikipedia.org/wiki/Category:Chemistry> .
 
-<#3> rdf:type edu:AdaptationParameter ;
-     edu:label "science/chemistry/organic" ;
-     edu:description "Organic chemistry is a subdiscipline within chemistry studying organic..."@en ;
-     edu:sameAs <https://en.wikipedia.org/wiki/Category:Organic_chemistry> ;
-     edu:hasSuperParameter <#2> .
+<#3> rdf:type adapt:AdaptationParameter ;
+     adapt:label "science/chemistry/organic" ;
+     adapt:description "Organic chemistry is a subdiscipline within chemistry studying organic..."@en ;
+     adapt:sameAs <https://en.wikipedia.org/wiki/Category:Organic_chemistry> ;
+     adapt:hasSuperParameter <#2> .
 ```
 
 As considered, adaptation parameters' identifiers or labels, `/`-delimited strings, could have more than two parts.
