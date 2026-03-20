@@ -14,7 +14,7 @@ Can Web technologies be developed to enable adaptation and personalization of co
 
 While some websites can already perform content customization for users using site-specific settings and configuration, a value proposition of the techniques under discussion is that users' preferred values for adaptation parameters could be portable across the websites of their choosing.
 
-The techniques indicated here would be particularly useful for educational, scholarly, and scientific websites. Learners of all ages would find the Web to be more readily comprehensible to them as they read and learned about topics both of interest to them and pertaining to their courses and tasks.
+The techniques indicated here would be particularly useful for educational, scholarly, and scientific websites. Learners of all ages would find the Web to be more readily comprehensible to them as they read, comprehended, and learned about topics both of interest to them and pertaining to their courses and tasks.
 
 ### Standardization Benefits
 
