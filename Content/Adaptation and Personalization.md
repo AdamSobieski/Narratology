@@ -186,7 +186,6 @@ Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=
 5. Which other syntax possibilities exist for specifying `data-prerequisite` attributes' values?
    1. Perhaps ones based on the [media queries](https://www.w3.org/TR/mediaqueries-4/) syntax, ones capable of numerical comparisons, conjunctions, and disjunctions?
 6. Might there be expressiveness for categories of adaptation parameters to have differing access-control and permissions requirements?
-7. Might fine-grained control of adaptation and personalization be a topic for HTML style? Content in `<q>` and `<blockquote>` elements might have different default values than other elements, for example.
 
 ## See Also
 
