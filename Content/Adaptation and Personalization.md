@@ -173,6 +173,7 @@ Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=
 1. With respect to artificial-intelligence systems "translating", adapting, personalizing, or custom-tailoring content for users, how should users' expressed preferences, these being coordinates, distributions, or regions in adaptation-parameter spaces, be mapped to natural-language user descriptions provided to these AI systems in the form of prompts?
 2. How should AI-adapted content best be evaluated?
 3. How can AI systems help people to create (adaptive hypermedia) content for one or more described intended audiences?
+4. How can software tools help users to quickly calibrate their adaptation-parameter preferences?
 
 ## See Also
 
