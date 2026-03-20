@@ -2,11 +2,11 @@
 
 ## Introduction
 
-The same concept, for example "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, at many points on many educational journeys. One learner, over the course of years, might revisit this concept in a number of ways. This suggests a different approach from the traditional organization and presentation of knowledge where one concept has one article intended for all audiences and all situational contexts.
+The same concept, for example "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, at many points on many educational journeys. This suggests a different approach from the traditional organization and presentation of knowledge where one concept is represented by one article intended for all audiences across all situational contexts.
 
-What if Web content could be adapted using _adaptation parameters_, these, for example, corresponding with categories and subcategories of scholarly and scientific knowledge?
+What if Web content could be adapted and personalized using _adaptation parameters_? Such parameters, for instance, might correspond with categories and subcategories of scholarly and scientific knowledge.
 
-Can Web technologies be developed to enable adaptation and personalization of content?
+Below, technology concepts are shared to enable the adaptation and personalization of Web content.
 
 ## Discussion
 
@@ -97,7 +97,7 @@ Using the HTTP HEAD method, a server could use HTTP headers to specify the adapt
 
 ## HTML Document Metadata
 
-HTML document metadata could be of use for indicating where (resource-specific) adaptation parameters were defined.
+HTML document metadata could be of use for indicating where (site- and/or resource-specific) adaptation parameters were defined.
 
 ```html
 <link rel="adaptation-definitions" type="application/ld+json" href="adaptation.jsonld" />
