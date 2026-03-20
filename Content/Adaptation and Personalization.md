@@ -26,13 +26,13 @@ As envisioned, users would be in total control of which websites could read from
 
 Users who opt out of or do not opt into making use of these features would not provide any preferences for adaptation parameters to websites. As envisioned, this would result in content being presented for the default, or average, user.
 
-### User Experiences
+### Envisioned User Experiences
 
-As envisioned, using a toggle button, users could toggle (default off) adaptation and personalization features per website.
+Using a toggle button (default off), users could toggle adaptation and personalization features per website. If toggled on for a website, users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
 
-If toggled on for a website, users could, as easily as adjusting text size, adjust pages' adaptation parameters in their Web browsers. Users could be provided a list and/or expandable hierarhical tree of parameters each having a natural-language name and description and a horizontal slider to adjust its value. As or after users adjusted these horizontal sliders, the natural-language content of a webpage would be updated as a result.
+Alternatively, users could be visually notified when alternative versions of webpages &ndash; adapted and personalized to coordinates, distributions, or regions in adaptation-parameter spaces &ndash; were available. Clicking upon, or selecting, these visible notifications or symbols would result in opening the aforementioned tree of horizontal sliders, but with points on them for indicating the coordinates or regions of available alternative content.
 
-Eventually, conversational user-experiences can be delivered for users to ask their AI assistants questions about available adaptation- and personalization-specific alternatives available for documents or for their parts. Conversational user-experiences could also be provided for adjusting those horizontal sliders representing adaptation parameters' values.
+Eventually, conversational user-experiences could be delivered for users to make use of to ask their AI assistants questions about available adaptation- and personalization-specific alternatives available for websites or their parts. User-experiences could also be provided for conversationally adjusting the envisioned trees of horizontal sliders representing adaptation parameters' values.
 
 ### Artificial Intelligence
 
