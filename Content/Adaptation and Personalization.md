@@ -185,6 +185,7 @@ Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=
 4. How can software tools help users to quickly and easily calibrate and/or modify their adaptation-parameter preferences?
 5. Which other syntax possibilities exist for specifying `data-prerequisite` attributes' values?
    1. Perhaps ones based on the [media queries](https://www.w3.org/TR/mediaqueries-4/) syntax, ones capable of numerical comparisons, conjunctions, and disjunctions?
+6. Might there be expressiveness for categories of adaptation parameters having differing access-control and permissions requirements?
 
 ## See Also
 
