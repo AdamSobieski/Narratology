@@ -97,7 +97,7 @@ Using the HTTP HEAD method, a server could use HTTP headers to specify the adapt
 
 ## HTML Document Metadata
 
-HTML document metadata could be of use for indicating where resource-specific adaptation parameters were defined.
+HTML document metadata could be of use for indicating where (resource-specific) adaptation parameters were defined.
 
 ```html
 <link rel="adaptation-definitions" type="application/ld+json" href="adaptation.jsonld" />
