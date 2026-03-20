@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The same concept, for example "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, on many points of many educational journeys. One learner, over the course of years, might revisit this concept in a number of ways. This suggests a different approach from the traditional organization and presentation of knowledge where one concept has one article intended for all audiences and all situational contexts.
+The same concept, for example "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, at many points on many educational journeys. One learner, over the course of years, might revisit this concept in a number of ways. This suggests a different approach from the traditional organization and presentation of knowledge where one concept has one article intended for all audiences and all situational contexts.
 
 What if Web content could be adapted using _adaptation parameters_, these, for example, corresponding with categories and subcategories of scholarly and scientific knowledge?
 
