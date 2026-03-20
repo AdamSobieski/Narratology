@@ -129,7 +129,7 @@ The same syntax (or some other syntax) could be used to specify prerequisite kno
 
 ## HTML Custom Elements
 
-Resembling HTML media tags, the `<source>` tag, and the `media` attribute, for the following custom element, `<adaptive-content>`, a browser would select the first matching `<content-source>` tag using the `data-prerequisite` attribute.
+Resembling HTML media tags, the `<source>` tag, and the `media` attribute, for the following custom element, `<adaptive-content>`, a browser would select the first or best matching `<content-source>` tag using the `data-prerequisite` attribute.
 
 ```html
 <adaptive-content>
