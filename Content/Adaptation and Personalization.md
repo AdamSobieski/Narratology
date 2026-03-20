@@ -18,7 +18,7 @@ The techniques indicated here would be particularly useful for educational, scho
 
 ### Standardization Benefits
 
-Standard approaches to adaptation and personalization would enable Web servers, Web frameworks, content-management systems (or extensions to these), learning-management systems (or extensions to these), and new HTML5 custom elements to support and to deliver these features.
+Standard approaches to adaptation and personalization would enable Web servers, Web frameworks, content-management systems (or extensions to these), learning-management systems (or extensions to these), and new HTML5 custom elements to support and deliver these features.
 
 ### User Privacy
 
