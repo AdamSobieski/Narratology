@@ -153,7 +153,7 @@ Resembling HTML media tags, the `<source>` tag, and the `media` attribute, for t
 
 ## Scripting
 
-For single-page applications and other scenarios, JavaScript scripts in resources could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
+For single-page applications and other scenarios, JavaScript scripts could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
 
 ## Beyond Scalars
 
