@@ -177,7 +177,7 @@ Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=
 
 ## See Also
 
-* [Adaptive Learning](https://en.wikipedia.org/wiki/Adaptive_learning)
 * [Adaptive Hypermedia](https://en.wikipedia.org/wiki/Adaptive_hypermedia)
+* [Adaptive Learning](https://en.wikipedia.org/wiki/Adaptive_learning)
 * [Personalized Learning](https://en.wikipedia.org/wiki/Personalized_learning)
 * [User Modeling](https://en.wikipedia.org/wiki/User_modeling)
