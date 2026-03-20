@@ -114,7 +114,9 @@ HTML document metadata could be of use for specifying a document's alternatives 
 
 ## HTML Attributes and Fine-grained Control
 
-Resembling HTML's [`translate`](https://www.w3.org/International/questions/qa-translate-flag) attribute, an attribute could be used to provide a fine-grained level of control with which to indicate whether specific content should be adapted or personalized. Beyond this Boolean control over adaptation and personalization, perhaps a vocabulary for more detailed hints could be developed.
+Resembling HTML's [`translate`](https://www.w3.org/International/questions/qa-translate-flag) attribute, an attribute could be used to provide a fine-grained level of control with which to indicate whether specific content should be adapted or personalized.
+
+Beyond a Boolean control over adaptation and personalization, perhaps a vocabulary for more detailed hints could be developed.
 
 ## HTML Attributes and Content Prerequisites
 
