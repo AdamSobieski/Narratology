@@ -112,7 +112,11 @@ HTML document metadata could be of use for specifying a document's alternatives 
 <link rel="alternate" data-adaptation="science/botany;q=0.8, science/chemistry;q=0.8" type="text/html" href="4.html" />
 ```
 
-## HTML Attributes and Prerequisites
+## HTML Attributes and Fine-grained Control
+
+Resembling HTML's [`translate`](https://www.w3.org/International/questions/qa-translate-flag) attribute, an attribute could be used to provide a fine-grained level of control with which to indicate whether specific content should be adapted or personalized. Beyond this Boolean control over adaptation and personalization, perhaps a vocabulary for more detailed hints could be developed.
+
+## HTML Attributes and Content Prerequisites
 
 The same syntax (or some other syntax) could be used to specify prerequisite knowledge for articles, sections, subsections, paragraphs, and spans of content.
 
@@ -126,10 +130,6 @@ The same syntax (or some other syntax) could be used to specify prerequisite kno
   </p>
 </section>
 ```
-
-## HTML Attributes and Fine-grained Control
-
-Resembling HTML's [`translate`](https://www.w3.org/International/questions/qa-translate-flag) attribute, an attribute could be used to provide a fine-grained level of control with which to indicate whether specific content should be adapted or personalized. Beyond this Boolean control over adaptation and personalization, perhaps a vocabulary for more detailed hints could be developed.
 
 ## HTML Custom Elements
 
