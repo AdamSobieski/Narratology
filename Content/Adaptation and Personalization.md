@@ -187,6 +187,7 @@ Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=
    1. Perhaps ones based on the [media queries](https://www.w3.org/TR/mediaqueries-4/) syntax, ones capable of numerical comparisons, conjunctions, and disjunctions?
 6. Might fine-grained control of adaptation and personalization, this potentially involving detailed hints, be a topic for HTML style? Content in `<q>`, `<blockquote>`, and `<cite>` elements, for instance, might have special default values.
 7. Might there be expressiveness for categories of adaptation parameters to have differing access-control and permissions requirements?
+8. Could adaptation parameters encompass, beyond users' knowledge-related preferences, users' goals, intents, task contexts, or other preferences?
 
 ## See Also
 
