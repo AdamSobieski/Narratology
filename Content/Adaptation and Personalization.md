@@ -168,6 +168,11 @@ Accept-Adaptation-Stereotype: botanist;y=2026
 Accept-Adaptation: science/chemistry/organic;r=+0.15, science/biology/ecology;r=-0.1
 ```
 
+## Open Questions
+
+1. With respect to artificial-intelligence systems "translating", adapting, personalizing, or custom-tailoring content for users, how should users' expressed preferences, these being coordinates or regions in adaptation-parameter spaces, be mapped to natural-language user descriptions provided to these AI systems in the form of prompts?
+2. How should AI-adapted content best be evaluated?
+
 ## See Also
 
 * [Adaptive Learning](https://en.wikipedia.org/wiki/Adaptive_learning)
