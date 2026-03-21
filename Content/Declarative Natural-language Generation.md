@@ -1,5 +1,7 @@
 # Declarative Natural-language Generation
 
+## Introduction
+
 Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.md) project, presented here is that AI systems could transform content outlines (or, eventually, RDF-based semantics) into personalized natural-language content.
 
 The following examples show how a declarative markup-based approach to delivering these capabilities might look:
@@ -11,9 +13,6 @@ The following examples show how a declarative markup-based approach to deliverin
   <ai-context>...</ai-context>
   <ai-style>
     @content {
-      
-    }
-    @concept {
       
     }
     @note {
