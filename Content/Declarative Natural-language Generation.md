@@ -46,8 +46,26 @@ The following examples show a declarative markup-based approach to delivering na
 
 ```html
 <ai-generate output="text/html">
-  <ai-speaker type="text/plain" src="prompt.txt" />
+  <ai-speaker type="text/plain" src="prompt-1.txt" />
   <ai-audience auto="true" />
+  <ai-context type="application/json" src="context.json" />
+  <ai-style type="text/css" src="style.css" />
+  <ai-semantics type="application/xml" src="outline-1.xml" />
+</ai-generate>
+```
+
+## Communication Objectives and their Evaluation
+
+The evaluation of a portion of content can be stated as evaluating: (1) whether communication objectives, including and beyond the expression of the content in the outline, were achieved by the natural language generated for a situational context, and (2) whether audience's objectives were achieved by reading or listening to the content.
+
+Accordingly, speakers' communication objectives and audiences' reading/listening objectives could be separated from the abstract context component and added to the model.
+
+```html
+<ai-generate output="text/html">
+  <ai-speaker type="text/plain" src="prompt-1.txt" />
+  <ai-speaker-objectives type="text/plain" src="prompt-2.txt" />
+  <ai-audience auto="true" />
+  <ai-audience-objectives type="text/plain" src="prompt-3.txt" />
   <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
   <ai-semantics type="application/xml" src="outline-1.xml" />
