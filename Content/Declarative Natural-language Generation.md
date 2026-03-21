@@ -54,6 +54,24 @@ The following examples show a declarative markup-based approach to delivering na
 </ai-generate>
 ```
 
+## Selecting and Styling Concepts
+
+In theory, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
+
+```css
+:root::concept('George Washington') {
+  
+}
+```
+
+Perhaps this expressiveness could be used with CSS variables.
+
+```css
+:root::concept(--subject) {
+  
+}
+```
+
 ## Communication Objectives and their Evaluation
 
 The evaluation of a portion of content can be stated as evaluating: (1) whether communication objectives, including and beyond the expression of the content in the outline, were achieved by the natural language generated for a situational context, and (2) whether audience's objectives were achieved by reading or listening to the content.
