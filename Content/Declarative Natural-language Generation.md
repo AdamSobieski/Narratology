@@ -67,6 +67,8 @@ One could use CSS pseudo-elements to select &ndash; for styling purposes &ndash;
 Or, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
 
 ```css
+@namespace wikidata url('http://www.wikidata.org/entity/');
+
 .example::concept(wikidata|Q23) {
   
 }
