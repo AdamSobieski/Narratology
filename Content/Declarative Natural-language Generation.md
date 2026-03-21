@@ -4,7 +4,7 @@ Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.
 
 The following examples show how a declarative markup-based approach to delivering these capabilities might look:
 
-```xml
+```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain">You are a helpful assistant.</ai-speaker>
   <ai-audience auto="true" /> <!-- use adaptation and personalization API to access users' adaptation parameters -->
@@ -44,7 +44,7 @@ The following examples show how a declarative markup-based approach to deliverin
 </ai-generate>
 ```
 
-```xml
+```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt.txt" />
   <ai-audience auto="true" />
