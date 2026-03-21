@@ -161,6 +161,8 @@ With user-authorized access to aspects of user models, developers could utilize 
 </content-recommender>
 ```
 
+**See also**: [Declarative Natural-language Generation](Declarative%20Natural-language%20Generation.md).
+
 ## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
