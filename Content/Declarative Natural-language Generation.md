@@ -4,7 +4,9 @@
 
 Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.md) project, presented here is that AI systems could transform content outlines (or, eventually, RDF-based semantics) into personalized natural-language content.
 
-The following examples show how a declarative markup-based approach to delivering these capabilities might look:
+## Natural-language Generation
+
+The following examples show a declarative markup-based approach to delivering natural-language generation capabilities:
 
 ```html
 <ai-generate output="text/html">
@@ -52,3 +54,7 @@ The following examples show how a declarative markup-based approach to deliverin
   <ai-semantics type="application/xml" src="outline-1.xml" />
 </ai-generate>
 ```
+
+## Natural-language Evaluation
+
+In addition to generating natural-language in a declarative way, there is its evaluation. Means of specifying evaluation criteria for resultant generated content should be expressible in declarative markup approaches.
