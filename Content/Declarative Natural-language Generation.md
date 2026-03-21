@@ -48,7 +48,7 @@ The following examples show how a declarative markup-based approach to deliverin
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt.txt" />
   <ai-audience auto="true" />
-  <ai-context type="application/json" src="..." />
+  <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
   <ai-semantics type="application/xml" src="outline-1.xml" />
 </ai-generate>
