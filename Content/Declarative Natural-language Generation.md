@@ -54,28 +54,6 @@ The following examples show a declarative markup-based approach to delivering na
 </ai-generate>
 ```
 
-## Selecting and Styling Concepts
-
-One could use CSS pseudo-elements to select &ndash; for styling purposes &ndash; concepts occurring in parts of content outlines.
-
-```css
-.example::concept('George Washington') {
-  
-}
-```
-
-Or, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
-
-```css
-@namespace wikidata url('http://www.wikidata.org/entity/');
-
-.example::concept(wikidata|Q23) {
-  
-}
-```
-
-Expressiveness for styling concepts occuring in parts of content outlines could be enhanced by means of using CSS preprocessors.
-
 ## Communication Objectives and their Evaluation
 
 The evaluation of a portion of content can be stated as evaluating: (1) whether communication objectives, including and beyond the expression of the content in the outline, were achieved by the natural language generated for a situational context, and (2) whether audience's objectives were achieved by reading or listening to the content.
@@ -93,3 +71,33 @@ Accordingly, speakers' communication objectives and audiences' reading/listening
   <ai-semantics type="application/xml" src="outline-1.xml" />
 </ai-generate>
 ```
+
+## Selecting and Styling Concepts
+
+One could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
+
+```css
+.example::concept('Benjamin Franklin') {
+  
+}
+```
+
+Or, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
+
+```css
+@namespace wikidata url('http://www.wikidata.org/entity/');
+
+.example::concept(url(wikidata|Q34969)) {
+  
+}
+```
+
+A syntax could be developed to enable CSS-like selectors based on SPARQL ASK queries.
+
+```css
+.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'variable-name', 'SPARQL query string template') {
+  
+}
+```
+
+The SPARQL-selector-related ideas, above, could be extended for natural-language-based AI systems such that questions could be asked of the AI systems in the form of natural-language conversations.
