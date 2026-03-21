@@ -67,7 +67,7 @@ In theory, one could use CSS pseudo-elements to select concepts occurring in par
 Perhaps this expressiveness could be used with CSS variables.
 
 ```css
-:root::concept(--subject) {
+:root::concept(var(--subject)) {
   
 }
 ```
