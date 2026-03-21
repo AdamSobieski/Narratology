@@ -155,9 +155,9 @@ With user-authorized access to aspects of user models, developers could utilize 
 
 ```html
 <content-recommender>
-  <content-source data-meta="about-1.jsonld" data-src="item-1.xml" data-default="true" />
-  <content-source data-meta="about-2.jsonld" data-src="item-2.xml" />
-  <content-source data-meta="about-3.jsonld" data-src="item-3.xml" />
+  <content-source meta="about-1.jsonld" src="item-1.xml" default="true" />
+  <content-source meta="about-2.jsonld" src="item-2.xml" />
+  <content-source meta="about-3.jsonld" src="item-3.xml" />
 </content-recommender>
 ```
 
