@@ -177,7 +177,7 @@ It might be useful to be able to succinctly express different average values for
 
 It might be useful to provide a means for users to be able to succinctly indicate one or more demographics for these purposes, so as to be able to succinctly express adaptation parameters' values relative to demographics-based user-model stereotypes.
 
-For example, a contemporary botanist with expressed preferences for a better-than-average organic-chemistry reading level and a lower-than-average ecology reading level (for a contemporary botanist) might be able to succinctly express these adaptation parameters in a manner resembling:
+For example, a contemporary botanist with expressed preferences for a better-than-average organic-chemistry reading level (for a botanist) and a lower-than-average ecology reading level (for a botanist) could succinctly express these adaptation parameters in a manner resembling:
 
 ```http
 Accept-Adaptation-Stereotype: botanist;y=2026
