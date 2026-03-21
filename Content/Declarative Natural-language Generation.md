@@ -95,12 +95,6 @@ Perhaps evaluation criteria could be expressed using the same selectors used to 
     :root {
       
     }
-    .bold {
-      
-    }
-    .example {
-      
-    }
   </ai-evaluation>
 </ai-generate>
 ```
