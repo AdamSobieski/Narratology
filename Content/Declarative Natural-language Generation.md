@@ -64,7 +64,15 @@ One could use CSS pseudo-elements to select &ndash; for styling purposes &ndash;
 }
 ```
 
-Perhaps this expressiveness could be expanded upon by means of using CSS preprocessors.
+Or, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
+
+```css
+.example::concept(wikidata|Q23) {
+  
+}
+```
+
+Expressiveness for styling concepts occuring in parts of content outlines could be enhanced by means of using CSS preprocessors.
 
 ## Communication Objectives and their Evaluation
 
