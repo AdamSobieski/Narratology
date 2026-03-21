@@ -17,9 +17,6 @@ The following examples show a declarative markup-based approach to delivering na
     @content {
       
     }
-    @note {
-      
-    }
     .bold {
       
     }
@@ -58,3 +55,50 @@ The following examples show a declarative markup-based approach to delivering na
 ## Natural-language Evaluation
 
 In addition to generating natural-language in a declarative way, there is to consider its evaluation. Means of specifying evaluation criteria for resultant generated content should be expressible in declarative markup approaches.
+
+Maybe evaluation criteria could be attached to semantics using the same selectors used to indicate style parameters.
+
+```html
+<ai-generate output="text/html">
+  <ai-speaker type="text/plain">You are a helpful assistant.</ai-speaker>
+  <ai-audience auto="true" /> <!-- use adaptation and personalization API to access users' adaptation parameters -->
+  <ai-context>...</ai-context>
+  <ai-style>
+    @content {
+      
+    }
+    .bold {
+      
+    }
+    .example {
+      
+    }
+  </ai-style>
+  <ai-semantics> <!-- outline of content -->
+    <ol>
+      <li class="bold">...</li>
+      <li>...</li>
+      <li>...</li>
+      <ul class="example">
+        <li>...</li>
+        <li>...</li>
+        <li>...</li>
+      </ul>
+      <li>...</li>
+      <li>...</li>
+      <li>...</li>
+    </ol>
+  </ai-semantics>
+  <ai-evaluation>
+    @content {
+      
+    }
+    .bold {
+      
+    }
+    .example {
+      
+    }
+  </ai-evaluation>
+</ai-generate>
+```
