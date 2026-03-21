@@ -57,4 +57,4 @@ The following examples show a declarative markup-based approach to delivering na
 
 ## Natural-language Evaluation
 
-In addition to generating natural-language in a declarative way, there is its evaluation. Means of specifying evaluation criteria for resultant generated content should be expressible in declarative markup approaches.
+In addition to generating natural-language in a declarative way, there is to consider its evaluation. Means of specifying evaluation criteria for resultant generated content should be expressible in declarative markup approaches.
