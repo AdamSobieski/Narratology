@@ -58,7 +58,7 @@ The following examples show a declarative markup-based approach to delivering na
 
 In addition to generating natural-language in a declarative way, there is to consider its evaluation. Means of specifying evaluation criteria for resultant generated content should be expressible in declarative markup approaches.
 
-Maybe evaluation criteria could be attached to semantics using the same selectors used to indicate style preferences.
+Maybe evaluation criteria could be attached to semantics using the same selectors used to indicate style preferences, though would these selectors for evluation be for the input semantic structure or for pass-through class names upon resultant output markup?
 
 ```html
 <ai-generate output="text/html">
