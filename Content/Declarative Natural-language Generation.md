@@ -1,6 +1,6 @@
 # Declarative Natural-language Generation
 
-Part of the [Adaptation and Personalization](https://github.com/AdamSobieski/Narratology/blob/main/Content/Adaptation%20and%20Personalization.md) project, presented here is that AI systems can transform content outlines or RDF-based semantics into personalized natural-language content.
+Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.md) project, presented here is that AI systems could transform content outlines or RDF-based semantics into personalized natural-language content.
 
 The following examples show how a declarative markup-based approach to delivering these capabilities might look:
 
