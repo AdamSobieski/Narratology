@@ -56,7 +56,7 @@ The following examples show a declarative markup-based approach to delivering na
 
 ## Selecting and Styling Concepts
 
-In theory, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
+In theory, one could use CSS pseudo-elements to select &ndash; for styling purposes &ndash; concepts occurring in parts of content outlines.
 
 ```css
 .example::concept('George Washington') {
