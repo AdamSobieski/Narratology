@@ -56,7 +56,7 @@ The following examples show a declarative markup-based approach to delivering na
 
 ## Selecting and Styling Concepts
 
-In theory, one could use CSS pseudo-elements to select &ndash; for styling purposes &ndash; concepts occurring in parts of content outlines.
+One could use CSS pseudo-elements to select &ndash; for styling purposes &ndash; concepts occurring in parts of content outlines.
 
 ```css
 .example::concept('George Washington') {
@@ -64,13 +64,7 @@ In theory, one could use CSS pseudo-elements to select &ndash; for styling purpo
 }
 ```
 
-Perhaps this expressiveness could be used with CSS variables.
-
-```css
-.example::concept(var(--subject)) {
-  
-}
-```
+Perhaps this expressiveness could be expanded upon by means of using CSS preprocessors.
 
 ## Communication Objectives and their Evaluation
 
