@@ -151,11 +151,11 @@ Resembling HTML media tags, the `<source>` tag, and the `media` attribute, for t
 </adaptive-content>
 ```
 
-Also, with user-authorized access to aspects of user models, developers could utilize HTML custom elements to deliver client-side content recommendation features.
+With user-authorized access to aspects of user models, developers could utilize HTML custom elements to deliver client-side content recommendation features.
 
 ```html
 <content-recommender>
-  <content-source meta="about-1.jsonld" src="item-1.xml" />
+  <content-source meta="about-1.jsonld" src="item-1.xml" default="true" />
   <content-source meta="about-2.jsonld" src="item-2.xml" />
   <content-source meta="about-3.jsonld" src="item-3.xml" />
 </content-recommender>
