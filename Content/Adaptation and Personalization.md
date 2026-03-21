@@ -155,15 +155,17 @@ With user-authorized access to aspects of user models, developers could utilize 
 
 ```html
 <content-recommender>
-  <content-source meta="about-1.jsonld" src="item-1.xml" default="true" />
-  <content-source meta="about-2.jsonld" src="item-2.xml" />
-  <content-source meta="about-3.jsonld" src="item-3.xml" />
+  <content-source meta="about-1.jsonld" src="1.xml" default="true" />
+  <content-source meta="about-2.jsonld" src="2.xml" />
+  <content-source meta="about-3.jsonld" src="3.xml" />
 </content-recommender>
 ```
 
 ## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
+
+Using a JavaScript API, some sites could, with user permission, read from and write to adaptation parameters for users, e.g., to perform interactive calibrations of these parameters.
 
 ## Beyond Scalars
 
