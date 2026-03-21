@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.md) project, presented here is that AI systems could transform content outlines (or, eventually, RDF-based semantics) into personalized natural-language content.
+Part of the [Adaptation and Personalization](Adaptation%20and%20Personalization.md) project, presented here is that AI systems could transform content outlines (or, perhaps eventually, RDF-based semantics) into personalized natural-language content.
 
 That is, HTML custom elements (`<ai-generate>` below) could inform software of how to prompt interoperating LLMs to transform provided outlines of content into personalized natural-language content.
 
