@@ -59,7 +59,7 @@ The following examples show a declarative markup-based approach to delivering na
 In theory, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
 
 ```css
-:root::concept('George Washington') {
+.example::concept('George Washington') {
   
 }
 ```
@@ -67,7 +67,7 @@ In theory, one could use CSS pseudo-elements to select concepts occurring in par
 Perhaps this expressiveness could be used with CSS variables.
 
 ```css
-:root::concept(var(--subject)) {
+.example::concept(var(--subject)) {
   
 }
 ```
