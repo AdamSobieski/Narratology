@@ -151,6 +151,16 @@ Resembling HTML media tags, the `<source>` tag, and the `media` attribute, for t
 </adaptive-content>
 ```
 
+Also, with user-authorized access to aspects of user models, developers could utilize HTML custom elements to deliver client-side content recommendation features.
+
+```html
+<content-recommender>
+  <content-source meta="about-1.jsonld" src="item-1.xml" />
+  <content-source meta="about-2.jsonld" src="item-2.xml" />
+  <content-source meta="about-3.jsonld" src="item-3.xml" />
+</content-recommender>
+```
+
 ## Scripting
 
 For single-page applications and other scenarios, JavaScript scripts could handle and/or override events raised when users' adjusted their aforementioned envisioned horizontal sliders representing resources' adaptation parameters.
