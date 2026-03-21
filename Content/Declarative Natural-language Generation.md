@@ -16,7 +16,7 @@ The following examples show a declarative markup-based approach to delivering na
   <ai-audience auto="true" /> <!-- use adaptation and personalization API to access users' adaptation parameters -->
   <ai-context>...</ai-context>
   <ai-style>
-    @content {
+    :root {
       
     }
     .bold {
@@ -66,7 +66,7 @@ Perhaps evaluation criteria could be expressed using the same selectors used to 
   <ai-audience auto="true" /> <!-- use adaptation and personalization API to access users' adaptation parameters -->
   <ai-context>...</ai-context>
   <ai-style>
-    @content {
+    :root {
       
     }
     .bold {
@@ -92,7 +92,7 @@ Perhaps evaluation criteria could be expressed using the same selectors used to 
     </ol>
   </ai-semantics>
   <ai-evaluation>
-    @content {
+    :root {
       
     }
     .bold {
