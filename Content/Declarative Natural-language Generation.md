@@ -109,6 +109,6 @@ Beyond using CSS cascade to assign singular values to style properties, there is
 
 Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
 
-## Server-side and/or Client-side Processing
+## Processing Models
 
-Declarative natural-language generation can occur on servers, documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces, and/or on users' client devices.
+Declarative natural-language generation can occur on servers, documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces, and/or on users' client devices, and/or remotely for client devices by third-party services of users' choosing.
