@@ -82,7 +82,7 @@ One could use CSS pseudo-elements to select concepts occurring in parts of conte
 }
 ```
 
-Or, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
+Alternatively, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
 
 ```css
 @namespace wikidata url('http://www.wikidata.org/entity/');
