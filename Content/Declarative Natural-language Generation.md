@@ -95,7 +95,7 @@ Or, envisioning knowledge-graph interoperability and using CSS namespace feature
 A syntax could be developed to enable CSS-like selectors based on SPARQL ASK queries.
 
 ```css
-.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'variable-name', 'SPARQL query string template') {
+.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'SPARQL query string') {
   
 }
 ```
