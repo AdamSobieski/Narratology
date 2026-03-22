@@ -100,4 +100,4 @@ A syntax could be developed to enable CSS-like selectors based on SPARQL ASK que
 }
 ```
 
-The SPARQL-selector-related ideas, above, could be extended for natural-language-based AI systems such that questions could be asked of the AI systems in the form of natural-language conversations.
+The SPARQL-selector-related ideas, above, could be extended for natural-language scenarios such that natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines.
