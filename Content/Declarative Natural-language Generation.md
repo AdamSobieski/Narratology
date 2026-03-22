@@ -111,4 +111,4 @@ Natural-language generation instructions and post-generation checks, validation,
 
 ## Processing Models
 
-Declarative natural-language generation can occur on servers, documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces, and/or on users' client devices, and/or remotely for client devices by third-party services of users' choosing.
+Processing for declarative natural-language generation can occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or by third-party AI services.
