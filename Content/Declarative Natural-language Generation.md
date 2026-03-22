@@ -111,4 +111,4 @@ Natural-language generation instructions and post-generation checks, validation,
 
 ## Server-side and/or Client-side Processing
 
-Declarative natural-language generation can occur on servers, documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces, and/or on client devices.
+Declarative natural-language generation can occur on servers, documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces, and/or on users' client devices.
