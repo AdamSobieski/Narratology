@@ -87,7 +87,11 @@ A syntax could be developed to enable CSS-like selectors based on SPARQL ASK que
 In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes. Style properties' values would, as envisioned, be expanded into prompts provided to natural-language generating systems.
 
 ```css
-.example::concept('Benjamin Franklin') { ... }
+.example::concept('Benjamin Franklin')
+{
+  valence: positive;
+  honorific: high;
+}
 ```
 
 ```css
