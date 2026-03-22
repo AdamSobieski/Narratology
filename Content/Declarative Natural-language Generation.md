@@ -95,15 +95,7 @@ In addition to SPARQL, natural-language questions could be asked of interoperati
 ```
 
 ```css
-.example::concept:ask('x', 'Is {{x}} a person?'):ask('x', 'Is {{x}} a Founding Father of the United States of America?')
-{
-  valence: positive;
-  honorific: high;
-}
-```
-
-```css
-.example::concept:type('Person'):ask('x', 'Is {{x}} a Founding Father of the United States of America?')
+.example::concept:ask('x', 'Is {{x}} a Founding Father of the United States of America?')
 {
   valence: positive;
   honorific: high;
