@@ -44,7 +44,7 @@ The following examples show a declarative markup-based approach to delivering na
 
 ```html
 <ai-generate output="text/html">
-  <ai-speaker type="text/plain" src="prompt-1.txt" />
+  <ai-speaker type="text/plain" src="prompt-component-1.txt" />
   <ai-audience auto="true" />
   <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
@@ -58,10 +58,10 @@ Accordingly, speakers' communication objectives and audiences' reading/listening
 
 ```html
 <ai-generate output="text/html">
-  <ai-speaker type="text/plain" src="prompt-1.txt" />
-  <ai-speaker-objectives type="text/plain" src="prompt-2.txt" />
+  <ai-speaker type="text/plain" src="prompt-component-1.txt" />
+  <ai-speaker-objectives type="text/plain" src="prompt-component-2.txt" />
   <ai-audience auto="true" />
-  <ai-audience-objectives type="text/plain" src="prompt-3.txt" />
+  <ai-audience-objectives type="text/plain" src="prompt-component-3.txt" />
   <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
   <ai-semantics type="application/xml" src="outline-1.xml" />
