@@ -24,7 +24,8 @@ The following examples show a declarative markup-based approach to delivering na
       
     }
   </ai-style>
-  <ai-semantics> <!-- outline of content -->
+  <ai-semantics>
+    <!-- outline of content -->
     <ol>
       <li class="bold">...</li>
       <li>...</li>
