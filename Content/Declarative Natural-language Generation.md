@@ -70,13 +70,7 @@ Accordingly, speakers' communication objectives and audiences' reading/listening
 
 ## Selecting and Styling Concepts
 
-More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
-
-```css
-.example::concept('Benjamin Franklin') { ... }
-```
-
-Alternatively, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
+More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
 
 ```css
 @namespace wikidata url('http://www.wikidata.org/entity/');
@@ -84,15 +78,17 @@ Alternatively, envisioning knowledge-graph interoperability and using CSS namesp
 .example::concept(url(wikidata|Q34969)) { ... }
 ```
 
-A syntax could be developed to enable CSS-like selectors based on SPARQL ASK queries.
+A syntax could be developed to enable CSS-like selectors based on SPARQL ASK query templates.
 
 ```css
-.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'SPARQL query string') { ... }
+.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'x', 'SPARQL query string template') { ... }
 ```
 
 In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes. Style properties' values would, as envisioned, be expanded into prompts provided to natural-language generating systems.
 
-These techniques could work with templating. Very abstractly, something like the following could allow natural-language questions to be used to select concepts, to style the concepts, to instruct NLG systems via prompts:
+```css
+.example::concept('Benjamin Franklin') { ... }
+```
 
 ```css
 .example::concept:ask('x', 'Is {{x}} a person?'):ask('x', 'Is {{x}} a Founding Father of the United States of America?')
