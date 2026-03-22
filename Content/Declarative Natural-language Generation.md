@@ -106,3 +106,5 @@ In addition to SPARQL, natural-language questions could be asked of interoperati
 Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values could be appended to list-like values as selectors matched.
 
 * https://github.com/w3c/csswg-drafts/issues/1594
+
+Examples of properties' values which could be additive include natural-language generation instructions and evaluation criteria.
