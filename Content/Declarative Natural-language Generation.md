@@ -77,9 +77,7 @@ Accordingly, speakers' communication objectives and audiences' reading/listening
 One could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
 
 ```css
-.example::concept('Benjamin Franklin') {
-  
-}
+.example::concept('Benjamin Franklin') { ... }
 ```
 
 Alternatively, envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
@@ -87,17 +85,13 @@ Alternatively, envisioning knowledge-graph interoperability and using CSS namesp
 ```css
 @namespace wikidata url('http://www.wikidata.org/entity/');
 
-.example::concept(url(wikidata|Q34969)) {
-  
-}
+.example::concept(url(wikidata|Q34969)) { ... }
 ```
 
 A syntax could be developed to enable CSS-like selectors based on SPARQL ASK queries.
 
 ```css
-.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'SPARQL query string') {
-  
-}
+.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'SPARQL query string') { ... }
 ```
 
 The SPARQL-selector-related ideas, above, could be extended for natural-language scenarios such that natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines.
