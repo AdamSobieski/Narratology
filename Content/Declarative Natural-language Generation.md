@@ -70,7 +70,7 @@ Accordingly, speakers' communication objectives and audiences' reading/listening
 
 ## Selecting and Styling Concepts
 
-In theory, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
+More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines.
 
 ```css
 .example::concept('Benjamin Franklin') { ... }
