@@ -112,6 +112,6 @@ In addition to SPARQL, natural-language questions could be asked of interoperati
 
 ### Additive Cascade
 
-Beyond using CSS cascade to assign singular values to style properties, there is an idea of "additive cascade" where multiple values could be appended to list-like values as selectors matched.
+Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values would be appended to list-like values as selectors matched.
 
 * https://github.com/w3c/csswg-drafts/issues/1594
