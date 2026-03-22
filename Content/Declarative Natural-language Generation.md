@@ -107,4 +107,4 @@ Beyond using CSS cascade to assign singular values to style properties, there is
 
 * https://github.com/w3c/csswg-drafts/issues/1594
 
-Both natural-language generation instructions and evaluation criteria are examples of properties' values which could be additive. Using traditional and, perhaps eventually, additive cascade techniques, properties' singular and list-like values would be expanded into prompts provided to interoperating AI systems.
+Both natural-language generation instructions and evaluation criteria are examples of properties' values which could be additive. Utilizing traditional and, perhaps eventually, additive cascade techniques, properties' singular and list-like values would be expanded into prompts provided to interoperating AI systems.
