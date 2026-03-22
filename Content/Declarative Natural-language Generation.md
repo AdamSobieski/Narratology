@@ -107,4 +107,4 @@ Beyond using CSS cascade to assign singular values to style properties, there is
 
 * https://github.com/w3c/csswg-drafts/issues/1594
 
-Examples of properties' values which could be additive include natural-language generation instructions and evaluation criteria.
+Examples of properties' values which could be additive include natural-language generation instructions and evaluation criteria of use to AI systems.
