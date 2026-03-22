@@ -94,4 +94,4 @@ A syntax could be developed to enable CSS-like selectors based on SPARQL ASK que
 .example::concept:sparql-ask('https://sparql-endpoint.example.org', 'SPARQL query string') { ... }
 ```
 
-The SPARQL-related ideas, above, could be extended for natural-language AI scenarios such that natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines to select those concepts for styling purposes (these stylings expanding into prompts for natural-language generating systems). These techniques could work with templating.
+The SPARQL-related ideas, above, could be extended for natural-language AI scenarios such that natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines to select those concepts for styling purposes (style properties' values expanding into prompts for natural-language generating systems). These techniques could work with templating.
