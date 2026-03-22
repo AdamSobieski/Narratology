@@ -83,7 +83,7 @@ A syntax could be developed to enable CSS-like selectors based on SPARQL ASK que
 .example::concept:sparql-ask('https://sparql-endpoint.example.org', 'x', 'SPARQL query string template') { ... }
 ```
 
-In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes. Properties' values would, as envisioned, be expanded into prompts provided to natural-language generating systems.
+In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes.
 
 ```css
 .example::concept('Benjamin Franklin')
@@ -107,4 +107,6 @@ Beyond using CSS cascade to assign singular values to style properties, there is
 
 * https://github.com/w3c/csswg-drafts/issues/1594
 
-Examples of properties' values which could be additive include natural-language generation instructions and evaluation criteria to be used by interoperating AI systems.
+Examples of properties' values which could be additive include natural-language generation instructions and evaluation criteria.
+
+Using traditional and, perhaps eventually, additive cascade, properties' values would be expanded into prompts provided to interoperating AI systems.
