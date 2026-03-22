@@ -53,9 +53,7 @@ The following examples show a declarative markup-based approach to delivering na
 </ai-generate>
 ```
 
-The evaluation of a portion of content can be stated as evaluating: (1) whether communication objectives, including and beyond the expression of the content in the outline, were achieved by the natural language generated for a situational context, and (2) whether audience's objectives were achieved by reading or listening to the content.
-
-Accordingly, speakers' communication objectives and audiences' reading/listening objectives could be separated from the abstract context component and added to the model.
+Speakers' communication objectives and audiences' reading/listening objectives could be separated from the abstract context component and added to the model.
 
 ```html
 <ai-generate output="text/html">
