@@ -119,9 +119,9 @@ Processing for declarative natural-language generation can occur on servers (doc
    1. See also: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
    2. Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
 ```html
-<ol role="argument">
-  <li role="conclusion">...</li>
-  <ul role="support">
+<ol role="argu:argument">
+  <li role="argu:conclusion">...</li>
+  <ul role="argu:support">
     <li>...</li>
     <li>...</li>
   </ul>
