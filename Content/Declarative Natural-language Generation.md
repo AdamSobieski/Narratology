@@ -140,6 +140,7 @@ Should bibliographies be included in content outlines or be separated into their
   </body>
 </outline>
 ```
+
 ```html
 <outline xmlns="..." xmlns:argu="...">
   <head>
@@ -156,6 +157,7 @@ Should bibliographies be included in content outlines or be separated into their
   </body>
 </outline>
 ```
+
 ```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt-component-1.txt" />
