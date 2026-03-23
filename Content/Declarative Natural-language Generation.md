@@ -117,6 +117,8 @@ Processing for declarative natural-language generation can occur on servers (doc
 1. Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
    1. See also: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
    2. Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
+
+2. Should bibliographies be included in content outlines or be separated into their own model components?
 ```html
 <outline xmlns="..." xmlns:argu="...">
   <head>
@@ -137,8 +139,22 @@ Processing for declarative natural-language generation can occur on servers (doc
   </body>
 </outline>
 ```
-
-2. Should bibliographies be included in content outlines (see above) or be separated into their own model components?
+```html
+<outline xmlns="..." xmlns:argu="...">
+  <head>
+    <bibliography src="bibliography.xml" />
+  </head>
+  <body>
+    <ol role="argu:argument">
+      <li role="argu:conclusion">...</li>
+      <ul role="argu:support">
+        <li><cite ref="a">...</cite></li>
+        <li><cite ref="b c">...</cite></li>
+      </ul>
+    </ol>
+  </body>
+</outline>
+```
 ```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt-component-1.txt" />
