@@ -148,8 +148,8 @@ Processing for declarative natural-language generation can occur on servers (doc
     <ol role="argu:argument">
       <li role="argu:conclusion">...</li>
       <ul role="argu:support">
-        <li><cite ref="a">...</cite></li>
-        <li><cite ref="b c">...</cite></li>
+        <li><cite ref="bibliography.xml#a">...</cite></li>
+        <li><cite ref="bibliography.xml#b bibliography.xml#c">...</cite></li>
       </ul>
     </ol>
   </body>
