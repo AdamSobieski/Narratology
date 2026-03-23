@@ -121,5 +121,4 @@ Processing for declarative natural-language generation can occur on servers (doc
 
 ## See Also
 
-* [Automated Paraphrasing](https://en.wikipedia.org/wiki/Paraphrasing_(computational_linguistics))
 * [Natural-language Generation](https://en.wikipedia.org/wiki/Natural_language_generation)
