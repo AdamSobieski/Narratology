@@ -108,17 +108,18 @@ Beyond using CSS cascade to assign singular values to style properties, there is
 
 Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
 
-## Processing Models
+## Enhancing Outline Markup
 
-Processing for declarative natural-language generation can occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or by third-party AI services.
+Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
 
-## Open Questions
+Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
 
-1. Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
-   1. See also: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
-   2. Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
+**See also**: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
 
-2. Should bibliographies be included in content outlines or be separated into their own model components?
+## Bibliographic Citations
+
+Should bibliographies be included in content outlines or be separated into their own model components?
+
 ```html
 <outline xmlns="..." xmlns:argu="...">
   <head>
@@ -166,6 +167,10 @@ Processing for declarative natural-language generation can occur on servers (doc
   <ai-bibliography type="application/xml" src="bibliography.xml" />
 </ai-generate>
 ```
+
+## Processing Models
+
+Processing for declarative natural-language generation can occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or by third-party AI services.
 
 ## See Also
 
