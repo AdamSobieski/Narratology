@@ -112,3 +112,8 @@ Natural-language generation instructions and post-generation checks, validation,
 ## Processing Models
 
 Processing for declarative natural-language generation can occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or by third-party AI services.
+
+## Open Questions
+
+1. Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
+   1. Should other XML solutions be additionally explored?
