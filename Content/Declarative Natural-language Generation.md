@@ -53,7 +53,7 @@ The following examples show a declarative markup-based approach to delivering na
 </ai-generate>
 ```
 
-Speakers' communication objectives and audiences' reading/listening objectives could be separated from the abstract context component and added to the model.
+Speakers' communication objectives and audiences' reading/listening objectives could be separated from the (abstract) context component and be subsequently added to the model.
 
 ```html
 <ai-generate output="text/html">
@@ -61,7 +61,6 @@ Speakers' communication objectives and audiences' reading/listening objectives c
   <ai-speaker-objectives type="text/plain" src="prompt-component-2.txt" />
   <ai-audience auto="true" />
   <ai-audience-objectives type="text/plain" src="prompt-component-3.txt" />
-  <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
   <ai-semantics type="application/xml" src="outline.xml" />
 </ai-generate>
