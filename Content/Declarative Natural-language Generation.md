@@ -121,8 +121,10 @@ Processing for declarative natural-language generation can occur on servers (doc
 ```html
 <ol role="argument">
   <li role="conclusion">...</li>
-  <li role="support">...</li>
-  <li role="support">...</li>
+  <ul role="support">
+    <li>...</li>
+    <li>...</li>
+  </ul>
 </ol>
 ```
 
