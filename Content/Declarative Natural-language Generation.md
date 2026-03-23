@@ -117,3 +117,7 @@ Processing for declarative natural-language generation can occur on servers (doc
 
 1. Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
    1. Should other extensible markup-based solutions be additionally explored?
+
+## See Also
+
+* [Natural-language Generation](https://en.wikipedia.org/wiki/Natural_language_generation)
