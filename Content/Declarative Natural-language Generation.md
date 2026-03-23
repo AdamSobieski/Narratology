@@ -122,14 +122,14 @@ Processing for declarative natural-language generation can occur on servers (doc
 <outline xmlns="..." xmlns:argu="...">
   <head>
     <bibliography>
-      <r label="r1" kind="book" title="The big book of concepts" author="Murphy, Gregory" year="2004" publisher="MIT press" />
+      <r label="a" kind="book" title="The big book of concepts" author="Murphy, Gregory" year="2004" publisher="MIT press" />
     </bibliography>
   </head>
   <body>
     <ol role="argu:argument">
       <li role="argu:conclusion">...</li>
       <ul role="argu:support">
-        <li cite="r1">...</li>
+        <li cite="a">...</li>
         <li>...</li>
       </ul>
     </ol>
