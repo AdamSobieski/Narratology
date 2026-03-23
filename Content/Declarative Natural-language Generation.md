@@ -63,7 +63,7 @@ Speakers' communication objectives and audiences' reading/listening objectives c
   <ai-audience-objectives type="text/plain" src="prompt-component-3.txt" />
   <ai-context type="application/json" src="context.json" />
   <ai-style type="text/css" src="style.css" />
-  <ai-semantics type="application/xml" src="outline-1.xml" />
+  <ai-semantics type="application/xml" src="outline.xml" />
 </ai-generate>
 ```
 
@@ -137,6 +137,19 @@ Processing for declarative natural-language generation can occur on servers (doc
     </ol>
   </body>
 </outline>
+```
+
+2. Should bibliographies be included in outlines (see above) or separated into their own model component?
+```html
+<ai-generate output="text/html">
+  <ai-speaker type="text/plain" src="prompt-component-1.txt" />
+  <ai-speaker-objectives type="text/plain" src="prompt-component-2.txt" />
+  <ai-audience auto="true" />
+  <ai-audience-objectives type="text/plain" src="prompt-component-3.txt" />
+  <ai-style type="text/css" src="style.css" />
+  <ai-semantics type="application/xml" src="outline.xml" />
+  <ai-bibliography type="application/xml" src="bibliography.xml" />
+</ai-generate>
 ```
 
 ## See Also
