@@ -116,7 +116,7 @@ Processing for declarative natural-language generation can occur on servers (doc
 ## Open Questions
 
 1. Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
-   1. Could some attributes for additional semantics, e.g., `role` or `data-*` attributes, be of use?
+   1. Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
 ```html
 <ol role="argument">
   <li role="conclusion">...</li>
