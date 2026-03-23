@@ -139,7 +139,7 @@ Processing for declarative natural-language generation can occur on servers (doc
 </outline>
 ```
 
-2. Should bibliographies be included in outlines (see above) or separated into their own model component?
+2. Should bibliographies be included in outlines (see above) or be separated into their own model component?
 ```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt-component-1.txt" />
