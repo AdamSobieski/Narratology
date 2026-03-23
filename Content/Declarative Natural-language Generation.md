@@ -123,6 +123,7 @@ Processing for declarative natural-language generation can occur on servers (doc
   <head>
     <bibliography>
       <r label="a" kind="book" title="The big book of concepts" author="Murphy, Gregory" year="2004" publisher="MIT press" />
+      <r label="b" kind="book" title="A study of concepts" author="Peacocke, Christopher" year="1992" publisher="MIT press" />
     </bibliography>
   </head>
   <body>
@@ -130,7 +131,7 @@ Processing for declarative natural-language generation can occur on servers (doc
       <li role="argu:conclusion">...</li>
       <ul role="argu:support">
         <li cite="a">...</li>
-        <li>...</li>
+        <li cite="b">...</li>
       </ul>
     </ol>
   </body>
