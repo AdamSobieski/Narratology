@@ -159,6 +159,16 @@ Should bibliographies be included in content outlines or be separated into their
 ```
 
 ```html
+<ol role="argu:argument" xmlns="..." xmlns:argu="...">
+  <li role="argu:conclusion">...</li>
+  <ul role="argu:support">
+    <li><cite ref="bibliography.xml#a">...</cite></li>
+    <li><cite ref="bibliography.xml#b bibliography.xml#c">...</cite></li>
+  </ul>
+</ol>
+```
+
+```html
 <ai-generate output="text/html">
   <ai-speaker type="text/plain" src="prompt-component-1.txt" />
   <ai-speaker-objectives type="text/plain" src="prompt-component-2.txt" />
