@@ -144,7 +144,7 @@ Should bibliographies be included in content outlines or be separated into their
 
 ### Adaptive Explanations
 
-Perhaps markup representing adaptive explanations could enhance content outlines.
+Perhaps markup representing adaptive explanations could utilize and enhance content outlines.
 
 ```html
 <ai-generate output="text/html">
