@@ -187,6 +187,18 @@ Perhaps markup representing adaptive explanations could utilize and enhance cont
 
 ## Style
 
+### Additive Cascade
+
+Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values could be appended to list-like values as selectors matched.
+
+* https://github.com/w3c/csswg-drafts/issues/1594
+
+Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
+
+### Custom Functions and Mixins
+
+* https://drafts.csswg.org/css-mixins/
+
 ### Selecting and Styling Concepts
 
 More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
@@ -220,18 +232,6 @@ In addition to SPARQL, natural-language questions could be asked of interoperati
   honorific: high;
 }
 ```
-
-### Additive Cascade
-
-Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values could be appended to list-like values as selectors matched.
-
-* https://github.com/w3c/csswg-drafts/issues/1594
-
-Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
-
-### Custom Functions and Mixins
-
-* https://drafts.csswg.org/css-mixins/
 
 ## Processing Models
 
