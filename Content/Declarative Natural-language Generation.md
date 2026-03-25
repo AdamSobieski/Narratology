@@ -66,48 +66,6 @@ Speakers' communication objectives and audiences' reading/listening objectives c
 </ai-generate>
 ```
 
-## Selecting and Styling Concepts
-
-More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
-
-```css
-@namespace wikidata url('http://www.wikidata.org/entity/');
-
-.example::concept(url(wikidata|Q34969)) { ... }
-```
-
-A syntax could be developed to enable CSS-like selectors based on SPARQL ASK query templates.
-
-```css
-.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'x', 'SPARQL query string template') { ... }
-```
-
-In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes.
-
-```css
-.example::concept('Benjamin Franklin')
-{
-  valence: positive;
-  honorific: high;
-}
-```
-
-```css
-.example::concept:ask('x', 'Is {{x}} a Founding Father of the United States of America?')
-{
-  valence: positive;
-  honorific: high;
-}
-```
-
-### Additive Cascade
-
-Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values could be appended to list-like values as selectors matched.
-
-* https://github.com/w3c/csswg-drafts/issues/1594
-
-Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
-
 ## Enhancing Content Outlines
 
 Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
@@ -183,6 +141,48 @@ Should bibliographies be included in content outlines or be separated into their
   <ai-bibliography type="application/xml" src="bibliography.xml" />
 </ai-generate>
 ```
+
+## Selecting and Styling Concepts
+
+More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
+
+```css
+@namespace wikidata url('http://www.wikidata.org/entity/');
+
+.example::concept(url(wikidata|Q34969)) { ... }
+```
+
+A syntax could be developed to enable CSS-like selectors based on SPARQL ASK query templates.
+
+```css
+.example::concept:sparql-ask('https://sparql-endpoint.example.org', 'x', 'SPARQL query string template') { ... }
+```
+
+In addition to SPARQL, natural-language questions could be asked of interoperating AI systems about concepts occurring in parts of content outlines in order to select those concepts for styling purposes.
+
+```css
+.example::concept('Benjamin Franklin')
+{
+  valence: positive;
+  honorific: high;
+}
+```
+
+```css
+.example::concept:ask('x', 'Is {{x}} a Founding Father of the United States of America?')
+{
+  valence: positive;
+  honorific: high;
+}
+```
+
+### Additive Cascade
+
+Beyond using CSS cascade to assign singular values to style properties, there is the idea of "additive cascade" where values could be appended to list-like values as selectors matched.
+
+* https://github.com/w3c/csswg-drafts/issues/1594
+
+Natural-language generation instructions and post-generation checks, validation, and evaluation criteria are examples of properties' values which could be additive or list-like. Utilizing traditional-cascade and, perhaps, eventually, additive-cascade techniques, properties' singular and list-like values can be expanded into prompts provided to interoperating AI systems.
 
 ## Processing Models
 
