@@ -168,14 +168,16 @@ Perhaps markup representing adaptive explanations could utilize and enhance cont
           <li>...</li>
         </ol>
       </ai-explanandum>
-      <ai-explanans adaptation="um('science/botany') < 0.5">
-        ...
-      </ai-explanans>
-      <ai-explanans adaptation="0.5 <= um('science/botany') < 0.75">
-        ...
-      </ai-explanans>
-      <ai-explanans adaptation="0.75 <= um('science/botany')">
-        ...
+      <ai-explanans>
+        <ai-source adaptation="um('science/botany') < 0.5">
+          ...
+        </ai-source>
+        <ai-source adaptation="0.5 <= um('science/botany') < 0.75">
+          ...
+        </ai-source>
+        <ai-source adaptation="0.75 <= um('science/botany')">
+          ...
+        </ai-source>
       </ai-explanans>
     </ai-explanation>
   </ai-semantics>
