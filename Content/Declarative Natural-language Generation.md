@@ -175,7 +175,8 @@ Perhaps markup representing adaptive explanations could enhance content outlines
         ...
       </ai-explanans>
     </ai-explanation>
-  </ai-semantics>   
+  </ai-semantics>
+  <ai-bibliography type="application/xml" src="bibliography.xml" />
 </ai-generate>
 ```
 
