@@ -120,7 +120,7 @@ Could some attributes for indicating adaptation-parameter-space coordinates, dis
 
 **See also**: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
 
-## Bibliographic Citations
+### Bibliographic Citations
 
 Should bibliographies be included in content outlines or be separated into their own model components?
 
