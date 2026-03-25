@@ -142,6 +142,43 @@ Should bibliographies be included in content outlines or be separated into their
 </ai-generate>
 ```
 
+### Adaptive Explanations
+
+Perhaps markup representing adaptive explanations could enhance content outlines.
+
+```html
+<ai-generate output="text/html">
+  <ai-speaker type="text/plain">You are a helpful assistant.</ai-speaker>
+  <ai-audience auto="true" />
+  <ai-context>...</ai-context>
+  <ai-style>
+    :root {
+      
+    }
+    .example {
+      
+    }
+  </ai-style>
+  <ai-semantics>
+    <explanation>
+      <explanandum>
+        <ol>
+          <li class="example">...</li>
+          <li>...</li>
+          <li>...</li>
+        </ol>
+      </explanandum>
+      <explanans adaptation="...">
+        ...
+      </explanans>
+      <explanans adaptation="...">
+        ...
+      </explanans>
+    </explanation>
+  </ai-semantics>   
+</ai-generate>
+```
+
 ## Selecting and Styling Concepts
 
 More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
