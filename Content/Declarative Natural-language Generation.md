@@ -188,9 +188,7 @@ Natural-language generation instructions and post-generation checks, validation,
 
 Processing for declarative natural-language generation could occur on servers, on users' client devices, and/or on third-party cloud-based AI services.
 
-For server-side computing scenarios, the markup-based techniques described, above, could be mapped to custom server controls.
-
-Benefits of server-side or combined client-server approaches include the capabilities to precompute and cache output for adaptation-parameter-space coordinations, distributions, and regions.
+For server-side computing scenarios, custom server controls could be of use. To provide faster page loading, custom server control logic could interoperate with page markup to enable dynamic content loading for AI-generated content. Benefits of server-side or combined client-server approaches would include the capabilities to precompute and cache outputs for adaptation-parameter-space coordinations, distributions, and regions.
 
 ## See Also
 
