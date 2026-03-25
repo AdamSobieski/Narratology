@@ -168,10 +168,13 @@ Perhaps markup representing adaptive explanations could enhance content outlines
           <li>...</li>
         </ol>
       </ai-explanandum>
-      <ai-explanans adaptation="...">
+      <ai-explanans adaptation="um('science/botany') < 0.5">
         ...
       </ai-explanans>
-      <ai-explanans adaptation="...">
+      <ai-explanans adaptation="0.5 <= um('science/botany') < 0.75">
+        ...
+      </ai-explanans>
+      <ai-explanans adaptation="0.75 <= um('science/botany')">
         ...
       </ai-explanans>
     </ai-explanation>
