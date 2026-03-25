@@ -186,7 +186,7 @@ Natural-language generation instructions and post-generation checks, validation,
 
 ## Processing Models
 
-Processing for declarative natural-language generation can occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or by third-party AI services.
+Processing for declarative natural-language generation could occur on servers (documents capable of being precomputed and cached for coordinates, distributions, or regions in users' adaptation-parameter spaces), on users' client devices, and/or on third-party cloud-based AI services.
 
 ## See Also
 
