@@ -112,7 +112,11 @@ Natural-language generation instructions and post-generation checks, validation,
 
 Is HTML outline markup (`<ol>`, `<ul>`, `<li>`) sufficient for representing content outlines for these purposes?
 
+Could some additional elements, e.g., `<a>`, `<term>`, and `<cite>`, be of use?
+
 Could some attributes for additional semantics, e.g., `role` and/or `data-*` attributes, be of use?
+
+Could some attributes for indicating adaptation-parameter-space coordinates, distributions, and/or regions be of use?
 
 **See also**: [OML](https://en.wikipedia.org/wiki/OML_(computer_format)), [OPML](https://en.wikipedia.org/wiki/OPML), [XBEL](https://en.wikipedia.org/wiki/XBEL), and [XOXO](https://en.wikipedia.org/wiki/XOXO_(microformat)).
 
