@@ -160,21 +160,21 @@ Perhaps markup representing adaptive explanations could enhance content outlines
     }
   </ai-style>
   <ai-semantics>
-    <explanation>
-      <explanandum>
+    <ai-explanation>
+      <ai-explanandum>
         <ol>
           <li class="example">...</li>
           <li>...</li>
           <li>...</li>
         </ol>
-      </explanandum>
-      <explanans adaptation="...">
+      </ai-explanandum>
+      <ai-explanans adaptation="...">
         ...
-      </explanans>
-      <explanans adaptation="...">
+      </ai-explanans>
+      <ai-explanans adaptation="...">
         ...
-      </explanans>
-    </explanation>
+      </ai-explanans>
+    </ai-explanation>
   </ai-semantics>   
 </ai-generate>
 ```
