@@ -4,7 +4,9 @@
 
 The same concept, for example "[photosynthesis](https://en.wikipedia.org/wiki/Photosynthesis)", can be visited in multiple situational contexts, at many points on many educational journeys. This suggests a different approach from the traditional organization and presentation of knowledge where one concept is represented by one article intended for all audiences across all situational contexts.
 
-What if Web content could be adapted and personalized using _adaptation parameters_? Such parameters, for instance, might correspond with categories and subcategories of scholarly and scientific knowledge.
+What if Web content could be adapted and personalized using _adaptation parameters_?
+
+These parameters might correspond with reading level or language fluency or might correspond with categories and subcategories of scholarly and scientific knowledge.
 
 Below, technology concepts are shared to enable the adaptation and personalization of Web content.
 
