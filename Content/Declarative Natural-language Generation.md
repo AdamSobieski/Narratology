@@ -185,7 +185,9 @@ Perhaps markup representing adaptive explanations could utilize and enhance cont
 </ai-generate>
 ```
 
-## Selecting and Styling Concepts
+## Style
+
+### Selecting and Styling Concepts
 
 More theoretically, one could use CSS pseudo-elements to select concepts occurring in parts of content outlines. Envisioning knowledge-graph interoperability and using CSS namespace features, perhaps something like:
 
