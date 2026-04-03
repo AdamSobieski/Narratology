@@ -142,49 +142,6 @@ Should bibliographies be included in content outlines or be separated into their
 </ai-generate>
 ```
 
-### Adaptive Explanations
-
-Perhaps markup representing adaptive explanations could utilize and enhance content outlines.
-
-```html
-<ai-generate output="text/html">
-  <ai-speaker type="text/plain">You are a helpful assistant.</ai-speaker>
-  <ai-audience auto="true" />
-  <ai-context>...</ai-context>
-  <ai-style>
-    :root {
-      
-    }
-    .example {
-      
-    }
-  </ai-style>
-  <ai-semantics>
-    <ai-explanation>
-      <ai-explanandum>
-        <ol>
-          <li class="example">...</li>
-          <li>...</li>
-          <li>...</li>
-        </ol>
-      </ai-explanandum>
-      <ai-explanans>
-        <ai-source adaptation="um('science/botany') < 0.5">
-          ...
-        </ai-source>
-        <ai-source adaptation="0.5 <= um('science/botany') < 0.75">
-          ...
-        </ai-source>
-        <ai-source adaptation="0.75 <= um('science/botany')">
-          ...
-        </ai-source>
-      </ai-explanans>
-    </ai-explanation>
-  </ai-semantics>
-  <ai-bibliography type="application/xml" src="bibliography.xml" />
-</ai-generate>
-```
-
 ## Style
 
 ### Additive Cascade
