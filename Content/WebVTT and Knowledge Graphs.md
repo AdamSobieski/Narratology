@@ -36,7 +36,7 @@ Using these techniques, one could declare time-invariant semantics for how-to kn
 
 ### Accessibility
 
-Using these techniques, one could provide corresponding time-aligned [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for the visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visual contents in a video.
+Using these techniques, one could provide corresponding time-aligned [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visuospatial content in a video.
 
 ### Artificial Intelligence
 
