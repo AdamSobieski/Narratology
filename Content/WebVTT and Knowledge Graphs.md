@@ -30,17 +30,13 @@ A time-aligned graph is shown in the following example. As a playhead progresses
 
 ## Considered Use Cases
 
-### Instructional Video
+### Education
 
-Using such techniques, one could declare time-invariant semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge to indicate which hierarchical steps and substeps were current, which were being shown in that video, at an instant.
-
-### Scene Graphs
-
-Using such techniques, one could provide corresponding time-aligned [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for the visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visual contents in a video.
+Using these techniques, one could declare time-invariant semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge to indicate which hierarchical steps and substeps were current, which were being shown in that video, at an instant.
 
 ### Accessibility
 
-Providing time-aligned semantics for video content has accessibility applications.
+Using these techniques, one could provide corresponding time-aligned [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for the visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visual contents in a video.
 
 ### Artificial Intelligence
 
