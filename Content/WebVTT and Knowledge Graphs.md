@@ -32,4 +32,5 @@ A time-aligned graph is shown in the following example. As a playhead progresses
 
 ### Instructional Video
 
-Using such techniques, one could declare time-invariant semantics for how-to knowledge, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge for indicating which hierarchical steps which were current at an instant.
+Using such techniques, one could declare time-invariant semantics for how-to knowledge presented in videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge to indicate which hierarchical steps and substeps were current, which were being shown in that video, at an instant.
+
