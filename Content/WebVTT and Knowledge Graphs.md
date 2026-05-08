@@ -34,3 +34,6 @@ A time-aligned graph is shown in the following example. As a playhead progresses
 
 Using such techniques, one could declare time-invariant semantics for how-to knowledge presented in videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge to indicate which hierarchical steps and substeps were current, which were being shown in that video, at an instant.
 
+### Scene Graphs
+
+Using such techniques, one could provide a corresponding time-aligned scene graph for the visuospatial content in videos. At each instant, there could be a scene graph describing the visual contents in a video.
