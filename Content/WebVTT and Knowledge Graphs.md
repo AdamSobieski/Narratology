@@ -36,4 +36,4 @@ Using such techniques, one could declare time-invariant semantics for how-to kno
 
 ### Scene Graphs
 
-Using such techniques, one could provide a corresponding time-aligned scene graph for the visuospatial content in videos. At each instant, there could be a scene graph describing the visual contents in a video.
+Using such techniques, one could provide corresponding time-aligned [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for the visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visual contents in a video.
