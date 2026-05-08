@@ -13,19 +13,19 @@ A time-aligned graph is shown in the following example. As a playhead progresses
 >@prefix ex: <http://www.example.org/ns#> .
 >
 >00:00.000 --> 02:00.000
->ex:s1 ex:p0 ex:o0 .
+>ex:s1 ex:p1 ex:o1 .
 >
 >00:22.000 --> 00:27.000
->ex:s1 ex:p1 ex:o1 .
 >ex:s1 ex:p2 ex:o2 .
+>ex:s1 ex:p3 ex:o3 .
 >
 >00:40.000 --> 00:43.000
->ex:s1 ex:p1 ex:o3 .
 >ex:s1 ex:p2 ex:o4 .
+>ex:s1 ex:p3 ex:o5 .
 >
 >00:58.000 --> 02:00.000
->ex:s1 ex:p1 ex:o5 .
 >ex:s1 ex:p2 ex:o6 .
+>ex:s1 ex:p3 ex:o7 .
 >```
 
 ## Considered Use Cases
