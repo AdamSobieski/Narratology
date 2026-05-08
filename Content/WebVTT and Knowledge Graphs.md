@@ -45,3 +45,7 @@ Providing time-aligned semantics for video content has accessibility application
 ### Artificial Intelligence
 
 Providing time-aligned semantics for video content has artificial-intelligence applications.
+
+### Computational Narratology
+
+Providing time-aligned semantics for video content has computational-narratology applications.
