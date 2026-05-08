@@ -34,7 +34,7 @@ One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes 
 
 A time-aligned data graph could be its own time-aligned shapes graph. Alternatively, time-aligned data graphs and time-aligned shapes graphs could be stored in separate metadata tracks. Time-aligned shapes graphs could be used to validate time-aligned data graphs before they are deployed or could accompany time-aligned data graphs as auxiliary resources.
 
-To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for that time-based resource.
+To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for that time-based resource in one cue in the time-aligned shapes graph.
 
 ## Considered Use Cases
 
