@@ -28,6 +28,14 @@ A time-aligned graph is shown in the following example. As a playhead progresses
 >ex:s1 ex:p3 ex:o7 .
 >```
 
+## Shapes Constraints
+
+One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-aligned data graphs and datasets. A time-aligned graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
+
+A time-aligned data graph could be its own time-aligned shapes graph. Alternatively, two metadata tracks could be provided for a time-based multimedia resource, one for a time-aligned knowledge graph and one for its time-aligned shapes graph.
+
+To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for that time-based resource.
+
 ## Considered Use Cases
 
 ### Education
@@ -45,3 +53,4 @@ Providing time-aligned semantics for video content has artificial-intelligence a
 ### Computational Narratology
 
 Providing time-aligned semantics for video content has computational-narratology applications.
+
