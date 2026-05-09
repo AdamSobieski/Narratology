@@ -4,7 +4,7 @@ Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) a
 
 As a playhead progresses through a media resource, cues are entered and exited. When a cue is entered, its graph or dataset is to be added to a multiset. When a cue is exited, its graph or dataset is to be removed from a multiset. Multisets can interface as simple graphs or datasets. For a media resource, then, a time-aligned graph or dataset can be defined such that, at each instant, there is a simple graph or dataset defined.
 
-The following example shows a time-aligned graph.
+The following example shows a time-aligned graph concept.
 
 > [!NOTE]
 > Example 1
