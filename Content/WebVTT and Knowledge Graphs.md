@@ -1,10 +1,10 @@
 ## Introduction
 
-Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) and time-aligned knowledge graphs and datasets.
+Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) and time-aligned graphs and datasets.
 
-As considered, as a playhead progresses through a media resource, cues are entered and exited. When a cue is entered, its graph or dataset is to be added to a multiset. When a cue is exited, its graph or dataset is to be removed from a multiset. Multisets can interface as graphs or datasets. At each instant, then, for a media resource, there is a knowledge graph or dataset defined.
+As a playhead progresses through a media resource, cues are entered and exited. When a cue is entered, its graph or dataset is to be added to a multiset. When a cue is exited, its graph or dataset is to be removed from a multiset. Multisets can interface as simple graphs or datasets. For a media resource, then, a time-aligned graph or dataset can be defined such that, at each instant, there is a simple graph or dataset defined.
 
-In the following example, a time-aligned knowledge graph is shown. 
+The following example shows a time-aligned graph.
 
 > [!NOTE]
 > Example 1
