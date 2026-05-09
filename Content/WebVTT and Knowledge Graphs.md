@@ -30,7 +30,7 @@ A time-aligned knowledge graph is shown in the following example. As a playhead 
 
 ## Multisets
 
-As identical triples or quads can occur in multiple cues, [multisets](https://en.wikipedia.org/wiki/Multiset) of triples and quads could be useful with respect to implementation. Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., upon the elapsing of a cue, its multiplicity is decremented. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
+As identical triples or quads can occur in multiple cues, [multisets](https://en.wikipedia.org/wiki/Multiset) of triples and quads could be useful with respect to implementation. Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the elapsing of a cue, its multiplicity is decremented. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
 
 ## Shapes Constraints
 
