@@ -1,8 +1,8 @@
 ## Introduction
 
-Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) and time-aligned knowledge graphs, i.e., "timed Turtle" and "timed TriG".
+Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) and time-aligned knowledge graphs and datasets, i.e., "timed Turtle" and "timed TriG".
 
-A time-aligned graph is shown in the following example. As a playhead progresses through a multimedia resource, for example, triples are both added and removed from a corresponding time-aligned knowledge graph. Each cue declares that a time-aligned graph must contain its contents from its start time to its end time. At each instant, then, there is a graph or dataset defined.
+A time-aligned knowledge graph is shown in the following example. As a playhead progresses through a media resource, triples are both added and removed from a corresponding time-aligned knowledge graph. Each cue declares that a time-aligned graph must contain its contents from its start time to its end time. At each instant, then, there is a graph or dataset defined.
 
 > [!NOTE]
 > Example 1
