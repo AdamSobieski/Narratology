@@ -32,7 +32,7 @@ The following example shows a time-aligned graph concept.
 
 ## Multisets
 
-As identical triples or quads can occur in multiple cues' graphs or datasets, [multisets](https://en.wikipedia.org/wiki/Multiset) of triples and quads can be useful with respect to implementation. Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the elapsing of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
+As identical triples or quads can occur in multiple cues' graphs or datasets, [multisets](https://en.wikipedia.org/wiki/Multiset) of triples and quads can be useful with respect to implementation. Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
 
 ## Shapes Constraints
 
