@@ -9,7 +9,6 @@ For a media resource, a time-aligned graph or dataset can be defined such that t
 The following example shows a time-aligned graph concept.
 
 > [!NOTE]
-> Example 1
 >```webvtt
 >WEBVTT
 >
@@ -30,6 +29,17 @@ The following example shows a time-aligned graph concept.
 >00:58.000 --> 02:00.000
 >ex:s1 ex:p2 ex:o6 .
 >ex:s1 ex:p3 ex:o7 .
+>```
+
+At time instant `00:42.000`, for example, the simple graph or dataset is:
+
+> [!NOTE]
+>```turtle
+>@prefix ex: <http://www.example.org/ns#> .
+>
+>ex:s1 ex:p1 ex:o1 ;
+>       ex:p2 ex:o4 ;
+>       ex:p3 ex:o5 .
 >```
 
 ## Multisets
