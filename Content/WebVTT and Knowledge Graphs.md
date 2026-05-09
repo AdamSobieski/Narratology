@@ -52,8 +52,8 @@ Using these techniques, one could provide corresponding time-aligned [alternativ
 
 ### Artificial Intelligence
 
-Providing time-aligned semantics for video content has artificial-intelligence applications.
+Providing time-aligned semantics for audio and video content has artificial-intelligence applications.
 
 ### Computational Narratology
 
-Providing time-aligned semantics for video content has computational-narratology applications.
+Providing time-aligned semantics for audio and video content has computational-narratology applications.
