@@ -6,9 +6,8 @@ As a playhead progresses through a media resource with one or more text tracks, 
 
 For a media resource, a time-aligned graph or dataset can be defined such that there is a simple graph or dataset defined for it at each instant of time.
 
-The following example shows a time-aligned graph concept.
-
 > [!NOTE]
+> The following example shows a time-aligned graph concept.
 >```webvtt
 >WEBVTT
 >
@@ -31,9 +30,8 @@ The following example shows a time-aligned graph concept.
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-At time instant `00:42.000`, for example, the simple graph or dataset is:
-
 > [!NOTE]
+> At time instant `00:42.000`, for example, the simple graph or dataset is:
 >```turtle
 >@prefix ex: <http://www.example.org/ns#> .
 >
