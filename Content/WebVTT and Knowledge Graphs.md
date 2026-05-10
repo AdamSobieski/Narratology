@@ -1,9 +1,9 @@
 ## Introduction
 
-Presented, below, are some ideas about expressing time-aligned graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
+Presented, below, are some ideas about expressing time-varying graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
 
 > [!NOTE]
-> The following example shows a time-aligned graph.
+> The following example shows a time-varying graph.
 >```webvtt
 >WEBVTT
 >
@@ -52,9 +52,9 @@ Multisets of triples and quads could be useful with respect to efficiently imple
 
 ## Validation
 
-One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-aligned data graphs and datasets. A time-aligned graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
+One could make use of time-varying [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-varying data graphs and datasets. A time-varying graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
 
-To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-aligned shapes graph.
+To express constraints or conditions which must hold for a time-varying data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-varying shapes graph.
 
 ## Prefix Declaration Blocks
 
@@ -63,7 +63,7 @@ In the above example, a `NOTE` comment block was used as a prefix declaration bl
 Perhaps one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept using a `STYLE` block type for prefix directives.
+> The following example shows a time-varying graph using a `STYLE` block type for prefix directives.
 >```webvtt
 >WEBVTT
 >
@@ -89,7 +89,7 @@ Perhaps one could use `STYLE` blocks to define prefix directives for use in subs
 Alternatively, perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept using a new `DIRECTIVES` block type for prefix directives.
+> The following example shows a time-varying graph using a new `DIRECTIVES` block type for prefix directives.
 >```webvtt
 >WEBVTT
 >
@@ -116,16 +116,16 @@ Alternatively, perhaps a new WebVTT block type could be created for these scenar
 
 ### Education
 
-Using these techniques, one could declare time-invariant (entire duration) semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-aligned knowledge to indicate which hierarchical steps and substeps were current, which were being shown in that video at an instant.
+Using these techniques, one could declare time-invariant (entire duration) semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-varying graphs or datasets to indicate which hierarchical steps and substeps were current, which were being shown in that video at an instant.
 
 ### Accessibility
 
-Using these techniques, one could provide corresponding time-aligned [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visuospatial content in a video.
+Using these techniques, one could provide corresponding time-varying [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visuospatial content in a video.
 
 ### Artificial Intelligence
 
-Providing time-aligned semantics for audio and video content has artificial-intelligence applications.
+Providing time-varying semantics for audio and video content has artificial-intelligence applications.
 
 ### Computational Narratology
 
-Providing time-aligned semantics for audio and video content has computational-narratology applications.
+Providing time-varying semantics for audio and video content has computational-narratology applications.
