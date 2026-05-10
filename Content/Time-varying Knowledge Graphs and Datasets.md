@@ -36,26 +36,6 @@ Explored, below, are ideas about expressing time-varying knowledge graphs and da
 >       ex:p3 ex:o5 .
 >```
 
-## Scripting
-
-A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant corresponding graph or dataset.
-
-A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
-
-## Multisets
-
-As playheads progress through media resources with one or more text tracks, cues are entered and exited. When a cue with a graph or dataset is entered, its graph or dataset can be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When a cue with a graph or dataset is exited, its graph or dataset can be removed from that multiset.
-
-Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection. Multisets can also interface as simple graphs or datasets.
-
-Multisets of triples and quads could be useful with respect to efficiently implementing providing corresponding graphs or datasets from the cues in a metadata track, per instant.
-
-## Validation
-
-One could make use of time-varying [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-varying data graphs and datasets. A time-varying graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
-
-To express constraints or conditions which must hold for a time-varying data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-varying shapes graph.
-
 ## Prefix Declaration Blocks
 
 In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives.
@@ -111,6 +91,26 @@ Alternatively, perhaps a new WebVTT block type could be created for these scenar
 >ex:s1 ex:p2 ex:o6 .
 >ex:s1 ex:p3 ex:o7 .
 >```
+
+## Scripting
+
+A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant corresponding graph or dataset.
+
+A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
+
+## Multisets
+
+As playheads progress through media resources with one or more text tracks, cues are entered and exited. When a cue with a graph or dataset is entered, its graph or dataset can be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When a cue with a graph or dataset is exited, its graph or dataset can be removed from that multiset.
+
+Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection. Multisets can also interface as simple graphs or datasets.
+
+Multisets of triples and quads could be useful with respect to efficiently implementing providing corresponding graphs or datasets from the cues in a metadata track, per instant.
+
+## Validation
+
+One could make use of time-varying [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-varying data graphs and datasets. A time-varying graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
+
+To express constraints or conditions which must hold for a time-varying data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-varying shapes graph.
 
 ## Considered Use Cases
 
