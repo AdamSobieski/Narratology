@@ -39,7 +39,7 @@ ex:s1 ex:p1 ex:o1 ;
 
 In the above example, prefix directives were redundantly expressed in every cue. How might one declare prefix directives for use across cues?
 
-Perhaps one could use `NOTE` comment blocks to define prefix directives for use across cues?
+Perhaps one could use `NOTE` comment blocks to declare prefix directives for use across cues?
 ```webvtt
 WEBVTT
 
@@ -62,7 +62,7 @@ ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
 
-Perhaps one could use `STYLE` blocks to define prefix directives for use across cues?
+Perhaps one could use `STYLE` blocks to declare prefix directives for use across cues?
 ```webvtt
 WEBVTT
 
@@ -85,7 +85,7 @@ ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
 
-Perhaps one could use `REGION` blocks to define prefix directives for use across cues?
+Perhaps one could use `REGION` blocks to declare prefix directives for use across cues?
 ```webvtt
 WEBVTT
 
