@@ -4,7 +4,7 @@ Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) a
 
 As a playhead progresses through a media resource with one or more text tracks, cues are entered and exited. As shown, below, cues could have graphs or datasets. When such a cue is entered, its graph or dataset is to be added to a multiset of triples or quads. When such a cue is exited, its graph or dataset is to be removed from that multiset. Multisets can interface as simple graphs or datasets.
 
-For a media resource, a time-aligned graph or dataset can be defined such that there is a simple graph or dataset defined for it at each instant of time.
+For a media resource, a time-aligned graph or dataset can be defined such that there is a simple graph or dataset defined for it at each instant.
 
 > [!NOTE]
 > The following example shows a time-aligned graph concept.
@@ -31,7 +31,7 @@ For a media resource, a time-aligned graph or dataset can be defined such that t
 >```
 
 > [!NOTE]
-> At time instant `00:42.000`, for example, the simple graph or dataset is:
+> At instant `00:42.000`, for instance, the simple graph or dataset is equivalent to:
 >```turtle
 >@prefix ex: <http://www.example.org/ns#> .
 >
@@ -46,7 +46,7 @@ For a media resource, a time-aligned graph or dataset can be defined such that t
 
 As identical triples or quads can occur in multiple cues' graphs or datasets, multisets of triples and quads can be useful with respect to implementation. 
 
-## Shapes Constraints
+## Validation
 
 One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-aligned data graphs and datasets. A time-aligned graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
 
@@ -84,10 +84,10 @@ Perhaps one could use `STYLE` blocks to define prefix directives for use in subs
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-Perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
+Alternatively, perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept using a `DIRECTIVES` block type for prefix directives.
+> The following example shows a time-aligned graph concept using a new `DIRECTIVES` block type for prefix directives.
 >```webvtt
 >WEBVTT
 >
