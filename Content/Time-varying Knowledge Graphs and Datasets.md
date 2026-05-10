@@ -40,7 +40,7 @@ Explored, below, are ideas about expressing time-varying knowledge graphs and da
 
 A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant corresponding graph or dataset.
 
-A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the active cues.
+A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
 
 ## Multisets
 
