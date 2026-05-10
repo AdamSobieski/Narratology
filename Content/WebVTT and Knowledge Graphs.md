@@ -48,7 +48,7 @@ As a playhead progresses through a media resource with one or more text tracks, 
 
 Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
 
-As identical triples or quads can occur in multiple cues' graphs or datasets, multisets of triples and quads could be useful with respect to efficient implementations of providing per-instant simple graphs or datasets from the cues in a metadata track.
+Multisets of triples and quads could be useful with respect to efficiently implementing providing corresponding graphs or datasets from the cues in a metadata track, per instant.
 
 ## Validation
 
