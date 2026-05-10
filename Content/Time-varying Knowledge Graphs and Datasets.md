@@ -109,7 +109,7 @@ ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
 
-Perhaps a new WebVTT block type, `DIRECTIVES`, could be created for these scenarios?
+Perhaps a new WebVTT block type, e.g., `DIRECTIVES`, could be created for these scenarios?
 ```webvtt
 WEBVTT
 
