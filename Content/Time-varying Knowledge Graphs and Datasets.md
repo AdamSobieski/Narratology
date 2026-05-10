@@ -1,6 +1,6 @@
 ## Introduction
 
-Presented, below, are some ideas about expressing time-varying knowledge graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
+Explored, below, are some ideas about expressing time-varying knowledge graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
 
 > [!NOTE]
 > The following example shows a time-varying knowledge graph.
