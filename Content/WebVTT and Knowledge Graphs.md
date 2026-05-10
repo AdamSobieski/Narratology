@@ -2,10 +2,6 @@
 
 Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) and time-aligned graphs and datasets.
 
-As a playhead progresses through a media resource with one or more text tracks, cues are entered and exited. As shown, below, cues could have graphs or datasets. When such a cue is entered, its graph or dataset is to be added to a multiset of triples or quads. When such a cue is exited, its graph or dataset is to be removed from that multiset. Multisets can interface as simple graphs or datasets.
-
-For a media resource, a time-aligned graph or dataset can be defined such that there is a simple graph or dataset defined for it at each instant.
-
 > [!NOTE]
 > The following example shows a time-aligned graph concept.
 >```webvtt
@@ -40,17 +36,23 @@ For a media resource, a time-aligned graph or dataset can be defined such that t
 >       ex:p3 ex:o5 .
 >```
 
+## Scripting
+
+A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), can be used to construct a simple graph or dataset for an instant. Without using multisets for efficiency, one could merge the graphs or datasets from the active cues, at an instant, into a resultant graph or dataset.
+
+A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant simple graph or dataset, e.g., to display, query, or otherwise process it.
+
 ## Multisets
 
-[Multiset](https://en.wikipedia.org/wiki/Multiset) data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
+As a playhead progresses through a media resource with one or more text tracks, cues are entered and exited. As shown, below, cues could have graphs or datasets. When such a cue is entered, its graph or dataset is to be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When such a cue is exited, its graph or dataset is to be removed from that multiset. Multisets can interface as simple graphs or datasets.
 
-As identical triples or quads can occur in multiple cues' graphs or datasets, multisets of triples and quads can be useful with respect to implementation. 
+Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
+
+As identical triples or quads can occur in multiple cues' graphs or datasets, multisets of triples and quads could be useful with respect to efficient implementations of providing per-instant simple graphs or datasets from the cues in a metadata track.
 
 ## Validation
 
 One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes graphs to define constraints or conditions for time-aligned data graphs and datasets. A time-aligned graph or dataset could express constraints or conditions which are to hold, at an instant, on itself or another graph or dataset.
-
-A time-aligned data graph could be its own time-aligned shapes graph. Alternatively, time-aligned data graphs and time-aligned shapes graphs could be stored in separate metadata tracks. Time-aligned shapes graphs could be used to validate time-aligned data graphs before they are deployed or could accompany time-aligned data graphs as auxiliary resources.
 
 To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-aligned shapes graph.
 
