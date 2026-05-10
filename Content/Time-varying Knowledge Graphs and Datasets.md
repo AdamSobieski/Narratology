@@ -37,7 +37,7 @@ ex:s1 ex:p1 ex:o1 ;
 
 ## Prefix Declaration Blocks
 
-In the above example, prefix directives were redundantly expressed in every cue; each cue included its own prefix declaration block. How might one define prefix directives for use across cues?
+In the above example, prefix directives were redundantly expressed in every cue. How might one define prefix directives for use across cues?
 
 Perhaps one could use `NOTE` comment blocks to define prefix directives for use across cues?
 ```webvtt
