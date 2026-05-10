@@ -38,7 +38,7 @@ ex:s1 ex:p1 ex:o1 ;
 
 In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. [Comment blocks](https://w3c.github.io/webvtt/#webvtt-comment-block), however, are ignored by the parser.
 
-The following example shows what a metadata text track for time-varying knowledge graphs or datasets would resemble without a means of providing prefix directives across cues.
+The following example shows what a metadata text track for time-varying knowledge graphs or datasets would resemble without a means of expressing prefix directives across cues.
 ```webvtt
 WEBVTT
 
