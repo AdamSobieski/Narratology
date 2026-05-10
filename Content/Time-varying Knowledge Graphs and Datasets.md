@@ -2,149 +2,135 @@
 
 Explored, below, are ideas involving expressing time-varying knowledge graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
 
-> [!NOTE]
-> The following example shows a time-varying knowledge graph.
->```webvtt
->WEBVTT
->
->NOTE
->@prefix ex: <http://www.example.org/ns#> .
->
->00:00.000 --> 02:00.000
->ex:s1 ex:p1 ex:o1 .
->
->00:22.000 --> 00:27.000
->ex:s1 ex:p2 ex:o2 .
->ex:s1 ex:p3 ex:o3 .
->
->00:40.000 --> 00:43.000
->ex:s1 ex:p2 ex:o4 .
->ex:s1 ex:p3 ex:o5 .
->
->00:58.000 --> 02:00.000
->ex:s1 ex:p2 ex:o6 .
->ex:s1 ex:p3 ex:o7 .
->```
+The following example shows a time-varying knowledge graph.
+```webvtt
+WEBVTT
 
-> [!NOTE]
-> At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to:
->```turtle
->@prefix ex: <http://www.example.org/ns#> .
->
->ex:s1 ex:p1 ex:o1 ;
->       ex:p2 ex:o4 ;
->       ex:p3 ex:o5 .
->```
+NOTE
+@prefix ex: <http://www.example.org/ns#> .
+
+00:00.000 --> 02:00.000
+ex:s1 ex:p1 ex:o1 .
+
+00:22.000 --> 00:27.000
+ex:s1 ex:p2 ex:o2 .
+ex:s1 ex:p3 ex:o3 .
+
+00:40.000 --> 00:43.000
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
+
+00:58.000 --> 02:00.000
+ex:s1 ex:p2 ex:o6 .
+ex:s1 ex:p3 ex:o7 .
+```
+
+At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to:
+```turtle
+@prefix ex: <http://www.example.org/ns#> .
+
+ex:s1 ex:p1 ex:o1 ;
+       ex:p2 ex:o4 ;
+       ex:p3 ex:o5 .
+```
 
 ## Prefix Declaration Blocks
 
 In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. [Comment blocks](https://w3c.github.io/webvtt/#webvtt-comment-block), however, are ignored by the parser.
 
 The following example shows what a metadata text track for time-varying knowledge graphs or datasets would resemble without a means of providing prefix directives across cues.
+```webvtt
+WEBVTT
 
-> [!NOTE]
-> The following example shows a time-varying knowledge graph without a means of providing prefix directives across cues.
->```webvtt
->WEBVTT
->
->00:00.000 --> 02:00.000
->@prefix ex: <http://www.example.org/ns#> .
->ex:s1 ex:p1 ex:o1 .
->
->00:22.000 --> 00:27.000
->@prefix ex: <http://www.example.org/ns#> .
->ex:s1 ex:p2 ex:o2 .
->ex:s1 ex:p3 ex:o3 .
->
->00:40.000 --> 00:43.000
->@prefix ex: <http://www.example.org/ns#> .
->ex:s1 ex:p2 ex:o4 .
->ex:s1 ex:p3 ex:o5 .
->
->00:58.000 --> 02:00.000
->@prefix ex: <http://www.example.org/ns#> .
->ex:s1 ex:p2 ex:o6 .
->ex:s1 ex:p3 ex:o7 .
->```
+00:00.000 --> 02:00.000
+@prefix ex: <http://www.example.org/ns#> .
+ex:s1 ex:p1 ex:o1 .
+
+00:22.000 --> 00:27.000
+@prefix ex: <http://www.example.org/ns#> .
+ex:s1 ex:p2 ex:o2 .
+ex:s1 ex:p3 ex:o3 .
+
+00:40.000 --> 00:43.000
+@prefix ex: <http://www.example.org/ns#> .
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
+
+00:58.000 --> 02:00.000
+@prefix ex: <http://www.example.org/ns#> .
+ex:s1 ex:p2 ex:o6 .
+ex:s1 ex:p3 ex:o7 .
+```
 
 Perhaps one could use `STYLE` blocks to define prefix directives for use across cues?
+```webvtt
+WEBVTT
 
-> [!NOTE]
-> The following example shows a time-varying graph using a `STYLE` block type for prefix directives.
->```webvtt
->WEBVTT
->
->STYLE
->@namespace ex url('http://www.example.org/ns#');
->
->00:00.000 --> 02:00.000
->ex:s1 ex:p1 ex:o1 .
->
->00:22.000 --> 00:27.000
->ex:s1 ex:p2 ex:o2 .
->ex:s1 ex:p3 ex:o3 .
->
->00:40.000 --> 00:43.000
->ex:s1 ex:p2 ex:o4 .
->ex:s1 ex:p3 ex:o5 .
->
->00:58.000 --> 02:00.000
->ex:s1 ex:p2 ex:o6 .
->ex:s1 ex:p3 ex:o7 .
->```
+STYLE
+@namespace ex url('http://www.example.org/ns#');
+
+00:00.000 --> 02:00.000
+ex:s1 ex:p1 ex:o1 .
+
+00:22.000 --> 00:27.000
+ex:s1 ex:p2 ex:o2 .
+ex:s1 ex:p3 ex:o3 .
+
+00:40.000 --> 00:43.000
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
+
+00:58.000 --> 02:00.000
+ex:s1 ex:p2 ex:o6 .
+ex:s1 ex:p3 ex:o7 .
+```
 
 Alternatively, perhaps one could use `REGION` blocks to define prefix directives for use across cues?
+```webvtt
+WEBVTT
 
-> [!NOTE]
-> The following example shows a time-varying graph using a `REGION` block type for prefix directives.
->```webvtt
->WEBVTT
->
->REGION
->id:x
->@prefix ex: <http://www.example.org/ns#> .
->
->00:00.000 --> 02:00.000 region:x
->ex:s1 ex:p1 ex:o1 .
->
->00:22.000 --> 00:27.000 region:x
->ex:s1 ex:p2 ex:o2 .
->ex:s1 ex:p3 ex:o3 .
->
->00:40.000 --> 00:43.000 region:x
->ex:s1 ex:p2 ex:o4 .
->ex:s1 ex:p3 ex:o5 .
->
->00:58.000 --> 02:00.000 region:x
->ex:s1 ex:p2 ex:o6 .
->ex:s1 ex:p3 ex:o7 .
->```
+REGION
+id:x
+@prefix ex: <http://www.example.org/ns#> .
+
+00:00.000 --> 02:00.000 region:x
+ex:s1 ex:p1 ex:o1 .
+
+00:22.000 --> 00:27.000 region:x
+ex:s1 ex:p2 ex:o2 .
+ex:s1 ex:p3 ex:o3 .
+
+00:40.000 --> 00:43.000 region:x
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
+
+00:58.000 --> 02:00.000 region:x
+ex:s1 ex:p2 ex:o6 .
+ex:s1 ex:p3 ex:o7 .
+```
 
 Alternatively, perhaps a new WebVTT block type, `DIRECTIVES`, could be created for these scenarios?
+```webvtt
+WEBVTT
 
-> [!NOTE]
-> The following example shows a time-varying graph using a new `DIRECTIVES` block type for prefix directives.
->```webvtt
->WEBVTT
->
->DIRECTIVES
->@prefix ex: <http://www.example.org/ns#> .
->
->00:00.000 --> 02:00.000
->ex:s1 ex:p1 ex:o1 .
->
->00:22.000 --> 00:27.000
->ex:s1 ex:p2 ex:o2 .
->ex:s1 ex:p3 ex:o3 .
->
->00:40.000 --> 00:43.000
->ex:s1 ex:p2 ex:o4 .
->ex:s1 ex:p3 ex:o5 .
->
->00:58.000 --> 02:00.000
->ex:s1 ex:p2 ex:o6 .
->ex:s1 ex:p3 ex:o7 .
->```
+DIRECTIVES
+@prefix ex: <http://www.example.org/ns#> .
+
+00:00.000 --> 02:00.000
+ex:s1 ex:p1 ex:o1 .
+
+00:22.000 --> 00:27.000
+ex:s1 ex:p2 ex:o2 .
+ex:s1 ex:p3 ex:o3 .
+
+00:40.000 --> 00:43.000
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
+
+00:58.000 --> 02:00.000
+ex:s1 ex:p2 ex:o6 .
+ex:s1 ex:p3 ex:o7 .
+```
 
 ## Scripting
 
