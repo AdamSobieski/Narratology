@@ -56,7 +56,7 @@ One could make use of time-aligned [SHACL](https://www.w3.org/TR/shacl/) shapes 
 
 To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-aligned shapes graph.
 
-## Prefix Declaration Blocks for Prefix Directives
+## Prefix Declaration Blocks
 
 In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives.
 
