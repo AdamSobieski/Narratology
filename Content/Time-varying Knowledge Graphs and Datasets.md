@@ -38,9 +38,9 @@ Explored, below, are ideas involving expressing time-varying knowledge graphs an
 
 ## Prefix Declaration Blocks
 
-In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives.
+In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. However, [comment blocks are ignored by the parser](https://w3c.github.io/webvtt/#webvtt-comment-block).
 
-Perhaps one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
+Perhaps, then, one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
 
 > [!NOTE]
 > The following example shows a time-varying graph using a `STYLE` block type for prefix directives.
