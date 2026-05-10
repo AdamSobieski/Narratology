@@ -171,3 +171,9 @@ Providing time-varying semantics for audio and video content has artificial-inte
 ### Computational Narratology
 
 Providing time-varying semantics for audio and video content has computational-narratology applications.
+
+### Animated Data Visualizations and Infographics
+
+RDF data can be visualized in a number of ways including by means of techniques like [SolidOS panes](https://solidos.org/docs/panes/overview).
+
+One could use time-varying graphs or datasets to provide dynamic data for animated data visualizations and infographics (e.g., tables, charts, and diagrams). Time-varying graphs and datasets can also express selection- and highlighting-related features for animated data visualizations and infographics.
