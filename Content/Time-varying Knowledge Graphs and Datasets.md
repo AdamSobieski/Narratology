@@ -93,7 +93,7 @@ Alternatively, perhaps a `REGION` block type could be used for these scenarios?
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-Alternatively, perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
+Alternatively, perhaps a new WebVTT block type, `DIRECTIVES`, could be created for these scenarios?
 
 > [!NOTE]
 > The following example shows a time-varying graph using a new `DIRECTIVES` block type for prefix directives.
