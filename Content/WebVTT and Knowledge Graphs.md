@@ -38,9 +38,9 @@ Presented, below, are some ideas about [WebVTT](https://w3c.github.io/webvtt/) a
 
 ## Scripting
 
-A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), can be used to construct a simple graph or dataset for an instant. Without using multisets for efficiency, one could merge the graphs or datasets from the active cues, at an instant, into a resultant corresponding graph or dataset.
+A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. Without using multisets for efficiency, one could merge the graphs or datasets from the active cues, at an instant, into a resultant corresponding graph or dataset.
 
-A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process.
+A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the active cues.
 
 ## Multisets
 
