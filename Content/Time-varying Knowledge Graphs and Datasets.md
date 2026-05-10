@@ -121,13 +121,13 @@ Alternatively, perhaps a new WebVTT block type, `DIRECTIVES`, could be created f
 
 ## Scripting
 
-A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. One could merge the graphs or datasets from the list of active cues, at an instant, into a corresponding graph or dataset.
+A metadata track, of type [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, of type [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), which can be used to construct a corresponding graph or dataset for an instant. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant graph or dataset.
 
-A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant corresponding graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
+A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
 
 ### Multisets
 
-As playheads progress through media resources with one or more text tracks, cues are entered and exited. Developers should be able to simply obtain, upon `cuechange` events, those cues which were exited and those which were entered.
+As playheads progress through media resources with one or more text tracks, cues are entered and exited. Developers can simply obtain, upon `cuechange` events, those cues which were exited and those which were entered.
 
 When a cue with a graph or dataset is entered, its graph or dataset could be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When a cue with a graph or dataset is exited, its graph or dataset could be removed from that multiset.
 
