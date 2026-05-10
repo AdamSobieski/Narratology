@@ -26,7 +26,7 @@ ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
 
-At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to:
+At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to the following [Turtle](https://www.w3.org/TR/turtle/):
 ```turtle
 @prefix ex: <http://www.example.org/ns#> .
 
