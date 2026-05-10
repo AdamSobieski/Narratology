@@ -3,7 +3,7 @@
 Presented, below, are some ideas about expressing time-aligned graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept.
+> The following example shows a time-aligned graph.
 >```webvtt
 >WEBVTT
 >
