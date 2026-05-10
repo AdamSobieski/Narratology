@@ -66,7 +66,7 @@ Perhaps, then, one could use `STYLE` blocks to define prefix directives for use 
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-Alternatively, perhaps a `REGION` block type could be used for these scenarios?
+Alternatively, perhaps one could use `REGION` blocks to define prefix directives for use in subsequent cues?
 
 > [!NOTE]
 > The following example shows a time-varying graph using a `REGION` block type for prefix directives.
