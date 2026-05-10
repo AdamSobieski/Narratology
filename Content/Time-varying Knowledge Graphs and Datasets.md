@@ -116,7 +116,7 @@ Alternatively, perhaps a new WebVTT block type could be created for these scenar
 
 ### Education
 
-Using these techniques, one could declare time-invariant (entire duration) semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-varying graphs or datasets to indicate which hierarchical steps and substeps were current, which were being shown in that video at an instant.
+Using these techniques, one could declare time-invariant (entire duration) semantics for how-to knowledge presented in instructional videos, e.g., using Schema.org's [`HowTo`](https://schema.org/HowTo), and utilize time-varying graphs or datasets to indicate which hierarchical steps and substeps were being shown in that video at an instant.
 
 ### Accessibility
 
