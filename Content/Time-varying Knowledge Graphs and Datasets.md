@@ -134,7 +134,7 @@ ex:s1 ex:p3 ex:o7 .
 
 ## Scripting
 
-A WebVTT metadata track, implementing [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, returning a [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), the elements of which, each implementing [`VTTCue`](https://w3c.github.io/webvtt/#the-vttcue-interface), can be used to construct a corresponding graph or dataset. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant graph or dataset.
+A WebVTT metadata track with cues providing graphs or datasets, a track implementing [`TextTrack`](https://html.spec.whatwg.org/multipage/media.html#texttrack), has an [`activeCues`](https://html.spec.whatwg.org/multipage/media.html#dom-texttrack-activecues) property, returning a [`TextTrackCueList`](https://html.spec.whatwg.org/multipage/media.html#texttrackcuelist), the elements of which, each implementing [`VTTCue`](https://w3c.github.io/webvtt/#the-vttcue-interface), can be used to construct a corresponding graph or dataset. One could merge the graphs or datasets from the list of active cues, at an instant, into a resultant graph or dataset.
 
 A script, then, could add an event listener to a track's [`cuechange`](https://html.spec.whatwg.org/multipage/media.html#handler-texttrack-oncuechange) event and assemble a resultant graph or dataset, e.g., to display, query, or otherwise process, from the graphs or datasets in the list of active cues.
 
