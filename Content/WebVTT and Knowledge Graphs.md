@@ -44,9 +44,9 @@ A script, then, could add an event listener to a track's [`cuechange`](https://h
 
 ## Multisets
 
-As playheads progress through media resources with one or more text tracks, cues are entered and exited. When a cue with a graph or dataset is entered, its graph or dataset can be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When a cue with a graph or dataset is exited, its graph or dataset can be removed from that multiset. Multisets can also interface as simple graphs or datasets.
+As playheads progress through media resources with one or more text tracks, cues are entered and exited. When a cue with a graph or dataset is entered, its graph or dataset can be added to a [multiset](https://en.wikipedia.org/wiki/Multiset) of triples or quads. When a cue with a graph or dataset is exited, its graph or dataset can be removed from that multiset.
 
-Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection.
+Multiset data structures store integers internally for contained elements, a.k.a., their [multiplicities](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)), the number of times that elements have been added to the collection. When an element is removed from a multiset collection, e.g., a triple or quad upon the exiting of a cue, its multiplicity is decremented by one. If its multiplicity becomes equal to zero, it is removed entirely from the multiset collection. Multisets can also interface as simple graphs or datasets.
 
 Multisets of triples and quads could be useful with respect to efficiently implementing providing corresponding graphs or datasets from the cues in a metadata track, per instant.
 
