@@ -31,8 +31,8 @@ At instant `00:42.000`, for instance, the corresponding knowledge graph would be
 @prefix ex: <http://www.example.org/ns#> .
 
 ex:s1 ex:p1 ex:o1 ;
-       ex:p2 ex:o4 ;
-       ex:p3 ex:o5 .
+      ex:p2 ex:o4 ;
+      ex:p3 ex:o5 .
 ```
 
 ## Prefix Declaration Blocks
