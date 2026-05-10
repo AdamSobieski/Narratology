@@ -40,7 +40,34 @@ Explored, below, are ideas involving expressing time-varying knowledge graphs an
 
 In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. However, [comment blocks are ignored by the parser](https://w3c.github.io/webvtt/#webvtt-comment-block).
 
-Perhaps, then, one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
+The following example shows what it would look like without a means of providing prefix directives across cues.
+
+> [!NOTE]
+> The following example shows a time-varying knowledge graph without a means of providing prefix directives across cues.
+>```webvtt
+>WEBVTT
+>
+>00:00.000 --> 02:00.000
+>@prefix ex: <http://www.example.org/ns#> .
+>ex:s1 ex:p1 ex:o1 .
+>
+>00:22.000 --> 00:27.000
+>@prefix ex: <http://www.example.org/ns#> .
+>ex:s1 ex:p2 ex:o2 .
+>ex:s1 ex:p3 ex:o3 .
+>
+>00:40.000 --> 00:43.000
+>@prefix ex: <http://www.example.org/ns#> .
+>ex:s1 ex:p2 ex:o4 .
+>ex:s1 ex:p3 ex:o5 .
+>
+>00:58.000 --> 02:00.000
+>@prefix ex: <http://www.example.org/ns#> .
+>ex:s1 ex:p2 ex:o6 .
+>ex:s1 ex:p3 ex:o7 .
+>```
+
+Perhaps one could use `STYLE` blocks to define prefix directives for use across cues?
 
 > [!NOTE]
 > The following example shows a time-varying graph using a `STYLE` block type for prefix directives.
@@ -66,7 +93,7 @@ Perhaps, then, one could use `STYLE` blocks to define prefix directives for use 
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-Alternatively, perhaps one could use `REGION` blocks to define prefix directives for use in subsequent cues?
+Alternatively, perhaps one could use `REGION` blocks to define prefix directives for use across cues?
 
 > [!NOTE]
 > The following example shows a time-varying graph using a `REGION` block type for prefix directives.
