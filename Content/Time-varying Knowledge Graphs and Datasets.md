@@ -106,7 +106,7 @@ Multiset data structures store integers internally for contained elements, a.k.a
 
 Multisets of triples and quads could be useful with respect to efficiently implementing providing corresponding graphs or datasets from the cues in a metadata track, per instant.
 
-As `activeCues` are specified as being in [text track cue order](https://html.spec.whatwg.org/multipage/media.html#text-track-cue-order), developers should be able to simply obtain, upon `cuechange` events, those cues which were exited and those which were entered, in the case of the simple progression of the playhead. In the case that the playhead moves otherwise, software could detect this occurrence and construct a corresponding graph from scratch using all of the active cues.
+As `activeCues` are specified as being in [text track cue order](https://html.spec.whatwg.org/multipage/media.html#text-track-cue-order), developers should be able to simply obtain, upon `cuechange` events, those cues which were exited and those which were entered, in the case of the simple progression of the playhead. In the case that the playhead moves otherwise, software should be able to detect this occurrence and construct a corresponding graph from scratch using the list of active cues.
 
 ## Validation
 
