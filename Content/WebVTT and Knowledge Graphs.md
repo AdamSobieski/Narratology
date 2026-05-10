@@ -56,15 +56,17 @@ To express constraints or conditions which must hold for a time-aligned data gra
 
 ## Prefix Declaration Blocks for Prefix Directives
 
-In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. Perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
+In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives.
+
+Perhaps one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept using a `DIRECTIVES` block type for prefix directives.
+> The following example shows a time-aligned graph concept using a `STYLE` block type for prefix directives.
 >```webvtt
 >WEBVTT
 >
->DIRECTIVES
->@prefix ex: <http://www.example.org/ns#> .
+>STYLE
+>@namespace ex url('http://www.example.org/ns#');
 >
 >00:00.000 --> 02:00.000
 >ex:s1 ex:p1 ex:o1 .
@@ -82,15 +84,15 @@ In the above example, a `NOTE` comment block was used as a prefix declaration bl
 >ex:s1 ex:p3 ex:o7 .
 >```
 
-ALternatively, perhaps one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
+Perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
 
 > [!NOTE]
-> The following example shows a time-aligned graph concept using a `STYLE` block type for prefix directives.
+> The following example shows a time-aligned graph concept using a `DIRECTIVES` block type for prefix directives.
 >```webvtt
 >WEBVTT
 >
->STYLE
->@namespace ex url('http://www.example.org/ns#');
+>DIRECTIVES
+>@prefix ex: <http://www.example.org/ns#> .
 >
 >00:00.000 --> 02:00.000
 >ex:s1 ex:p1 ex:o1 .
