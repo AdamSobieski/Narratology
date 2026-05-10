@@ -29,10 +29,9 @@ ex:s1 ex:p3 ex:o7 .
 At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to the following [Turtle](https://www.w3.org/TR/turtle/) code block:
 ```turtle
 @prefix ex: <http://www.example.org/ns#> .
-
-ex:s1 ex:p1 ex:o1 ;
-      ex:p2 ex:o4 ;
-      ex:p3 ex:o5 .
+ex:s1 ex:p1 ex:o1 .
+ex:s1 ex:p2 ex:o4 .
+ex:s1 ex:p3 ex:o5 .
 ```
 
 ## Prefix Declaration Blocks
