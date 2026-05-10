@@ -54,6 +54,60 @@ A time-aligned data graph could be its own time-aligned shapes graph. Alternativ
 
 To express constraints or conditions which must hold for a time-aligned data graph or dataset for the entirety of a time-based resource, one could simply use the start time and end time for the entirety of that time-based resource in one cue in the time-aligned shapes graph.
 
+## Prefix Declaration Blocks for Prefix Directives
+
+In the above example, a `NOTE` comment block was used as a prefix declaration block, as a place to provide prefix directives. Perhaps a new WebVTT block type could be created for these scenarios: `DIRECTIVES`?
+
+> [!NOTE]
+> The following example shows a time-aligned graph concept using a `DIRECTIVES` block type for prefix directives.
+>```webvtt
+>WEBVTT
+>
+>DIRECTIVES
+>@prefix ex: <http://www.example.org/ns#> .
+>
+>00:00.000 --> 02:00.000
+>ex:s1 ex:p1 ex:o1 .
+>
+>00:22.000 --> 00:27.000
+>ex:s1 ex:p2 ex:o2 .
+>ex:s1 ex:p3 ex:o3 .
+>
+>00:40.000 --> 00:43.000
+>ex:s1 ex:p2 ex:o4 .
+>ex:s1 ex:p3 ex:o5 .
+>
+>00:58.000 --> 02:00.000
+>ex:s1 ex:p2 ex:o6 .
+>ex:s1 ex:p3 ex:o7 .
+>```
+
+ALternatively, perhaps one could use `STYLE` blocks to define prefix directives for use in subsequent cues?
+
+> [!NOTE]
+> The following example shows a time-aligned graph concept using a `STYLE` block type for prefix directives.
+>```webvtt
+>WEBVTT
+>
+>STYLE
+>@namespace ex url('http://www.example.org/ns#');
+>
+>00:00.000 --> 02:00.000
+>ex:s1 ex:p1 ex:o1 .
+>
+>00:22.000 --> 00:27.000
+>ex:s1 ex:p2 ex:o2 .
+>ex:s1 ex:p3 ex:o3 .
+>
+>00:40.000 --> 00:43.000
+>ex:s1 ex:p2 ex:o4 .
+>ex:s1 ex:p3 ex:o5 .
+>
+>00:58.000 --> 02:00.000
+>ex:s1 ex:p2 ex:o6 .
+>ex:s1 ex:p3 ex:o7 .
+>```
+
 ## Considered Use Cases
 
 ### Education
