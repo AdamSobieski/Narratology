@@ -27,7 +27,7 @@ Explored, below, are ideas involving expressing time-varying knowledge graphs an
 >```
 
 > [!NOTE]
-> At instant `00:42.000`, for instance, the corresponding knowledge graph is equivalent to:
+> At instant `00:42.000`, for instance, the corresponding knowledge graph would be equivalent to:
 >```turtle
 >@prefix ex: <http://www.example.org/ns#> .
 >
