@@ -6,21 +6,22 @@ The following example shows a time-varying knowledge graph.
 ```webvtt
 WEBVTT
 
-NOTE
-@prefix ex: <http://www.example.org/ns#> .
-
 00:00.000 --> 02:00.000
+@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p1 ex:o1 .
 
 00:22.000 --> 00:27.000
+@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o2 .
 ex:s1 ex:p3 ex:o3 .
 
 00:40.000 --> 00:43.000
+@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o4 .
 ex:s1 ex:p3 ex:o5 .
 
 00:58.000 --> 02:00.000
+@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
@@ -36,28 +37,27 @@ ex:s1 ex:p1 ex:o1 ;
 
 ## Prefix Declaration Blocks
 
-In the above example, a `NOTE` [comment block](https://w3c.github.io/webvtt/#webvtt-comment-block) was used as a prefix declaration block, as a place to provide prefix directives.
+In the above example, there was no means of expressing prefix directives across cues. Each cue included its own prefix declaration block. How might one define prefix directives for use across cues?
 
-The following example shows what a metadata text track for time-varying knowledge graphs or datasets would resemble without a means of expressing prefix directives across cues.
+Perhaps one could use `NOTE` comment blocks to define prefix directives for use across cues?
 ```webvtt
 WEBVTT
 
-00:00.000 --> 02:00.000
+NOTE
 @prefix ex: <http://www.example.org/ns#> .
+
+00:00.000 --> 02:00.000
 ex:s1 ex:p1 ex:o1 .
 
 00:22.000 --> 00:27.000
-@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o2 .
 ex:s1 ex:p3 ex:o3 .
 
 00:40.000 --> 00:43.000
-@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o4 .
 ex:s1 ex:p3 ex:o5 .
 
 00:58.000 --> 02:00.000
-@prefix ex: <http://www.example.org/ns#> .
 ex:s1 ex:p2 ex:o6 .
 ex:s1 ex:p3 ex:o7 .
 ```
