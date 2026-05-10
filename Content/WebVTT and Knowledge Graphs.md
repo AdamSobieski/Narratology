@@ -1,6 +1,6 @@
 ## Introduction
 
-Presented, below, are some ideas about providing time-aligned graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
+Presented, below, are some ideas about expressing time-aligned graphs and datasets using [WebVTT](https://w3c.github.io/webvtt/).
 
 > [!NOTE]
 > The following example shows a time-aligned graph concept.
