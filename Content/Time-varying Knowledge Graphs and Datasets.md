@@ -161,7 +161,7 @@ Using these techniques, one could declare time-invariant (entire duration) seman
 
 ### Accessibility
 
-Using these techniques, one could provide corresponding time-varying [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [scene graphs](https://en.wikipedia.org/wiki/Scene_graph) for visuospatial content in a video. At each instant, there could be one or more scene graphs describing the visuospatial content in a video.
+Using these techniques, one could provide corresponding time-varying [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [spatiotemporal scene graphs](https://cs.stanford.edu/people/ranjaykrishna/sgrl/slides/ranjay.pdf) for content in videos. Per [Steiner, Mühleisen, Verborgh, Champin, Encelle, and Prié (2014)](http://events.linkeddata.org/ldow2014/papers/ldow2014_paper_11.pdf), one could use [Media Fragments URI](https://www.w3.org/TR/media-frags/) in linked data to refer to spatial bounding boxes, temporal intervals, contents in tracks, and contents by id in videos.
 
 ### Artificial Intelligence
 
