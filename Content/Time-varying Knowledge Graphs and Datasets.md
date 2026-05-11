@@ -90,6 +90,7 @@ WEBVTT
 
 REGION
 id:x
+type:text/turtle
 @ex:<http://www.example.org/ns#>
 
 00:00.000 --> 02:00.000 region:x
