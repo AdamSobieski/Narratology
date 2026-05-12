@@ -180,3 +180,9 @@ Providing time-varying semantics for audio and video content has computational-n
 RDF data can be visualized in a number of ways including by means of techniques like [SolidOS panes](https://solidos.org/docs/panes/overview).
 
 One could use time-varying graphs or datasets to provide dynamic data for animated data visualizations and infographics (e.g., tables, charts, and diagrams). Time-varying graphs and datasets can also express selection- and highlighting-related features for data visualizations and infographics.
+
+## Bibliography
+
+Gutierrez, Claudio, Carlos Hurtado, and Alejandro Vaisman. "Temporal RDF." In _European Semantic Web Conference_, pp. 93-107. Berlin, Heidelberg: Springer Berlin Heidelberg, 2005.
+
+Steiner, Thomas, Hannes Mühleisen, Ruben Verborgh, Pierre-Antoine Champin, Benoit Encelle, and Yannick Prié. "Weaving the Web (VTT) of Data." In _7th Workshop on Linked Data on the Web_. 2014.
