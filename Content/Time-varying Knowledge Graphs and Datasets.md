@@ -175,6 +175,10 @@ Providing time-varying semantics for audio and video content has artificial-inte
 
 Providing time-varying semantics for audio and video content has computational-narratology applications.
 
+### The History of Ideas
+
+By enhancing cues' start and end durations to be able to include dates, techniques shown above could be useful for [diachronically](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) representing time-varying ideas and concepts as well as changes to these, and, thus, could be useful for [the history of ideas](https://en.wikipedia.org/wiki/Intellectual_history).
+
 ### Animated Data Visualizations and Infographics
 
 RDF data can be visualized in a number of ways including by means of techniques like [SolidOS panes](https://solidos.org/docs/panes/overview).
