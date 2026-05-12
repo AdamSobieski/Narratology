@@ -33,6 +33,7 @@ ex:s1 ex:p1 ex:o1 .
 ex:s1 ex:p2 ex:o4 .
 ex:s1 ex:p3 ex:o5 .
 ```
+This graph or dataset, which we might refer to as the active graph or dataset, is equivalent to the union of, or the merging of, those graphs or datasets provided in the active cues of a metadata track.
 
 ## Prefix Declaration Blocks
 
