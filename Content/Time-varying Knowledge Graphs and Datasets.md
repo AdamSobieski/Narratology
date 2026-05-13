@@ -163,9 +163,7 @@ Using these techniques, one could declare time-invariant (entire duration) seman
 
 ### Accessibility
 
-Using these techniques, one could provide corresponding time-varying [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [spatiotemporal scene graphs](https://cs.stanford.edu/people/ranjaykrishna/sgrl/slides/ranjay.pdf) for content in videos.
-
-As explored in [Steiner, Mühleisen, Verborgh, Champin, Encelle, and Prié (2014)](http://events.linkeddata.org/ldow2014/papers/ldow2014_paper_11.pdf), one could use [Media Fragments URI](https://www.w3.org/TR/media-frags/) in [JSON-LD](https://json-ld.org/) cue payloads in metadata tracks to reference spatial bounding boxes, temporal intervals, tracks, and named temporal fragments by id's, i.e., chapters, in videos.
+Using these techniques, one could provide corresponding time-varying [alternative text](https://en.wikipedia.org/wiki/Alt_attribute) and/or [spatiotemporal scene graphs](https://cs.stanford.edu/people/ranjaykrishna/sgrl/slides/ranjay.pdf) for content in videos. As explored in [Steiner, Mühleisen, Verborgh, Champin, Encelle, and Prié (2014)](http://events.linkeddata.org/ldow2014/papers/ldow2014_paper_11.pdf), one could use [Media Fragments URI](https://www.w3.org/TR/media-frags/), e.g., in [JSON-LD](https://json-ld.org/) cue payloads in metadata tracks, to reference spatial bounding boxes, temporal intervals, tracks, and named temporal fragments by id's, i.e., chapters, in videos.
 
 ### Artificial Intelligence
 
