@@ -177,7 +177,7 @@ Providing time-varying semantics for audio and video content has computational-n
 
 ### The History of Ideas
 
-By enhancing cues' start and end durations to be able to include dates, techniques shown above could be useful for [diachronically](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) representing time-varying ideas and concepts as well as changes to these, and, thus, could be useful for [the history of ideas](https://en.wikipedia.org/wiki/Intellectual_history).
+By enhancing cues' start and end durations to be able to include dates, the techniques shown above could be useful for representing ideas and concepts [diachronically](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) as well as changes to these ideas and concepts, and, thus, could be useful for [the history of ideas](https://en.wikipedia.org/wiki/Intellectual_history).
 
 ### Animated Data Visualizations and Infographics
 
