@@ -175,7 +175,7 @@ Providing time-varying semantics for audio and video content has computational-n
 
 ### The History of Ideas
 
-By extending cues' start and end durations to be able to express date-ranges, e.g., per [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), the techniques shown above could be useful for representing ideas and concepts [diachronically](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) as well as changes to these ideas and concepts, and, thus, could be useful for [the history of ideas](https://en.wikipedia.org/wiki/Intellectual_history).
+By extending the format for cues' start and end durations for it to be able to express date-ranges, e.g., per [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601), those techniques shown above could be useful for representing ideas and concepts [diachronically](https://en.wikipedia.org/wiki/Diachrony_and_synchrony) as well as changes to these ideas and concepts and, thus, could be useful for [the history of ideas](https://en.wikipedia.org/wiki/Intellectual_history).
 
 ### Animated Data Visualizations and Infographics
 
